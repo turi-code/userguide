@@ -1,0 +1,16 @@
+{
+  "name": "userguide",
+  "version": "0.1.0",
+  "description": "userguide",
+  "main": "index.js",
+  "devDependencies": {
+    "gitbook": "1.5.0",
+    "gitbook-plugin-customtheme": "0.1.9"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "gitbook": "./node_modules/.bin/gitbook build"
+  },
+  "author": "Dato, Inc.",
+  "license": "BSD 3.0"
+}
