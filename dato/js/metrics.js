@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 (function() {
   /* Dato metrics config */
   var config = (function() {
