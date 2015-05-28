@@ -8,9 +8,15 @@
     "gitbook-plugin-customtheme": "0.1.9"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1", 
-    "gitbook": "./node_modules/.bin/gitbook build"
+    "build": "./node_modules/.bin/gitbook build",
+    "gitbook": "./node_modules/.bin/gitbook build",
+    "serve": "./node_modules/.bin/gitbook serve"
   },
   "author": "Dato, Inc.",
-  "license": "BSD 3.0"
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dato-code/userguide.git"
+  },
+  "private": true
 }
