@@ -5,7 +5,7 @@ offer the tools needed to monitor and operate Predictive Service deployments.
 ##### Predictive Service Dashboard in GraphLab Canvas
 
 To visualize a deployment using GraphLab Canvas, simply run
-[show](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.show.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.show),
+[show](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.show.html#graphlab.deploy.PredictiveService.show),
 as follows:
 
 ```no-highlight
@@ -30,7 +30,7 @@ the deployment for the last six hours.
 ##### Getting Overall Deployment Status
 
 To retrieve the overall status of a deployment, call
-[get_status](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.get_status.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.get_status).
+[get_status](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_status.html#graphlab.deploy.PredictiveService.get_status).
 
 ```no-highlight
 print deployment.get_status()
@@ -86,7 +86,7 @@ service and you received an alert indicating that something is wrong. You can
 manually inspect the status of the deployment with the `get_status` method. If
 you find that a node is unreachable ("Unable to connect"), you may decide to
 replace the node using
-[replace_nodes](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.replace_nodes.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.replace_nodes).
+[replace_nodes](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.replace_nodes.html#graphlab.deploy.PredictiveService.replace_nodes).
 
 ```no-highlight
 deployment.replace_nodes(['i-8af8867c'])
@@ -205,7 +205,7 @@ documentation.
 
 You can modify some underlying configuration parameters of the Predictive
 Service deployment using the
-[reconfigure](graphlab.deploy.PredictiveService.reconfigure.html?highlight=reconfigure#graphlab.deploy.PredictiveService.reconfigure)
+[reconfigure](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.reconfigure.html#graphlab.deploy.PredictiveService.reconfigure)
 method. At present, only two underlying configuration parameters have been
 exposed, but this list will grow over time. The list below enumerates the
 available configuration options:
@@ -223,7 +223,7 @@ An example call to reconfigure might look as follows:
 ##### Terminating a Predictive Service Deployment
 
 To terminate a Predictive Service, call the
-[terminate_service](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.terminate_service.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.terminate_service)
+[terminate_service](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.terminate_service.html#graphlab.deploy.PredictiveService.terminate_service)
 method. There are options to delete the logs and Predictive Objects as
 well. **Note:** There is no warning or confirmation on this method; it will
 terminate the EC2 instances and teardown the Elastic Load Balancer.
