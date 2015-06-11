@@ -364,7 +364,7 @@ Rows: 1000000
 
 We may want to use more than one comparison operator, for which you must place
 each comparison statement in parentheses and use the bitwise boolean logic
-operators to combine the statements, as Python does not alow the overloading of
+operators to combine the statements, as Python does not allow the overloading of
 logical operators.  Perhaps we are building a music recommender with this data,
 and we would like to only use "reasonable" play counts, for some definition of
 reasonable:
