@@ -5,9 +5,7 @@ Data visualization can help you explore, understand, and gain insight from your 
 
 #### SFrame Visualization
 
-Data in an SFrame can be visualized with `SFrame.show()`. Table and Summary are the two types of visualizations[^sframe visualization note] for SFrame, each represented by a tab in the Canvas user interface. The Table view provides a scrollable, interactive tabular view of the data inside the SFrame. Like the SFrame itself, the Table view can scale to as much data as will fit on a disk -- only the rows being viewed are loaded. The paging control on the left side of the view allows you to move quickly through the SFrame or jump to a particular row.
-
-[^sframe visualization note]: Note: in the `'ipynb'` target, only the Summary visualization of SFrame is supported.
+Data in an SFrame can be visualized with `SFrame.show()`. Table and Summary are the two types of visualizations[^1] for SFrame, each represented by a tab in the Canvas user interface. The Table view provides a scrollable, interactive tabular view of the data inside the SFrame. Like the SFrame itself, the Table view can scale to as much data as will fit on a disk -- only the rows being viewed are loaded. The paging control on the left side of the view allows you to move quickly through the SFrame or jump to a particular row.
 
 [<img alt="Example of Canvas SFrame Table View" src="images/canvas_sframe_table.png" style="max-width: 70%; margin-left: 15%;" />](images/canvas_sframe_table.png)
 
@@ -81,3 +79,5 @@ plt.show()
 ```
 
 [<img alt="Example of SArray in matplotlib" src="images/matplotlib_histogram.png" style="max-width: 70%; margin-left: 15%;" />](images/matplotlib_histogram.png)
+
+[^1]: Note: in the `'ipynb'` target, only the Summary visualization of SFrame is supported.
