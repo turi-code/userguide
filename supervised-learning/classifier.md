@@ -1,3 +1,4 @@
+#Classification
 **Classification** is the problem of predicting a **categorical target**
 using training data. The key difference between **regression** and
 **classification** is that in regression the target is continuous while in

@@ -1,4 +1,4 @@
-### Launching asynchronous job executions
+# Launching asynchronous job executions
 
 Let's start with the "Hello World" of deployment examples: adding two numbers.
 In the following code, we will do the following:

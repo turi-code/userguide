@@ -1,4 +1,4 @@
-## Models
+# Models
 
 The [`model_parameter_search.create`](https://dato.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.create.html) method has executed a search of parameters over a pre-defined space of possibilities. 
 This can be helpful for newcomers who may not yet know the intricacies of each model and which parameters to consider in a first search.

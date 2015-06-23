@@ -1,3 +1,4 @@
+#Feature Binning
 Feature binning is a method of turning continuous variables into categorical values.
 
 This is accomplished by grouping the values into a pre-defined number of bins. 

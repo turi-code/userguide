@@ -1,4 +1,4 @@
-
+#Topic Models 
 "Topic models" are a class of statistical models for text data. These models typically assume documents can be described by a small set of topics, and there is a probability of any word occurring for a given "topic".
 
 For example, suppose we are given the documents shown below, where the first document begins with the text "The burrito was terrible. I..." and continues with a long description of the eater's woes. A topic model attempts to do two things:

@@ -1,4 +1,5 @@
- Encode a collection of categorical features using a 1-of-K encoding scheme.
+#One-Hot-Encoder
+Encode a collection of categorical features using a 1-of-K encoding scheme.
 
  Input columns to the one-hot-encoder must by of type int, string, dict, or list. 
  The transformed output is a column of type dictionary (max_categories per 

@@ -1,4 +1,4 @@
-Sequentially apply a list of transforms.
+#Transformer Chain 
 
 Each of the individual steps in the chain must be transformers 
 (i.e a child class of TransformerBase) which can be one of the following:

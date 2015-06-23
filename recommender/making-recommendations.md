@@ -1,3 +1,4 @@
+#Making Recommendations 
 There are a number of ways to make recommendations: for known users or new users, with new observation data or side information, and with different ways to explicitly control item inclusion or exclusion.  Let's walk through these options together.
 
 ##### Making recommendations for all users
