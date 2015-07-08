@@ -35,8 +35,8 @@ results = model.evaluate(test_data)
 We can visualize the models using
 
 ```python
-model.show(0)
-model.show(1)
+model.show(view="Tree", tree_id=0)
+model.show(view="Tree", tree_id=1)
 ```
 ![Alt text](images/tree_0.png)
 ![Alt text](images/tree_1.png)
@@ -47,10 +47,10 @@ The Gradient Boosted Trees model has many tuning parameters. Here we provide a s
 - `max_iterations`
   Controls the number of trees in the final model. Usually the more trees, the higher accuracy.
   However, both the training and prediction time also grows linearly in the number of trees.
-  
+
 - `max_depth`
   Restricts the depth of each individual tree to prevent overfitting.
-  
+
 - `step_size`
   Also called shrinkage, appeared as the $$\eta$$ in the equations in the Background section.
   It works similar to the learning rate of the gradient descent procedure: smaller value
@@ -61,19 +61,19 @@ The Gradient Boosted Trees model has many tuning parameters. Here we provide a s
   One of the pruning criteria for decision tree construction. In classification problem, this
   corresponds to the minimum observations required at a leaf node. Larger value
   produces simpler trees.
-  
+
 - `min_loss_reduction`
   Another pruning criteria for decision tree construction. This restricts the reduction of
   loss function for a node split. Larger value produces simpler trees.
-  
+
 - `row_subsample`
   Use only a fraction of data at each iteration. This is
   similar to the mini-batch [stochastic gradient descent](http://en.wikipedia.org/wiki/Stochastic_gradient_descent)
   which not only reduce the computation cost of each iteration, but may also produce
-  more robust model. 
+  more robust model.
 
 - `column_subsample`
-  Use only a subset of the columns to use at each iteration. 
+  Use only a subset of the columns to use at each iteration.
 
 See the chapter on [boosted trees
 regression](boosted_trees_regression.md) for additional
