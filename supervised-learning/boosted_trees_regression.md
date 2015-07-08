@@ -3,7 +3,7 @@ Boosted Machine or GBM), along with Random Forest, is one of the most effective 
 models for predictive analytics, making it the industrial workhorse for
 machine learning.
 
-##### Background 
+##### Background
 The Boosted Trees Model is a type of additive model that makes
 predictions by combining decisions from a sequence of base models. More
 formally we can write this class of models as:
@@ -66,7 +66,7 @@ model = gl.boosted_trees_regression.create(train_data, target='label',
                                            max_iterations=2,
                                            max_depth =  3)
 
-# Save predictions to an SArray 
+# Save predictions to an SArray
 predictions = model.predict(test_data)
 
 # Evaluate the model and save the results into a dictionary
@@ -75,8 +75,8 @@ results = model.evaluate(test_data)
 We can visualize the models using
 
 ```python
-model.show(0)
-model.show(1)
+model.show(view="Tree", tree_id=0)
+model.show(view="Tree", tree_id=1)
 ```
 ![Alt text](images/tree_0.png)
 ![Alt text](images/tree_1.png)
@@ -87,10 +87,10 @@ The Gradient Boosted Trees model has many tuning parameters. Here we provide a s
 - `max_iterations`
   Controls the number of trees in the final model. Usually the more trees, the higher accuracy.
   However, both the training and prediction time also grows linearly in the number of trees.
-  
+
 - `max_depth`
   Restricts the depth of each individual tree to prevent overfitting.
-  
+
 - `step_size`
   Also called shrinkage, appeared as the $$\eta$$ in the equations in the Background section.
   It works similar to the learning rate of the gradient descent procedure: smaller value
@@ -101,19 +101,19 @@ The Gradient Boosted Trees model has many tuning parameters. Here we provide a s
   One of the pruning criteria for decision tree construction. In classification problem, this
   corresponds to the minimum observations required at a leaf node. Larger value
   produces simpler trees.
-  
+
 - `min_loss_reduction`
   Another pruning criteria for decision tree construction. This restricts the reduction of
   loss function for a node split. Larger value produces simpler trees.
-  
+
 - `row_subsample`
   Use only a fraction of data at each iteration. This is
   similar to the mini-batch [stochastic gradient descent](http://en.wikipedia.org/wiki/Stochastic_gradient_descent)
   which not only reduce the computation cost of each iteration, but may also produce
-  more robust model. 
+  more robust model.
 
 - `column_subsample`
-  Use only a subset of the columns to use at each iteration. 
+  Use only a subset of the columns to use at each iteration.
 
 In general, you can choose `max_iterations` to be large and fit your computation budget.
 You can then set `min_child_weight` to be a reasonable value around
@@ -121,7 +121,7 @@ You can then set `min_child_weight` to be a reasonable value around
 you can set max_depth to a higher value. When you find a large gap between
 the training loss and validation loss, a sign of overfitting, you may want
 to reduce depth, and increase min_child_weight.
-  
+
 ##### When to use a boosted trees model?
 Different kinds of models have different advantages. The boosted trees model is
 very good at handling tabular data with numerical features, or categorical
