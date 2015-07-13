@@ -4,8 +4,6 @@ For an SFrame of strings, where each row is assumed to be a natural English lang
 
 The transformed output is a column of type list[string] with the list of tokens for each document.
 
-The behavior of BM25 for different input data column types is as follows:
-
 #### Introductory Example
 
 ```python
