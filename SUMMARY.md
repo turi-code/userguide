@@ -14,6 +14,7 @@ This is the User Guide for GraphLab Create
         * [One Hot Encoder](feature-engineering/one_hot_encoder.md)
         * [Count Thresholder](feature-engineering/count_thresholder.md)
         * [TF-IDF](feature-engineering/tfidf.md)
+        * [Tokenizer](feature-engineering/tokenizer.md)
         * [Numeric Imputer](feature-engineering/numeric_imputer.md) 
         * [Transformer Chain](feature-engineering/transformer_chain.md)
         * [Custom Transformer](feature-engineering/custom_transformer.md)

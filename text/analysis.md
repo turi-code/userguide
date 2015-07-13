@@ -118,3 +118,22 @@ docs[0]
  'work': 2}
 ```
 
+#####Tokenization
+
+For an SArray of strings, where each row is assumed to be a natural English language document, the tokenizer transforms each row into an ordered list of strings that represents the a simpler version of the Penn-Tree-Bank-style (PTB-style) tokenization of that row's document. For many text analytics tasks that require word-level granularity, simple space delimitation does not address some of the subtleties of natural langauge text especially with respect to sentence-final punctuation, contractions, URL's, email addresses, phone numbers and other quirks. The representation of a document provided by PTB-style of tokenization is essential for sequence-tagging, parsing, bag-of-words treatment, and any text analytics task that requires word-level granularity. For a description of this style of tokenization, see https://www.cis.upenn.edu/~treebank/tokenization.html. Note that our tokenizer does not normalize quote and bracket-like characters as described by the linked document.
+
+```python
+import graphlab as gl
+
+from graphlab.toolkits.text_analytics import tokenize
+
+sa = gl.SArray(["This is a document!",
+                "This one's also a document."])
+tokenized_sa = tokenize(sa)
+```
+```no-highlight
+Out[6]: 
+dtype: list
+Rows: 2
+[['This', 'is', 'a', 'document', '!'], ['This', 'one', "'s", 'also', 'a', 'document', '.']]
+```
