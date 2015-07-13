@@ -1,3 +1,4 @@
+#Spark Integration
 <a name="Spark_Integration"></a>
 GraphLab Create has the ability to convert [Apache
 Spark's](http://spark.apache.org) [Resilient Distributed

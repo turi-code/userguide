@@ -1,3 +1,4 @@
+#Exercises 
 The data for these exercises is culled from [Wikipedia's Database Download](http://en.wikipedia.org/wiki/Wikipedia:Database_download). Wikipedia's text and many of its images are co-licensed under the [Creative Commons Attribution-Sharealike 3.0 Unported License (CC-BY-SA)](http://creativecommons.org/licenses/by-sa/2.5/).
 
 Load the first Wikipedia text file called "w0". Each line in the document

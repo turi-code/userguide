@@ -1,3 +1,4 @@
+#Feature Hashing 
 Hashes an input feature space to an n-bit feature space.
 
 Feature hashing is an efficient way of vectorizing features, and performing 

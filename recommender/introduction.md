@@ -1,4 +1,4 @@
-
+#Introduction
 
 Building a recommender system is easy with GraphLab Create.  Simply load data, create a recommender model, and start making recommendations. The data we will use for an example is sitting on an AWS S3 bucket as a csv file.  We can load it into a GraphLab Create SFrame with `read_csv()`, specifying the "rating" column to be loaded as integers.  For other ways of creating an SFrame and doing data munging, see [SFrame chapter](../sframe/tabular-data.md).
 

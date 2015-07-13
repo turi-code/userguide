@@ -1,4 +1,4 @@
-
+#Getting Started 
 Before getting started with this guide, please first use our [Quick Start Guide](https://dato.com/products/create/quick-start-guide.html) to
 
 - register for a product key

@@ -1,3 +1,4 @@
+#Pipeline Introduction
 In this chapter, we demonstrate how to use GraphLab Create's distributed and
 asynchronous execution framework to make it easy to take your prototypes to
 production.

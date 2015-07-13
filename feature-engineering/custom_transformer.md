@@ -1,3 +1,4 @@
+#Custom Transformer
 You can define Transformers in addition to the ones provided by GraphLab
 Create by inheriting from TransformerBase. You must implement the __init__,
 fit, and transform methods. 

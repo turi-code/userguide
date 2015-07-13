@@ -1,3 +1,4 @@
+#Count Thresholder 
 Map infrequent categorical variables to a new/separate category.
 
 Input columns to the CountThresholder must by of type int, string, dict, or 

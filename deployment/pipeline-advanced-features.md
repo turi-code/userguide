@@ -1,4 +1,4 @@
-#### Advanced Features
+# Advanced Features
 
 In order for functions to be portable, any additional Python packages need to
 be known to the framework in order to ensure those packages are installed prior

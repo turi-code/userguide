@@ -1,3 +1,4 @@
+#Quadratic Features
 Calculates quadratic interaction terms between features.
 
 Adding interaction terms is a good way of injecting complex relationships 

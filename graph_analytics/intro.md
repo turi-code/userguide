@@ -1,3 +1,4 @@
+#Introduction to Graph Analytics
 Going from inspiration to production with graph models requires knowledge of
 influential and outlier nodes in the graph, clusters and communities, hidden
 connections between nodes, and the ability to compare different graphs based on

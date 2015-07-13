@@ -1,4 +1,4 @@
-## Defining the search
+# Defining the search
 
 Dato Distributed supports several specific methods for doing model parameter search. 
 

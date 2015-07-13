@@ -1,3 +1,4 @@
+#Linear Regression 
 GraphLab's
 [linear regression](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.html)
 module is used to predict a continuous **target** as a

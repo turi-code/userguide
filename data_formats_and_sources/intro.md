@@ -1,3 +1,4 @@
+#Introduction to SFrames
 SFrames are the primary data structure for extracting data from other sources for use in GraphLab Create.
 
 SFrames can extract data from the following static file formats:
