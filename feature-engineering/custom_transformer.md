@@ -3,8 +3,6 @@ You can define Transformers in addition to the ones provided by GraphLab
 Create by inheriting from TransformerBase. You must implement the __init__,
 fit, and transform methods. 
 
-How this is done is shown in the following example:
-
 #### Introductory Example
 
 ```no-highlight
@@ -30,7 +28,9 @@ class MyTransformer(TransformerBase):
         return dataset
 
 
+# Dataset
 dataset = graphlab.SFrame({"a": range(100) })            
+
 # Create the model
 model = graphlab.feature_engineering.create(dataset, MyTransformer())
 
@@ -39,6 +39,5 @@ transformed_sf = model.transform(dataset)
 
 # Save and load this model.
 model.save('foo-bar')
-loaded_model = graphlab.load_model('foo-bar')
 ```
 

@@ -8,13 +8,21 @@ This is the User Guide for GraphLab Create
     * [Graph data](sgraph/sgraph.md)
     * [Visualization](sframe/visualization.md)
     * [Feature Engineering](feature-engineering/introduction.md)
-        * [Hasher](feature-engineering/feature_hasher.md)
+      * Numeric Features
         * [Quadratic Features](feature-engineering/quadratic_features.md)
         * [Feature Binning](feature-engineering/feature_binner.md)
+        * [Numeric Imputer](feature-engineering/numeric_imputer.md) 
+      * Categorical Features
         * [One Hot Encoder](feature-engineering/one_hot_encoder.md)
         * [Count Thresholder](feature-engineering/count_thresholder.md)
+        * [Categoical Imputer](feature-engineering/categorical_imputer.md)
+      * Text Features
         * [TF-IDF](feature-engineering/tfidf.md)
-        * [Numeric Imputer](feature-engineering/numeric_imputer.md) 
+        * [BM25](feature-engineering/bm25.md)
+      * Image Features
+        * [Deep Feature Extractor](feature-engineering/deep_feature_extractor.md)
+      * Misc.
+        * [Hasher](feature-engineering/feature_hasher.md)
         * [Transformer Chain](feature-engineering/transformer_chain.md)
         * [Custom Transformer](feature-engineering/custom_transformer.md)
 * [Modeling data](modeling-data/intro.md)

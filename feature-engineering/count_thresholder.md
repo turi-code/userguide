@@ -1,10 +1,10 @@
 #Count Thresholder 
-Map infrequent categorical variables to a new/separate category.
 
-Input columns to the CountThresholder must by of type int, string, dict, or 
-list. For each column in the input, the transformed output is a column where 
-the input category is retained as is if it has has occurred at least threshold 
-times in the training data. Categories that do not satisfy the above are set to 
+Map infrequent categorical variables to a new/separate category. Input columns
+to the CountThresholder must by of type int, string, dict, or list. For each
+column in the input, the transformed output is a column where the input
+category is retained as is if it has has occurred at least threshold times in
+the training data. Categories that do not satisfy the above are set to
 output_category_name.
 
 The behaviour for different input data column types is as follows: 
