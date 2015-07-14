@@ -107,8 +107,8 @@ ec2 = gl.deploy.ec2_cluster.create(
   s3_path='s3://bucket/path',
   ec2_config=ec2config)
 
-job_ec2 = gl.deploy.job.create(my_workflow, environment = ec2,
-        path = 'https://s3.amazonaws.com/dato-datasets/movie_ratings/sample.large')
+job_ec2 = gl.deploy.job.create(my_workflow, environment=ec2,
+        path='https://s3.amazonaws.com/dato-datasets/movie_ratings/sample.large')
 
 # get the results
 job_ec2.get_results()
