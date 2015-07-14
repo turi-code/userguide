@@ -18,6 +18,7 @@ This is the User Guide for GraphLab Create
         * [Categoical Imputer](feature-engineering/categorical_imputer.md)
       * Text Features
         * [TF-IDF](feature-engineering/tfidf.md)
+        * [Tokenizer](feature-engineering/tokenizer.md)
         * [BM25](feature-engineering/bm25.md)
       * Image Features
         * [Deep Feature Extractor](feature-engineering/deep_feature_extractor.md)
