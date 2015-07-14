@@ -1,13 +1,13 @@
 #One-Hot-Encoder
+
 Encode a collection of categorical features using a 1-of-K encoding scheme.
+Input columns to the one-hot-encoder must by of type int, string, dict, or
+list.  The transformed output is a column of type dictionary (max_categories
+per column dimension sparse vector) where the key corresponds to the index of 
+the categorical variable and the value is 1.
 
- Input columns to the one-hot-encoder must by of type int, string, dict, or list. 
- The transformed output is a column of type dictionary (max_categories per 
- column dimension sparse vector) where the key corresponds to the index of the 
- categorical variable and the value is 1.
-
- The behaviour of the one-hot-encoder for each input data column type is as 
- follows. (see transform() for examples of the same).
+The behaviour of the one-hot-encoder for each input data column type is as 
+follows. (see transform() for examples of the same).
 
  - string : The key in the output dictionary is the string category and
    the value is 1.

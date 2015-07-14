@@ -1,9 +1,9 @@
 #Numeric Imputer 
-Impute missing values with feature means.
 
-Input columns to the CountThresholder must be of type *int*, *float*,
-*dict*, *list*, or *array.array*.  For each column in the input, the transformed output is
-a column where the input is retained as is if:
+Impute missing values with feature means. Input columns to the NumericImputer
+must be of type *int*, *float*, *dict*, *list*, or *array.array*.  For each
+column in the input, the transformed output is a column where the input is
+retained as is if:
 
 - there is no missing value.
 

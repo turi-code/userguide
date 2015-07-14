@@ -1,5 +1,4 @@
 #Quadratic Features
-Calculates quadratic interaction terms between features.
 
 Adding interaction terms is a good way of injecting complex relationships 
 between predictor variables while still using a simple learning algorithm 
