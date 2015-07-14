@@ -1,26 +1,23 @@
 #Getting Started with Predictive Services
 First let's get a prerequisite to using Predictive Services out of the way. To
-get started, we configure the EC2 Environment object, which contains the
+get started, we configure the EC2 Config object, which contains the
 configuration parameters required for launching a Predictive Service cluster in
 EC2.
 
 ```no-highlight
 import graphlab
 
-env = graphlab.deploy.environment.EC2('pred-ec2',
-                                      's3://sample-testing/logs',
-                                      region='us-west-2',
-                                      instance_type='m3.xlarge',
-                                      aws_access_key='YOUR_ACCESS_KEY',
-                                      aws_secret_key='YOUR_SECRET_KEY',
-                                      num_hosts=3)
+ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
+                                instance_type='m3.xlarge',
+                                aws_access_key_id = 'YOUR_ACCESS_KEY',
+                                aws_secret_access_key = 'YOUR_SECRET_KEY')
 ```
 
 After creating this object, we save it locally, so we can easily retrieve it in
 subsequent GraphLab Create sessions. For more documentation about how GraphLab
-Create manages local references to Environments, Jobs and Predictive Services,
+Create manages local references to Jobs and Predictive Services,
 see
-[here](https://dato.com/products/create/docs/graphlab.deploy.environments.html#graphlab.deploy.environments).
+[here](https://dato.com/products/create/docs/graphlab.deploy.html#predictive-services).
 
 Having configured our EC2 environment, we're ready to launch a Predictive
 Service Deployment using
@@ -28,16 +25,15 @@ Service Deployment using
 Required parameters include
 
 1. a name for the deployment
-1. the environment configuration we defined in the previous step
-1. and an S3 path for the root 'working directory' for this Predictive Service
+2. a ec2 configuration we defined in the previous step
+3. an S3 path for the root 'working directory' for this Predictive Service
 
 The 3rd parameter -- the S3 path -- determines where the models and any
 corresponding data dependencies will be saved. Logs will be written to the S3
-path specified in the EC2 Environment with an added directory corresponding to
-the Predictive Service's name. So for example, if we specified as our Predictive
-Service name the value `my-recommender-service` and as our S3 log path
-`s3://my-bucket/my-logs`, then the logs for our Predictive Service would be
-saved at the following S3 path: `s3://my-bucket/my-logs/my-recommender-service`.
+path specified in the EC2 configuration with an added directory named logs.
+So for example, if we specified our S3 path to be
+`s3://my-bucket/`, then the logs for our Predictive Service would be
+saved at the following S3 path: `s3://my-bucket/logs`.
 
 When this `create` command is executed, the EC2 instances will be launched
 immediately, after which a load balancer will be launched, configured, and
@@ -46,16 +42,20 @@ health checks.
 
 ```no-highlight
 deployment = graphlab.deploy.predictive_service.create(
-    'first', env, 's3://sample-testing/first')
+    'first', ec2, 's3://sample-testing/first')
 ```
 
 There are additional, optional parameters to
 [graphlab.deploy.predictive_service.create()](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create)
 including:
 
-1. an SSL credential pair for HTTPS
-1. the API key to use for REST queries
-1. the admin key to use for modifying the deployment
+1. number of hosts for ec2
+2. description of this service
+3. the API key to use for REST queries
+4. the admin key to use for modifying the deployment
+5. an SSL credential pair for HTTPS
+6. a string value to use as HTTP header Access-Control-Allow-Origin
+7. the port the server will listen to
 
 Print the deployment object to inspect some of these important parameters, such
 as the information necessary to connect to the deployment from an application
@@ -69,7 +69,7 @@ print deployment
 
 ```
 Name                  : first
-S3 Path               : s3://sample-testing/first
+State Path            : s3://sample-testing/first
 Description           : None
 API Key               : b0a1c056-30b9-4468-9b8d-c07289017228
 CORS origin           : 
