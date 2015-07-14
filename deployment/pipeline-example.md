@@ -80,27 +80,32 @@ job_local.get_status()
 'Running'
 ```
 
-Note that we also could have omitted the environment parameter, since
+Note that we omitted the environment parameter, since
 LocalAsync is the default environment when creating jobs.
 
 ##### EC2
 
-Next, let's run our job on EC2. When running on EC2, an EC2 instance is
-launched according to the environment and the job is executed on that instance.
-Once the job is completed the EC2 instance is terminated. While executing, the
+Next, let's run our job on EC2. When running on EC2, a cluster defines the EC2
+instance to be launched, and is passed to the job for remote execution.
+After the job is completed and an additional timeout has passed the EC2
+instance is terminated. While executing, the
 job can be monitored with the Job APIs. Execution logs will be stored in S3
-according to the location specified in the environment.
+according to the location specified in the cluster.
 
 **Note**: In order to run in EC2, remember to update the `aws_access_key`,
-`aws_secret_key`, and `s3_folder_path` in the code below.
+`aws_secret_key`, and `s3_path` in the code below.
 
 ```python
-# define the environment once and save it, then reuse conveniently
-ec2 = gl.deploy.environment.EC2('ec2', aws_access_key='xxxx',
-                                aws_secret_key='xxxx',
-                                s3_folder_path='s3://bucket/path',
-                                region='us-west-2',
-                                instance_type='m3.xlarge')
+ec2config = gl.deploy.Ec2Config(
+  region='us-west-2',
+  instance_type='m3.xlarge',
+  aws_access_key_id='xxxx',
+  aws_secret_access_key='xxxx')
+
+ec2 = gl.deploy.ec2_cluster.create(
+  name='ec2',
+  s3_path='s3://bucket/path',
+  ec2_config=ec2config)
 
 job_ec2 = gl.deploy.job.create(my_workflow, environment = ec2,
         path = 'https://s3.amazonaws.com/dato-datasets/movie_ratings/sample.large')
@@ -142,24 +147,26 @@ You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns
 
 ##### Hadoop
 
-Last but not least, let's see how we can launch our job in Hadoop. When defining
+Let's see how we can launch our job in Hadoop. When defining
 a Hadoop cluster to use as an environment we specify the directory that contains
 the YARN configuration files.
 
-**Note**: The final example assumes that you have access to a Hadoop cluster,
+**Note**: The example assumes that you have access to a Hadoop cluster,
 and that you have
 a [YARN](http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html)
 configuration directory in your home directory.
 
 ```python
 # define the environment, then reuse for subsequent jobs
-cdh5 = gl.deploy.environment.Hadoop('cdh5',
-                                    config_dir='~/yarn-conf',
-                                    memory_mb=16384,
-                                    virtual_cores=4)
+cdh5 = gl.deploy.hadoop_cluster.create(
+  'cdh5',
+  dato_dist_path='<path-to-your-dato-distributed-dir>',
+  hadoop_conf_dir=,'~/yarn-conf')
 
-job_hadoop = gl.deploy.job.create(my_workflow, environment = cdh5,
-        path = 'https://s3.amazonaws.com/dato-datasets/movie_ratings/sample.large')
+job_hadoop = gl.deploy.job.create(
+  my_workflow,
+  environment=cdh5,
+  path='https://s3.amazonaws.com/dato-datasets/movie_ratings/sample.large')
 
 # get the results
 job_hadoop.get_results()
