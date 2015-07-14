@@ -81,3 +81,7 @@ method.  The
 [from_rdd](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_rdd.html#graphlab.SFrame.from_rdd)
 method works with both SchemaRDDs and any other rdd, so there is no
 `from_schema_rdd`.
+
+####<a name="limitations">Limitations
+1. GraphLab 1.5 only supports Spark Master on local. We are working on a better Spark integration with more 
+extensive functionalities for a future release including support for Spark standalone and yarn cluster execution modes, launching GraphLab jobs on the Spark environment, and parallel model training and evaluation on RDDs.
