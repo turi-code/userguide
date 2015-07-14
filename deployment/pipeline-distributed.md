@@ -23,7 +23,7 @@ in a distributed environment.
 ##### EC2
 
 To setup a distributed EC2 environment, you will need one or more host in your
-EC2 execution environment.
+EC2 cluster.
 
 ```python
 import graphlab as gl
@@ -31,14 +31,20 @@ import graphlab as gl
 def add(x, y):
     return x + y
 
-# Define your EC2 environment to use 3 hosts(instances)
-ec2 = gl.deploy.environment.EC2('add_ec2', 's3://add_test', num_hosts = 3)
+ec2config = gl.deploy.Ec2Config()
+
+# Define your EC2 cluster to use 3 hosts (instances)
+ec2 = gl.deploy.ec2_cluster.create(
+  name='add_ec2',
+  s3_path='s3://add_test',
+  ec2_config=ec2config,
+  num_hosts=3)
 
 # Execute a map_job.
 job = gl.deploy.map_job.create(add, [{'x': 20, 'y': 20}, 
                                      {'x': 10, 'y': 10}, 
                                      {'x': 5,  'y': 5}],
-                               environment = ec2)
+                               environment=ec2)
 
 # Get a list of results.
 print job.get_map_results()
@@ -57,7 +63,7 @@ If any of the executions failed, we can capture it in the job metrics.
 job = gl.deploy.map_job.create(add, [{'x': 20, 'y': 20}, 
                                      {'x': None, 'y': 10}, 
                                      {'x': 5,  'y': 5}],
-                               environment = ec2)
+                               environment=ec2)
 
 # Exception captured in metrics if the execution failed.
 metrics = job.get_metrics()
@@ -100,8 +106,8 @@ def add_combiner(**kwargs):
 job = gl.deploy.map_job.create(add, [{'x': 20, 'y': 20}, 
                                      {'x': 10, 'y': 10}, 
                                      {'x': 5,  'y': 5}], 
-                               environment = ec2,
-                               combiner_function = add_combiner)
+                               environment=ec2,
+                               combiner_function=add_combiner)
 
 # get_map_results() would still return [40, 20, 10]
 # use get_results() to get result from combiner
@@ -126,15 +132,19 @@ def add(x, y):
 def add_combiner(**kwargs):
     return sum(kwargs.values())
 
-# Define your EC2 environment to use 3 hosts(instances)
-hadoop = gl.deploy.environment.EC2('add_hadoop', 's3://add_test', num_containers = 3)
-
+# Define your Hadoop cluster to use 3 containers
+hadoop = gl.deploy.hadoop_cluster.create(
+  name='add_hadoop',
+  dato_dist_path='<path-to-your-dato-distributed-dir>',
+  hadoop_conf_dir=,'~/yarn-conf',
+  num_containers=3)
+  
 # Execute a map_job.
 job = gl.deploy.map_job.create(add, [{'x': 20, 'y': 20}, 
                                      {'x': 10, 'y': 10}, 
                                      {'x': 5,  'y': 5}],
-                               environment = hadoop,
-                               combiner_function = add_combiner)
+                               environment=hadoop,
+                               combiner_function=add_combiner)
 
 # get map results
 print job.get_map_results()
