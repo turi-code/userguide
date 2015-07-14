@@ -84,4 +84,4 @@ method works with both SchemaRDDs and any other rdd, so there is no
 
 ####<a name="limitations">Limitations
 1. GraphLab 1.5 only supports Spark Master on local. We are working on a better Spark integration with more 
-extensive functionalities for a future release including support for Spark standalone and yarn cluster execution modes, launching GraphLab jobs on the Spark environment, and parallel model training and evaluation on RDDs.
+extensive functionalities for the upcoming release. This will include support for Spark standalone and yarn cluster execution modes, launching GraphLab jobs on the Spark environment, and distributed model training and evaluation on RDDs.
