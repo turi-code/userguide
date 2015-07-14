@@ -186,8 +186,8 @@ sa = gl.SArray(["This is a document!",
 tokenized_sa = tokenize(sa)
 ```
 ```no-highlight
-Out[6]: 
 dtype: list
 Rows: 2
-[['This', 'is', 'a', 'document', '!'], ['This', 'one', "'s", 'also', 'a', 'document', '.']]
+[['This', 'is', 'a', 'document', '!'], 
+['This', 'one', "'s", 'also', 'a', 'document', '.']]
 ```
