@@ -1,4 +1,4 @@
-#### Example to use Job execution to generate batch recommendations
+# Example to use Job execution to generate batch recommendations
 
 In this example, we build a job execution that has three functions associated
 with it:

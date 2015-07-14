@@ -1,5 +1,9 @@
+#Analysis
 
-Suppose our text data is currently arranged into a single file, where each line of that file contains all of the text in a single document. Here we can use [SFrame.read_csv](https://dato.com/products/create/docs/generated/graphlab.SFrame.read_csv.html) to parse the text data into a one-column SFrame.
+Suppose our text data is currently arranged into a single file, where each line
+of that file contains all of the text in a single document. Here we can use
+[SFrame.read_csv](https://dato.com/products/create/docs/generated/graphlab.SFrame.read_csv.html)
+to parse the text data into a one-column SFrame.
 
 ```python
 import os
@@ -43,7 +47,14 @@ You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns
 
 ##### Bag-of-words
 
-Both SFrames and SArrays expose functionality that can be very useful for manipulating text data. For example, one common preprocessing task for text data is to transform it into "bag-of-words" format: each document is represented by a map where the words are keys and the values are the number of occurrences. So a document containing the text "hello goodbye hello" would be represented by a ```dict``` type element containing the value ```{"hello": 2, "goodbye":1}```. This transformation can be accomplished with the following code.
+Both SFrames and SArrays expose functionality that can be very useful for
+manipulating text data. For example, one common preprocessing task for text
+data is to transform it into "bag-of-words" format: each document is
+represented by a map where the words are keys and the values are the number of
+occurrences. So a document containing the text "hello goodbye hello" would be
+represented by a ```dict``` type element containing the value ```{"hello": 2,
+"goodbye":1}```. This transformation can be accomplished with the following
+code.
 
 ```python
 bow = graphlab.text_analytics.count_words(sf['X1'])
@@ -64,7 +75,8 @@ and find the documents that contain the word "gold":
 bow.dict_has_any_keys(['gold'])
 ```
 
-We can save this representation of the documents as another column of the original SFrame.
+We can save this representation of the documents as another column of the
+original SFrame.
 
 ```python
 sf['bow'] = bow
@@ -72,32 +84,74 @@ sf['bow'] = bow
 
 ##### TF-IDF
 
-Another useful representation for text data is called TF-IDF (term frequency - inverse document frequency). This is a modification of the bag-of-words format where the counts are transformed into scores: words that are common across the document corpus are given low scores, and rare words occurring often in a document are given high scores. 
+Another useful representation for text data is called TF-IDF (term frequency -
+inverse document frequency). This is a modification of the bag-of-words format
+where the counts are transformed into scores: words that are common across the
+document corpus are given low scores, and rare words occurring often in a
+document are given high scores. 
 
 $$ \mbox{TF-IDF}(word, document) = N(word, document) * log(1/\sum_d N(word, d))) $$
 
-where N(w, d) is the number of times word w occurs in document d. This transformation can be done to an SArray of dict type containing documents in bow-of-words format using [tf_idf](https://dato.com/products/create/docs/generated/graphlab.text_analytics.tf_idf.html).
+where N(w, d) is the number of times word w occurs in document d. This
+transformation can be done to an SArray of dict type containing documents in
+bow-of-words format using
+[tf_idf](https://dato.com/products/create/docs/generated/graphlab.text_analytics.tf_idf.html).
 
 ```python
 sf['tfidf'] = graphlab.text_analytics.tf_idf(sf['bow'])
 ```
 
+#####  BM25
+
+Another useful representation for text data is called BM25 score.  If we have a
+query with terms $q_1, ..., q_n$, the BM25 transformation performs the
+following computation
+
+$$
+    \mbox{BM25}(d) = \sum_{i=1}^N IDF(q_i) \frac{f(q_i) * (k_1+1)}{f(q_i) + k_1 * (1-b+b*|D|/d_{avg}))}
+$$
+
+where we use the natural logarithm and
+
+* $ \mbox{IDF}(q_i) = log((N - n(q_i) + .5)/(n(q_i) + .5) $ is the inverse document frequency of $ q_i $
+* $ N $ is the number of documents (in the training corpus)
+* $n(q_i)$ is the number of documents (in the training corpus) containing query term $q_i$
+* $f(q_i)$ is the number of times query term $q_i$ occurs in the document
+* $|D|$ is the number of words in the document
+* $d_{avg}$ is the average number of words per document (in the training corpus)
+* $k_1$ and $b$ are parameters for Okapi BM25
+
+The transformed output is a column of type float with the BM25 score for each
+document. For more details on the BM25 score see
+http://en.wikipedia.org/wiki/Okapi_BM25.
+
+```python
+query = ['beatles', 'john', 'paul']
+bm25_scores = graphlab.text_analytics.bm25(dataset, query)
+```
 ##### Text cleaning 
 
-We can easily remove all words do not occur at least twice in each document using [SArray.dict_trim_by_values](https://dato.com/products/create/docs/generated/graphlab.SArray.dict_trim_by_values.html).
+We can easily remove all words do not occur at least twice in each document
+using [SArray.dict_trim_by_values](https://dato.com/products/create/docs/generated/graphlab.SArray.dict_trim_by_values.html).
 
 ```python
 docs = sf['bow'].dict_trim_by_values(2)
 ```
 
-GraphLab Create also contains a helper function called [stopwords](https://dato.com/products/create/docs/generated/graphlab.text_analytics.stopwords.html?highlight=stopwords#graphlab.text_analytics.stopwords) that returns a list of common words. We can use [SArray.docs.dict_trim_by_keys](https://dato.com/products/create/docs/generated/graphlab.SArray.dict_trim_by_keys.html) to remove these words from the documents as a preprocessing step. NB: Currently only English words are available.
+GraphLab Create also contains a helper function called
+[stopwords](https://dato.com/products/create/docs/generated/graphlab.text_analytics.stopwords.html?highlight=stopwords#graphlab.text_analytics.stopwords)
+that returns a list of common words. We can use
+[SArray.docs.dict_trim_by_keys](https://dato.com/products/create/docs/generated/graphlab.SArray.dict_trim_by_keys.html)
+to remove these words from the documents as a preprocessing step. NB: Currently
+only English words are available.
 
 
 ```python
 docs = docs.dict_trim_by_keys(graphlab.text_analytics.stopwords(), exclude=True)
 ```
 
-To confirm that we have indeed removed common words, e.g. "and", "the", etc, we can examine the first document.
+To confirm that we have indeed removed common words, e.g. "and", "the", etc, we
+can examine the first document.
 
 ```python
 docs[0]

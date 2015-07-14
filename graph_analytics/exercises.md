@@ -1,4 +1,4 @@
-#### Find the connected components
+# Find the connected components
 
 In the SGraph exercises in chapter 1 we analyzed results from the group stage of
 the 2014 World Cup. Now find the connected components for the graph of 2014

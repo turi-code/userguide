@@ -1,3 +1,4 @@
+#ODBC Integration
 <a name="ODBC_Integration"></a>
 GraphLab Create supports reading data from a SQL database and storing
 it in an SFrame, as well as writing SFrames to the database.  It does this via

@@ -1,3 +1,4 @@
+#Getting Started with Predictive Services
 First let's get a prerequisite to using Predictive Services out of the way. To
 get started, we configure the EC2 Environment object, which contains the
 configuration parameters required for launching a Predictive Service cluster in

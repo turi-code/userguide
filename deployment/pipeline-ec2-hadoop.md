@@ -1,4 +1,4 @@
-### Launching job executions on EC2 and Hadoop
+# Launching job executions on EC2 and Hadoop
 
 In this section, we will do the following:
 

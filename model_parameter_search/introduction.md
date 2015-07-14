@@ -1,4 +1,4 @@
-
+#Introduction
 Many machine learning models have hyper-parameters -- tuning knobs that can modify the behavior of the model. 
 These are considered different than the rest of the model's parameters, as they may modify the nature of the model (e.g., the number of parameters to learn) or the training algorithm (e.g., the step size to use as training progresses).
 The settings of these parameters can be critical for optimizing the performance of a model for a specific source of data.

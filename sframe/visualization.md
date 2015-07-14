@@ -1,3 +1,4 @@
+#Visualizing Data
 <a name="visualization"></a>
 Data visualization can help you explore, understand, and gain insight from your data. Visualization can complement other methods of data analysis by taking advantage of the human ability to recognize patterns in visual information.
 

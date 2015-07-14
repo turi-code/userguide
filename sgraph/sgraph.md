@@ -1,4 +1,4 @@
-
+#Working with Graphs
 Graphs allow us to understand complex networks by focusing on relationships
 between pairs of items. Each item is represented by a *vertex* in the graph, and
 relationships between items are represented by *edges*.

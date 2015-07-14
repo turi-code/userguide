@@ -1,9 +1,10 @@
-Hashes an input feature space to an n-bit feature space.
+#Feature Hashing 
 
-Feature hashing is an efficient way of vectorizing features, and performing 
-dimensionality reduction or expansion along the way. Supported types include 
-array.array, list, dict, float, int, and string. The behaviour for different 
-input data column types is as follows:
+Hashes an input feature space to an n-bit feature space. Feature hashing is an
+efficient way of vectorizing features, and performing dimensionality reduction
+or expansion along the way. Supported types include array.array, list, dict,
+float, int, and string. The behaviour for different input data column types
+is as follows:
 
  - array.array : The index of each element is combined with the column name and 
   hashed, and the element becomes the value.

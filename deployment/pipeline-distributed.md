@@ -1,4 +1,4 @@
-### Launching distributed job executions
+# Launching distributed job executions
 
 In this section, we will demonstrate how to launch a distributed execution with ``map_job``:
 
