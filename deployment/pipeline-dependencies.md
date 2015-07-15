@@ -23,7 +23,7 @@ def my_function(number = 10):
 job = gl.deploy.job.create(my_function, environment=c, number=20)
 ```
 
-The `additional_packages` parameter can be a single string or a list of strings, describing packages in the pypi or Anaconda format. Equivalent to Hadoop it can also be provided to `graphlab.deploy.ec2_cluster.create` for EC2 clusters.
+The `additional_packages` parameter can be a single string or a list of strings, describing packages in the pypi or Anaconda format. Equivalent to Hadoop it can also be provided to `graphlab.deploy.ec2_cluster.create` for EC2 clusters. In the case of Hadoop, these packages need to be explicitly uploaded to the cluster (see below). Note that creating a cluster in Hadoop and specifying packages that have not been uploaded will succeed, but a subsequent submission of a job will fail.
 
 Alternatively, dependent packages can be specified on an already created cluster, by setting the cluster's `additional_packages` property, before submitting a job:
 
@@ -34,7 +34,7 @@ ec2c = gl.deploy.ec2_cluster.load('s3://my-workspace/ec2-cluster')
 ec2c.additional_packages = 'names'
 ```
 
-##### Hadoop
+##### Hadoop Package Management
 
 Because Hadoop clusters are not generally connected to the internet, Dato Distributed provides functionality to manage packages in such an environment, namely uploading, listing, and removing packages. These operations are accesible either through the command line (scripts provided by Dato Distributed) or the GraphLab Create API.
 
