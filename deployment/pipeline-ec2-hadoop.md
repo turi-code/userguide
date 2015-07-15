@@ -26,10 +26,8 @@ import graphlab as gl
 def add(x, y):
     return x + y
 
-# Define your EC2 environment.
-# The 'Name' tag given in the Ec2Config will be shown
-# in the EC2 web portal's instance list.
-ec2config = gl.deploy.Ec2Config(tags={'Name': 'dato-kaggle'})
+# Define your EC2 environment. In this example we use the default settings.
+ec2config = gl.deploy.Ec2Config()
 
 ec2 = gl.deploy.ec2_cluster.create(
     name='dato-kaggle',
