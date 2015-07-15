@@ -6,7 +6,7 @@ to running the function within a job.
 
 In order to install packages in a cluster and make them available to any job running in the cluster, they need to be specified as part of the cluster object:
 
-```
+```python
 import graphlab as gl
 
 c = gl.deploy.hadoop_cluster.create(
@@ -27,7 +27,7 @@ The `additional_packages` parameter can be a single string or a list of strings,
 
 Alternatively, dependent packages can be specified on an already created cluster, by setting the cluster's `additional_packages` property, before submitting a job:
 
-```
+```python
 # load a previously created EC2 cluster:
 ec2c = gl.deploy.ec2_cluster.load('s3://my-workspace/ec2-cluster')
 
@@ -40,13 +40,13 @@ Because Hadoop clusters are not generally connected to the internet, Dato Distri
 
 Packages available for installation (as described above) are shown as follows:
 
-```
+```python
 gl.deploy.hadoop_cluster.show_available_packages(dato_dist_path='my-cluster-setup')
 ```
 (In this example we assume (i) that the YARN config folder to access the cluster has been set as default, and (ii) that a Dato Distributed deployment in a folder `my-cluster-setup` in the user's home directory in the cluster exists.)
 
 Output:
-```
+```python
 {'default_packages': ['_license==1.1',
   'abstract-rendering==0.5.1',
   'anaconda==2.2.0',
@@ -58,7 +58,7 @@ Output:
  ```
 
 A package can be uploaded through the following API:
-```
+```python
 gl.deploy.hadoop_cluster.upload_packages(
   dato_dist_path='my-cluster-setup',
   filename_or_dir='./names-0.3.0.tar.gz')
@@ -66,7 +66,7 @@ gl.deploy.hadoop_cluster.upload_packages(
 Alternatively to a single package filename, a folder can be provided; all files within that folder will be uploaded to the cluster, assuming they are Python packages.
 
 Packages can be removed from the cluster as follows:
-```
+```python
 gl.deploy.hadoop_cluster.remove_package(
   dato_dist_path='my-cluster-setup',
   filename='names-0.3.0.tar.gz')
