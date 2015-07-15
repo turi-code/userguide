@@ -5,11 +5,14 @@ In this section, we will do the following:
 - Execute a function in Amazon's EC2 environment.
 - Execute a function in your Hadoop Cluster.
 
+#### The Cluster
+
+The GraphLab Create API includes the notion of a **cluster**, which serves as a logical environment to host the _distributed_ execution of jobs (as opposed to the local host environment). GraphLab Create clusters can be created either in EC2 or on a Hadoop physical cluster; while they can equally be used as environments for jobs, their behavior is slightly different; hence they are represented by two different types: [graphlab.deploy.Ec2Cluster]() and [graphlab.deploy.HadoopCluster](). Below we will elaborate on the specifics of each environment.
+
 #### Executing Jobs in EC2
 
 In the example below, we will demonstrate how to trigger and launch a job on an
-[EC2](http://aws.amazon.com/ec2/) instance. The job API allows for the specification
-of an execution environment other than the local host. When an EC2 cluster is
+[EC2](http://aws.amazon.com/ec2/) instance. When an EC2 cluster is
 specified as the execution environment, the framework will start the job on the
 new instances. While the job is running, the client machine can be shutdown and
 the job will continue. In the event that the client process terminates, you can
@@ -42,9 +45,9 @@ ec2 = gl.deploy.ec2_cluster.create(
 job = gl.deploy.job.create(add, environment=ec2, x=1, y=2)
 ```
 
-The `create()` call will start the hosts in EC2. They will be shutdown after
+It is important to note that the [graphlab.deploy.ec2_cluster.create()]() call will already start the hosts in EC2, so costs will be incurred at that point. They will be shutdown after
 an idle period, which is 10 minutes by default or set as parameter in
-`create()`. Setting the timeout to a negative value will cause the cluster
+the create method. Setting the timeout to a negative value will cause the cluster
 to run indefinitely or until explicitly stopped.
 
 The syntax for getting job status, metrics, and results are the same
@@ -129,6 +132,9 @@ generated/graphlab.deploy.Job.get_status.html) to get the **status**,
 graphlab.deploy.Job.get_metrics.html) to get job **metrics**, and 
 [job.get_results()](https://dato.com/products/create/docs/generated/
 graphlab.deploy.Job.get_results.html) to get job **results**. 
+
+For Hadoop-specific errors, you can use the [job.get_error()](https://dato.com/products/create/docs/
+generated/graphlab.deploy.Job.get_error.html) API.
 
 Just like the Jobs running on Local and EC2 environments, Hadoop jobs can be canceled using
 [job.cancel()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.cancel.html)
