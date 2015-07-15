@@ -13,24 +13,24 @@ ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
                                 aws_secret_access_key = 'YOUR_SECRET_KEY')
 ```
 
-After creating this object, we save it locally, so we can easily retrieve it in
-subsequent GraphLab Create sessions. For more documentation about how GraphLab
-Create manages local references to Jobs and Predictive Services,
-see
+For more documentation about how GraphLab Create manages local references to
+Jobs and Predictive Services, see
 [here](https://dato.com/products/create/docs/graphlab.deploy.html#predictive-services).
 
-Having configured our EC2 environment, we're ready to launch a Predictive
+Having configured our EC2 Config object, we're ready to launch a Predictive
 Service Deployment using
 [graphlab.deploy.predictive_service.create](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create).
 Required parameters include
 
 1. a name for the deployment
-2. a ec2 configuration we defined in the previous step
-3. an S3 path for the root 'working directory' for this Predictive Service
+2. a EC2 configuration we defined in the previous step
+3. an state path for the root 'working directory' for this Predictive Service
 
-The 3rd parameter -- the S3 path -- determines where the models and any
-corresponding data dependencies will be saved. Logs will be written to the S3
-path specified in the EC2 configuration with an added directory named logs.
+The 3rd parameter -- the state path -- is a S3 path that is used to manage the
+state for the Predictive Service. This can be used to create a Predictive Service
+object on another machine. This path determines where the models and any
+corresponding data dependencies will be saved. Logs are also written to this
+path with an added directory named logs.
 So for example, if we specified our S3 path to be
 `s3://my-bucket/`, then the logs for our Predictive Service would be
 saved at the following S3 path: `s3://my-bucket/logs`.
@@ -49,7 +49,7 @@ There are additional, optional parameters to
 [graphlab.deploy.predictive_service.create()](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create)
 including:
 
-1. number of hosts for ec2
+1. number of hosts for EC2
 2. description of this service
 3. the API key to use for REST queries
 4. the admin key to use for modifying the deployment
