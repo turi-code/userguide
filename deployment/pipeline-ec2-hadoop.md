@@ -40,6 +40,17 @@ job = gl.deploy.job.create(add, environment=ec2, x=1, y=2)
 It is important to note that the [graphlab.deploy.ec2_cluster.create()]() call will already start the hosts in EC2, so costs will be incurred at that point. They will be shutdown after an idle period, which is 10 minutes by default or set as parameter in the create method. Setting the timeout to a negative value will cause the cluster
 to run indefinitely or until explicitly stopped.
 
+You can retrieve the properties of a cluster by printing the cluster object:
+```python
+print ec2
+```
+```
+S3 State Path: s3://gl-dato-kaggle
+EC2 Config   : [instance_type: m3.xlarge, region: us-west-2, aws_access_key: ABCDEFG]
+Num Hosts    : 4
+Status       : Running
+```
+
 The syntax for getting job status, metrics, and results are the same for all jobs. For this EC2 job, you can invoke [job.get_status()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_status.html)
 to get the status, [job.get_metrics()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_metrics.html) to get job metrics, and [job.get_results()](https://dato.com/products/create/docs/generated/
 graphlab.deploy.Job.get_results.html) to get job results. 
@@ -73,8 +84,7 @@ Dato Distributed is currently certified on two Hadoop distributions:
 
 Before running a job on Hadoop, Dato Distributed needs to be set up on the Hadoop nodes. To this end, we provide a setup script that deploys Dato Distributed binaries to HDFS to make them available for subsequent distributed execution.
 
-After downloading and unpacking the Dato Distributed package, execute the `setup_dato-distributed.sh` shell script. The script requires the specification of an HDFS path which will contain the GraphLab Create packages and configurations. Subequently, this path identifies the Dato Distributed deployment and is provided to the `hadoop_cluster.create()`
-function.
+After downloading and unpacking the Dato Distributed package, execute the `setup_dato-distributed.sh` shell script. The script requires the specification of an HDFS path which will contain the GraphLab Create packages and configurations. Subequently, this path identifies the Dato Distributed deployment and is provided to the `hadoop_cluster.create()` function.
 
 When creating your Hadoop cluster object, you must specify a name, which you can later use to retrieve an existing cluster form your workbench. You can also specify hadoop_conf_dir, which is the directory of your custom hadoop
 configuration path. If hadoop_conf_dir is not specified, GraphLab Create uses your default hadoop configuration path on your machine.
@@ -90,7 +100,30 @@ dd-deployment = 'hdfs://our.hadoop-cluster.com:8040/user/name/dato-distributed-f
 
 hd = gl.deploy.hadoop_cluster.create(name='hadoop-cluster',
                                      dato_dist_path=dd-deployment)
+```
 
+You can retrieve the properties of a cluster by printing the cluster object:
+```python
+print hd
+```
+```
+Hadoop Cluster:
+	Name:                    : hadoop-cluster
+	Cluster path             : hdfs://our.hadoop-cluster.com:8040/user/name/dato-distributed-folder
+	Hadoop conf dir          : /Users/name/yarn-conf
+
+	Number of Containers:    : 3
+	Container Size (in mb)   : 4096
+	Container num of vcores  : 2
+	Port range               : 9100 - 9200
+
+	Additional packages      : ['names']
+```
+
+(See Section [Dependencies](https://dato.com/learn/userguide/deployment/pipeline-dependencies.html) for more information about additional packages.)
+
+Running a job looks the same as on EC2:
+```python
 # Execute the job.
 job = gl.deploy.job.create(add, environment=hd, x=1, y=2)
 
@@ -100,15 +133,14 @@ print job.get_results()
 2
 ```
 
-Also, you can invoke [job.get_status()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_status.html) to get the **status**, [job.get_metrics()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_metrics.html) to get job **metrics**, and [job.get_results()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_results.html) to get job **results**. 
+Also, you can invoke [job.get_status()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_status.html) to get the status, [job.get_metrics()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_metrics.html) to get job metrics, and [job.get_results()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_results.html) to get job results. 
 
 For Hadoop-specific errors, you can use the [job.get_error()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_error.html) API.
 
-Just like the Jobs running on Local and EC2 environments, Hadoop jobs can be canceled using
+Just like jobs running on Local and EC2 environments, Hadoop jobs can be canceled using
 [job.cancel()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.cancel.html)
 
 ** Notes **
 
 - Job status is also available through normal Hadoop monitoring, as GraphLab Create submits jobs using a GraphLab YARN application. Logs for executions are available using Yarn logs. 
-- The location of the logs is available in the job summary, which can be viewed by calling `print job`. You can also use [job.get_log_file_path()](https://dato.com/
-  products/create/docs/generated/graphlab.deploy.Job.get_log_file_path.html) to get the location of the logs.
+- The location of the logs is available in the job summary, which can be viewed by calling `print job`. You can also use [job.get_log_file_path()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_log_file_path.html) to get the location of the logs.
