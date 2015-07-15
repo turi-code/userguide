@@ -20,7 +20,7 @@ def my_function(number = 10):
     sf = graphlab.SFrame({'names':people})
     return sf
 
-job = graphlab.deploy.job.create(my_function, number=20, environment=c)
+job = gl.deploy.job.create(my_function, environment=c, number=20)
 ```
 
 The `additional_packages` parameter can be a single string or a list of strings, describing packages in the pypi or Anaconda format. Equivalent to Hadoop it can also be provided to `graphlab.deploy.ec2_cluster.create` for EC2 clusters.
