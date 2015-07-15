@@ -13,8 +13,8 @@ ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
                                 aws_secret_access_key = 'YOUR_SECRET_KEY')
 ```
 
-For more documentation about how GraphLab Create manages local references to
-Jobs and Predictive Services, see
+For more documentation about how GraphLab Create manages Jobs and Predictive
+Services, see
 [here](https://dato.com/products/create/docs/graphlab.deploy.html#predictive-services).
 
 Having configured our EC2 Config object, we're ready to launch a Predictive
