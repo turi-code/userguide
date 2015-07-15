@@ -50,6 +50,7 @@ This is the User Guide for GraphLab Create
     * [Data matching](data_matching/introduction.md)
         * [Autotagger](data_matching/autotagger.md)
         * [Deduplication](data_matching/deduplication.md)
+        * [Similarity Search](data_matching/similarity_search.md)
     * [Model parameter search](model_parameter_search/introduction.md)
         * [Models](model_parameter_search/models.md)
         * [Choosing a search space](model_parameter_search/search.md)
