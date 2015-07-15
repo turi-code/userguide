@@ -16,8 +16,8 @@ the job will continue. In the event that the client process terminates, you can
 reload the job and check its status.
 
 An EC2 cluster is created in two steps: first, a configuration object is created,
-describing the cluster and how to access AWS. Second, the cluster is launched.
-When configuring your EC2 cluster, you must specify a name, and a S3 path where
+describing the cluster and how to access AWS. The cluster description includes the properties for EC2 instances that are going to be used to form the cluster, like instance type and region, the security group name, etc. Second, the cluster is launched.
+When configuring your EC2 cluster, you must also specify a name, and an S3 path where
 the EC2 job execution can write the logs and results. 
 
 ```python
