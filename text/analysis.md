@@ -103,23 +103,26 @@ sf['tfidf'] = graphlab.text_analytics.tf_idf(sf['bow'])
 
 #####  BM25
 
-Another useful representation for text data is called BM25 score.  If we have a
-query with terms $q_1, ..., q_n$, the BM25 transformation performs the
-following computation
+The BM25 score is yet another useful representation for text data. It scores
+each document in a corpus according to the document's relevance to a particular
+query. For a query with terms $$q_1, \ldots, q_n$$, the BM25 score for document $$d$$ is:
+ 
+$$
+    \mbox{BM25}(d) = \sum_{i=1}^n IDF(q_i) \frac{f(q_i) * (k_1+1)}{f(q_i) + k_1 * (1-b+b*|D|/d_{avg}))}
+$$
+where:
+* $$f(q_i)$$ is the number of times term $$q_i$$ occurs in document $$d$$,
+* $$|D|$$ is the number of words in document $$d$$,
+* $$d_{avg}$$ is the average number of words per document,
+* $$b$$ and $$k_1$$ are free parameters for Okapi BM25,
+
+The first quantity in the sum is the inverse document frequency. For a corpus
+with $$N$$ documents, inverse document frequency for term $$q_i$$ is:
 
 $$
-    \mbox{BM25}(d) = \sum_{i=1}^N IDF(q_i) \frac{f(q_i) * (k_1+1)}{f(q_i) + k_1 * (1-b+b*|D|/d_{avg}))}
+    \mbox{IDF}(q_i) = \log \frac{N - N(q_i) + 0.5}{N(q_i) + 0.5}
 $$
-
-where we use the natural logarithm and
-
-* $ \mbox{IDF}(q_i) = log((N - n(q_i) + .5)/(n(q_i) + .5) $ is the inverse document frequency of $ q_i $
-* $ N $ is the number of documents (in the training corpus)
-* $n(q_i)$ is the number of documents (in the training corpus) containing query term $q_i$
-* $f(q_i)$ is the number of times query term $q_i$ occurs in the document
-* $|D|$ is the number of words in the document
-* $d_{avg}$ is the average number of words per document (in the training corpus)
-* $k_1$ and $b$ are parameters for Okapi BM25
+where $$N(q_i)$$ is the number of documents in the corpus that contain term $$q_i$$.
 
 The transformed output is a column of type float with the BM25 score for each
 document. For more details on the BM25 score see
