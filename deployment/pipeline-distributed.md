@@ -1,4 +1,4 @@
-### Launching Distributed Jobs
+# Launching Distributed Jobs
 
 A core benefit of executing jobs on compute fabrics like EC2 or Hadoop is the ability to scale out and distribute the work across nodes. In this section, we will demonstrate how to launch a distributed execution through the [``map_job``] API, which executes the same function, in parallel, with multiple arguments.
 

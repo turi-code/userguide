@@ -1,3 +1,4 @@
+#Examples
 To illustrate some of these methods, we'll use a previously created SGraph where
 vertices represent Wikipedia articles about US businesses and edges represent
 hyperlinks between articles. This data is available under the Creative Commons

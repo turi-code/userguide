@@ -1,4 +1,4 @@
-### Launching Job Executions on EC2 and Hadoop
+# Launching Job Executions on EC2 and Hadoop
 
 GraphLab create allows for the execution of jobs on the Dato Distributed platform, which runs on EC2 as well as Hadoop YARN clusters. While Dato distributed is set up automatically on EC2 on-demand, it needs to be deployed on Hadoop.
 

@@ -1,4 +1,4 @@
-#### Session Management
+# Session Management
 
 GraphLab Create manages local references to your Jobs and Environments in a local session.  These local references can be persisted to disk, allowing you to resume and modify your work at a later time. Put another way, GraphLab Create makes it easy to recall previous work, maintaining a history and a workbench that facilitate incremental modifications over time.
 

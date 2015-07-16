@@ -1,3 +1,4 @@
+#Support Vector Machines
 Support Vector Machines (SVM) is another popularly model used for classification
 tasks. In logistic regression, the probability that a  **binary target is True**
 is modeled as a [logistic
