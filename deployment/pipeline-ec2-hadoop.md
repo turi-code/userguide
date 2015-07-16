@@ -96,7 +96,7 @@ def add(x, y):
     return x + y
 
 # Define your Hadoop environment
-dd-deployment = 'hdfs://our.hadoop-cluster.com:8040/user/name/dato-distributed-folder'
+dd-deployment = 'hdfs://our.cluster.com:8040/user/name/dato-dist-folder'
 
 hd = gl.deploy.hadoop_cluster.create(name='hadoop-cluster',
                                      dato_dist_path=dd-deployment)
