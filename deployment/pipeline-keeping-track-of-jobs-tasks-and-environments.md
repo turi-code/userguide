@@ -1,13 +1,8 @@
 #### Session Management
 
-GraphLab Create manages local references to your Jobs and Environments in
-a local session.  These local references can be persisted to disk, allowing you to
-resume and modify your work at a later time. Put another way, GraphLab Create
-makes it easy to recall previous work, maintaining a history and a workbench
-that facilitate incremental modifications over time.
+GraphLab Create manages local references to your Jobs and Environments in a local session.  These local references can be persisted to disk, allowing you to resume and modify your work at a later time. Put another way, GraphLab Create makes it easy to recall previous work, maintaining a history and a workbench that facilitate incremental modifications over time.
 
-Because these objects are persisted they must have unique names, so the session
-can keep track of them.
+Because these objects are persisted they must have unique names, so the session can keep track of them.
 
 ##### List
 
@@ -38,7 +33,7 @@ To visualize all Jobs, run:
 ```no-highlight
 gl.deploy.jobs.show()
 ```
-[<img alt="Jobs dashbaord" src="images/jobs-dashboard.png" style="max-width: 100%;"/>](images/jobs-dashboard.png)
+[<img alt="Jobs dashboard" src="images/jobs-dashboard.png" style="max-width: 100%;"/>](images/jobs-dashboard.png)
 
 This will show the overall dashboard for all Jobs known in the workbench.
 
@@ -68,8 +63,7 @@ gl.deploy.environments.list() # returns an SFrame of environments
 
 ##### Load
 
-We can use either the index of the job in the session, or the name, to load a persisted
-job in the current session.
+We can use either the index of the job in the session, or the name, to load a persisted job in the current session.
 
 ```python
 print gl.deploy.jobs
