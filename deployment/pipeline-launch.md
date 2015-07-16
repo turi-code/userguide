@@ -73,6 +73,7 @@ TypeError: unsupported operand type(s) for +: 'int' and 'NoneType'
 ```
 
 To visualize this job execution, use [job.show()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.show.html)
+
 ```python
 job.show()
 ```
