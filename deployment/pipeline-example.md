@@ -66,7 +66,7 @@ def my_workflow(path):
 ```
 
 Having defined the function, we can execute it as a job using the
-[job.create](https://dato.com/products/create/docs/generated/graphlab.deploy.job.create.html)
+[``job.create()``](https://dato.com/products/create/docs/generated/graphlab.deploy.job.create.html)
 function. 
 
 ```python
@@ -107,7 +107,7 @@ job_ec2 = gl.deploy.job.create(my_workflow,
 job_ec2.get_results()
 ```
 
-The result of this job execution is an [SFrame](https://dato.com/products/create/docs/generated/graphlab.SFrame.html) containing the recommendations.
+The result of this job execution is an [``SFrame``](https://dato.com/products/create/docs/generated/graphlab.SFrame.html) containing the recommendations.
 
 ```
 Columns:
