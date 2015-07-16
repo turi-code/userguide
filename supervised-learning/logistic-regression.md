@@ -245,7 +245,7 @@ class for each example. In the following example, we provide the top 5
 predictions, ordered by class probability, for each data point in the test set.
 
 ```python
-top = model.predict_topk(test_data, output_type='probability', k = 5)
+top = model.predict_topk(test_data, output_type='probability', k = 3)
 print top
 ```
 ```no-highlight
