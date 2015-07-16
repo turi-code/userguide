@@ -144,3 +144,4 @@ Just like jobs running on Local and EC2 environments, Hadoop jobs can be cancele
 
 - Job status is also available through normal Hadoop monitoring, as GraphLab Create submits jobs using a GraphLab YARN application. Logs for executions are available using Yarn logs. 
 - The location of the logs is available in the job summary, which can be viewed by calling `print job`. You can also use [job.get_log_file_path()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_log_file_path.html) to get the location of the logs.
+- If you are using Hadoop in Cloudera HA mode, you need to include conf.cloudera.hdfs in your CLASSPATH environment variable.
