@@ -9,8 +9,8 @@ import graphlab
 
 ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
                                 instance_type='m3.xlarge',
-                                aws_access_key_id = 'YOUR_ACCESS_KEY',
-                                aws_secret_access_key = 'YOUR_SECRET_KEY')
+                                aws_access_key_id='YOUR_ACCESS_KEY',
+                                aws_secret_access_key='YOUR_SECRET_KEY')
 ```
 
 For more documentation about how GraphLab Create manages Jobs and Predictive
@@ -35,19 +35,14 @@ So for example, if we specified our S3 path to be
 `s3://my-bucket/`, then the logs for our Predictive Service would be
 saved at the following S3 path: `s3://my-bucket/logs`.
 
-When this `create` command is executed, the EC2 instances will be launched
-immediately, after which a load balancer will be launched, configured, and
-finally the load balancer will add the instances into the cluster as they pass
-health checks.
+When this `create` command is executed, the EC2 instances will be launched immediately, after which a load balancer will be launched, configured, and finally the load balancer will add the instances into the cluster as they pass health checks.
 
 ```no-highlight
 deployment = graphlab.deploy.predictive_service.create(
     'first', ec2, 's3://sample-testing/first')
 ```
 
-There are additional, optional parameters to
-[graphlab.deploy.predictive_service.create()](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create)
-including:
+There are additional, optional parameters to [graphlab.deploy.predictive_service.create()](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) including:
 
 1. number of hosts for EC2
 2. description of this service
@@ -57,11 +52,7 @@ including:
 6. a string value to use as HTTP header Access-Control-Allow-Origin
 7. the port the server will listen to
 
-Print the deployment object to inspect some of these important parameters, such
-as the information necessary to connect to the deployment from an application
-and the list of deployed Predictive Objects. This also indicates whether there
-are any pending changes. To visualize this deployment in GraphLab Canvas, use
-the .show() method.
+Print the deployment object to inspect some of these important parameters, such as the information necessary to connect to the deployment from an application and the list of deployed Predictive Objects. This also indicates whether there are any pending changes. To visualize this deployment in GraphLab Canvas, use the .show() method.
 
 ```no-highlight
 print deployment
@@ -80,10 +71,7 @@ Deployed predictive objects:
 No Pending changes.
 ```
 
-Note: Distributed caching is supported if the number of hosts (`num_hosts`) is
-greater than two in the EC2 Environment object. If the number of hosts is less
-than three, then caching is enabled, but not shared/distributed between the 
-nodes.
+Note: Distributed caching is supported if the number of hosts (`num_hosts`) is greater than two in the Predictive Service create call. If the number of hosts is less than three, then caching is enabled, but not shared/distributed between the nodes.
 
 ```no-highlight
 deployment

@@ -64,7 +64,7 @@ This is the User Guide for GraphLab Create
         * [Distributed Job Execution](deployment/pipeline-distributed.md)
         * [Monitoring Jobs](deployment/pipeline-monitoring-jobs.md)
         * [Session Management](deployment/pipeline-keeping-track-of-jobs-tasks-and-environments.md)
-        * [Advanced Features](deployment/pipeline-advanced-features.md)
+        * [Dependencies](deployment/pipeline-dependencies.md)
     * [Predictive Services](deployment/pred-intro.md)
         * [Getting Started](deployment/pred-getting-started.md)
         * [Predictive Objects](deployment/pred-working-with-objects.md)

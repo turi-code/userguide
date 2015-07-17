@@ -68,10 +68,19 @@ The metrics [SFrame](https://dato.com/products/create/docs/generated/graphlab.SF
 contains the status, start time, and run time of each execution. We can also
 find out the exception type, message, and traceback if the execution fails.
 
+Another way to retrieve more details about job execution errors in Hadoop is ``job.get_error()``:
+
+```python
+job.get_error()
+```
+```
+'Failed to install user-specified package.'
+```
+
 ##### Logs
 
 To get the log file path for this execution, simply call
-[job.get_log_file_path()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_log_file_path.html).
+[job.get_log_file_path()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_log_file_path.html). This works for both EC2 (S3 path) and Hadoop (HDFS path).
 
 ```python
 job.get_log_file_path()
@@ -91,14 +100,10 @@ job.cancel()
 
 ##### Results
 
-To get results of a job execution, we can use
-[job.get_results()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_results.html).
+To get results of a job execution, we can use [``job.get_results()``](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_results.html).
 
-For distributed jobs, we can use
-[job.get_map_results()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_map_results.html)
-to get the result of each execution. If the distributed job has a combiner function, we can obtain the
-combiner function result from 
-[job.get_results()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_results.html).
+For distributed jobs, we can use [``job.get_map_results()``](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_map_results.html) to get the result of each execution. If the distributed job has a combiner function, we can obtain the
+combiner function result from [job.get_results()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_results.html).
 
 ##### Visualize Job
 
@@ -112,10 +117,7 @@ job.show()
 
 ##### More
 
-To get more information about a Job, simply print it. General information about
-the job, including what parameters are being used, and the name of the job will be
-printed. Different execution information will be printed depending on where the
-job is running.
+To get more information about a Job, simply print it. This provides general information about the job, including what parameters are being used, the name of the job, and execution-related information will be printed.
 
 For example, 
 
