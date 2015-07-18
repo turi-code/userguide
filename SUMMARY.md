@@ -15,7 +15,7 @@ This is the User Guide for GraphLab Create
       * Categorical Features
         * [One Hot Encoder](feature-engineering/one_hot_encoder.md)
         * [Count Thresholder](feature-engineering/count_thresholder.md)
-        * [Categoical Imputer](feature-engineering/categorical_imputer.md)
+        * [Categorical Imputer](feature-engineering/categorical_imputer.md)
       * Text Features
         * [TF-IDF](feature-engineering/tfidf.md)
         * [Tokenizer](feature-engineering/tokenizer.md)
