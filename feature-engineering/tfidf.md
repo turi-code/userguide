@@ -1,4 +1,4 @@
-#Transform an SFrame into TF-IDF scores.
+#TF-IDF
 
 The prototypical application of TF-IDF transformations involves
 document collections, where each element represents a document in
