@@ -8,7 +8,7 @@ SVMClassifier, BoostedTreesClassifier, or NeuralNetClassifier
 Deep features can be used to extract features from your own models or using a
 pre-trained model for ImageNet (NIPS 2012, Alex Krizhevsky et al.).  Dato provides 
 a free pre-trained model for use as demonstrated below. If `model='auto'` is used, 
-we chose an appropriate model from our batch of pre-trained models.
+an appropriate model is chosen from a collection of pre-trained models hosted by Dato.
 
 #### Introductory Example 
 
