@@ -6,11 +6,9 @@ as input to train another classifier such as a LogisticClassifier,
 SVMClassifier, BoostedTreesClassifier, or NeuralNetClassifier
 
 Deep features can be used to extract features from your own models or using a
-pre-trained model for ImageNet, as described by Alex Krizhevsky et. al.
-avaliable for use at
-http://s3.amazonaws.com/dato-datasets/deeplearning/imagenet_model_iter45.  If
-`model='auto'` is used, we chose an appropriate model from our batch of
-pre-trained models.
+pre-trained model for ImageNet (NIPS 2012, Alex Krizhevsky et al.).  Dato provides 
+a free pre-trained model for use as demonstrated below. If `model='auto'` is used, 
+an appropriate model is chosen from a collection of pre-trained models hosted by Dato.
 
 #### Introductory Example 
 
@@ -33,7 +31,7 @@ extracted_model = extractor['model']
 ```
 
 Once a DeepFeatureExtractor object is constructed, it must first be fitted and
-then the transform function can be called to extract features. The extracted
+then the transform function can be called to extract features. The extracted 
 features can then be used as a part of a LogisticClassifier. 
 
 ```
