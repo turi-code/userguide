@@ -11,7 +11,7 @@ This is the User Guide for GraphLab Create
       * Numeric Features
         * [Quadratic Features](feature-engineering/quadratic_features.md)
         * [Feature Binning](feature-engineering/feature_binner.md)
-        * [Numeric Imputer](feature-engineering/numeric_imputer.md) 
+        * [Numeric Imputer](feature-engineering/numeric_imputer.md)
       * Categorical Features
         * [One Hot Encoder](feature-engineering/one_hot_encoder.md)
         * [Count Thresholder](feature-engineering/count_thresholder.md)
@@ -69,6 +69,7 @@ This is the User Guide for GraphLab Create
         * [Getting Started](deployment/pred-getting-started.md)
         * [Predictive Objects](deployment/pred-working-with-objects.md)
         * [Querying](deployment/pred-querying.md)
+        * [Experimentation](deployment/pred-experimentation.md)
         * [Operations](deployment/pred-operating.md)
 * [Data Formats and Sources](data_formats_and_sources/intro.md)
     * [Spark RDDs](data_formats_and_sources/spark_integration.md)
