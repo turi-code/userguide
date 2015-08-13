@@ -16,8 +16,12 @@ deployment.add(name='fact_model', obj=factorization_model)
 Each object can be queried explicitly and directly, using its name:
 
 ```no-highlight
-recs_sim = deployment.query('sim_model', method=recommend', data={'users':['Jacob Smith']})
-recs_fact = deployment.query('fact_model', method=recommend', data={'users':['Jacob Smith']})
+recs_sim = deployment.query('sim_model',
+                            method='recommend',
+                            data={'users':['Jacob Smith']})
+recs_fact = deployment.query('fact_model',
+                             method='recommend',
+                             data={'users':['Jacob Smith']})
 ```
 
 Or, directly through HTTP (assuming an example DNS name):
@@ -35,6 +39,8 @@ curl -X POST
           "data":{"users":["Jacob Smith"]}}}'
      http://first-8410747484.us-west-2.elb.amazonaws.com/query/fact_model
 ```
+
+#### Experimentation
 
 The [set_endpoint](https://tbd) API enables you to experiment with multiple models by serving them transparently from the same endpoint:
 
@@ -55,9 +61,59 @@ curl -X POST
 Using the GLC query API:
 
 ```no-highlight
-deployment.query_endpoint('recommender', method=recommend', data={'users':['Jacob Smith']})
+deployment.query_endpoint('recommender',
+                          method='recommend',
+                          data={'users':['Jacob Smith']})
 ```
 
 (note that you can still query each model directly using the ``.../query/modelname`` URL)
 
 Note that any of the above changes to the deployment still needs to be published to the predictive service by calling the [apply_changes](https://tbd) API.
+
+#### Managing models
+
+A common challenge is the transition of a new model from a test/dev environment into production, without disrupting an existing application that accesses the model. Let's assume you have a model that already runs in production, at a specific endpoint:
+
+```no-highlight
+deployment.add(name='sim_model', obj=item_similarity_model)
+deployment.set_endpoint('production', 'sim_model')
+deployment.apply_changes();
+```
+
+Your application (e.g., a web UI) is using this model to serve the user experience, at the following URL:
+
+```no-highlight
+http://<dns-name>/endpoint/production
+```
+
+Moreover, you have a model that is still in testing, served at a separate endpoint:
+
+```no-highlight
+deployment.add(name='fact_model', obj=factorization_model)
+deployment.set_endpoint('staging', 'sim_model')
+deployment.apply_changes();
+```
+
+This model is accessible at:
+```no-highlight
+http://<dns-name>/endpoint/staging
+```
+
+Both URIs are used by your application, the production endpoint as well as the test endpoint (by activating a test/debug mode).
+
+If you decide that the tested model is ready for production, you would add it to the production endpoint, possibly by slowly ramping up its traffic:
+
+```no-highlight
+deployment.set_endpoint('production',
+                        policy={'sim_model': 0.9, 'fact_model': 0.1})
+```
+
+Now you are ready to push the changes:
+
+```no-highlight
+deployment.apply_changes();
+```
+
+At this point your production endpoint will start serving 10% of requests with the new model, and warm up its cache.
+
+[to be continued]
