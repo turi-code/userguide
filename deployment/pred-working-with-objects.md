@@ -38,13 +38,13 @@ Name                  : first
 S3 Path               : s3://sample-testing/first
 Description           : None
 API Key               : b0a1c056-30b9-4468-9b8d-c07289017228
-CORS origin           : 
+CORS origin           :
 Global Cache State    : enabled
 Load Balancer DNS Name: first-8410747484.us-west-2.elb.amazonaws.com
 
 Deployed predictive objects:
-Pending changes: 
-	Adding: recs description: 
+Pending changes:
+	Adding: recs description:
 ```
 
 To finish publishing this Predictive Object -- a recommender model -- call the
@@ -265,6 +265,8 @@ Object with the name `get-similar-products`:
 deployment.remove('get-similar-products')
 ```
 
+Note that this call will fail if the model is also serving an existing endpoint (see [chapter about experimentation](pred-experimentation.html)).
+
 ##### Working with an Existing Predictive Service Deployment
 
 In some cases, multiple teams or team members may wish to collaborate on a
@@ -282,7 +284,7 @@ it.
 
 ```no-highlight
 deployment = graphlab.deploy.predictive_service.load(
-    's3://sample-testing/pred-root/first', 
+    's3://sample-testing/pred-root/first',
     aws_access_key_id='YOUR_ACCESS_KEY',
     aws_secret_access_key='YOUR_SERECT_KEY')
 ```
