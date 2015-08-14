@@ -70,6 +70,33 @@ deployment.query_endpoint('recommender',
 
 Note that any of the above changes to the deployment still needs to be published to the predictive service by calling the [apply_changes](https://tbd) API.
 
+To remove an endpoint entirely, call ``remove_endpoint``:
+
+```no-highlight
+deployment.remove_endpoint('recommender')
+deployment.apply_changes();
+```
+
+This will not remove the model(s) that this endpoint served, it sill simply stop serving them through the ``.../endpoint/recommender`` URL.
+
+Endpoints under a Predictive Service deployment can be listed as follows:
+
+```no-highlight
+deployment.endpoints
+```
+
+```no-highlight
+Endpoint(s):
++-------+-------------+-------------------------------+----------------------------------+
+| Index |  Endpoint   |              URL              |              Models              |
++-------+-------------+-------------------------------+----------------------------------+
+|   0   | recommender | http://first-8410747484.us... | {‘mymodel’: 0.2,’mymodel2’: 0.8} |
+|   1   |   testing   | http://first-8410747484.us... |         {‘testmodel’: 1}         |
+|   2   |   staging   | http://first-8410747484.us... |         {‘new_model’: 1}         |
++-------+-------------+-------------------------------+----------------------------------+
+[3 rows x 4 columns]
+```
+
 #### Managing models
 
 A common challenge is the transition of a new model from a test/dev environment into production, without disrupting an existing application that accesses the model. Let's assume you have a model that already runs in production, at a specific endpoint:
@@ -116,4 +143,19 @@ deployment.apply_changes();
 
 At this point your production endpoint will start serving 10% of requests with the new model, and warm up its cache.
 
-[to be continued]
+Note that the model `fact_model` is also still served through the `testing` endpoint. You might want to replace it with some other model (or models) there:
+
+```no-highlight
+deployment.add(name='pop_model', obj=popularity_model)
+deployment.set_endpoint('staging', 'pop_model')
+deployment.apply_changes();
+```
+
+Alternatively you could have deleted the staging endpoint entirely:
+
+```no-highlight
+deployment.remove_endpoint('staging')
+deployment.apply_changes();
+```
+
+However, that could affect any application that is still trying to access this endpoint, as we assumed above.
