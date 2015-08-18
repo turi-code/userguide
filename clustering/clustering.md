@@ -2,12 +2,15 @@ The
  [GraphLab clustering toolkit](https://dato.com/products/create/docs/graphlab.toolkits.clustering.html)
 provides tools for unsupervised learning problems, where the aim is to
 consolidate unlabeled data points into groups based on how similar the points
-are to each other. The only clustering algorithm presently available is k-means.
-Our implementation uses
- [k-means++](http://en.wikipedia.org/wiki/K-means%2B%2B) to choose the initial
-clusters.
+are to each other. The only clustering algorithms presently available are k-means and hierarchical k-means.
+Our implementations of k-means and hierarchical k-means use
+ [k-means++](http://en.wikipedia.org/wiki/K-means%2B%2B)
+and
+ [reservoir sampling](http://www.geeksforgeeks.org/reservoir-sampling/)
+respectively to choose initial clusters.
 
-In this chapter, we explore a medical dataset from a June 2014 Kaggle
+##K-Means
+In this section, we explore a medical dataset from a June 2014 Kaggle
 competition using k-means clustering. The dataset can be found at [MLSP 2014
 Schizophrenia Classification Challenge](https://www.kaggle.com/c/mlsp-2014-mri),
 which is the Kaggle page for the IEEE International Workshop on Machine Learning
@@ -231,3 +234,43 @@ model['cluster_info'][['cluster_id', '__within_distance__', '__size__']]
 </table>
 [6 rows x 3 columns]<br/>
 </div>
+
+##Hierarchical K-Means
+
+###What you'll need for this example
+In this section, we explore a dataset of vector space embeddings of words from 
+the word2vec project at Google Research using hierarchical k-means. The dataset 
+can be found at [word2vec](https://code.google.com/p/word2vec/), which is the 
+Google Code page for the Google Research project. To repeat the experiments 
+shown in this section, you will also need [gensim](https://radimrehurek.com/gensim/). 
+Gensim's [word2vec implementation](https://radimrehurek.com/gensim/models/word2vec.html)
+is quite easy to use and provides utilities for unpacking the word2vec binary files.
+
+###The data
+The data consists of real-valued vectors of 300 dimensions, each corresponding to a 
+unique string observed in a 100 billion word data set. There is one vector per unique 
+string. The vectors are acquired by running the word2vec algorithm on a corpus. The 
+word2vec algorithm is a log-bilinear language model. Details can be found at the 
+Google Code project page linked above. 
+
+ > NOTE: It is important to keep in mind that the representations produced by log-
+ bilinear models consistent latent variables with no interpretable, real-world meaning.
+
+We use the gensim utility to unpack the vectors into Python lists of floats, then 
+enter each word:list[float] pair its own row of an
+[SFrame](https://dato.com/products/create/docs/generated/graphlab.SFrame.html).
+
+```python
+# load FNC features
+data_url = 'http://s3.amazonaws.com/dato-datasets/mlsp_2014/train_FNC.csv'
+col_types = [int] + [float] * 378
+fnc_sf = gl.SFrame.read_csv(data_url, column_type_hints=col_types)
+
+# load SBM features
+data_url = 'http://s3.amazonaws.com/dato-datasets/mlsp_2014/train_SBM.csv'
+col_types = [int] + [float] * 32
+sbm_sf = gl.SFrame.read_csv(data_url, column_type_hints=col_types)
+
+# join all features on the Id column
+dataset = fnc_sf.join(sbm_sf, on="Id")
+```
