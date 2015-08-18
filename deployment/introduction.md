@@ -1,4 +1,4 @@
-#### Deployment
+# Deployment
 
 In this chapter we demonstrate how GraphLab Create makes it easy to take
 predictive applications to production, by enabling batch processing with

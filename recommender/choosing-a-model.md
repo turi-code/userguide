@@ -1,3 +1,4 @@
+#Choosing a Model
 In this section, we give some intuition for which modeling choices you may make depending on your data and your task.
 
 If your data is *implicit*, i.e., you only observe interactions between users and items, without a rating, then use item_similarity_recommender with Jaccard similarity (default) or the `ranking_factorization_recommender`.

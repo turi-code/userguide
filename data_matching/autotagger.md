@@ -1,3 +1,4 @@
+#Autotagger
 The GraphLab Create **autotagger** tool matches unstructured text queries to a
 reference set of strings, a.k.a *tags*, which are known beforehand. Adding tags
 to unstructured text gives readers a quick intuition about the content of the

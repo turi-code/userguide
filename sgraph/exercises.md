@@ -1,5 +1,5 @@
 
-##### Creating an SGraph
+# Creating an SGraph
 
 For the following SGraph exercises, we'll use the countries and results from two
 groups in the 2014 World Cup to explore SGraph construction, summarization,

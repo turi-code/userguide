@@ -1,8 +1,9 @@
-Feature binning is a method of turning continuous variables into categorical values.
+#Feature Binning
 
-This is accomplished by grouping the values into a pre-defined number of bins. 
-The continuous value then gets replaced by a string describing the bin that 
-contains that value.
+Feature binning is a method of turning continuous variables into categorical
+values.  This is accomplished by grouping the values into a pre-defined number
+of bins.  The continuous value then gets replaced by a string describing the
+bin that contains that value.
 
 FeatureBinner supports both logarithmic and quantile binning strategies.
 If the strategy is logarithmic, bin break points are defined by by 10*i for i 

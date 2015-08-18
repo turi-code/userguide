@@ -1,3 +1,4 @@
+#Classification
 **Classification** is the problem of predicting a **categorical target**
 using training data. The key difference between **regression** and
 **classification** is that in regression the target is continuous while in
@@ -14,7 +15,7 @@ following models are supported for classification:
 
 These algorithms differ in how they make predictions, but conform to the same
 API. With all models, call **create()** to create a model, **predict()** to make
-flexible predictions on the returned model, **classify()** which makes provides
+flexible predictions on the returned model, **classify()** which provides
 all the sufficient statistics for classifying data, and **evaluate()** to
 measure performance of the predictions. All models can incorporate:
 

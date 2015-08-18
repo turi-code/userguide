@@ -1,3 +1,4 @@
+#Nearest Neighbor Classifier
 The [nearest neighbor classifier](https://dato.com/products/create/docs/graphlab.nearest_neighbor_classifier.html)
 is one of the simplest classification models, but it often performs nearly as
 well as more sophisticated methods.
