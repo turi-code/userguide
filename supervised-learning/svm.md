@@ -1,5 +1,5 @@
-#Support Vector Machines
-Support Vector Machines (SVM) is another popularly model used for classification
+# Support Vector Machines
+Support Vector Machines (SVM) is another popular model used for classification
 tasks. In logistic regression, the probability that a  **binary target is True**
 is modeled as a [logistic
 function](http://en.wikipedia.org/wiki/Logistic_function) of the features. The
@@ -65,10 +65,10 @@ data['is_good'] = data['stars'] >= 3
 train_data, test_data = data.random_split(0.8)
 
 # Create a model.
-model = gl.svm_classifier.create(train_data, target='is_good', 
+model = gl.svm_classifier.create(train_data, target='is_good',
                                     features = ['user_avg_stars',
-                                                'business_avg_stars', 
-                                                'user_review_count', 
+                                                'business_avg_stars',
+                                                'user_review_count',
                                                 'business_review_count'])
 
 # Save predictions (class only) to an SFrame
@@ -99,7 +99,7 @@ We will now discuss some advanced features that are **specific to SVM**.
 
 Predictions using a GraphLab classifier is easy. The **classify()** method
 provides a one-stop shop for all that you need from a classifier. In the
-following example, the first prediction was class **1**. Currently, the 
+following example, the first prediction was class **1**. Currently, the
 SVM classifier is not calibrated for probability predictions. Stay tuned
 for that feature in an upcoming release.
 
@@ -158,7 +158,7 @@ misclassified examples which in-turn results in smaller coefficients. The
 ```python
 model = gl.svm_classifier.create(train_data, target='is_good', penalty=100,
                                     features = ['user_avg_stars',
-                                                'business_avg_stars', 
-                                                'user_review_count', 
+                                                'business_avg_stars',
+                                                'user_review_count',
                                                 'business_review_count'])
 ```

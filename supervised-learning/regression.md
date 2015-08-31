@@ -1,7 +1,7 @@
-#Regression
+# Regression
 **Regression** is the problem of learning a functional relationship between
 **input features** and an **output target** using training data where the
-specific functional form form learned depends on the choice of model.  The
+specific functional form learned depends on the choice of model.  The
 parameters of the function are learned using data where the target values are
 known, so that the machine can make predictions about data where the target is
 unknown.  The goal of a regression model is to learn to **predict** an output
@@ -49,10 +49,10 @@ data =  gl.SFrame('http://s3.amazonaws.com/dato-datasets/regression/yelp-data.cs
 train_data, test_data = data.random_split(0.8)
 
 # Automatically picks the right model based on your data.
-model = gl.regression.create(train_data, target='stars', 
+model = gl.regression.create(train_data, target='stars',
                                     features = ['user_avg_stars',
-                                                'business_avg_stars', 
-                                                'user_review_count', 
+                                                'business_avg_stars',
+                                                'user_review_count',
                                                 'business_review_count'])
 
 # Save predictions to an SArray
@@ -67,6 +67,3 @@ examples and up to millions of features.  GraphLab Create also provides a
 wrapper to [Vowpal
 Wabbit](https://github.com/JohnLangford/vowpal_wabbit/wiki), an open source
 out- of-core learning system that is also known to be fast and scalable.
-
-
-
