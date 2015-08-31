@@ -7,8 +7,7 @@ SVMClassifier, BoostedTreesClassifier, or NeuralNetClassifier
 
 Deep features can be used to extract features from your own models or using a
 pre-trained model for ImageNet (NIPS 2012, Alex Krizhevsky et al.).  Dato provides 
-a free pre-trained model for use as demonstrated below. If `model='auto'` is used, 
-an appropriate model is chosen from a collection of pre-trained models hosted by Dato.
+a free pre-trained model for use as demonstrated below. 
 
 #### Introductory Example 
 
@@ -21,7 +20,10 @@ import graphlab as gl
 data = gl.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/train6k')
 
 # Create a DeepFeatureExtractorObject
-extractor = gl.feature_engineering.DeepFeatureExtractor(features = 'image')
+#If `model='auto'` is used, an appropriate model is chosen from a collection 
+#of pre-trained models hosted by Dato.
+extractor = gl.feature_engineering.DeepFeatureExtractor(feature = 'image', 
+                                                        model='auto')
 
 # Fit the encoder for a given dataset.
 extractor = extractor.fit(data)
@@ -55,7 +57,7 @@ features_sf = extractor.transform(data)
 [6000 rows x 3 columns]
 
 # Train a classifier using the deep features!.
-model = gl.logistic_classifier.create(sf, target='label', 
+model = gl.logistic_classifier.create(features_sf, target='label', 
                               features =  ['deep_features_image'])
 ```
 
