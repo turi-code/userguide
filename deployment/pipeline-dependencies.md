@@ -2,7 +2,7 @@
 
 In order for functions to be portable, any additional Python packages need to
 be known to the framework in order to ensure those packages are installed prior
-to running the function within a job. 
+to running the function within a job.
 
 In order to install packages in a cluster and make them available to any job running in the cluster, they need to be specified as part of the cluster object:
 
@@ -23,7 +23,7 @@ def my_function(number = 10):
 job = gl.deploy.job.create(my_function, environment=c, number=20)
 ```
 
-The `additional_packages` parameter can be a single string or a list of strings, describing packages in the pypi or Anaconda format. Equivalent to Hadoop it can also be provided to `graphlab.deploy.ec2_cluster.create` for EC2 clusters. In the case of Hadoop, these packages need to be explicitly uploaded to the cluster (see below). Note that creating a cluster in Hadoop and specifying packages that have not been uploaded will succeed, but a subsequent submission of a job will fail.
+The `additional_packages` parameter can be a single string or a list of strings, describing packages in the pypi format. Equivalent to Hadoop it can also be provided to `graphlab.deploy.ec2_cluster.create` for EC2 clusters. In the case of Hadoop, these packages need to be explicitly uploaded to the cluster (see below). Note that creating a cluster in Hadoop and specifying packages that have not been uploaded will succeed, but a subsequent submission of a job will fail.
 
 Alternatively, dependent packages can be specified on an already created cluster, by setting the cluster's `additional_packages` property, before submitting a job:
 
