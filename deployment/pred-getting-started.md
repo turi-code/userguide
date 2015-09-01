@@ -91,6 +91,6 @@ Additionally, the internal distributed cache communicates between nodes through 
 
 Because EC2 is a multi-tenancy service, we recommend a few best practices to ensure your service and data remain secure.
 
-* Provide SSL credentials when creating your Predictive Service to enable HTTPS as the data flow protocol for your data flow when querying the service.
-* Create a security group in AWS and specify it when configuring your EC2 deployment to restrict access to your Predictive Service.
+* Provide SSL credentials when creating your Predictive Service to enable HTTPS as the protocol for your data flow when querying the service.
+* Create a security group in AWS and specify it when configuring your EC2 deployment through an [``graphlab.deploy.Ec2Config()``](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html#graphlab.deploy.Ec2Config) to restrict access to your Predictive Service.
 * Specify explicit CIDR rules when configuring your EC2 deployment to further restrict access to your Predictive Service.
