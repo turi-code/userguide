@@ -50,7 +50,7 @@ There are additional, optional parameters to [graphlab.deploy.predictive_service
 4. the admin key to use for modifying the deployment
 5. an SSL credential pair for HTTPS
 6. a string value to use as HTTP header Access-Control-Allow-Origin
-7. the port the server will listen to
+7. the administration port the server will listen to (see below)
 
 Print the deployment object to inspect some of these important parameters, such as the information necessary to connect to the deployment from an application and the list of deployed Predictive Objects. This also indicates whether there are any pending changes. To visualize this deployment in GraphLab Canvas, use the .show() method.
 
@@ -63,7 +63,7 @@ Name                  : first
 State Path            : s3://sample-testing/first
 Description           : None
 API Key               : b0a1c056-30b9-4468-9b8d-c07289017228
-CORS origin           : 
+CORS origin           :
 Global Cache State    : enabled
 Load Balancer DNS Name: first-8410747484.us-west-2.elb.amazonaws.com
 
@@ -78,3 +78,19 @@ deployment
 deployment.show()
 ```
 
+#### Port Configuration
+
+A Predictive Service running in EC2 exposes several open ports:
+
+* Query endpoint: A client that queries a model through Predictive Service endpoint can either use HTTP or HTTPS, which requires ports 80 and 443 to be open, respectively.
+* Administration: In order for a GraphLab Create client to be able to administer a Predictive Service, it needs to be able to talk to each node in the deployment. This happens through port 9005 by default, or a custom port if specified as a parameter to [``graphlab.deploy.predictive_service.create()``](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create).
+
+Additionally, the internal distributed cache communicates between nodes through ports 9006 and 19006.
+
+#### Best Practices in AWS
+
+Because EC2 is a multi-tenancy service, we recommend a few best practices to ensure your service and data remain secure.
+
+* Provide SSL credentials when creating your Predictive Service to enable HTTPS as the protocol for your data flow when querying the service.
+* Create a security group in AWS and specify it when configuring your EC2 deployment through an [``graphlab.deploy.Ec2Config()``](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html#graphlab.deploy.Ec2Config) to restrict access to your Predictive Service.
+* Specify explicit CIDR rules when configuring your EC2 deployment to further restrict access to your Predictive Service.
