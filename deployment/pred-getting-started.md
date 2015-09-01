@@ -83,5 +83,14 @@ deployment.show()
 A Predictive Service running in EC2 exposes several open ports:
 
 * Query endpoint: A client that queries a model through Predictive Service endpoint can either use HTTP or HTTPS, which requires ports 80 and 443 to be open, respectively.
-* SSH access: port 22 is open to enable access to the Predictive Service via SSH.
-* Administration: In order for a GraphLab Create client to be able to administer a Predictive Service, it needs to be able to talk to each GLC node in the deployment. This happens through port 9005 by default, or a custom port if specified as a parameter to [``graphlab.deploy.predictive_service.create()``](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create).
+* Administration: In order for a GraphLab Create client to be able to administer a Predictive Service, it needs to be able to talk to each node in the deployment. This happens through port 9005 by default, or a custom port if specified as a parameter to [``graphlab.deploy.predictive_service.create()``](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create).
+
+Additionally, the internal distributed cache communicates between nodes through ports 9006 and 19006.
+
+#### Best Practices in AWS
+
+Because EC2 is a multi-tenancy service, we recommend a few best practices to ensure your service and data remain secure.
+
+* Provide SSL credentials when creating your Predictive Service to enable HTTPS as the data flow protocol for your data flow when querying the service.
+* Create a security group in AWS and specify it when configuring your EC2 deployment to restrict access to your Predictive Service.
+* Specify explicit CIDR rules when configuring your EC2 deployment to further restrict access to your Predictive Service.
