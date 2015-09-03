@@ -4,8 +4,7 @@ GraphLab Create Models are Predictive Objects. In addition to deploying GraphLab
 Create Models, we support Custom Predictive Objects for composing multiple
 Models and GraphLab Create data structures. With Custom Predictive Objects, you
 can deploy arbitrary business logic on top of your Models simply by defining a
-Python function. In this chapter we will focus on using GraphLab Create Models
-with Predictive Services.
+Python function. In this chapter we will demonstrate both the usage of a model as well as a Custom Predictive Object in a Predictive Service.
 
 Let's train a GraphLab Create Model. For the rest of this chapter we will
 utilize this Model when interacting with Predictive Services.
@@ -19,7 +18,7 @@ model = graphlab.popularity_recommender.create(data, 'user', 'movie', 'rating')
 ##### Add a Predictive Object to the deployment
 
 The Predictive Service Deployment's
-[add](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.add.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.add)
+[`add()`](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.add.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.add)
 method stages a Predictive Object for deployment to the cluster.
 
 ```no-highlight
@@ -48,13 +47,42 @@ Pending changes:
 ```
 
 To finish publishing this Predictive Object -- a recommender model -- call the
-[apply_changes](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.apply_changes.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.apply_changes)
+[`apply_changes()`](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.apply_changes.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.apply_changes)
 method. When you call this API, the pending Predictive Objects will be uploaded
 to S3, and the cluster will be notified to download them from S3.
 
 ```no-highlight
 deployment.apply_changes()
 ```
+
+Of course you can deploy more than one Predictive Object. The [`PredictiveService.add`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.add.html) API can be called repeatedly to deploy multiple predictive objects (models or custom predictive functions):
+
+```no-highlight
+deployment.add(name='sim_model', obj=item_similarity_model)
+deployment.add(name='fact_model', obj=factorization_model)
+```
+
+Each object can be queried explicitly and directly, using its name:
+
+```no-highlight
+recs_sim = deployment.query('sim_model',
+                            method='recommend',
+                            data={'users':['Jacob Smith']})
+recs_fact = deployment.query('fact_model',
+                             method='recommend',
+                             data={'users':['Jacob Smith']})
+```
+
+Each deployment of a Predictive Object creates an endpoint for the object, which can be queried directly through HTTP (assuming an example DNS name):
+
+```no-highlight
+http://first-8410747484.us-west-2.elb.amazonaws.com/query/sim_model
+```
+
+```no-highlight
+http://first-8410747484.us-west-2.elb.amazonaws.com/query/fact_model
+```
+
 
 ##### Update an existing Predictive Object
 
@@ -181,6 +209,17 @@ Takes product id and returns two similar products
 None
 ```
 
+To list all currently deployed predictive objects, you can use the following API:
+
+```no-highlight
+print deployment.deployed_predictive_objects
+```
+
+```no-highlight
+{'recommender_one': 2, 'recommender_two': 1}
+```
+
+
 ##### Logging in Custom Query
 
 You may want to do some custom logging in your custom query. We inject a `log`
@@ -265,30 +304,4 @@ Object with the name `get-similar-products`:
 deployment.remove('get-similar-products')
 ```
 
-Note that this call will fail if the model is also serving an existing endpoint (see [chapter about experimentation](pred-experimentation.html)).
-
-##### Working with an Existing Predictive Service Deployment
-
-In some cases, multiple teams or team members may wish to collaborate on a
-shared Predictive Service deployment. Configuring and managing a shared
-deployment is easy. All that is needed to load an existing Predictive Service
-deployment locally into your current GraphLab Create session is to call the
-[load](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.load.html#graphlab.deploy.predictive_service.load)
-method. This method takes the S3 path specified when the deployment was created.
-
-This way, it is easy to have one person on the team create a cluster, and have
-everyone else on the team share that cluster for deploying objects. The person
-that creates the cluster simply notifies the rest of the team of the S3 path for
-the cluster, and everyone else can load the deployment locally to start using
-it.
-
-```no-highlight
-deployment = graphlab.deploy.predictive_service.load(
-    's3://sample-testing/pred-root/first',
-    aws_access_key_id='YOUR_ACCESS_KEY',
-    aws_secret_access_key='YOUR_SERECT_KEY')
-```
-
-If different credentials should be used to load this deployment than those
-already defined in your shell environment, the new credentials can be specified
-as additional parameters to this method call.
+Note that this call will fail if the model is referred to by a policy or an alias (see [chapter about experimentation](pred-experimentation.html)). You can find out whether such a dependency exist by calling [PredictiveService.get_endpoint_dependencies](TBD).

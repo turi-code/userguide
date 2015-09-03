@@ -67,6 +67,7 @@ This is the User Guide for GraphLab Create
         * [Dependencies](deployment/pipeline-dependencies.md)
     * [Predictive Services](deployment/pred-intro.md)
         * [Getting Started](deployment/pred-getting-started.md)
+        * [Launching](deployment/pred-launching.md)
         * [Predictive Objects](deployment/pred-working-with-objects.md)
         * [Querying](deployment/pred-querying.md)
         * [Experimentation](deployment/pred-experimentation.md)
