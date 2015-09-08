@@ -72,6 +72,7 @@ This is the User Guide for GraphLab Create
         * [Querying](deployment/pred-querying.md)
         * [Experimentation](deployment/pred-experimentation.md)
         * [Operations](deployment/pred-operating.md)
+        * [Run Locally](deployment/pred-on-premises.md)
 * [Data Formats and Sources](data_formats_and_sources/intro.md)
     * [Spark RDDs](data_formats_and_sources/spark_integration.md)
     * [SQL Databases](data_formats_and_sources/odbc_integration.md)

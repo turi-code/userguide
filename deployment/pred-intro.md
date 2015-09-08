@@ -1,4 +1,4 @@
-#Introduction to Predictive Services
+# Introduction to Predictive Services
 GraphLab Predictive Services enable straightforward deployment of machine
 learning models as reliable and scalable web services for easy integration into
 predictive applications using a low-latency REST API. With one command, launch a
@@ -16,3 +16,5 @@ The following chapters walk through an end-to-end Predictive Services example, t
 **Experimentation** explains how to handle multiple models within the same scenario, including the definition of policies to serve them behind a single endpoint.
 
 **Operations** provides further details about monitoring and management of the Predictive Service.
+
+**Run Locally** describes how to install a Predictive Service locally on-premises.
