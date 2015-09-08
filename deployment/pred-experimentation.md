@@ -142,3 +142,12 @@ print deployment.get_endpoints()
 |     /query/ab test      | SimpleProbabilityPolicy: {'sim...' |    1    |  Trying ou...  |
 +-------------------------+------------------------------------+---------+----------------+
 ```
+
+##### Available Policies
+
+As of version 1.6 Dato Predictive Services provides two experimentation policies:
+
+* SimpleProbabilityPolicy
+* EpsilonGreedyPolicy
+
+TBD

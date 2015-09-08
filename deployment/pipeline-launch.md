@@ -1,5 +1,7 @@
 # Asynchronous Job Executions
 
+This section describes how to execute a job asynchronously, but on the same machine. Consequently this does not count as a remote or distributed execution, and hence does not depend on Dato Distributed. For the sake of completeness it is still included in this chapter.
+
 Let's start with the "Hello World" of deployment examples: adding two numbers. In the following code, we will do the following:
 
 - Write a simple python function to add two numbers.
@@ -9,7 +11,7 @@ Let's start with the "Hello World" of deployment examples: adding two numbers. I
 #### Local Asynchronous Jobs
 
 In this code snippet, we will create a job which can add two numbers, execute it locally, and get the results (and exceptions if the function failed).
- 
+
 First, create the Python function. Then pass the name and the function keyword arguments that you want to run with into [job.create()](https://dato.com/products/create/docs/generated/graphlab.deploy.job.create.html).
 
 ```python
