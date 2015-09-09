@@ -60,7 +60,7 @@ This is the User Guide for GraphLab Create
     * [Dato Distributed](deployment/pipeline-introduction.md)
         * [Asynchronous Jobs](deployment/pipeline-launch.md)
         * [Installing on Hadoop](deployment/pipeline-hadoop-setup.md)
-        * [EC2 & Hadoop](deployment/pipeline-ec2-hadoop.md)
+        * [Clusters](deployment/pipeline-ec2-hadoop.md)
         * [End-to-End Example](deployment/pipeline-example.md)
         * [Distributed Job Execution](deployment/pipeline-distributed.md)
         * [Monitoring Jobs](deployment/pipeline-monitoring-jobs.md)

@@ -22,11 +22,11 @@ Follow these steps to install Dato Predictive Service:
 
 1. Move the downloaded setup package to the computer you want to install Dato Predictive Service on.
 2. Unzip the file to a temporary folder:
-```no-highlight
+```
 tar zxvf dato_ps_setup_latest.tar.gz
 ```
 3. Create a Predictive Service working directory in the host machine where Predictive Service files (include docker images) will be copied to.
-```no-highlight
+```
 mkdir -p <deployment_path>
 ```
 4. Decide where the Predictive Service runtime data (state files, logs, etc.) will be stored; this could be a network file system, a S3 file path, or an HDFS file path. This path will be used by data scientists to manage the Predictive Service later through the GraphLab Create Python API. A common path is usually a HDFS path, like `hdfs://<hdfs-name-node>:8020/user/<ps-service-user>/dato_predictive_service`
@@ -43,12 +43,12 @@ We will call this path the “ps path”.
  * `remote_user_name`: a user name that can log into the remote machine
  * `pem_file_path`: path to key file required for accessing the remote machine
 7. Run setup, providing the path to your GLC license file:
-```no-highlight
+```
 ./setup_dato_ps.sh /home/name/.graphlab/config
 ```
 
 If the Predictive Service is setup correctly, you should see this message after the script has finished:
-```no-highlight
+```
 Predictive Service has been successfully launched!
 You may check your Predictive Service stats on the load balancer's dashboard:
   open http://<host-name>:9000/stats
@@ -59,7 +59,7 @@ GraphLab Create is required to connect to Dato Predictive Service and deploy/mon
 
 After you have installed GraphLab Create, you can connect to the Dato Predictive Service; In the code sample below remember to replace `ps-path` with your actual ps path specified in installation step 4 above. If this is an HDFS path, you need to have set up your environment to have access to HDFS (either by setting HADOOP_CLASSPATH or HADOOP_CONF_DIR).
 
-```no-highlight
+```
 import graphlab as gl
 ps = gl.deploy.predictive_service.load(“<ps-path>”)
 ps.get_status()
