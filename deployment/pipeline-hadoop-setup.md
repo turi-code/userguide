@@ -7,7 +7,7 @@ If you decide to use Dato Distributed in your own Hadoop cluster, you will first
 ##### GraphLab Create
 We assume that you already downloaded and installed GraphLab Create on a client machine. For more information see [Getting Started](https://dato.com/learn/userguide/install.html).
 
-You will also need a GraphLab Create license file with a valid Dato Distributed license. This can be an installed license file (usually ~/.graphlab/config) or a license file that you download from dato.com.
+You will also need a valid product key, which is contained in the GraphLab Create config file (usually ~/.graphlab/config). You will need to have run GraphLab Create at least once for this file to be created at its default location.
 
 You need to download Dato Distributed from [dato.com](TODO: insert reference). Note that you will need about 400MB of free space to locally store the package.
 
@@ -17,11 +17,10 @@ You install Dato Distributed from a host that can access the cluster, which usua
 The Hadoop version has to be version 2.6.0 or later. You may setup a Hadoop cluster through:
 
 * The [Apache website](http://hadoop.apache.org/docs/r2.6.0/). We support Hadoop 2.6.0 or later.
-* [Cloudera](http://www.cloudera.com/content/cloudera/en/downloads.html), we support
-CDH 5.0 or later.
+* [Cloudera](http://www.cloudera.com/content/cloudera/en/downloads.html), we support CDH 5.0 or later.
 * [Hortonworks](http://hortonworks.com/hdp/downloads/), we support HDP 2.2 or later.
 
-The machine from which you run the Dato Distributed setup needs to be able to access the Hadoop cluster. That means you need to have Java, the Hadoop client, and an appropriate Hadoop configuration in your client machine. Check with your Hadoop administrator to get the Hadoop configuration file.
+The machine running the Dato Distributed setup needs to be able to access the Hadoop cluster. That means you need to have Java, the Hadoop client, and an appropriate Hadoop configuration in your client machine. Check with your Hadoop administrator to get the Hadoop configuration file.
 
 #### Deploy
 After you downloaded the Dato Distributed package you will need to unpack it:

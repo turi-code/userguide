@@ -4,7 +4,7 @@ While providing a convenient and flexible environment for running a Predictive S
 #### Prerequisites
 Predictive Service on-premises uses [Docker](https://www.docker.com/) as its packaging and deployment mechanism. To install Docker on the machine that will host the Predictive Service, please download from https://docs.docker.com/installation/. Make sure to pick the installation that matches the host’s operating system.
 
-Moreover, you will need a valid GraphLab Create license file. A link to download the license is provided to you as part of the download and setup of GraphLab Create. If you have a local GraphLab Create installation the license can also be found as ~/.graphlab/config.
+You will also need a valid product key, which is contained in the GraphLab Create config file (usually ~/.graphlab/config). You will need to have run GraphLab Create at least once for this file to be created at its default location.
 
 ##### OS X
 On OS X the newly introduced Docker Toolbox replaced the boot2docker tool (internally docker-machine still uses boot2docker). Follow the instructions on the Docker website for [creating a Docker VM in Mac OS X](http://docs.docker.com/mac/step_one/). These instructions entail:
@@ -35,7 +35,7 @@ We will call this path the “ps path”.
  * `hostname=localhost` (unless you need to deploy on a different machine, see below)
  * `ps_path`: the path you chose in step ‘4’ above
  * `deployment_path`: the path you chose in step ‘3’ above
- * `hdfs_conf_dir`: optional, needed if you decide to use HDFS as ps path. If you want to use HDFS for storing the Predictive Service's runtime data the setup script needs to know where to find the Hadoop/HDFS configuration files in order to access HDFS. This is the same folder that you would specify to the hadoop client command.
+ * `hdfs_conf_dir`: optional, needed if you decide to use HDFS as ps path. If you want to use HDFS for storing the Predictive Service's runtime data the setup script needs to know where to find the Hadoop/HDFS configuration files in order to access HDFS. This is the same folder that you would specify to the Hadoop client command.
 6. Other parameters that are set to defaults, but might need to be changed for your scenario (also depending on the size of your VirtualBox VM), are:
  * `server_memory`: Memory in MB to be used by the Predictive Service container.
  * `max_cache_memory`: Maximum amount of cache the Predictive Service can use.
