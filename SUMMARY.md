@@ -5,6 +5,8 @@ This is the User Guide for GraphLab Create
 * [Getting started](install.md)
 * [Working with data](sframe/introduction.md)
     * [Tabular data](sframe/tabular-data.md)
+        * [SFrame](sframe/sframe-intro.md)
+        * [Data Manipulation](sframe/data-manipulation.md)
     * [Graph data](sgraph/sgraph.md)
     * [Visualization](sframe/visualization.md)
     * [Feature Engineering](feature-engineering/introduction.md)
