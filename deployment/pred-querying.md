@@ -15,7 +15,7 @@ GraphLab Create session.
 For the example deployment, the code below demonstrates how we query for
 recommendations for user ```Jacob Smith```:
 
-```no-highlight
+```python
 deployment = gl.deploy.predictive_services.load('s3://sample-testing/first')
 recs = deployment.query('recs', method='recommend', data={'users':['Jacob Smith']})
 ```
@@ -114,7 +114,7 @@ PredictiveService methods:
 
 Each of these methods takes both a start and end time parameter to determine the time window from which we want to load logs. For example:
 
-```no-highlight
+```python
 # read in all query logs from yesterday
 import datetime
 now = datetime.datetime.now()

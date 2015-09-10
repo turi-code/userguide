@@ -1,5 +1,4 @@
-#Experimentation
-
+# Experimentation
 A core feature of serving a model as a service in a production environment is the ability to experiment with multiple models and measure their respective success.
 
 The previous chapter [Predictive Objects](https://dato.com/learn/userguide/deployment/pred-working-with-objects.html) describes how to deploy and serve a single Predictive Object through a RESTful endpoint. Beyond that Dato Predictive Services offers interfaces to support model management and experimentation:
@@ -24,12 +23,13 @@ print deployment.get_endpoints()
 ```
 
 ```no-highlight
-+-------------------------+-------+---------+----------------+
-|       endpoint URI      | info  | version |  description   |
-+-------------------------+-------+---------+----------------+
-|    /query/sim_model     | model |    1    |                |
-|   /query/fact_model     | model |    2    |  Just testing  |
-+-------------------------+-------+---------+----------------+
++-----------------+-------+---------+----------------+
+|  endpoint name  | info  | version |  description   |
++-----------------+-------+---------+----------------+
+|    sim_model    | model |    1    |                |
+|   fact_model    | model |    2    |  Just testing  |
++-----------------+-------+---------+----------------+
+
 ```
 
 The _info_ column displays the type of the endpoint, while the _description_ is the string you can optionally provide when adding the model to the Predictive Service deployment.
@@ -63,13 +63,13 @@ print deployment.get_endpoints()
 ```
 
 ```no-highlight
-+-------------------------+------------------------+---------+----------------+
-|       endpoint URI      |         info           | version |  description   |
-+-------------------------+------------------------+---------+----------------+
-|    /query/sim_model     |         model          |    1    |                |
-|   /query/fact_model     |         model          |    2    |  Just testing  |
-|   /query/recommender    | alias for `fact_model` |    2    |                |
-+-------------------------+------------------------+---------+----------------+
++-----------------+------------------------+---------+----------------+
+|  endpoint name  |         info           | version |  description   |
++-----------------+------------------------+---------+----------------+
+|    sim_model    |         model          |    1    |                |
+|   fact_model    |         model          |    2    |  Just testing  |
+|   recommender   | alias for `fact_model` |    2    |                |
++-----------------+------------------------+---------+----------------+
 ```
 
 Subsequent calls to `alias()` with the same alias name (like we did in the example above) will increment the version number of the associated endpoint.
@@ -87,9 +87,9 @@ This does not affect the predictive object that has been served under this alias
 
 #### Experimentation
 
-Experimenting with multiple models usually implies to serve them through one endpoint, with some policy determining which model should be served. Commonly this policy picks a model randomly, with a given probability. Dato Predictive Service provides a predefined policy called ``SimpleProbabilityPolicy`` that you can use to serve a set of models behind one endpoint.
+Experimenting with multiple models usually implies to serve them through one endpoint, with some policy determining which model should be served. Dato Predictive Services provides the ability to add such a policy to a deployment, just like a regular single model, with a name that translates to a single endpoint:
 
-```no-highlight
+```python
 from graphlab.deploy import SimpleProbabilityPolicy
 
 p = SimpleProbabilityPolicy({'sim_model': 0.9, 'fact_model': 0.1})
@@ -98,7 +98,7 @@ ps.add(name='ab test', obj=p, description='Trying out fact_model')
 ps.apply_changes()
 ```
 
-This endpoint will now serve models 'sim_model' for 90% of requests, and 'fact_model' for 10% of requests. (This example assumes you have deployed both models with these names before, as outlined above.)
+This endpoint will now serve models 'sim_model' for 90% of requests, and 'fact_model' for 10% of requests. (This example assumes you have deployed both models with these names before, as outlined above.) For more information about experimentation policies, see below.
 
 The URL schema is no different from serving a single model:
 
@@ -133,21 +133,74 @@ print deployment.get_endpoints()
 ```
 
 ```no-highlight
-+-------------------------+------------------------------------+---------+----------------+
-|       endpoint URI      |                info                | version |  description   |
-+-------------------------+------------------------------------+---------+----------------+
-|    /query/sim_model     |               model                |    1    |                |
-|   /query/fact_model     |               model                |    2    |  Just testing  |
-|   /query/recommender    |        alias for 'ab test'         |    3    |                |
-|     /query/ab test      | SimpleProbabilityPolicy: {'sim...' |    1    |  Trying ou...  |
-+-------------------------+------------------------------------+---------+----------------+
++-----------------+------------------------------------+---------+----------------+
+|  endpoint name  |                info                | version |  description   |
++-----------------+------------------------------------+---------+----------------+
+|    sim_model    |               model                |    1    |                |
+|   fact_model    |               model                |    2    |  Just testing  |
+|   recommender   |        alias for 'ab test'         |    3    |                |
+|     ab test     | SimpleProbabilityPolicy: {'sim...' |    1    |  Trying ou...  |
++-----------------+------------------------------------+---------+----------------+
 ```
 
 ##### Available Policies
 
 As of version 1.6 Dato Predictive Services provides two experimentation policies:
 
-* SimpleProbabilityPolicy
-* EpsilonGreedyPolicy
+* **SimpleProbabilityPolicy**: enables simple A/B testing.
+* **EpsilonGreedyPolicy**: lets you implement a multi-armed bandit.
 
-TBD
+Both are described in the following sections.
+
+##### A/B Testing
+
+Regular A/B testing involves a set of experiments and associated probabilities. Each request to an endpoint is routed to one of the experiments with its associated probability. This is considered a pure _exploration_ approach, as the evaluation of a model's success and the according adjustment of the probabilities happens manually.
+
+In the context of Dato Predictive Services, this methodology is implemented through a ``SimpleProbabilityPolicy`` endpoint. It is instantiated as follows:
+
+```python
+from graphlab.deploy import SimpleProbabilityPolicy
+
+p = SimpleProbabilityPolicy({'sim_model': 0.9, 'fact_model': 0.1})
+```
+
+Any model listed in the dictionary passed to the policy must have been added to the predictive service before. The policy just consolidates them under a new endpoint, with the given probabilities. The object `p` can now be used as a predictive object when calling `add` on a predictive service deployment object.
+
+##### Multi-armed Bandits
+
+The idea of multi-armed bandits is to balance exploration (exposing experiments of unknown quality to the user to evluate them) with exploitation (serving experiences with known, good quality). One of the simplest algorithm to strike this balance is known as the _epsilon-Greedy Algorithm_. Plenty of literature is available to elaborate on the details of the algorithm, so let us just scratch the surface here: epsilon-Greedy decides with a given probability (the value of epsilon) whether to explore or exploit. If the algorithm decides to explore, it randomly picks one of  given set of experiments. If it decides to exploit (1 - epsilon), it picks the experiment that has proven most successful so far, based on the notion of _reward_ that has been assigned to previous results.
+
+Let's look at how to use this policy:
+
+```python
+from graphlab.deploy import EpsilonGreedyPolicy
+
+p = EpsilonGreedyPolicy(['sim_model', 'fact_model'], epsilon=0.1)
+
+ps.add(name='bandit', obj=p, description='Let the best one win')
+ps.apply_changes()
+```
+
+This policy takes two required parameters:
+
+1. a list of predictive objects that should be explored, and
+2. a value for epsilon.
+
+Because this policy includes an exploitation path, it requires to be aware of some notion of success of a model. If you use this policy, you will need to supply feedback for results of queries to the policy's endpoint. Predictive Services already provides an API to submit feedback, based on the unique ID of a query result. The epsilon-greedy policy uses the same mechanism, but expects the specific keyword `reward` that denotes the reward for a query result.
+
+Here is an example, assuming the policy has been deployed according to the previous code snippet. The example uses a method `isSuccessful` which applies some measure of success to the query result (for instance, user engagement).
+
+```python
+r = ps.query('bandit', data={'users':['Jacob Smith']})
+
+...
+
+if isSuccessful(r['response']):
+  ps.feedback(r['uuid'], reward = 1)
+else:
+  ps.feedback(r['uuid'], reward = 0)
+```
+
+The espilon-greedy policy uses the feedback mechanism built into Dato Predictive Services to update the success measure of each predictive object. Specifically it looks for the keyword `reward` and expects a float value for it. Upon receiving such feedback, the policy then updates the average reward of the predictive object that served this request. As you can see, this makes the policy stateful, as it maintains the average rewards of all of its predictive objects.
+
+Over time, the predictive object with the highest rewards will be favored by the exploitation branch of the policy, while it keeps exploring all of its predictive objects equally. This ensures that a different object can emerge as the best one if the success metric (and hence the reward feedback) changes.
