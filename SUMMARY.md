@@ -6,7 +6,7 @@ This is the User Guide for GraphLab Create
 * [Working with data](sframe/introduction.md)
     * [Tabular data](sframe/tabular-data.md)
     * [Graph data](sgraph/sgraph.md)
-    * [Visualization](sframe/visualization.md)
+    * [Visualization](vis/visualization.md)
     * [Feature Engineering](feature-engineering/introduction.md)
       * Numeric Features
         * [Quadratic Features](feature-engineering/quadratic_features.md)
