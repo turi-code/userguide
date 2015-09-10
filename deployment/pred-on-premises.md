@@ -2,7 +2,7 @@
 While providing a convenient and flexible environment for running a predictive service, not all scenarios are suited for a cloud-based deployment. For reasons of privacy, security, or cost you might prefer to host your predictive service locally, on a machine you own and control. We call this a Predictive Services on-premises deployment.
 
 #### Prerequisites
-You need to download Dato Predictive Services on-premises from [dato.com](TODO: insert reference). Note that you will need about 400MB of free space to locally store the package.
+You need to download the [Dato Predictive Services on-premises package](https://d1wdo1t4yti371.cloudfront.net/dato_ps_setup_latest.tar.gz). Note that you will need about 800MB of free space to locally store the package.
 
 Predictive Services on-premises uses [Docker](https://www.docker.com/) as its packaging and deployment mechanism. To install Docker on the machine that will host the predictive service, please download from https://docs.docker.com/installation/. Make sure to pick the installation that matches the host’s operating system.
 
