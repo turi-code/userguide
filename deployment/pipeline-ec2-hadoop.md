@@ -105,6 +105,8 @@ def add(x, y):
 job = gl.deploy.job.create(add, environment=c, x=1, y=2)
 ```
 
+Note that the parameter names in the kwargs of the `job.create` call need to match the parameter names in the definition of your method (`x` and `y` in this example).
+
 The syntax for getting job status, metrics, and results are the same for all jobs. You can invoke [`job.get_status`](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_status.html)
 to get the status, [`job.get_metrics`](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_metrics.html) to get job metrics, and [`job.get_results`](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_results.html) to get job results.
 
@@ -121,7 +123,8 @@ Jobs can be cancelled using [job.cancel()](https://dato.com/products/create/docs
 ```python
 job.cancel()
 ```
-For Hadoop-specific errors, you can use the [job.get_error()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_error.html) API.
+
+For Hadoop-specific job failures (for instance, preemption), you can use the [job.get_error()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_error.html) API.
 
 ** EC2 Notes **
 

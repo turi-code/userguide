@@ -7,12 +7,7 @@ Let's start with the "Hello World" of deployment examples: adding two numbers. I
 - Write a simple python function to add two numbers.
 - Execute the function asynchronously on your local machine.
 
-
-#### Local Asynchronous Jobs
-
-In this code snippet, we will create a job which can add two numbers, execute it locally, and get the results (and exceptions if the function failed).
-
-First, create the Python function. Then pass the name and the function keyword arguments that you want to run with into [job.create()](https://dato.com/products/create/docs/generated/graphlab.deploy.job.create.html).
+First, let's create the Python function. Then pass the name and the function keyword arguments that you want to run with into [job.create()](https://dato.com/products/create/docs/generated/graphlab.deploy.job.create.html).
 
 ```python
 import graphlab as gl
@@ -23,6 +18,8 @@ def add(x, y):
 # Execute the job.
 job = gl.deploy.job.create(add, x=1, y=1)
 ```
+
+Note that the parameter names in the kwargs of the `job.create` call need to match the parameter names in the definition of your method (`x` and `y` in this example).
 
 To get the results of this execution, simply call [job.get_results()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_results.html).
 

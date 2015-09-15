@@ -11,7 +11,7 @@ You will also need a valid product key, which is contained in the GraphLab Creat
 
 You need to download Dato Distributed from [dato.com](TODO: insert reference). Note that you will need about 400MB of free space to locally store the package.
 
-You install Dato Distributed from a host that can access the cluster, which usually means to use the hadoop client tool, together with the appropriate YARN configuration files. After downloading the Dato Distributed package, you unpack it on this machine. Currently Dato Distributed can only be setup from a Mac or Linux machine (not from a Windows machine).
+You install Dato Distributed from a host that can access the cluster, which usually means to use the Hadoop client tool, together with the appropriate YARN configuration files. After downloading the Dato Distributed package, you unpack it on this machine. Currently Dato Distributed can only be setup from a Mac or Linux machine (not from a Windows machine).
 
 ##### Hadoop
 The Hadoop version has to be version 2.6.0 or later. You may setup a Hadoop cluster through:
