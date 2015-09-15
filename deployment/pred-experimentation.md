@@ -201,6 +201,6 @@ else:
   ps.feedback(r['uuid'], reward = 0)
 ```
 
-The espilon-greedy policy uses the feedback mechanism built into Dato Predictive Services to update the success measure of each predictive object. Specifically it looks for the keyword `reward` and expects a float value for it. Upon receiving such feedback, the policy then updates the average reward of the predictive object that served this request. As you can see, this makes the policy stateful, as it maintains the average rewards of all of its predictive objects.
+The epsilon-greedy policy uses the feedback mechanism built into Dato Predictive Services to update the success measure of each predictive object. Specifically it looks for the keyword `reward` and expects a float value for it. Upon receiving such feedback, the policy then updates the average reward of the predictive object that served this request. As you can see, this makes the policy stateful, as it maintains the average rewards of all of its predictive objects.
 
 Over time, the predictive object with the highest rewards will be favored by the exploitation branch of the policy, while it keeps exploring all of its predictive objects equally. This ensures that a different object can emerge as the best one if the success metric (and hence the reward feedback) changes.

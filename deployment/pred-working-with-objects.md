@@ -179,26 +179,26 @@ print deployment.deployed_predictive_objects
 
 Parameters that are passed to or returned by a Custom Predictive Object need to be JSON serializable. This requirement puts a restriction on possible types for such parameters, especially if you use a Python package that returns non uniform float types (like numpy.float64).
 
-#### Logging in Custom Query
+##### Logging in a Custom Predictive Object
 
-You may want to do some custom logging in your custom query. We inject a `log` method into your custom query function just for this purpose. Any information logged using this function would automatically be written to a custom log file. The log file is rotated periodically and shipped to the same S3 log location you specified when creating your Predictive Service, exactly like the
-query and feedback logs.
+You may want to do some custom logging in your Custom Predictive Object. We inject a `log` method into your function just for this purpose. Any information logged using this function would automatically be written to a custom log file. The log file is rotated periodically and shipped to the same S3 log location you specified when creating your Predictive Service, exactly like the
+query and feedback logs (see [Logging and Feedback](pred-logging-feedback.md)).
 
-Here is an example of logging from within your custom query:
+Here is an example of logging from within your custom method:
 
-```no-highlight
-def my_query(parm1, param2):
+```python
+def my_query(param1, param2):
     # log the information
     my_query.log(info='some information')
     # other logic continues
 ```
 
-If you want to inspect the custom log immediately, you may call the Predictive Service's
-[flush_logs](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.flush_logs.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.flush_logs) method to force logs to be shipped to your S3 log path.
+If you want to inspect the custom log immediately, you can call the Predictive Service's
+[`flush_logs`](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.flush_logs.html) method to force logs to be shipped to your S3 log path.
 
-To consume the log, see the [log consumption](pred-querying.md#ps_logs) section in this user guide.
+To consume the log, see the [Logging and Feedback](pred-logging-feedback.md) section in this user guide.
 
-#### Python Package Dependencies
+##### Python Package Dependencies
 
 If your custom logic depends on other Python packages, you should use the `@graphlab.deploy.required_packages` decorator for your custom query function.
 
@@ -213,7 +213,7 @@ def generate_names(num_names):
 
 Notice the format for the required_packages parameter is consistent with the format required by the [Python distutils module](https://docs.python.org/2.7/library/distutils.html).
 
-#### Dependent Python Files
+##### Dependent Python Files
 
 If your custom query is defined in another Python file, or if it depends on other Python files you’ve created, you may instruct GraphLab Create to package those files for you by using the @graphlab.deploy.required_files decorator.
 
