@@ -1,8 +1,8 @@
 # Frequent Pattern Mining
 
-A frequent pattern is a substructure that appears frequently in a data set.
+A frequent pattern is a substructure that appears frequently in a dataset.
 Finding the frequent patterns of a dataset is a essential step in data mining
-tasks such as feature extraction and association rule learning.  The frequent
+tasks such as feature extraction and association rule learning. The frequent
 pattern mining toolkit provides tools for extracting and analyzing frequent
 patterns in pattern data.
 
@@ -108,22 +108,22 @@ occur together in the entire dataset. In this example, the pattern
 *[CoffeeEclair, HotCoffee, ApplePie, AlmondTwist]* occurred *860* times in the
 training data.
 
-
-###### Minimum support 
-
 A **frequent pattern** is a set of items with a support greater than
 user-specified **minimum support** threshold.  However, there is significant
 redundancy in mining frequent patterns; every subset of a frequent pattern is
-also frequent (e.g. *Bread* must be frequent if *Bread*, *Butter* is frequent).
-Mining **closed frequent patterns** partially avoids this redundancy by mining
-only frequent patterns with no superset of the same support. One can change the
-minimum support above which patterns are considered frequent using the
+also frequent (e.g. *CoffeeEclair* must be frequent if *CoffeeEclair*, 
+*HotCoffee* is frequent). The frequent pattern mining toolkit avoids this 
+redundancy by mining the **closed frequent patterns**: frequent patterns with 
+no superset of the same support. 
+
+###### Minimum support 
+One can change the minimum support above which patterns are considered frequent using the
 **min_support** setting:
  
 
 ```python
 model = gl.frequent_pattern_mining.create(train, 'Item', 
-                features=['Receipt'], min_support = 20)
+                features=['Receipt'], min_support = 5000)
 print model
 ```
 ```no-highlight
@@ -137,16 +137,16 @@ Min pattern length            : 1
 
 Most frequent patterns
 ----------------------
-['CoffeeEclair']              : 6554
-['HotCoffee']                 : 6199
-['TuileCookie']               : 6028
-['CherryTart']                : 5602
-['ApricotDanish']             : 5584
-['StrawberryCake']            : 5513
-['OrangeJuice']               : 5481
-['GongolaisCookie']           : 5422
-['MarzipanCookie']            : 5416
-['BerryTart']                 : 5137
+['CoffeeEclair']              : 6582
+['HotCoffee']                 : 6132
+['TuileCookie']               : 6011
+['StrawberryCake']            : 5624
+['CherryTart']                : 5613
+['ApricotDanish']             : 5582
+['OrangeJuice']               : 5496
+['GongolaisCookie']           : 5437
+['MarzipanCookie']            : 5378
+['BerryTart']                 : 5087
 ```
 
 ###### Top-k frequent patterns. 
@@ -169,22 +169,22 @@ Class                         : FrequentPatternMiner
 
 Model fields
 ------------
-Min support                   : 20
-Max patterns                  : 100
+Min support                   : 1
+Max patterns                  : 10
 Min pattern length            : 1
 
 Most frequent patterns
 ----------------------
-['CoffeeEclair']              : 6554
-['HotCoffee']                 : 6199
-['TuileCookie']               : 6028
-['CherryTart']                : 5602
-['ApricotDanish']             : 5584
-['StrawberryCake']            : 5513
-['OrangeJuice']               : 5481
-['GongolaisCookie']           : 5422
-['MarzipanCookie']            : 5416
-['BerryTart']                 : 5137
+['CoffeeEclair']              : 6582
+['HotCoffee']                 : 6132
+['TuileCookie']               : 6011
+['StrawberryCake']            : 5624
+['CherryTart']                : 5613
+['ApricotDanish']             : 5582
+['OrangeJuice']               : 5496
+['GongolaisCookie']           : 5437
+['MarzipanCookie']            : 5378
+['BerryTart']                 : 5087
 ```
 
 **Note**: The algorithm for extracting the top-k most frequent occurring
@@ -194,9 +194,9 @@ patterns can be severely sped up with a good estimate for the lower bound on
 
 ###### Minimum Length 
 
-In practice, patterns of length *1* may not very useful. There might be a need
-to search for patterns that are are of a certain length. We can do so with the
-**min_length** parameter.
+Typically, the most frequent patterns are of length *1*. However, in practice, 
+patterns of length *1* may not very useful. To mine patterns greater than 
+a minimum length, we use the **min_length** parameter:
 
 
 ```python
@@ -205,6 +205,8 @@ model = gl.frequent_pattern_mining.create(train, 'Item',
 print model
 ```
 ```no-highlight
+Class                         : FrequentPatternMiner
+
 Model fields
 ------------
 Min support                   : 1
@@ -213,58 +215,58 @@ Min pattern length            : 5
 
 Most frequent patterns
 ----------------------
-['LemonLemonade', 'LemonCookie', 'RaspberryCookie', 'RaspberryLemonade', 'GreenTea']: 514
-['CoffeeEclair', 'HotCoffee', 'ApplePie', 'AlmondTwist', 'LemonCookie']: 9
-['CoffeeEclair', 'HotCoffee', 'ApplePie', 'AlmondTwist', 'BottledWater']: 9
-['CoffeeEclair', 'HotCoffee', 'ApplePie', 'AlmondTwist', 'VanillaFrappuccino']: 9
-['CoffeeEclair', 'HotCoffee', 'NapoleonCake', 'ApplePie', 'AlmondTwist']: 8
-['CoffeeEclair', 'HotCoffee', 'ApricotDanish', 'ApplePie', 'AlmondTwist']: 8
-['CoffeeEclair', 'HotCoffee', 'MarzipanCookie', 'ApplePie', 'AlmondTwist']: 8
-['CoffeeEclair', 'HotCoffee', 'ApplePie', 'AlmondTwist', 'LemonLemonade']: 8
-['AppleDanish', 'AppleTart', 'AppleCroissant', 'GreenTea', 'CherrySoda']: 7
-['BerryTart', 'AppleDanish', 'AppleTart', 'AppleCroissant', 'CherrySoda']: 7
+['LemonCookie', 'LemonLemonade', 'RaspberryCookie', 'RaspberryLemonade', 'GreenTea']: 1256
+['CoffeeEclair', 'HotCoffee', 'VanillaFrappuccino', 'ApplePie', 'AlmondTwist']: 21
+['CoffeeEclair', 'HotCoffee', 'ApplePie', 'AlmondTwist', 'VanillaMeringue']: 21
+['CoffeeEclair', 'HotCoffee', 'ApplePie', 'AlmondTwist', 'LemonTart']: 20
+['CoffeeEclair', 'HotCoffee', 'NapoleonCake', 'ApplePie', 'AlmondTwist']: 19
+['CoffeeEclair', 'HotCoffee', 'MarzipanCookie', 'ApplePie', 'AlmondTwist']: 17
+['CoffeeEclair', 'HotCoffee', 'ApplePie', 'AlmondTwist', 'CherrySoda']: 17
+['CoffeeEclair', 'HotCoffee', 'ApplePie', 'AlmondTwist', 'LemonLemonade']: 17
+['CoffeeEclair', 'HotCoffee', 'GongolaisCookie', 'ApplePie', 'AlmondTwist']: 16
+['CoffeeEclair', 'HotCoffee', 'CherryTart', 'ApplePie', 'AlmondTwist']: 16
 ```
 
 **Note**: The three parameters *min_support*, *max_patterns*, and *min_length*
-can be combined to find patterns that satisfy all conditions.
+can be combined to find patterns satisfying all conditions.
 
 ###### Extracting Features
 
 Using the set of closed patterns, we can convert pattern data to binary
-features vectors.  These feature vectors can be used for other machine learning
-tasks, such as clustering or classification. For each pattern $$x$$, the j-th
+features vectors. These feature vectors can be used for other machine learning
+tasks, such as clustering or classification. For each input pattern $$x$$, the j-th
 extracted feature $$f_x[j]$$ is a binary indicator of whether the j-th closed
 pattern is contained in $$x$$.
 
 
 ```python
 model = gl.frequent_pattern_mining.create(train, 'Item', 
-                features=['Receipt'], min_length = 5)
-features = model.extract_features()
+                features=['Receipt'])
+features = model.extract_features(test)
 ```
 ```no-highlight
 Columns:
 	Receipt	int
 	extracted_features	array
 
-Rows: 73492
+Rows: 15000
 
 Data:
 +---------+-------------------------------+
 | Receipt |       extracted_features      |
 +---------+-------------------------------+
-|  21855  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
 |  63664  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
-|   7899  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
-|  25263  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
-|  30621  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
-|  43116  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
-|  27112  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
-|  26319  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
-|  26439  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
 |  62361  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
+|  66110  | [0.0, 0.0, 1.0, 0.0, 0.0, ... |
+|  61406  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
+|  69188  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
+|  65762  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
+|  74562  | [0.0, 1.0, 0.0, 0.0, 0.0, ... |
+|  66750  | [0.0, 0.0, 0.0, 0.0, 0.0, ... |
+|  60908  | [1.0, 0.0, 0.0, 0.0, 0.0, ... |
+|  62213  | [0.0, 1.0, 0.0, 1.0, 0.0, ... |
 +---------+-------------------------------+
-[73492 rows x 2 columns]
+[15000 rows x 2 columns]
 ```
 
 Once the features are extracted, we can use them downstream in other
@@ -313,47 +315,46 @@ Columns:
 	prefix support	int
 	joint support	int
 
-Rows: 39279
+Rows: 15000
 
 Data:
-+---------+-------------------+----------------------+-----------------+----------------+
-| Receipt |       prefix      |      prediction      |    confidence   | prefix support |
-+---------+-------------------+----------------------+-----------------+----------------+
-|  63664  |  [ChocolateCake]  |  [ChocolateCoffee]   |  0.41842000794  |      5038      |
-|   7899  |  [SingleEspresso] |    [CoffeeEclair]    |  0.346368715084 |      4117      |
-|  25263  |   [TruffleCake]   |  [GongolaisCookie]   |  0.421684296176 |      4916      |
-|  30621  |         []        |    [CoffeeEclair]    | 0.0891797746694 |     73492      |
-|  43116  |    [CherryTart]   |   [ApricotDanish]    |  0.461085326669 |      5602      |
-|  26319  |    [OperaCake]    |     [CherryTart]     |  0.424884049203 |      4959      |
-|   5288  |    [CasinoCake]   |   [ChocolateCake]    |  0.384816184468 |      4597      |
-|  19584  |   [AppleDanish]   |   [AppleCroissant]   |  0.330241640225 |      4097      |
-|  21925  | [CheeseCroissant] |    [OrangeJuice]     |  0.416700201207 |      4970      |
-|  18357  |   [WalnutCookie]  | [VanillaFrappuccino] |  0.331369661267 |      4074      |
-+---------+-------------------+----------------------+-----------------+----------------+
++---------+------------------+----------------+----------------+----------------+
+| Receipt |      prefix      |   prediction   |   confidence   | prefix support |
++---------+------------------+----------------+----------------+----------------+
+|  63664  |        []        | [CoffeeEclair] |     0.1097     |     60000      |
+|  62361  |   [OperaCake]    |  [CherryTart]  | 0.531376518219 |      4940      |
+|  66110  | [ApricotDanish]  |  [CherryTart]  | 0.574883554282 |      5582      |
+|  61406  |        []        | [CoffeeEclair] |     0.1097     |     60000      |
+|  69188  | [ApricotDanish]  |  [CherryTart]  | 0.574883554282 |      5582      |
+|  65762  |        []        | [CoffeeEclair] |     0.1097     |     60000      |
+|  74562  |   [HotCoffee]    | [CoffeeEclair] | 0.306914546641 |      6132      |
+|  66750  |   [OperaCake]    |  [CherryTart]  | 0.531376518219 |      4940      |
+|  60908  | [MarzipanCookie] | [TuileCookie]  |  0.5621048717  |      5378      |
+|  62213  | [StrawberryCake] | [NapoleonCake] | 0.464971550498 |      5624      |
++---------+------------------+----------------+----------------+----------------+
 +---------------+
 | joint support |
 +---------------+
-|      2108     |
-|      1426     |
-|      2073     |
-|      6554     |
-|      2583     |
-|      2107     |
-|      1769     |
-|      1353     |
-|      2071     |
-|      1350     |
+|      6582     |
+|      2625     |
+|      3209     |
+|      6582     |
+|      3209     |
+|      6582     |
+|      1882     |
+|      2625     |
+|      3023     |
+|      2615     |
 +---------------+
-[39279 rows x 6 columns]
+[15000 rows x 6 columns]
 ```
-
 
 **Note**: If the number of patterns extracted is large, then prediction could
 potentially be a slow operation. 
 
 ##### Additional Features
 
-We will now go over some more advanced options with the linear regression
+We will now go over some more advanced options with the frequent pattern mining
 module. This includes advanced options for pattern mining, model
 interpretation, extracting features, and making predictions via rule mining.
  
