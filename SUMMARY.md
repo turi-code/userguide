@@ -58,6 +58,7 @@ This is the User Guide for GraphLab Create
         * [Making recommendations](recommender/making-recommendations.md)
         * [Finding similar items](recommender/finding-similar-items.md)
     * [Churn prediction](churn_prediction/churn-prediction.md)
+	  * [Frequent Pattern Mining](pattern_mining/frequent-pattern-mining.md)
     * [Sentiment analysis](sentiment_analysis/introduction.md)
         * [Applying a sentiment classifier](sentiment_analysis/sentiment-analysis.md)
         * [Product sentiment analysis and review data](sentiment_analysis/product-sentiment.md)
