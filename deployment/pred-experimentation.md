@@ -18,7 +18,7 @@ Each deployed Predictive Object can be queried through its associated endpoint, 
 
 Besides Predictive Objects endpoints can also be backed by an _alias_ or a _policy_, as explained below. At any point you can retrieve the list of all active endpoints in your Predictive Service through the [`PredictiveService.get_endpoints()`](TBD) API:
 
-```no-highlight
+```python
 print deployment.get_endpoints()
 ```
 
@@ -38,14 +38,14 @@ The _info_ column displays the type of the endpoint, while the _description_ is 
 
 When developing an application that consumes the predictive service, it is desirable to maintain a single endpoint physical endpoint that can be redirected to different models. Hence the application code does not need to be changed when testing and comparing multiple models. Dato Predictive Service provides the concept of an _alias_:
 
-```no-highlight
+```python
 deployment.alias('recommender', 'sim_model')
 deployment.apply_changes();
 ```
 
 This call creates a new endpoint ending in ``recommender``, serving the model ``sim_model``. This allows you to switch the underlying model without having to re-deploy any predictive objects. For example, you can replace ``fact_model`` by ``sim_model`` without changing the URI path ``/query/recommender`` in your application:
 
-```no-highlight
+```python
 deployment.alias('recommender', 'fact_model')
 deployment.apply_changes();
 ```
@@ -58,7 +58,7 @@ http://first-8410747484.us-west-2.elb.amazonaws.com/query/recommender
 
 Aliases show up in the list of the Predictive Service's endpoints:
 
-```no-highlight
+```python
 print deployment.get_endpoints()
 ```
 
@@ -68,7 +68,7 @@ print deployment.get_endpoints()
 +-----------------+------------------------+---------+----------------+
 |    sim_model    |         model          |    1    |                |
 |   fact_model    |         model          |    2    |  Just testing  |
-|   recommender   | alias for `fact_model` |    2    |                |
+|   recommender   | alias for 'fact_model' |    2    |                |
 +-----------------+------------------------+---------+----------------+
 ```
 
@@ -78,7 +78,7 @@ The predictive object the alias is created for needs to exist in the Predictive 
 
 An alias can be removed from a Predictive Service like a Custom Predictive Object:
 
-```no-highlight
+```python
 deployment.remove('recommender')
 deployment.apply_changes();
 ```
@@ -115,20 +115,20 @@ curl -X POST
 
 Also the GLC query API is the same as for any other predictive object:
 
-```no-highlight
+```python
 deployment.query('ab test', method='recommend', data={ 'users': [ 'Jacob Smith' ] })
 ```
 
 Of course you can still query each model directly using its ``.../query/<modelname>`` URL. Moreover you can point an alias to a policy:
 
-```no-highlight
+```python
 ps.alias('recommender', 'ab test')
 ps.apply_changes()
 ```
 
 The endpoint list contains the policy as well as the new alias:
 
-```no-highlight
+```python
 print deployment.get_endpoints()
 ```
 

@@ -101,7 +101,7 @@ curl -X POST -d '{"api_key": "7a99ccbf-3f51-4c5a-bf32-c03a6f07ecd2",
                     "data": { "users": [ "Jacob Smith" ] }
                     }
                   }'
-     http://first-1793598482.us-west-2.elb.amazonaws.com/data/recs
+     http://first-1793598482.us-west-2.elb.amazonaws.com/query/recs
 ```
 
 #### Shutdown the Predictive Service

@@ -73,6 +73,7 @@ http://first-8410747484.us-west-2.elb.amazonaws.com/query/fact_model
 ```
 
 
+
 #### Update an existing Predictive Object
 
 The Predictive Service Deployment's
@@ -90,7 +91,7 @@ Often times, you want to be able to include some additional logic with your pred
 
 Let's look at an example. Suppose you want to take as input a product ID and recommend similar products to a user. You have already trained a nearest neighbor model that you want to use, but the input from your website is simply a product ID, so you need to join the product ID with other information in your database before feeding the product information to the model. Let's say we have an SFrame that captures production information:
 
-```no-highlight
+```python
 import graphlab as gl
 products = gl.SFrame({
     'id'        :[1,    2,    3],
@@ -100,13 +101,13 @@ products = gl.SFrame({
 
 And we have trained a nearest neighbor model on the products:
 
-```no-highlight
+```python
 nn_m = gl.nearest_neighbors.create(products, label='id')
 ```
 
 Now in order to be able to take a product ID as input, query your nearest neighbor model and return similar products, you can define a custom query function:
 
-```no-highlight
+```python
 def recommend_similar_products(product_id):
     ''' Takes product id and returns two similar products
 
@@ -131,7 +132,7 @@ Now add the custom Predictive Object to your Predictive Service with the
 
 Given an existing Predictive Service deployment, and a handle to it (by way of a variable named "deployment"), the snippet below demonstrates how you would add your own custom logic to the Predictive Service deployment:
 
-```no-highlight
+```python
 deployment.add('get-similar-products', recommend_similar_products,
                description='Get two similar products given a product id')
 ```
@@ -140,20 +141,29 @@ In fact, what we've done is simply to define a query function and add it to our 
 
 Before you deploy your new custom query to production, it's a good idea to do a local test of the query using [test_query](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.test_query.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.test_query). This method runs your query locally, but simulates the actual end-to-end flow of serializing inputs, running the query and returning the serialized result.
 
-```no-highlight
+```python
 deployment.test_query('get-similar-products', product_id=1)
 ```
 
 After you are done, deploy to production and run the query:
 
-```no-highlight
+```python
 deployment.apply_changes()
 deployment.query('get-similar-products', product_id=1)
 ```
 
-To help the consumer of your custom query, the doc string for your query is automatically extracted from your custom query function. You can get the doc string back via the `get_doc_string()` API:
+Like for a regular model you can use the HTTP endpoint directly to query the custom predictive object. In the POST body you reference the API key as well as the method's parameter name and value:
 
 ```no-highlight
+curl -X POST -d '{"api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
+                  "data": { "product_id": 1 }
+                 }'
+     http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
+```
+
+To help the consumer of your custom query, the doc string for your query is automatically extracted from your custom query function. You can get the doc string back via the `get_doc_string()` API:
+
+```python
 print deployment.describe('get-similar-products')
 ```
 
