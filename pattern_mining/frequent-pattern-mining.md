@@ -11,7 +11,9 @@ patterns in pattern data.
 Let us look a simple example of receipt data from a bakery. The dataset
 consists of items like *ApplePie* and *GanacheCookie*. The task is to identify
 sets of items that are frequently bought together. The dataset consists of
-*266209 rows* and *6 columns* which look like the following.
+*266209 rows* and *6 columns* which look like the following. The dataset was
+constructed by modifying the [Extended BAKERY
+dataset.](https://wiki.csc.calpoly.edu/datasets/wiki/ExtendedBakery).
 
 ```no-highlight
 Data:
@@ -52,7 +54,8 @@ Here is a simple end-to-end example:
 import graphlab as gl
 
 # Load the dataset 
-bakery_sf = gl.SFrame("http://s3.amazonaws.com/dato-datasets/bakery.sf")
+train = gl.SFrame("http://s3.amazonaws.com/dato-datasets/bakery_train.sf")
+test = gl.SFrame("http://s3.amazonaws.com/dato-datasets/bakery_test.sf")
 
 # Make a train-test split.
 train, test = bakery_sf.random_split(0.8)
@@ -88,16 +91,16 @@ print patterns
 +-------------------------------------------------------------+---------+
 |                           pattern                           | support |
 +-------------------------------------------------------------+---------+
-|       [CoffeeEclair, HotCoffee, ApplePie, AlmondTwist]      |   860   |
-| [LemonLemonade, LemonCookie, RaspberryCookie, RaspberryL... |   775   |
-| [LemonLemonade, RaspberryCookie, RaspberryLemonade, Gree... |   667   |
-| [LemonCookie, RaspberryCookie, RaspberryLemonade, GreenTea] |   646   |
-|   [LemonLemonade, LemonCookie, RaspberryCookie, GreenTea]   |   641   |
-|  [LemonLemonade, LemonCookie, RaspberryLemonade, GreenTea]  |   635   |
-|     [AppleDanish, AppleTart, AppleCroissant, CherrySoda]    |   623   |
-| [LemonLemonade, LemonCookie, RaspberryCookie, RaspberryL... |   514   |
-|     [CherryTart, ApricotDanish, OperaCake, WalnutCookie]    |    37   |
-|     [CherryTart, ApricotDanish, OperaCake, AppleDanish]     |    33   |
+|       [CoffeeEclair, HotCoffee, ApplePie, AlmondTwist]      |   1671  |
+| [LemonCookie, LemonLemonade, RaspberryCookie, RaspberryL... |   1550  |
+| [LemonLemonade, RaspberryCookie, RaspberryLemonade, Gree... |   1257  |
+| [LemonCookie, LemonLemonade, RaspberryCookie, RaspberryL... |   1256  |
+|     [AppleTart, AppleDanish, AppleCroissant, CherrySoda]    |   1227  |
+|     [CherryTart, ApricotDanish, OperaCake, ApricotTart]     |    58   |
+|     [CherryTart, ApricotDanish, OperaCake, AppleDanish]     |    56   |
+|   [CherryTart, ApricotDanish, GongolaisCookie, OperaCake]   |    54   |
+|    [CherryTart, ApricotDanish, OperaCake, VanillaEclair]    |    53   |
+|    [CherryTart, ApricotDanish, OperaCake, LemonLemonade]    |    53   |
 +-------------------------------------------------------------+---------+
 [500 rows x 2 columns]
 ```
@@ -138,12 +141,12 @@ Min pattern length            : 1
 Most frequent patterns
 ----------------------
 ['CoffeeEclair']              : 6582
-['HotCoffee']                 : 6132
+['HotCoffee']                 : 6131
 ['TuileCookie']               : 6011
 ['StrawberryCake']            : 5624
 ['CherryTart']                : 5613
 ['ApricotDanish']             : 5582
-['OrangeJuice']               : 5496
+['OrangeJuice']               : 5495
 ['GongolaisCookie']           : 5437
 ['MarzipanCookie']            : 5378
 ['BerryTart']                 : 5087
@@ -161,7 +164,7 @@ large initial minimum support bound to speed up the mining.
 
 ```python
 model = gl.frequent_pattern_mining.create(train, 'Item', 
-                features=['Receipt'], max_patterns = 10)
+                features=['Receipt'], max_patterns = 5)
 print model
 ```
 ```no-highlight
@@ -170,21 +173,16 @@ Class                         : FrequentPatternMiner
 Model fields
 ------------
 Min support                   : 1
-Max patterns                  : 10
+Max patterns                  : 5
 Min pattern length            : 1
 
 Most frequent patterns
 ----------------------
 ['CoffeeEclair']              : 6582
-['HotCoffee']                 : 6132
+['HotCoffee']                 : 6131
 ['TuileCookie']               : 6011
 ['StrawberryCake']            : 5624
 ['CherryTart']                : 5613
-['ApricotDanish']             : 5582
-['OrangeJuice']               : 5496
-['GongolaisCookie']           : 5437
-['MarzipanCookie']            : 5378
-['BerryTart']                 : 5087
 ```
 
 **Note**: The algorithm for extracting the top-k most frequent occurring
@@ -321,13 +319,13 @@ Data:
 +---------+------------------+----------------+----------------+----------------+
 | Receipt |      prefix      |   prediction   |   confidence   | prefix support |
 +---------+------------------+----------------+----------------+----------------+
-|  63664  |        []        | [CoffeeEclair] |     0.1097     |     60000      |
+|  63664  |        []        | [CoffeeEclair] | 0.109701828364 |     59999      |
 |  62361  |   [OperaCake]    |  [CherryTart]  | 0.531376518219 |      4940      |
 |  66110  | [ApricotDanish]  |  [CherryTart]  | 0.574883554282 |      5582      |
-|  61406  |        []        | [CoffeeEclair] |     0.1097     |     60000      |
+|  61406  |        []        | [CoffeeEclair] | 0.109701828364 |     59999      |
 |  69188  | [ApricotDanish]  |  [CherryTart]  | 0.574883554282 |      5582      |
-|  65762  |        []        | [CoffeeEclair] |     0.1097     |     60000      |
-|  74562  |   [HotCoffee]    | [CoffeeEclair] | 0.306914546641 |      6132      |
+|  65762  |        []        | [CoffeeEclair] | 0.109701828364 |     59999      |
+|  74562  |   [HotCoffee]    | [CoffeeEclair] |  0.3069646061  |      6131      |
 |  66750  |   [OperaCake]    |  [CherryTart]  | 0.531376518219 |      4940      |
 |  60908  | [MarzipanCookie] | [TuileCookie]  |  0.5621048717  |      5378      |
 |  62213  | [StrawberryCake] | [NapoleonCake] | 0.464971550498 |      5624      |
@@ -346,13 +344,13 @@ Data:
 |      3023     |
 |      2615     |
 +---------------+
-[15000 rows x 6 columns]
+[15001 rows x 6 columns]
 ```
 
 **Note**: If the number of patterns extracted is large, then prediction could
 potentially be a slow operation. 
 
-##### Additional Features
+##### Accessing Model Attributes 
 
 We will now go over some more advanced options with the frequent pattern mining
 module. This includes advanced options for pattern mining, model
