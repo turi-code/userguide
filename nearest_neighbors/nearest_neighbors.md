@@ -3,15 +3,15 @@ The GraphLab Create
 [nearest neighbors toolkit](https://dato.com/products/create/docs/graphlab.toolkits.nearest_neighbors.html)
 is used to find the rows in a data
 table that are most similar to a query row. This is a two-stage process,
-analogous to many other GraphLab Create toolkits. First a
-[NearestNeighborsModel](https://dato.com/products/create/docs/generated/graphlab.nearest_neighbors.NearestNeighborsModel.html)
-is created, using a
+analogous to many other GraphLab Create toolkits. First we create a 
+[NearestNeighborsModel](https://dato.com/products/create/docs/generated/graphlab.nearest_neighbors.NearestNeighborsModel.html), using a
 **reference dataset** contained in an
 [SFrame](https://dato.com/products/create/docs/generated/graphlab.SFrame.html).
-For a **dataset of query
-points**---also stored in an SFrame---this model is then queried to find the
-nearest reference data points. For this chapter we use an example dataset of
-house attributes and prices, downloaded from Dato's public datasets bucket.
+Next we query the model, using either the `query` or the `similarity_graph`
+method. Each of these methods is explained further below.
+
+For this chapter we use an example dataset of house attributes and prices,
+downloaded from Dato's public datasets bucket.
 
 ```python
 import graphlab as gl
@@ -26,59 +26,18 @@ else:
 
 sf.head(5)
 ```
-<div style="max-height:1000px;max-width:1500px;overflow:auto;">
-<table frame="box" rules="cols">
-    <tr>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">tax</th>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">bedroom</th>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">bath</th>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">price</th>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">size</th>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">lot</th>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">590</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1.0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">50000</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">770</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">22100</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1050</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">3</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2.0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">85000</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1410</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">12000</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">20</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">3</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1.0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">22500</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1060</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">3500</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">870</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2.0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">90000</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1300</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">17500</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1320</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">3</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2.0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">133000</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1500</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">30000</td>
-    </tr>
-</table>
-[5 rows x 6 columns]<br/>
-</div>
+```no-highlight
++------+---------+------+--------+------+-------+
+| tax  | bedroom | bath | price  | size |  lot  |
++------+---------+------+--------+------+-------+
+| 590  |    2    | 1.0  | 50000  | 770  | 22100 |
+| 1050 |    3    | 2.0  | 85000  | 1410 | 12000 |
+|  20  |    3    | 1.0  | 22500  | 1060 |  3500 |
+| 870  |    2    | 2.0  | 90000  | 1300 | 17500 |
+| 1320 |    3    | 2.0  | 133000 | 1500 | 30000 |
++------+---------+------+--------+------+-------+
+[5 rows x 6 columns]
+```
 
 Because the features in this dataset have very different scales (e.g. price is
 in the hundreds of thousands while the number of bedrooms is in the single
@@ -97,9 +56,9 @@ for c in sf.column_names():
 First, we **create a nearest neighbors model**. We can list specific features to
 use in our distance computations, or default to using all features in the
 reference SFrame. In the model summary below the following code snippet, note
-the fields ``Features`` and ``Variables``, which in this case are both 3,
-because our second command specifies three numeric SFrame columns as features
-for the model.
+that there are three features, because our second command specifies three
+numeric SFrame columns as features for the model. There are also three unpacked
+features, because each feature is in its own column.
 
 ```python
 model = gl.nearest_neighbors.create(sf)
@@ -124,104 +83,68 @@ Tree depth                    : 1
 Leaf size                     : 1000
 ```
 
-To retrieve the five closest neighbors for each query data point, we **query the
-model**. The result is an SFrame with four columns: query label, reference
-label, distance, and rank of the reference point among the query point's nearest
-neighbors. Query points are also contained in an SFrame, which must contain
-columns with the same names as those used to construct the model. Often, the
-reference SFrame is used as the query SFrame as well, in which case the nearest
-neighbors for all items in the reference SFrame are returned.
+To retrieve the five closest neighbors for **new** data points or a **subset**
+of the original reference data, we use the model's `query` method. Query points
+must also be contained in an SFrame, and must have columns with the same names
+as those used to construct the model (additional columns are allowed, but
+ignored). The result of the `query` method is an SFrame with four columns: query
+label, reference label, distance, and rank of the reference point among the
+query point's nearest neighbors.
 
 ```python
-knn = model.query(sf, k=5)
+knn = model.query(sf[:5], k=5)
 knn.head()
 ```
-<div style="max-height:1000px;max-width:1500px;overflow:auto;">
-<table frame="box" rules="cols">
-    <tr>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">query_label</th>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">reference_label</th>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">distance</th>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">rank</th>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">5</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.100742954001</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">7</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.805943632008</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">3</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">10</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1.82070683014</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">4</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1.83900997922</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">5</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">4</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.181337317202</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">8</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.181337317202</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">3</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">11</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.322377452803</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">4</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">12</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.705200678007</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">5</td>
-    </tr>
-</table>
-[10 rows x 4 columns]<br/>
-</div>
+```no-highlight
++-------------+-----------------+----------------+------+
+| query_label | reference_label |    distance    | rank |
++-------------+-----------------+----------------+------+
+|      0      |        0        |      0.0       |  1   |
+|      0      |        5        | 0.100742954001 |  2   |
+|      0      |        7        | 0.805943632008 |  3   |
+|      0      |        10       | 1.82070683014  |  4   |
+|      0      |        2        | 1.83900997922  |  5   |
+|      1      |        1        |      0.0       |  1   |
+|      1      |        8        | 0.181337317202 |  2   |
+|      1      |        4        | 0.181337317202 |  3   |
+|      1      |        11       | 0.322377452803 |  4   |
+|      1      |        12       | 0.705200678007 |  5   |
++-------------+-----------------+----------------+------+
+[10 rows x 4 columns]
+```
+
+Often, the query dataset **is** the reference dataset. The model's
+`similarity_graph` can be used for this task instead of `query`; for brute force
+models it can be almost twice as fast. By default, the `similarity_graph` method
+returns an
+[SGraph](https://dato.com/products/create/docs/generated/graphlab.SGraph.html) 
+whose vertices are the rows of the reference dataset and whose edges indicate a
+nearest neighbor match. Specifically, the destination vertex of an edge is a
+nearest neighbor of the source vertex. `similarity_graph` can also return
+results in the same form as the `query` method if so desired.
+
+```python
+sim_graph = model.similarity_graph(k=3)
+sim_graph.show(vlabel='id', arrows=True)
+```
+![boston_sim_graph](images/boston_sim_graph.png)
+
+#### Distance functions
 
 The most critical choice in computing nearest neighbors is the **distance
 function** that measures the dissimilarity between any pair of observations.
 
 For numeric data, the options are ``euclidean``, ``manhattan``, ``cosine``, and
-``dot_product.`` For data in dictionary format (i.e. sparse data), ``jaccard``
-and ``weighted_jaccard`` are also options, in addition to the numeric distances.
-For string features, use ``levenshtein`` distance, or use the text analytics
-toolkit's ``count_ngrams`` feature to convert strings to dictionaries of words
-or character shingles, then use Jaccard or weighted Jaccard distance. Leaving
-the distance parameter set to its default value of ``auto`` tells the model to
-choose the most reasonable distance based on the type of features in the
-reference data. Select the distance option when creating the model. In the
-following output cell, the second line of the model summary confirms our choice
-of Manhattan distance.
+``transformed_dot_product.`` For data in dictionary format (i.e. sparse data),
+``jaccard`` and ``weighted_jaccard`` are also options, in addition to the
+numeric distances. For string features, use ``levenshtein`` distance, or use the
+text analytics toolkit's ``count_ngrams`` feature to convert strings to
+dictionaries of words or character shingles, then use Jaccard or weighted
+Jaccard distance. Leaving the distance parameter set to its default value of
+``auto`` tells the model to choose the most reasonable distance based on the
+type of features in the reference data. Select the distance option when creating
+the model. In the following output cell, the second line of the model summary
+confirms our choice of Manhattan distance.
 
 ```python
 model = gl.nearest_neighbors.create(sf, features=['bedroom', 'bath', 'size'],
@@ -266,72 +189,22 @@ sf_check = sf[['bedroom', 'bath', 'size']]
 print "distance check 1:", gl.distances.manhattan(sf_check[2], sf_check[10])
 print "distance check 2:", gl.distances.manhattan(sf_check[2], sf_check[14])
 ```
-<div style="max-height:1000px;max-width:1500px;overflow:auto;"><table frame="box" rules="cols">
-    <tr>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">query_label</th>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">reference_label</th>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">distance</th>
-        <th style="padding-left: 1em; padding-right: 1em; text-align: center">rank</th>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">5</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.100742954001</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">7</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.805943632008</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">3</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">4</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.181337317202</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">8</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.181337317202</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">3</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.0</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">10</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">0.0604457724006</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2</td>
-    </tr>
-    <tr>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">14</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">1.61656820464</td>
-        <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">3</td>
-    </tr>
-</table>
-[9 rows x 4 columns]<br/>
-</div>
-
 ```no-highlight
++-------------+-----------------+-----------------+------+
+| query_label | reference_label |     distance    | rank |
++-------------+-----------------+-----------------+------+
+|      0      |        0        |       0.0       |  1   |
+|      0      |        5        |  0.100742954001 |  2   |
+|      0      |        7        |  0.805943632008 |  3   |
+|      1      |        1        |       0.0       |  1   |
+|      1      |        8        |  0.181337317202 |  2   |
+|      1      |        4        |  0.181337317202 |  3   |
+|      2      |        2        |       0.0       |  1   |
+|      2      |        10       | 0.0604457724006 |  2   |
+|      2      |        14       |  1.61656820464  |  3   |
++-------------+-----------------+-----------------+------+
+[9 rows x 4 columns
+
 distance check 1: 0.0604457724006
 distance check 2: 1.61656820464
 ```
@@ -344,9 +217,9 @@ the difference between house and lot sizes with Euclidean distance, giving twice
 as much weight to the latter.
 
 ```python
-distance_params = [[['bedroom', 'bath'], 'manhattan', 1],
-                   [['size', 'lot'], 'euclidean', 2]]
-model = gl.nearest_neighbors.create(sf, distance=distance_params)
+my_dist = [[['bedroom', 'bath'], 'manhattan', 1],
+           [['size', 'lot'], 'euclidean', 2]]
+model = gl.nearest_neighbors.create(sf, distance=my_dist)
 model.summary()
 ```
 ```no-highlight
@@ -354,18 +227,20 @@ Class                         : NearestNeighborsModel
 
 Attributes
 ----------
-Distance                      : composite
-Method                        : brute force
+Method                        : brute_force
+Number of distance components : 2
 Number of examples            : 15
 Number of feature columns     : 4
 Number of unpacked features   : 4
-Total training time (seconds) : 0.0029
+Total training time (seconds) : 0.0017
 ```
 
-With the addition of composite distances, we no longer need to specify
-homogeneous feature types. In fact, if we specify the distance parameter as
-``auto``, a composite distance is created where each type of feature is paired
-with the most appropriate distance function.
+With composite distances, we need not use homogeneous feature types. In fact, if
+we specify the distance parameter as ``auto``, a composite distance is created
+where each type of feature is paired with the most appropriate distance
+function.
+
+#### Search methods
 
 Another important choice in model creation is the **method**. The
 ``brute_force`` method computes the distance between a query point and *each* of
@@ -388,12 +263,12 @@ Class                         : NearestNeighborsModel
 
 Attributes
 ----------
-Distance                      : euclidean
-Method                        : ball tree
+Method                        : ball_tree
+Number of distance components : 1
 Number of examples            : 15
 Number of feature columns     : 3
 Number of unpacked features   : 3
-Total training time (seconds) : 0.012
+Total training time (seconds) : 0.0253
 
 Ball Tree Attributes
 --------------------
