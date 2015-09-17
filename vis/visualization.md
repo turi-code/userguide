@@ -82,7 +82,7 @@ Models such as Recommender and Classifier can be visually inspected by calling m
 The summary view provides basic statistics about the training data as well as the model training time.
 [<img alt="Example of Canvas Model Summary View" src="images/model_summary.png" style="max-width: 50%; margin-left: 25%;" />](images/model_summary.png)
 
-The model evaluation provide model specific evaluation metrics such as precision-recall and ROC curves. The hover tooltip shows more details about the model performance at a specific cutoff value. The model comparison view shows multiple models in the same view space and offers interactive highlighting to support focused analysis.
+The model evaluation provide model specific evaluation metrics such as precision-recall. The hover tooltip shows more details about the model performance at a specific cutoff value. The model comparison view shows multiple models in the same view space and offers interactive highlighting to support focused analysis.
 [<img alt="Example of Canvas Model Evaluation View" src="images/model_eval.png" style="max-width: 35%; margin-left: 15%;" />](images/model_eval.png)
 [<img alt="Example of Canvas Model Comparison View" src="images/model_comparison.png" style="max-width: 35%;" />](images/model_comparison.png)
 
