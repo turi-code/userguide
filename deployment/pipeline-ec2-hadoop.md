@@ -118,13 +118,15 @@ print job.get_results()
 2
 ```
 
-Jobs can be cancelled using [job.cancel()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.cancel.html); note that for an EC2 cluster this does not stop the EC2 hosts.
+Jobs can be cancelled using [`job.cancel`](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.cancel.html); note that for an EC2 cluster this does not stop the EC2 hosts.
 
 ```python
 job.cancel()
 ```
 
-For Hadoop-specific job failures (for instance, preemption), you can use the [job.get_error()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_error.html) API.
+For Hadoop-specific job failures (for instance, preemption), you can use the [`job.get_error`](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_error.html) API.
+
+It is possible that a job succeeds, but tasks inside a job fail. To debug this, use the [`job.get_metrics`](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_metrics.html) API.
 
 ** EC2 Notes **
 
@@ -135,5 +137,5 @@ For Hadoop-specific job failures (for instance, preemption), you can use the [jo
 ** Hadoop Notes **
 
 - Job status is also available through normal Hadoop monitoring, as GraphLab Create submits jobs using a GraphLab YARN application. Logs for executions are available using Yarn logs.
-- The location of the logs is available in the job summary, which can be viewed by calling `print job`. You can also use [job.get_log_file_path()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_log_file_path.html) to get the location of the logs.
+- The location of the logs is available in the job summary, which can be viewed by calling `print job`. You can also use [`job.get_log_file_path`](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_log_file_path.html) to get the location of the logs.
 - If you are using Hadoop in Cloudera HA mode, you need to include conf.cloudera.hdfs in your CLASSPATH environment variable.

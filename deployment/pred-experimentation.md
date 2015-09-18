@@ -90,9 +90,9 @@ This does not affect the predictive object that has been served under this alias
 Experimenting with multiple models usually implies to serve them through one endpoint, with some policy determining which model should be served. Dato Predictive Services provides the ability to add such a policy to a deployment, just like a regular single model, with a name that translates to a single endpoint:
 
 ```python
-from graphlab.deploy import SimpleProbabilityPolicy
+from graphlab.deploy.predictive_service import ProbabilityPolicy
 
-p = SimpleProbabilityPolicy({'sim_model': 0.9, 'fact_model': 0.1})
+p = ProbabilityPolicy({'sim_model': 0.9, 'fact_model': 0.1})
 
 ps.add(name='ab test', obj=p, description='Trying out fact_model')
 ps.apply_changes()
@@ -133,21 +133,21 @@ print deployment.get_endpoints()
 ```
 
 ```no-highlight
-+-----------------+------------------------------------+---------+----------------+
-|  endpoint name  |                info                | version |  description   |
-+-----------------+------------------------------------+---------+----------------+
-|    sim_model    |               model                |    1    |                |
-|   fact_model    |               model                |    2    |  Just testing  |
-|   recommender   |        alias for 'ab test'         |    3    |                |
-|     ab test     | SimpleProbabilityPolicy: {'sim...' |    1    |  Trying ou...  |
-+-----------------+------------------------------------+---------+----------------+
++-------------+--------+-------------+---------+---------------------+
+|    name     |  type  | cache_state | version |     description     |
++-------------+--------+-------------+---------+---------------------+
+|  sim_model  | model  |   enabled   |    1    |                     |
+| fact_model  | model  |   enabled   |    2    |    Just testing     |
+| recommender | alias  |   disabled  |    3    | alias for 'ab test' |
+|   ab test   | policy |   disabled  |    1    | Trying out fact ... |
++-------------+--------+-------------+---------+---------------------+
 ```
 
 ##### Available Policies
 
 As of version 1.6 Dato Predictive Services provides two experimentation policies:
 
-* **SimpleProbabilityPolicy**: enables simple A/B testing.
+* **ProbabilityPolicy**: enables simple A/B testing.
 * **EpsilonGreedyPolicy**: lets you implement a multi-armed bandit.
 
 Both are described in the following sections.
@@ -156,12 +156,12 @@ Both are described in the following sections.
 
 Regular A/B testing involves a set of experiments and associated probabilities. Each request to an endpoint is routed to one of the experiments with its associated probability. This is considered a pure _exploration_ approach, as the evaluation of a model's success and the according adjustment of the probabilities happens manually.
 
-In the context of Dato Predictive Services, this methodology is implemented through a ``SimpleProbabilityPolicy`` endpoint. It is instantiated as follows:
+In the context of Dato Predictive Services, this methodology is implemented through a ``ProbabilityPolicy`` endpoint. It is instantiated as follows:
 
 ```python
-from graphlab.deploy import SimpleProbabilityPolicy
+from graphlab.deploy import ProbabilityPolicy
 
-p = SimpleProbabilityPolicy({'sim_model': 0.9, 'fact_model': 0.1})
+p = ProbabilityPolicy({'sim_model': 0.9, 'fact_model': 0.1})
 ```
 
 Any model listed in the dictionary passed to the policy must have been added to the predictive service before. The policy just consolidates them under a new endpoint, with the given probabilities. The object `p` can now be used as a predictive object when calling `add` on a predictive service deployment object.

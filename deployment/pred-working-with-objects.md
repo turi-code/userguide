@@ -73,7 +73,6 @@ http://first-8410747484.us-west-2.elb.amazonaws.com/query/fact_model
 ```
 
 
-
 #### Update an existing Predictive Object
 
 The Predictive Service Deployment's
