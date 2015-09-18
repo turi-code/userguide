@@ -91,7 +91,7 @@ Data:
 [1025260 rows x 8 columns]
 ```
 ###TimeSeries Construction
-We construct a TimeSeries object from `electric_meter1_sf` as follow:
+We construct a TimeSeries object from `electric_meter1_sf` as follows:
 
 ```python
 electric_meter_ts1 = graphlab.TimeSeries(electric_meter_sf1,index="DateTime")
