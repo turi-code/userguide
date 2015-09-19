@@ -1,9 +1,9 @@
-#Nearest Neighbors 
+#Nearest Neighbors
 The GraphLab Create
 [nearest neighbors toolkit](https://dato.com/products/create/docs/graphlab.toolkits.nearest_neighbors.html)
 is used to find the rows in a data
 table that are most similar to a query row. This is a two-stage process,
-analogous to many other GraphLab Create toolkits. First we create a 
+analogous to many other GraphLab Create toolkits. First we create a
 [NearestNeighborsModel](https://dato.com/products/create/docs/generated/graphlab.nearest_neighbors.NearestNeighborsModel.html), using a
 **reference dataset** contained in an
 [SFrame](https://dato.com/products/create/docs/generated/graphlab.SFrame.html).
@@ -83,13 +83,13 @@ Tree depth                    : 1
 Leaf size                     : 1000
 ```
 
-To retrieve the five closest neighbors for **new** data points or a **subset**
-of the original reference data, we use the model's `query` method. Query points
-must also be contained in an SFrame, and must have columns with the same names
-as those used to construct the model (additional columns are allowed, but
-ignored). The result of the `query` method is an SFrame with four columns: query
-label, reference label, distance, and rank of the reference point among the
-query point's nearest neighbors.
+To retrieve the five closest neighbors for *new* data points or a *subset* of
+the original reference data, we **query** the model with the `query` method.
+Query points must also be contained in an SFrame, and must have columns with the
+same names as those used to construct the model (additional columns are allowed,
+but ignored). The result of the `query` method is an SFrame with four columns:
+query label, reference label, distance, and rank of the reference point among
+the query point's nearest neighbors.
 
 ```python
 knn = model.query(sf[:5], k=5)
@@ -113,11 +113,12 @@ knn.head()
 [10 rows x 4 columns]
 ```
 
-Often, the query dataset **is** the reference dataset. The model's
-`similarity_graph` can be used for this task instead of `query`; for brute force
-models it can be almost twice as fast. By default, the `similarity_graph` method
-returns an
-[SGraph](https://dato.com/products/create/docs/generated/graphlab.SGraph.html) 
+In some cases the query dataset *is* the reference dataset. For this task of
+constructing the **similarity_graph** on the reference data, the model's
+`similarity_graph` can be used. For brute force models it can be almost twice as
+fast, depending on the data sparsity and chosen distance function. By default,
+the `similarity_graph` method returns an
+[SGraph](https://dato.com/products/create/docs/generated/graphlab.SGraph.html)
 whose vertices are the rows of the reference dataset and whose edges indicate a
 nearest neighbor match. Specifically, the destination vertex of an edge is a
 nearest neighbor of the source vertex. `similarity_graph` can also return
