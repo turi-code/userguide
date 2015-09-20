@@ -7,7 +7,7 @@ If you decide to use Dato Distributed in your own Hadoop cluster, you will first
 ##### GraphLab Create
 We assume that you already downloaded and installed GraphLab Create on a client machine. For more information see [Getting Started](https://dato.com/learn/userguide/install.html).
 
-You will also need a valid product key, which is contained in the GraphLab Create config file (usually ~/.graphlab/config). You will need to have run GraphLab Create at least once for this file to be created at its default location.
+You will also need a valid product key, which you download separately from Dato Distributed.
 
 You need to download Dato Distributed from [dato.com](TODO: insert reference). Note that you will need about 400MB of free space to locally store the package.
 

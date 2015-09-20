@@ -168,7 +168,7 @@ Any model listed in the dictionary passed to the policy must have been added to 
 
 ##### Multi-armed Bandits
 
-The idea of multi-armed bandits is to balance exploration (exposing experiments of unknown quality to the user to evluate them) with exploitation (serving experiences with known, good quality). One of the simplest algorithm to strike this balance is known as the _epsilon-Greedy Algorithm_. Plenty of literature is available to elaborate on the details of the algorithm, so let us just scratch the surface here: epsilon-Greedy decides with a given probability (the value of epsilon) whether to explore or exploit. If the algorithm decides to explore, it randomly picks one of  given set of experiments. If it decides to exploit (1 - epsilon), it picks the experiment that has proven most successful so far, based on the notion of _reward_ that has been assigned to previous results.
+The idea of multi-armed bandits is to balance exploration (exposing experiments of unknown quality to the user to evaluate them) with exploitation (serving experiences with known, good quality). One of the simplest algorithms to strike this balance is known as the _epsilon-Greedy Algorithm_. Plenty of literature is available to elaborate on the details of the algorithm, so let us just scratch the surface here: epsilon-Greedy decides with a given probability (the value of epsilon) whether to explore or exploit. If the algorithm decides to explore, it randomly picks one of  given set of experiments. If it decides to exploit (1 - epsilon), it picks the experiment that has proven most successful so far, based on the notion of _reward_ that has been assigned to previous results.
 
 Let's look at how to use this policy:
 

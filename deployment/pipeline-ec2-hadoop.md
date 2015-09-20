@@ -6,18 +6,14 @@ In this section, we will walk through the concept of a **Cluster** in the GraphL
 
 #### The Cluster
 
-The GraphLab Create API includes the notion of a **cluster**, which serves as a logical environment to host the _distributed_ execution of jobs (as opposed to the local host environment). GraphLab Create clusters can be created either in EC2 or on Hadoop YARN; while they can equally be used as environments for running jobs, their behavior is slightly different; hence they are represented by two different types: [`graphlab.deploy.Ec2Cluster`]() and [`graphlab.deploy.HadoopCluster`](). After creating a cluster object once, it can be retrieved at a later time to continue working with an existing cluster. Below we will elaborate on the specifics of each environment.
+The GraphLab Create API includes the notion of a **Cluster**, which serves as a logical environment to host the _distributed_ execution of jobs (as opposed to the local host environment, which can be [asynchonous](https://dato.com/learn/userguide/deployment/pipeline-launch.html), but not distributed). GraphLab Create clusters can be created either in EC2 or on Hadoop YARN; while they can equally be used as environments for running jobs, their behavior is slightly different; hence they are represented by two different types: [`graphlab.deploy.Ec2Cluster`]() and [`graphlab.deploy.HadoopCluster`](). After creating a cluster object once, it can be retrieved at a later time to continue working with an existing cluster. Below we will elaborate on the specifics of each environment.
 
 ##### Creating a Cluster in EC2
 
-In EC2 a cluster is created in two steps: first, a configuration object is created, describing the cluster and how to access AWS. The cluster description includes the properties for EC2 instances that are going to be used to form the cluster, like instance type and region, the security group name, etc. Second, the cluster is launched.
-When configuring your EC2 cluster, you must also specify a name, and an S3 path where the EC2 cluster maintains its state and logs.
+In EC2 a cluster is created in two steps: first, a [`graphlab.deploy.Ec2Config`](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html) object is created, describing the cluster and how to access AWS. The cluster description includes the properties for EC2 instances that are going to be used to form the cluster, like instance type and region, the security group name, etc. Second, the cluster is launched by calling [`ec2_cluster.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.ec2_cluster.create.html). When creating your EC2 cluster, you must also specify a name, and an S3 path where the EC2 cluster maintains its state and logs.
 
 ```python
 import graphlab as gl
-
-def add(x, y):
-    return x + y
 
 # Define your EC2 environment. In this example we use the default settings.
 ec2config = gl.deploy.Ec2Config()
@@ -30,7 +26,7 @@ ec2 = gl.deploy.ec2_cluster.create(name='dato-kaggle',
 
 At this point you can use the object `ec2` for remote and distributed job execution.
 
-It is important to note that the [graphlab.deploy.ec2_cluster.create()]() call will already start the hosts in EC2, so costs will be incurred at that point. They will be shutdown after an idle period, which is 10 minutes by default or set as parameter (in seconds) in the create method. Setting the timeout to a negative value will cause the cluster to run indefinitely or until explicitly stopped. For example, if you wanted to extend the timeout to one hour you would create the cluster like so:
+It is important to note that the [`create`](https://dato.com/products/create/docs/generated/graphlab.deploy.ec2_cluster.create.html) call will already start the hosts in EC2, so costs will be incurred at that point. They will be shutdown after an idle period, which is 10 minutes by default or set as parameter (in seconds) in the create method. Setting the timeout to a negative value will cause the cluster to run indefinitely or until explicitly stopped. For example, if you wanted to extend the timeout to one hour you would create the cluster like so:
 
 ```python
 ec2 = gl.deploy.ec2_cluster.create(name='dato-kaggle',
@@ -95,7 +91,7 @@ c = gl.deploy.ec2_cluster.load('s3://gl-dato-kaggle')
 ```
 
 #### Executing Jobs in a Cluster
-In order to execute a job in a cluster, you pass the cluster object to the ['graphlab.deploy.job.create'](https://dato.com/products/create/docs/generated/graphlab.deploy.job.create.html) API, independently of whether it is a Hadoop or an EC2 cluster. While the job is running, the client machine can be shutdown and the job will continue to run. In the event that the client process terminates, you can reload the job and check its status.
+In order to execute a job in a cluster, you pass the cluster object to the [`graphlab.deploy.job.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.job.create.html) API, independently of whether it is a Hadoop or an EC2 cluster. While the job is running, the client machine can be shutdown and the job will continue to run. In the event that the client process terminates, you can reload the job and check its status.
 
 ```python
 def add(x, y):
@@ -131,7 +127,7 @@ It is possible that a job succeeds, but tasks inside a job fail. To debug this, 
 ** EC2 Notes **
 
 - Once the execution is complete, the idle timeout period will start, after which the EC2 instance(s) started will be terminated. Launching another job will reset the idle timeout period.
-- A set of packages to be installed in addition to graphlab and its dependencies can be specified as a list of strings in the `create()` call.
+- A set of packages to be installed in addition to graphlab and its dependencies can be specified as a list of strings in the `create` call.
 - Execution logs will be maintained in S3 (using the `s3_path` parameter in the cluster creation call).
 
 ** Hadoop Notes **
