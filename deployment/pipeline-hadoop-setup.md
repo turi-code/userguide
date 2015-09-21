@@ -4,12 +4,9 @@ If you decide to use Dato Distributed in your own Hadoop cluster, you will first
 
 #### Prerequisites
 
-##### GraphLab Create
-We assume that you already downloaded and installed GraphLab Create on a client machine. For more information see [Getting Started](https://dato.com/learn/userguide/install.html).
+We assume that you already downloaded and installed GraphLab Create on a machine that you will use to interact with your Dato Distributed deployment. This can, but doesn't have to be the same machine you used for downloading and installing Dato Distributed. For more information on obtaining and installing GraphLab Create see [Getting Started](https://dato.com/learn/userguide/install.html).
 
-You will also need a valid product key, which you download separately from Dato Distributed.
-
-You need to download Dato Distributed from [dato.com](TODO: insert reference). Note that you will need about 400MB of free space to locally store the package.
+You will need the Dato Distributed package as well as a Dato Distributed product key. Both can be obtained on the [installation page on dato.com](https://dato.com/download/install-dato-distributed.html).
 
 You install Dato Distributed from a host that can access the cluster, which usually means to use the Hadoop client tool, together with the appropriate YARN configuration files. After downloading the Dato Distributed package, you unpack it on this machine. Currently Dato Distributed can only be setup from a Mac or Linux machine (not from a Windows machine).
 
@@ -31,18 +28,20 @@ tar xzvf dato-distrib-0.177.tar.gz
 
 Deploying the Dato bits to the cluster happens through the script `setup_dato-distributed.sh` that was extracted as part of the package. You will need to provide a destination path (on HDFS) to the script using the -d parameter. This path serves as a deployment location that the user refers to when working with the cluster through the Python API. The script connects to the cluster, creates a folder structure in the destination path, and copies the binaries needed for GraphLab Create's distributed runtime there.
 
+Another required parameter is the Dato Distributed product key file, which you obtained as part of the sign-up process (see above). You specify its location through -k.
+
 In order to access the cluster, if not already included in your local environment, you might need to tell the script where to find your YARN configuration files using the parameter -c:
 
 ```
 cd dato-distrib-0.177
 
-./setup_dato-distributed.sh -c ~/yarn-conf
-                            -d hdfs://my.cluster:8020/user/name/dd
+./setup_dato-distributed.sh -d hdfs://my.cluster:8020/user/name/dd
+                            -k ~/Downloads/Dato-Distributed-License.ini
+                            -c ~/yarn-conf
+
 ```
 
-The license file will be looked up automatically in your home directory in ~/.graphlab/config. Make sure you have run GraphLab Create at least once in order to populate license information correctly. If the license file is not in the default location, you may provide path to the license file using the -k parameter.
-
-This deploys Dato Distributed using the YARN config specified in `~/yarn-conf` to the path `hdfs://my.cluster:8020/user/name/dd`, with the GraphLab Create license in `~/.graphlab/config`.
+This deploys Dato Distributed using the YARN config specified in `~/yarn-conf` to the path `hdfs://my.cluster:8020/user/name/dd`, with the GraphLab Create license in `~/Downloads/Dato-Distributed-License.ini`.
 
 
 #### Important Parameters

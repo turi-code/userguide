@@ -2,11 +2,11 @@
 While providing a convenient and flexible environment for running a predictive service, not all scenarios are suited for a cloud-based deployment. For reasons of privacy, security, or cost you might prefer to host your predictive service locally, on a machine you own and control. We call this a Predictive Services on-premises deployment.
 
 #### Prerequisites
-You need to download the [Dato Predictive Services on-premises package](https://d1wdo1t4yti371.cloudfront.net/dato_ps_setup_latest.tar.gz). Note that you will need about 800MB of free space to locally store the package.
+We assume that you already downloaded and installed GraphLab Create on a machine that you will later use to interact with your local Predictive Services deployment. For more information on obtaining and installing GraphLab Create see [Getting Started](https://dato.com/learn/userguide/install.html).
+
+You will need the Predictive Services package as well as a Predictive Services product key. Both can be obtained on the [installation page on dato.com](https://dato.com/download/install-dato-predictive-services.html).
 
 Predictive Services on-premises uses [Docker](https://www.docker.com/) as its packaging and deployment mechanism. To install Docker on the machine that will host the predictive service, please download from https://docs.docker.com/installation/. Make sure to pick the installation that matches the host’s operating system.
-
-You will also need a valid product key, which is contained in the GraphLab Create config file (usually ~/.graphlab/config). You will need to have run GraphLab Create at least once for this file to be created at its default location.
 
 ##### OS X
 On OS X the newly introduced Docker Toolbox replaced the boot2docker tool (internally docker-machine still uses boot2docker). Follow the instructions on the Docker website for [creating a Docker VM in Mac OS X](http://docs.docker.com/mac/step_one/). These instructions entail:
@@ -44,9 +44,9 @@ We will call this path the “ps path”.
 6. If you are setting up the predictive service on a machine other than localhost, you also need to provide credentials to the remote machine:
  * `remote_user_name`: a user name that can log into the remote machine
  * `pem_file_path`: path to key file required for accessing the remote machine
-7. Run setup, providing the path to your GLC license file:
+7. Run setup, providing the path to your Predictive Services product key file:
 ```
-./setup_dato_ps.sh /home/name/.graphlab/config
+./setup_dato_ps.sh ~/Downloads/Dato-Predictive-Services-License.ini
 ```
 
 If the predictive service is setup correctly, you should see this message after the script has finished:
@@ -57,7 +57,7 @@ You may check your Predictive Service stats on the load balancer's dashboard:
 ```
 
 #### Use
-GraphLab Create is required to connect to Dato Predictive Services and deploy/monitor/manage the service. You can download GraphLab Create through https://dato.com/download/, where you can get a trial license valid for 30 days. We recommend to use pip or Conda to create a self-contained environment for hosting your GraphLab Create installation.
+GraphLab Create is required to connect to Dato Predictive Services and deploy/monitor/manage the service. For more information on obtaining and installing GraphLab Create see [Getting Started](https://dato.com/learn/userguide/install.html).
 
 After you have installed GraphLab Create, you can connect to the predictive service; In the code sample below remember to replace `ps-path` with your actual ps path specified in installation step 4 above. If this is an HDFS path, you need to have set up your environment to have access to HDFS (either by setting HADOOP_CLASSPATH or HADOOP_CONF_DIR).
 
