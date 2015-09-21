@@ -1,11 +1,11 @@
-#Deduplication
+# Deduplication
 The GraphLab Create **deduplication** tool ingests data in one or more SFrames
 and assigns an entity label to each row. Records with the same label likely
 correspond to the same real-world entity.
 
 To illustrate usage of the deduplication tool, we use data about musical albums,
 downloaded originally from
-<http://hpi.de/de/naumann/projects/data-quality-and-cleansing/annealing-standard.html#c123255>. 
+<http://hpi.de/de/naumann/projects/data-quality-and-cleansing/annealing-standard.html#c123255>.
 For this example, we have extracted a random sample of about 20% of the original
 data, and split it into four SFrames based on genre. The preprocessed data can
 be downloaded (and saved to your machine) from the Dato public datasets bucket
@@ -57,20 +57,6 @@ data['rock'].print_rows(5)
 +-------------+---------------+-------------+--------------+---------------+
 [23202 rows x 9 columns]
 ```
-
-##### Defining distances
-A critical piece of the deduplication process is defining a distance function
-that measures how different two records are. Because our dataset has features of
-various types, this isn't as straightforward as choosing a standard distance
-function, like "euclidean" or "levenshtein."
-
-The GraphLab Create **composite distance** is a weighted sum of standard
-distance functions, specified as a list. Each element of the list contains three
-things:
-  
-  1. a list or tuple of feature names
-  2. a standard distance name
-  3. a numeric weight.
 
 For this example, we define a distance that is a weighted sum of Euclidean
 distance on the album length (in seconds), weighted Jaccard distance on the
@@ -185,7 +171,7 @@ Training
 --------
 Total training time (seconds)       : 268.9886
 
-Accessible fields                   : 
+Accessible fields                   :
    entities                         : Consolidated input records plus entity labels.
 ```
 
