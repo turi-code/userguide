@@ -160,7 +160,7 @@ curl -X POST -d '{"api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
      http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
 ```
 
-To help the consumer of your custom query, the doc string for your query is automatically extracted from your custom query function. You can get the doc string back via the `get_doc_string()` API:
+To help the consumer of your custom query, the doc string for your query is automatically extracted from your custom query function. You can get the doc string back via the [`describe`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.describe.html) API:
 
 ```python
 print deployment.describe('get-similar-products')
