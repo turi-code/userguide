@@ -75,6 +75,7 @@ This is the User Guide for GraphLab Create
         * [Clusters](deployment/pipeline-ec2-hadoop.md)
         * [End-to-End Example](deployment/pipeline-example.md)
         * [Distributed Job Execution](deployment/pipeline-distributed.md)
+        * [Distributed Machine Learning](deployment/dml.md)
         * [Monitoring Jobs](deployment/pipeline-monitoring-jobs.md)
         * [Session Management](deployment/pipeline-keeping-track-of-jobs-tasks-and-environments.md)
         * [Dependencies](deployment/pipeline-dependencies.md)
