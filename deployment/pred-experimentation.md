@@ -16,7 +16,7 @@ Each deployed Predictive Object can be queried through its associated endpoint, 
 * the path `/query/`, and
 * the name of the Predictive Object, for example `sim_model`
 
-Besides Predictive Objects endpoints can also be backed by an _alias_ or a _policy_, as explained below. At any point you can retrieve the list of all active endpoints in your Predictive Service through the [`PredictiveService.get_endpoints()`](TBD) API:
+Besides Predictive Objects endpoints can also be backed by an _alias_ or a _policy_, as explained below. At any point you can retrieve the list of all active endpoints in your Predictive Service through the [`PredictiveService.get_endpoints`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_endpoints.html) API:
 
 ```python
 print deployment.get_endpoints()
