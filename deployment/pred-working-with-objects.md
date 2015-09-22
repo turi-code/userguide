@@ -247,4 +247,4 @@ For example, the following command will remove a previously added Predictive Obj
 deployment.remove('get-similar-products')
 ```
 
-Note that this call will fail if the model is referred to by a policy or an alias (see [chapter about experimentation](pred-experimentation.html)). You can find out whether such a dependency exist by calling [PredictiveService.get_endpoint_dependencies](TBD).
+Note that this call will fail if the model is referred to by a policy or an alias (see [chapter about experimentation](pred-experimentation.html)). You can find out whether such a dependency exist by calling [`PredictiveService.get_endpoint_dependencies`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_endpoint_dependencies.html).

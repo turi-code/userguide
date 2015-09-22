@@ -18,10 +18,10 @@ export AWS_ACCESS_KEY_ID='YOUR_ACCESS_KEY'
 export AWS_SECRET_ACCESS_KEY='YOUR_SECRET_KEY'
 ```
 
-When you create a predictive service with this configuration (see below), a new security group **Dato_Predictive_Service** will be created in the default subnet. you can also specify a custom security group:
+When you create a predictive service with this configuration (see below), a new security group **Dato_Predictive_Service** will be created in the default subnet. You can also specify a custom security group:
 
 ```python
-  ec2 = graphlab.deploy.Ec2Config(security_group='YOUR_SECURITY_GROUP_NAME')
+ec2 = graphlab.deploy.Ec2Config(security_group='YOUR_SECURITY_GROUP_NAME')
 ```
 
 If this security group does not exist, a new one will be created.
@@ -113,14 +113,14 @@ To launch a predictive service into a non-default VPC's subnet, you can specify 
 ec2 = graphlab.deploy.Ec2Config(subnet_id='YOUR_SUBNET_ID')
 ```
 
-This creates a new security group with a group Name **Dato_Predictive_Service** in the subnet with the given `subnet_id`. You can also provide a the id of an existing security group:
+This creates a new security group with a group Name **Dato_Predictive_Service** in the subnet with the given `subnet_id`. You can also provide the id of an existing security group:
 
 ```python
 ec2 = graphlab.deploy.Ec2Config(security_group_id='YOUR_SECURITY_GROUP_ID',
                                 subnet_id='YOUR_SUBNET_ID')
 ```
 
-You can also specify a security group by name through the parameter `security_group`; if a group with the given name does not exist, it will be created.
+It is possible to specify a security group by name through the parameter `security_group`; if a group with the given name does not exist, it will be created.
 
 Note that if `subnet_id` is not specified and there are more than one subnets in the VPC, the predictive service might be launched into any of the VPC's subnets.
 
