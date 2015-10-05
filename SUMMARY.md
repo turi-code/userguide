@@ -9,21 +9,21 @@ This is the User Guide for GraphLab Create
     * [TimeSeries data](timeseries/timeseries-data.md)
     * [Visualization](vis/visualization.md)
     * [Feature Engineering](feature-engineering/introduction.md)
-      * Numeric Features
+      * [Numeric Features](feature-engineering/numeric_features.md)
         * [Quadratic Features](feature-engineering/quadratic_features.md)
         * [Feature Binning](feature-engineering/feature_binner.md)
         * [Numeric Imputer](feature-engineering/numeric_imputer.md)
-      * Categorical Features
+      * [Categorical Features](feature-engineering/categorical_features.md)
         * [One Hot Encoder](feature-engineering/one_hot_encoder.md)
         * [Count Thresholder](feature-engineering/count_thresholder.md)
         * [Categorical Imputer](feature-engineering/categorical_imputer.md)
-      * Text Features
+      * [Text Features](feature-engineering/text_features.md)
         * [TF-IDF](feature-engineering/tfidf.md)
         * [Tokenizer](feature-engineering/tokenizer.md)
         * [BM25](feature-engineering/bm25.md)
-      * Image Features
+      * [Image Features](feature-engineering/image_features.md)
         * [Deep Feature Extractor](feature-engineering/deep_feature_extractor.md)
-      * Misc.
+      * [Other Transformations](feature-engineering/other_transformations.md)
         * [Hasher](feature-engineering/feature_hasher.md)
         * [Transformer Chain](feature-engineering/transformer_chain.md)
         * [Custom Transformer](feature-engineering/custom_transformer.md)
@@ -91,7 +91,7 @@ This is the User Guide for GraphLab Create
     * [Spark RDDs](data_formats_and_sources/spark_integration.md)
     * [SQL Databases](data_formats_and_sources/odbc_integration.md)
 * [Conclusion](conclusion.md)
-* Exercises
+* [Exercises](exercises.md)
     * [Tabular data](sframe/exercises.md)
     * [Graph data](sgraph/exercises.md)
     * [Graph analytics](graph_analytics/exercises.md)
