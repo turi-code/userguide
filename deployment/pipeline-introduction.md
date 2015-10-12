@@ -8,16 +8,18 @@ In order to work with a Dato Distributed deployment (either on an on-premises cl
 
 The following chapters provide more details on the following aspects of remote and asynchronous job execution:
 
-**Asynchronous Jobs** describes how you can execute jobs asynchronously, but still within you local machine. Note that this functionality does not depend on Dato Distributed.
+[Asynchronous Jobs](pipeline-launch.md) describes how you can execute jobs asynchronously, but still within you local machine. Note that this functionality does not depend on Dato Distributed.
 
-**EC2 & Hadoop** provides a walk-through of submitting jobs to EC2 as well as Hadoop.
+[Installing on Hadoop](pipeline-hadoop-setup.md) explains how to install Dato Distributed on your local Hadoop environment.
 
-An **end-to-end example** demonstrates how to implement a recommender and run it as a remote job.
+[Clusters](pipeline-ec2-hadoop.md) provides a walk-through of submitting jobs to EC2 as well as Hadoop.
 
-**Distributed Job Execution** shows how to scale out a job across multiple remote computation nodes to reduce its run time.
+An [end-to-end example](pipeline-example.md) demonstrates how to implement a recommender and run it as a remote job.
 
-**Monitoring Jobs** outlines how to gain insight into the status and health of previously submitted jobs.
+[Distributed Machine Learning](pipeline-dml.md) introduces the concept of executing Dato toolkits in a distributed environment transparently.
 
-**Session Management** contains information about how to maintain local references to jobs and environments.
+[Monitoring Jobs](pipeline-monitoring-jobs.md) outlines how to gain insight into the status and health of previously submitted jobs.
 
-The chapter about **Dependencies** explains how external packages required by your use case can be included in the job deployment and execution.
+[Session Management](pipeline-keeping-track-of-jobs-tasks-and-environments.md) contains information about how to maintain local references to jobs and environments.
+
+The chapter about [Dependencies](pipeline-dependencies.md) explains how external packages required by your use case can be included in the job deployment and execution.
