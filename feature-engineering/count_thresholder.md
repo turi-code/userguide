@@ -89,8 +89,8 @@ transformed_sf = count_tr.fit_transform(sf)
 
 ```no-highlight
 Columns:
-a   dict
-b   dict
+a   int
+b   int
 
 Rows: 3
 
