@@ -22,7 +22,7 @@ if os.path.exists('houses.csv'):
 else:
     data_url = 'http://s3.amazonaws.com/dato-datasets/regression/houses.csv'
     sf = gl.SFrame.read_csv(data_url)
-    sf.save('houses.csv')
+    sf.save('houses.csv')# 
 
 sf.head(5)
 ```
@@ -135,17 +135,7 @@ sim_graph.show(vlabel='id', arrows=True)
 The most critical choice in computing nearest neighbors is the **distance
 function** that measures the dissimilarity between any pair of observations.
 
-For numeric data, the options are ``euclidean``, ``manhattan``, ``cosine``, and
-``transformed_dot_product.`` For data in dictionary format (i.e. sparse data),
-``jaccard`` and ``weighted_jaccard`` are also options, in addition to the
-numeric distances. For string features, use ``levenshtein`` distance, or use the
-text analytics toolkit's ``count_ngrams`` feature to convert strings to
-dictionaries of words or character shingles, then use Jaccard or weighted
-Jaccard distance. Leaving the distance parameter set to its default value of
-``auto`` tells the model to choose the most reasonable distance based on the
-type of features in the reference data. Select the distance option when creating
-the model. In the following output cell, the second line of the model summary
-confirms our choice of Manhattan distance.
+For numeric data, the options are ``euclidean``, ``manhattan``, ``cosine``, and ``transformed_dot_product.`` For data in dictionary format (i.e. sparse data), ``jaccard`` and ``weighted_jaccard`` are also options, in addition to the numeric distances. For string features, use ``levenshtein`` distance, or use the text analytics toolkit's ``count_ngrams`` feature to convert strings to dictionaries of words or character shingles, then use Jaccard or weighted Jaccard distance. Leaving the distance parameter set to its default value of ``auto`` tells the model to choose the most reasonable distance based on the type of features in the reference data. Select the distance option when creating the model. In the following output cell, the second line of the model summary confirms our choice of Manhattan distance.
 
 ```python
 model = gl.nearest_neighbors.create(sf, features=['bedroom', 'bath', 'size'],
@@ -210,16 +200,23 @@ distance check 1: 0.0604457724006
 distance check 2: 1.61656820464
 ```
 
-GraphLab Create also allows **composite distances**, where the final measure of
-dissimilarity between two data points is a weighted sum of standard distances
-over subsets of features. In our house price dataset for example, we can measure
-the difference between numbers of bedrooms and baths with Manhattan distance and
-the difference between house and lot sizes with Euclidean distance, giving twice
-as much weight to the latter.
+GraphLab Create also allows **composite distances**, which allow the nearest neighbors tool (and other distance-based tools) to work with features that have different types. Specifically, a composite distance is a *weighted sum of standard distances applied to subsets of features*, specified in the form of a Python list. Each element of a composite distance list contains three things:
+
+  1. a list or tuple of feature names
+  2. a standard distance name
+  3. a multiplier for the standard distance.
+
+In our house price dataset, for example, suppose we want to measure the difference between numbers of bedrooms and baths with Manhattan distance and the difference between house and lot sizes with Euclidean distance. In addition, we want the Euclidean component to carry twice as much weight. The composite distance for this would be:
 
 ```python
 my_dist = [[['bedroom', 'bath'], 'manhattan', 1],
            [['size', 'lot'], 'euclidean', 2]]
+```
+
+This list can be passed to the ``distance`` parameter just like a standard
+distance function name or handle.
+
+```python
 model = gl.nearest_neighbors.create(sf, distance=my_dist)
 model.summary()
 ```
@@ -236,10 +233,9 @@ Number of unpacked features   : 4
 Total training time (seconds) : 0.0017
 ```
 
-With composite distances, we need not use homogeneous feature types. In fact, if
-we specify the distance parameter as ``auto``, a composite distance is created
-where each type of feature is paired with the most appropriate distance
-function.
+If we specify the distance parameter as ``auto``, a composite distance is
+created where each type of feature is paired with the most appropriate distance
+function. Please see the documentation for the [GraphLab Create distances module](https://dato.com/products/create/docs/graphlab.toolkits.distances.html) for more on composite distances.
 
 #### Search methods
 
