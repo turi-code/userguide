@@ -1,7 +1,6 @@
 # Random Forest Regression 
-The Gradient oosted Regression Trees (GBRT) model (also called Gradient
-oosted Machine or GBM), along with Random Forest, is one of the most effective machine learning
-models for predictive analytics, making it the industrial workhorse for
+The Random Forest is one of the most effective machine learning
+models for predictive analytics, making it an industrial workhorse for
 machine learning.
 
 ##### Background
@@ -105,7 +104,7 @@ want to reduce depth, and increase *min_child_weight*.
 Different kinds of models have different advantages. The random forest model is
 very good at handling tabular data with numerical features, or categorical
 features with fewer than hundreds of categories. Unlike linear models, the
-boosted trees model are able to capture non-linear interaction between the
+random forests are able to capture non-linear interaction between the
 features and the target.
 
 One important note is that tree based models are not designed to work with very
