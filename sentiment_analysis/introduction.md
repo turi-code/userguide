@@ -1,4 +1,4 @@
-# Introduction
+# Sentiment analysis 
 
 Data scientists are often faced with data sets that contain text, and must employ natural language processing (NLP) techniques in order to make it useful. <a href="https://en.wikipedia.org/wiki/Sentiment_analysis">Sentiment analysis</a> refers to the use of NLP techniques to extract subjective information such as the polarity of the text, e.g., whether or not the author is speaking positively or negatively about some topic.
 
