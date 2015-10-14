@@ -86,7 +86,7 @@ At this point the model is ready to be queried.
 
 Each model (or Predictive Object) in a Predictive Service exposes a REST endpoint to query it. GraphLab Create provides wrapper methods to submit queries within its Python API.
 
-```no-highlight
+```python
 recs = deployment.query('recs',
                         method='recommend',
                         data={ 'users': [ 'Jacob Smith' ] })
@@ -108,7 +108,7 @@ curl -X POST -d '{"api_key": "7a99ccbf-3f51-4c5a-bf32-c03a6f07ecd2",
 
 As long as the Predictive Service is up and running, it incurs AWS charges. You can shut down a service as follows:
 
-```no-highlight
+```python
 deployment.terminate_service()
 ```
 
