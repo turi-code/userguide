@@ -103,7 +103,7 @@ want to reduce depth, and increase *min_child_weight*.
 
 Different kinds of models have different advantages. The random forest model is
 very good at handling tabular data with numerical features, or categorical
-features with fewer than hundreds of categories. Unlike linear models, the
+features with fewer than hundreds of categories. Unlike linear models, 
 random forests are able to capture non-linear interaction between the
 features and the target.
 
