@@ -17,6 +17,8 @@ The following chapters walk through an end-to-end Predictive Services example, t
 
 **Logging and Feedback** contains information about how to access a service's logs and how to submit feedback for a query result.
 
+**Dependencies** shows ways to add dependent packages or custom files to be accessible by the predictive service.
+
 **Experimentation** explains how to handle multiple models within the same scenario, including the definition of policies to serve them behind a single endpoint.
 
 **Operations** provides further details about monitoring and management of the Predictive Service.
