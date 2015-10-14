@@ -152,7 +152,7 @@ print evals['accuracy']
 0.46
 ```
 
-46% accuracy seems low, but remember that we in a multi-class classiciation setting. The most common class (4 stars) only occurs in 34.8% of the test data, so our model has indeed learned something. The confusion matrix produced by the `evaluate` method can help us to better understand the model performance. In this case we see that 83.9% of our predictions are actually within 1 star of the true number of stars.
+46% accuracy seems low, but remember that we are in a multi-class classiciation setting. The most common class (4 stars) only occurs in 34.8% of the test data, so our model has indeed learned something. The confusion matrix produced by the `evaluate` method can help us to better understand the model performance. In this case we see that 83.9% of our predictions are actually within 1 star of the true number of stars.
 
 ```python
 conf_matrix = evals['confusion_matrix']
@@ -189,7 +189,7 @@ maps each word to the number of times that word appears:
 'birthday': 1, 'blend': 1, 'bloody': 1, 'bread': 1, 'breakfast': 1, ... }
 ```
 
-The `weighted_jaccard` distance measures the difference between two sets, weighted by the counts of each elements. To combine this output with the numeric distance we used above, we specify a **composite distance**. Each element in this list includes a list (or tuple) of feature names, a standard distance function name, and a numeric weight. The weight on each component can be adjusted to produce the same effect as normalizing features.
+The `weighted_jaccard` distance measures the difference between two sets, weighted by the counts of each element (please see the [API documentation](https://dato.com/products/create/docs/generated/graphlab.toolkits.distances.weighted_jaccard.html#graphlab.toolkits.distances.weighted_jaccard) for details). To combine this output with the numeric distance we used above, we specify a **composite distance**. Each element in this list includes a list (or tuple) of feature names, a standard distance function name, and a numeric weight. The weight on each component can be adjusted to produce the same effect as normalizing features.
 
 ```python
 my_dist = [

@@ -22,7 +22,7 @@ if os.path.exists('houses.csv'):
 else:
     data_url = 'http://s3.amazonaws.com/dato-datasets/regression/houses.csv'
     sf = gl.SFrame.read_csv(data_url)
-    sf.save('houses.csv')# 
+    sf.save('houses.csv')
 
 sf.head(5)
 ```
@@ -135,7 +135,7 @@ sim_graph.show(vlabel='id', arrows=True)
 The most critical choice in computing nearest neighbors is the **distance
 function** that measures the dissimilarity between any pair of observations.
 
-For numeric data, the options are ``euclidean``, ``manhattan``, ``cosine``, and ``transformed_dot_product.`` For data in dictionary format (i.e. sparse data), ``jaccard`` and ``weighted_jaccard`` are also options, in addition to the numeric distances. For string features, use ``levenshtein`` distance, or use the text analytics toolkit's ``count_ngrams`` feature to convert strings to dictionaries of words or character shingles, then use Jaccard or weighted Jaccard distance. Leaving the distance parameter set to its default value of ``auto`` tells the model to choose the most reasonable distance based on the type of features in the reference data. Select the distance option when creating the model. In the following output cell, the second line of the model summary confirms our choice of Manhattan distance.
+For numeric data, the options are ``euclidean``, ``manhattan``, ``cosine``, and ``transformed_dot_product.`` For data in dictionary format (i.e. sparse data), ``jaccard`` and ``weighted_jaccard`` are also options, in addition to the numeric distances. For string features, use ``levenshtein`` distance, or use the text analytics toolkit's ``count_ngrams`` feature to convert strings to dictionaries of words or character shingles, then use Jaccard or weighted Jaccard distance. Leaving the distance parameter set to its default value of ``auto`` tells the model to choose the most reasonable distance based on the type of features in the reference data. In the following output cell, the second line of the model summary confirms our choice of Manhattan distance.
 
 ```python
 model = gl.nearest_neighbors.create(sf, features=['bedroom', 'bath', 'size'],
