@@ -4,6 +4,13 @@ In the previous chapter we showed how to run jobs in a Dato Distributed cluster.
 
 For a set of GraphLab Create toolkits we have done that work for you. Instead of submitting jobs to a remote environment, you can simply switch the current execution environment from the local machine to a cluster in EC2 or Hadoop, and let GraphLab Create distribute the tasks for you. We call this _Distributed Machine Learning_ or _DML_. In this section, we will demonstrate how to run distributed machine learning tasks.
 
+The toolkits currently supported to run in a distributed execution environment are:
+* [Linear regression](https://dato.com/learn/userguide/supervised-learning/linear-regression.html)
+* [Logistic classifier](https://dato.com/learn/userguide/supervised-learning/logistic-regression.html)
+* [SVM classifier](https://dato.com/learn/userguide/supervised-learning/svm.html)
+* [Pagerank](https://dato.com/products/create/docs/generated/graphlab.pagerank.create.html)
+* [Label propagation](https://dato.com/products/create/docs/generated/graphlab.label_propagation.create.html)
+
 Let's look at an example which trains a linear regression model:
 
 ```python
