@@ -1,8 +1,8 @@
 # Gradient Boosted Regression Trees
 
 The Gradient Boosted Regression Trees (GBRT) model (also called Gradient
-Boosted Machine or GBM), along with Random Forest, is one of the most effective machine learning
-models for predictive analytics, making it the industrial workhorse for
+Boosted Machine or GBM) is one of the most effective machine learning
+models for predictive analytics, making it an industrial workhorse for
 machine learning.
 
 ##### Background
