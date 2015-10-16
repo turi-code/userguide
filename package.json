@@ -16,7 +16,7 @@
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dato-code/userguide-vnext.git"
+    "url": "https://github.com/dato-code/userguide.git"
   },
   "private": true
 }

@@ -1,9 +1,9 @@
 language: node_js
-node_js:
-- '4.1'
-- '4.0'
-- '0.12'
-- '0.11'
+branches:
+  only:
+    - master
+install: npm install
+script: npm build
 deploy:
   provider: s3
   access_key_id: AKIAJCXDAFHMFPVXAGFQ
