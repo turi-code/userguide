@@ -1,6 +1,6 @@
 {
   "name": "userguide",
-  "version": "1.4.0",
+  "version": "1.6.0",
   "description": "userguide",
   "main": "index.js",
   "devDependencies": {
@@ -8,6 +8,7 @@
     "gitbook-plugin-customtheme": "0.1.9"
   },
   "scripts": {
+    "gitbook-dep": "./node_modules/.bin/gitbook install",
     "build": "./node_modules/.bin/gitbook build",
     "gitbook": "./node_modules/.bin/gitbook build",
     "serve": "./node_modules/.bin/gitbook serve"

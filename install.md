@@ -1,9 +1,8 @@
-#Getting Started 
-Before getting started with this guide, please first use our [Quick Start Guide](https://dato.com/products/create/quick-start-guide.html) to
+#Getting Started
+In order to install GraphLab Create, please visit the [installation page on dato.com](https://dato.com/download/install.html) in order to
 
-- register for a product key
-- install the `graphlab-create` Python package
-
+- register for a product key, and
+- install the `graphlab-create` Python package.
 
 Once installed, you will be able to read or run the example code and datasets by copying code into your terminal. Throughout the User Guide we assume you have imported the package via
 

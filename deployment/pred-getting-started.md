@@ -1,8 +1,10 @@
-#Getting Started with Predictive Services
-First let's get a prerequisite to using Predictive Services out of the way. To
-get started, we configure the EC2 Config object, which contains the
-configuration parameters required for launching a Predictive Service cluster in
-EC2.
+# Getting Started with Predictive Services
+
+In this section we will walk through an end-to-end example of deploying and using a Predictive Service. For more information about each aspect see the subsequent chapters of the User Guide.
+
+#### Configuration
+
+In order to launch a Predictive Service in EC2 we first need to configure the EC2 Config object, which contains required configuration parameters.
 
 ```no-highlight
 import graphlab
@@ -13,68 +15,101 @@ ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
                                 aws_secret_access_key='YOUR_SECRET_KEY')
 ```
 
-For more documentation about how GraphLab Create manages Jobs and Predictive
-Services, see
-[here](https://dato.com/products/create/docs/graphlab.deploy.html#predictive-services).
+The configuration object is client-side only; it's purpose is merely to encapsulate a set of parameters and pass them to the `create()` command.
 
-Having configured our EC2 Config object, we're ready to launch a Predictive
+#### Launch the Predictive Service
+
+Having configured the Predictive Service environment, we are ready to launch a Predictive
 Service Deployment using
-[graphlab.deploy.predictive_service.create](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create).
+[`graphlab.deploy.predictive_service.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create).
 Required parameters include
 
 1. a name for the deployment
 2. a EC2 configuration we defined in the previous step
 3. an state path for the root 'working directory' for this Predictive Service
 
-The 3rd parameter -- the state path -- is a S3 path that is used to manage the
-state for the Predictive Service. This can be used to create a Predictive Service
-object on another machine. This path determines where the models and any
-corresponding data dependencies will be saved. Logs are also written to this
-path with an added directory named logs.
-So for example, if we specified our S3 path to be
-`s3://my-bucket/`, then the logs for our Predictive Service would be
-saved at the following S3 path: `s3://my-bucket/logs`.
-
-When this `create` command is executed, the EC2 instances will be launched immediately, after which a load balancer will be launched, configured, and finally the load balancer will add the instances into the cluster as they pass health checks.
+When the `create()` command is executed, the EC2 instances will be launched immediately, followed by a load balancer which adds the instances into the cluster as they pass health checks.
 
 ```no-highlight
 deployment = graphlab.deploy.predictive_service.create(
     'first', ec2, 's3://sample-testing/first')
 ```
 
-There are additional, optional parameters to [graphlab.deploy.predictive_service.create()](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) including:
+Additional parameters include the number of EC2 nodes to use for the service, SSL credentials to secure the data flow, and more. See  [`graphlab.deploy.predictive_service.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) for a complete list.
 
-1. number of hosts for EC2
-2. description of this service
-3. the API key to use for REST queries
-4. the admin key to use for modifying the deployment
-5. an SSL credential pair for HTTPS
-6. a string value to use as HTTP header Access-Control-Allow-Origin
-7. the port the server will listen to
+#### Upload a Model
 
-Print the deployment object to inspect some of these important parameters, such as the information necessary to connect to the deployment from an application and the list of deployed Predictive Objects. This also indicates whether there are any pending changes. To visualize this deployment in GraphLab Canvas, use the .show() method.
+Any model that you create and use locally can back a Predictive Service. We will use a simple recommender model in this walk-through:
+
+```no-highlight
+data_url = 'https://s3.amazonaws.com/dato-datasets/movie_ratings/sample.small'
+data = graphlab.SFrame.read_csv(data_url,delimiter='\t',column_type_hints={'rating':int})
+model = graphlab.popularity_recommender.create(data, 'user', 'movie', 'rating')
+```
+
+The [`PredictiveService.add`](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.add.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.add)
+method stages a model for deployment to the cluster. It also requires us to provide a name which we will later use to query the model.
+
+```no-highlight
+deployment.add('recs', model)
+```
+
+The change needs to be applied in order for the model to be actually uploaded to the service:
+
+```no-highlight
+deployment.apply_changes()
+```
+
+Printing the deployment object displays its properties and deployed Predictive Objects:
 
 ```no-highlight
 print deployment
 ```
 
-```
+```no-highlight
 Name                  : first
-State Path            : s3://sample-testing/first
+State Path            : s3://roman-workspace/roman-ugtest
 Description           : None
-API Key               : b0a1c056-30b9-4468-9b8d-c07289017228
-CORS origin           : 
+API Key               : 7a99ccbf-3f51-4c5a-bf32-c03a6f07ecd2
+CORS origin           :
 Global Cache State    : enabled
-Load Balancer DNS Name: first-8410747484.us-west-2.elb.amazonaws.com
+Load Balancer DNS Name: first-1793598482.us-west-2.elb.amazonaws.com
 
 Deployed predictive objects:
+ name: recs, version: 1, cache: enabled, description:
 No Pending changes.
 ```
 
-Note: Distributed caching is supported if the number of hosts (`num_hosts`) is greater than two in the Predictive Service create call. If the number of hosts is less than three, then caching is enabled, but not shared/distributed between the nodes.
+At this point the model is ready to be queried.
+
+#### Query the Model
+
+Each model (or Predictive Object) in a Predictive Service exposes a REST endpoint to query it. GraphLab Create provides wrapper methods to submit queries within its Python API.
 
 ```no-highlight
-deployment
-deployment.show()
+recs = deployment.query('recs',
+                        method='recommend',
+                        data={ 'users': [ 'Jacob Smith' ] })
 ```
 
+Outside of the Python client, an application can use the endpoint directly, for instance through curl (replace the api_key and URL with your parameters as displayed by the `print deployment` command above):
+
+```no-highlight
+curl -X POST -d '{"api_key": "7a99ccbf-3f51-4c5a-bf32-c03a6f07ecd2",
+                  "data": {
+                    "method": "recommend",
+                    "data": { "users": [ "Jacob Smith" ] }
+                    }
+                  }'
+     http://first-1793598482.us-west-2.elb.amazonaws.com/query/recs
+```
+
+#### Shutdown the Predictive Service
+
+As long as the Predictive Service is up and running, it incurs AWS charges. You can shut down a service as follows:
+
+```no-highlight
+deployment.terminate_service()
+```
+
+This will terminate all nodes used by the Predictive Service.

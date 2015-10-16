@@ -1,14 +1,8 @@
 # Categorical Imputer
 
-Impute missing categorical values using reference features. The imputer takes
-as an input a column which contains categorical values, and may contain some
-None values. Its secondary input is a set of reference feature columns. During
-the Fit phase, the imputer learns the relationships between the values of the
-column to be imputed and the reference feature columns. During the Transform
-phase, the learned relationship is applied to the missing values and they are
-filled with categorical values.  The imputer also outputs a probability for
-each filled value. The probability is based on the number of possible
-candidates for each missing value.
+Impute missing categorical values using reference features. The imputer takes as an input a column which contains categorical values, and may contain some None values. Its secondary input is a set of reference feature columns. During the Fit phase, the imputer learns the relationships between the values of the column to be imputed and the reference feature columns. During the Transform phase, the learned relationship is applied to the missing values and they are filled with categorical values.  The imputer also outputs a probability for each filled value. The probability is based on the number of possible candidates for each missing value.
+
+In specific terms, during the Fit phase, the imputer performs two steps. The first step is to cluster the data using the reference features. The dominant label of the cluster is used to provide a label to None values. The probability returned becomes the proportion of dominant label in the cluster. The second step involves clusters with no label. In this case, a graph of clusters is built, and label propagation is used to determine the best label for the cluster. In this case, the probability returned is established by the label propagation algorithm.
 
 The reference feature columns must be of type *int*, *float*, *dict*, *list*, *string* or 
 *array.array*. The column to be imputed must be of the type *int*, *dict*, *list*, 
