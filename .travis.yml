@@ -2,7 +2,9 @@ language: node_js
 branches:
   only:
     - master
-install: npm install
+install:
+  - npm install
+  - npm run gitbook-dep
 script: npm run build
 deploy:
   provider: s3
