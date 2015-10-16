@@ -5,7 +5,7 @@ This is the User Guide for GraphLab Create
 * [Getting started](install.md)
 * [Working with data](sframe/introduction.md)
     * [Tabular data](sframe/tabular-data.md)
-        * [SFrame](sframe/sframe-intro.md)
+        * [Loading and Saving](sframe/sframe-intro.md)
         * [Data Manipulation](sframe/data-manipulation.md)
     * [Graph data](sgraph/sgraph.md)
     * [Visualization](sframe/visualization.md)
@@ -13,7 +13,7 @@ This is the User Guide for GraphLab Create
       * Numeric Features
         * [Quadratic Features](feature-engineering/quadratic_features.md)
         * [Feature Binning](feature-engineering/feature_binner.md)
-        * [Numeric Imputer](feature-engineering/numeric_imputer.md) 
+        * [Numeric Imputer](feature-engineering/numeric_imputer.md)
       * Categorical Features
         * [One Hot Encoder](feature-engineering/one_hot_encoder.md)
         * [Count Thresholder](feature-engineering/count_thresholder.md)

@@ -6,7 +6,7 @@ SFrames enable you to complete data cleaning tasks in a scalable way, even on
 datasets that are much larger than your computer's memory.  
 
 
-## Column Selection and Manipulation
+#### Column Selection and Manipulation
 A problem you may
 have noticed in the song metadata is that some songs' year value is 0.
 Suppose we want to change those to a missing value, so that they do not skew a
@@ -302,7 +302,7 @@ len(reasonable_usage)
 You can also write a lambda function to filter using the `filter` function,
 which you can read about in the [API Reference](https://dato.com/products/create/docs/generated/graphlab.SArray.filter.html#graphlab.SArray.filter).
 
-## Joins and Aggregation
+#### Joins and Aggregation
 
 Another important way to filter a dataset is to get rid of duplicate data.  A
 nice way to search for duplicate data is to visualize the SFrame using GraphLab
@@ -453,7 +453,7 @@ You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns
 ```
 
 
-## Working with Complex Types
+#### Working with Complex Types
 
 SArrays are strongly-typed and some operations only work on certain types. Two
 types deserve some special consideration in this user guide: `list` and `dict`.

@@ -1,11 +1,5 @@
-# SFrame
-The [SFrame](https://dato.com/products/create/docs/generated/graphlab.SFrame.html)
-is the tabular data structure included with GraphLab Create and is
-designed to scale to datasets much larger than will fit in memory. It supports
-a large number of common data manipulation operations and we will review a
-number of common ones below.
-
 # Basic Loading and Saving
+
 SFrames can import data in a [variety of formats](../data_formats_and_sources/intro.md),
 and we're always working on supporting more.  A very common data format is the
 comma separated value (csv) file, which is what we'll use for these examples.
@@ -144,7 +138,7 @@ same_usage_data = gl.load_sframe('./music_usage_data')
 ```
 
 In addition to these functions, JSON and CSV imports and exports, ODBC imports,
-and various Spark RDD conversion capabilities are also supported, 
+and various Spark RDD conversion capabilities are also supported,
 * [read_json](https://dato.com/products/create/docs/generated/graphlab.SFrame.read_json.html)
 * [export_json](https://dato.com/products/create/docs/generated/graphlab.SFrame.export_json.html)
 * [read_csv](https://dato.com/products/create/docs/generated/graphlab.SFrame.read_csv.html)
@@ -156,9 +150,9 @@ and various Spark RDD conversion capabilities are also supported,
 
 
 
-# Data Types
+#### Data Types
 
-An SFrame is made up of columns of a contiguous type. For instance the `songs` 
+An SFrame is made up of columns of a contiguous type. For instance the `songs`
 SFrame is made up of 5 columns of the following types
 
 ```
@@ -169,7 +163,7 @@ SFrame is made up of 5 columns of the following types
 	year	int
 ```
 
-In this SFrame we see only string (`str`) and integer (`int`) columns, but a 
+In this SFrame we see only string (`str`) and integer (`int`) columns, but a
 number of datatypes are supported:
 
 * `int` (signed 64-bit integer)
