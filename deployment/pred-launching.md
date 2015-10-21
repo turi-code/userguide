@@ -2,7 +2,7 @@
 
 #### Configuration
 
-In order to launch a Predictive Service you first need to configure it by instantiating a [graphlab.deploy.predictive_service.Ec2Config](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html) object:
+In order to launch a Predictive Service you first need to configure it by instantiating a [`graphlab.deploy.Ec2Config`](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html) object:
 
 ```python
 ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
@@ -10,6 +10,8 @@ ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
                                 aws_access_key_id='YOUR_ACCESS_KEY',
                                 aws_secret_access_key='YOUR_SECRET_KEY')
 ```
+
+Click on the link above to go to the API documentation, which has more details on supported EC2 instance types.
 
 As an alternative to explicitly specifying the AWS credentials as parameters to the config you can also set them in your shell:
 
@@ -28,7 +30,7 @@ If this security group does not exist, a new one will be created.
 
 #### Deployment
 
-With a valid configuration, a Predictive Service is launched using the [graphlab.deploy.predictive_service.create](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) command:
+With a valid configuration, a Predictive Service is launched using the [`graphlab.deploy.predictive_service.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) command:
 
 ```python
 deployment = graphlab.deploy.predictive_service.create(
@@ -39,7 +41,7 @@ The 3rd parameter&mdash;the state path&mdash;is a S3 path that is used to manage
 
 When the `create` command is executed, the EC2 instances will be launched immediately, followed by a load balancer which adds the instances into the cluster as they pass health checks.
 
-There are additional, optional parameters to [`create()`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) including:
+There are additional, optional parameters to [`create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) including:
 
 1. number of hosts for EC2
 2. description of this service
