@@ -203,8 +203,8 @@ Next, we need to define a function that can evaluate the returned scoring functi
 def custom_evaluator(scorer, train, valid):
     yhat_train = scorer(train)
     yhat_valid = scorer(valid)
-    return {'train_acc': gl.evaluation.accuracy(yhat_train, train['target']),
-            'valid_acc': gl.evaluation.accuracy(yhat_valid, valid['target'])}
+    return {'train_acc': gl.evaluation.accuracy(train['target'], yhat_train),
+            'valid_acc': gl.evaluation.accuracy(valid['target'], yhat_valid)}
 ```
 
 Finally, we can perform a model parameter search over a chosen set of proportions. We pass in our custom function, our parameters, and our custom evaluator. We can again use the Iris data, where this time we are classifying whether or not each isntance has the label "Iris-setosa":

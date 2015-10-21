@@ -4,7 +4,7 @@ In this section we will walk through an end-to-end example of deploying and usin
 
 #### Configuration
 
-In order to launch a Predictive Service in EC2 we first need to configure the EC2 Config object, which contains required configuration parameters.
+In order to launch a Predictive Service in EC2 we first need to configure the [`graphlab.deploy.Ec2Config`](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html)  object, which contains required configuration parameters.
 
 ```python
 import graphlab
@@ -15,7 +15,7 @@ ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
                                 aws_secret_access_key='YOUR_SECRET_KEY')
 ```
 
-The configuration object is client-side only; it's purpose is merely to encapsulate a set of parameters and pass them to the `create()` command.
+The configuration object is client-side only; its purpose is merely to encapsulate a set of parameters and pass them to the `create` command.
 
 #### Launch the Predictive Service
 
