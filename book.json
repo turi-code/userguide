@@ -1,5 +1,5 @@
 {
-    "plugins": ["customtheme"],
+    "plugins": ["customtheme", "collapsible-menu"],
     "pluginsConfig": {
         "fontSettings": {
             "theme": "white",

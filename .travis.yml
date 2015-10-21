@@ -1,0 +1,22 @@
+language: node_js
+branches:
+  only:
+    - master
+install:
+  - npm install
+  - npm run gitbook-dep
+script: npm run build
+deploy:
+  provider: s3
+  access_key_id: AKIAJCXDAFHMFPVXAGFQ
+  secret_access_key:
+    secure: MkXm+XuWnlakyeX3fiUaijgkjAx5U7eWCWPrYxoKGMlml8RNtR9+ccekXUzUUW3YgjAfxduR66kz6nge+ZkbShd0AkaKCS1HLk+s2REd+w7RjFGltwKId36bVJwod5G9XbPS29b0Ehr7MTQM0TnMoaSREUn8wWarJAtIECo1dPiSAR92wwqWkLWzxNDcVjORWrnww3Ao/pt+qF8jwq6HTDJXPT3N0ohpbwn9svqrq4KGQKDYbONT5pq7gbDdr/w9xN5NheaWvG7OOchCTq2uDQuk8L1syay5003IOG3x185z7rXxC1xXgi4oEIvL4JRXZ2rAdaQa8xivk6b2rpC8RCinrwnFLWeqYEilXYI+N8j0OcQfSD6rRBPfxGMfSS8oOhHbPJCXza3CIa9DmtJVkfvZSbigaSvPGbBo6HBtJBAe+Jfp8Z5fAcKzz1nh/kSJom9iPRIWNv/wMaNUFug/mPwQKQ5XtIlg4QvzlVksd/D5ff5IXuOfJsl0xP/NiWXj1JBMxd4E7ymcGj1fAdrnUZVnvOryojW4h27rH/zWfWcFfpSPSJ8d7Y5tlXjlDLlBw7nfkyD7fpD3w2iVfC7V9PxbOmUSsH9LRIF72KR69n8LL77lJI83Gs6bj0CyaWmtSlnzWT1tIKihLNvAdZ4yyAQIbAC27EqaESSVOAFqA4I=
+  bucket: "dato.com"
+  region: us-west-2
+  skip_cleanup: true
+  local_dir: _book
+  upload-dir: learn/userguide
+  acl: public_read
+  on:
+    branch: master
+    repo: dato-code/userguide
