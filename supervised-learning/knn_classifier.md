@@ -26,11 +26,7 @@ requires careful thought and domain knowledge. A function must be specified to
 measure the distance between any two data points, and then the size of
 "neighborhoods" relative to this distance function must be set.
 
-For the first step, there are many standard distance functions (e.g. Euclidean,
-Jaccard, Levenshtein) that work well for data whose features are all of the same
-type, but for heterogeneous data the task is a bit trickier. GraphLab Create
-overcomes this problem with **composite distances**, which are weighted sums of
-standard distance functions applied to appropriate subsets of features.
+For the first step, there are many standard distance functions (e.g. Euclidean, Jaccard, Levenshtein) that work well for data whose features are all of the same type, but for heterogeneous data the task is a bit trickier. GraphLab Create overcomes this problem with **composite distances**, which are weighted sums of standard distance functions applied to appropriate subsets of features. For more about distance functions in GraphLab Create, including composite distances, please see the [API documentation for the distances module](https://dato.com/products/create/docs/graphlab.toolkits.distances.html). The end of this chapter describes how to use a composite distance with the nearest neighbor classifier in particular.
 
 Once the distance function is defined, the user must indicate the criteria for
 deciding when training data are in the "neighborhood" of a prediction point.
@@ -53,11 +49,7 @@ nevertheless typically slower than other classification models.
 
 #### Basic Example
 
-To illustrate basic usage of the nearest neighbor classifier, we again use the
-Yelp restaurant review data, with the goal of predicting how many "stars" a user
-will give a particular business. Anticipating that we will want to test the
-validity of the model, we first split the data into training and testing
-subsets.
+To illustrate basic usage of the nearest neighbor classifier, we again use the Yelp restaurant review data, with the goal of predicting how many "stars" a user will give a particular business. Anticipating that we will want to test the validity of the model, we first split the data into training and testing subsets.
 
 ```python
 import graphlab as gl
@@ -74,13 +66,7 @@ else:
 train_data, test_data = data.random_split(0.9)
 ```
 
-In this example we build a classifier using only the four numeric features
-listed in the logistic regression chapter, namely the average stars awarded by
-each user and to each business and the total count of reviews given by each user
-and to each business. The review counts features are typically much larger than
-the average stars features, which would cause the review counts to dominate
-standard numeric distance functions. To avoid this we standardize the features
-before creating the model.
+In this example we build a classifier using only the four numeric features listed in the logistic regression chapter, namely the average stars awarded by each user and to each business and the total count of reviews given by each user and to each business. The review counts features are typically much larger than the average stars features, which would cause the review counts to dominate standard numeric distance functions. To avoid this we standardize the features before creating the model.
 
 ```python
 numeric_features = ['user_avg_stars', 
@@ -166,12 +152,7 @@ print evals['accuracy']
 0.46
 ```
 
-46% accuracy seems low, but remember that we in a multi-class classiciation
-setting. The most common class (4 stars) only occurs in 34.8% of the test data,
-so our model has indeed learned something. The confusion matrix produced by the
-`evaluate` method can help us to better understand the model performance. In
-this case we see that 83.9% of our predictions are actually within 1 star of the
-true number of stars.
+46% accuracy seems low, but remember that we are in a multi-class classiciation setting. The most common class (4 stars) only occurs in 34.8% of the test data, so our model has indeed learned something. The confusion matrix produced by the `evaluate` method can help us to better understand the model performance. In this case we see that 83.9% of our predictions are actually within 1 star of the true number of stars.
 
 ```python
 conf_matrix = evals['confusion_matrix']
@@ -184,10 +165,7 @@ print float(num_within_one) / len(test_data)
 0.8386693230783487
 ```
 
-Suppose we want to add the `text` column as a feature. One way to do this is to
-treat each entry as a "bag of words" by simply counting the number of times each
-word appears but ignoring the order (please see the text analytics chapter for
-more detail).
+Suppose we want to add the `text` column as a feature. One way to do this is to treat each entry as a "bag of words" by simply counting the number of times each word appears but ignoring the order (please see the text analytics chapter for more detail).
 
 ```python
 train_data['word_counts'] = gl.text_analytics.count_words(train_data['text'],
@@ -211,12 +189,7 @@ maps each word to the number of times that word appears:
 'birthday': 1, 'blend': 1, 'bloody': 1, 'bread': 1, 'breakfast': 1, ... }
 ```
 
-The `weighted_jaccard` distance measures the difference between two sets,
-weighted by the counts of each elements. To combine this output with the numeric
-distance we used above, we specify a **composite distance**. Each element in
-this list includes a list (or tuple) of feature names, a standard distance
-function name, and a numeric weight. The weight on each component can be
-adjusted to produce the same effect as normalizing features.
+The `weighted_jaccard` distance measures the difference between two sets, weighted by the counts of each element (please see the [API documentation](https://dato.com/products/create/docs/generated/graphlab.toolkits.distances.weighted_jaccard.html#graphlab.toolkits.distances.weighted_jaccard) for details). To combine this output with the numeric distance we used above, we specify a **composite distance**. Each element in this list includes a list (or tuple) of feature names, a standard distance function name, and a numeric weight. The weight on each component can be adjusted to produce the same effect as normalizing features.
 
 ```python
 my_dist = [
@@ -237,7 +210,7 @@ Adding the text feature appears to slightly improve the accuracy of our
 classifier. For more information, please see the following resources:
 - [User Guide chapter on nearest neighbors search](https://dato.com/learn/userguide/nearest_neighbors/nearest_neighbors.html)
 - [API documentation on the nearest neighbor classifier](https://dato.com/products/create/docs/generated/graphlab.nearest_neighbor_classifier.NearestNeighborClassifier.html)
-- [API documentation on the distances module](https://dato.com/products/create/docs/graphlab.distances.html)
+- [API documentation on the distances module](https://dato.com/products/create/docs/graphlab.toolkits.distances.html)
 - [Wikipedia on the k-nearest neighbors algorithm](http://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm)
 
 
