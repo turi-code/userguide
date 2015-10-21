@@ -31,11 +31,11 @@ import graphlab_service_client as gls
 gls.query(...)
 ```
 
-#### Using cURL
+#### Using the REST Endpoint directly
 
-We will use the Unix tool [cURL](http://curl.haxx.se/docs/manpage.html) to demonstrate how to submit the raw JSON body as a POST request to a predictive service. We can get the DNS name of the load balancer and the deployment's API key by printing the [PredictiveService](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.html?highlight=predictiveservice) object:
+We will use the Unix tool [cURL](http://curl.haxx.se/docs/manpage.html) to demonstrate how to submit the raw JSON body as a POST request to a predictive service. We can get the DNS name of the load balancer and the deployment's API key by printing the [PredictiveService](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.html) object:
 
-```no-highlight
+```python
 print deployment
 ```
 
@@ -63,6 +63,12 @@ curl -X POST -d '{"api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
                   }'
      http://first-8410747484.us-west-2.elb.amazonaws.com/query/recs
 ```
+
+The possible HTTP response codes are:
+* 200: The query was successful, a response is returned.
+* 400: The execution of a custom predictive object failed due to an exception in the code. Further details are provided in the response body.
+* 404: The queried endpoint is not known to the predictive service.
+* 500: An internal error in the predictive service caused the query to fail. Further details are provided in the response body.
 
 If you are querying a custom predictive object, the JSON body only requires the object's parameter names and values:
 
