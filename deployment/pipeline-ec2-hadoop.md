@@ -26,7 +26,7 @@ ec2 = gl.deploy.ec2_cluster.create(name='dato-kaggle',
 
 At this point you can use the object `ec2` for remote and distributed job execution.
 
-It is important to note that the [`create`](https://dato.com/products/create/docs/generated/graphlab.deploy.ec2_cluster.create.html) call will already start the hosts in EC2, so costs will be incurred at that point. They will be shutdown after an idle period, which is 10 minutes by default or set as parameter (in seconds) in the create method. Setting the timeout to a negative value will cause the cluster to run indefinitely or until explicitly stopped. For example, if you wanted to extend the timeout to one hour you would create the cluster like so:
+It is important to note that the [`create`](https://dato.com/products/create/docs/generated/graphlab.deploy.ec2_cluster.create.html) call will already start the hosts in EC2, so costs will be incurred at that point. They will be shutdown after an idle period, which is 30 minutes by default or set as parameter (in seconds) in the create method. Setting the timeout to a negative value will cause the cluster to run indefinitely or until explicitly stopped. For example, if you wanted to extend the timeout to one hour you would create the cluster like so:
 
 ```python
 ec2 = gl.deploy.ec2_cluster.create(name='dato-kaggle',
