@@ -69,7 +69,7 @@ Data:
 [1 rows x 4 columns]
 ```
 
-Of alternatively,
+Or alternatively,
 
 ```python
 # get cache status
@@ -80,6 +80,39 @@ deployment.get_status(view='model')
 ```
 
 This API returns an SFrame regarding each Predictive Object's status on each node in the deployment, so it is easy to verify programmatically when a Predictive Object has been fully loaded by all nodes in the deployment.
+
+##### Service Metrics
+
+Through the [`get_metrics`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_metrics.html) API a variety of operational metrics about the predictive service can be retrieved. By default, the method returns the number of requests and the average latency over the last 12 hours, in 5 minute increments:
+
+```python
+ps.get_metrics()
+```
+
+```
+{'requests':
++------------------+---------------------------+-------------------+
+|       sum        |            time           |        unit       |
++------------------+---------------------------+-------------------+
+|       8.0        | 2014-11-13 00:31:00+00:00 |       Count       |
+|       2.0        | 2014-11-13 00:36:00+00:00 |       Count       |
+|       7.0        | 2014-11-13 00:41:00+00:00 |       Count       |
+|     24707.0      | 2014-11-13 00:46:00+00:00 |       Count       |
+|       5.0        | 2014-11-13 00:51:00+00:00 |       Count       |
+......
+'latency':
++------------------+---------------------------+-------------------+
+|     average      |            time           |        unit       |
++------------------+---------------------------+-------------------+
+|    0.0229513     | 2014-11-13 00:31:00+00:00 |      Seconds      |
+|    0.0231056     | 2014-11-13 00:36:00+00:00 |      Seconds      |
+|    0.0221893     | 2014-11-13 00:41:00+00:00 |      Seconds      |
+|    0.0578591     | 2014-11-13 00:46:00+00:00 |      Seconds      |
+|    0.0225744     | 2014-11-13 00:51:00+00:00 |      Seconds      |
+......
+```
+
+Aside from requests and latency, the number of exceptions as well as cache-specific counters can be retrieved. Moreover, the scope can be reduced to a specific endpoint. For more information see the API documentation of [`get_metrics`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_metrics.html).
 
 #### Operations
 
