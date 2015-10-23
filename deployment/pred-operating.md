@@ -153,12 +153,13 @@ Similarly, you can add and remove nodes with the [`add_nodes`](https://dato.com/
 
 ##### Reconfigure a Predictive Service Deployment
 
-You can modify some underlying configuration parameters of the Predictive Service deployment using the [`reconfigure`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.reconfigure.html) method. At present, only two underlying configuration parameters have been exposed, but this list will grow over time. The list below enumerates the available configuration options:
+You can modify some underlying configuration parameters of the Predictive Service deployment using the [`reconfigure`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.reconfigure.html) method. The available configuration options are:
 
 - `cache_max_memory_mb`: the amount of memory allocated to the distributed cache
 - `cache_ttl_on_update_secs`: the TTL of existing cache keys after a model update
+- `feedback_cache_ttl_secs`: The TTL of cached feedback requests
 
-An example call to reconfigure might look as follows:
+A call to reconfigure might look as follows:
 
 ```python
 # increase the cache_max_memory size to 4 GBs
