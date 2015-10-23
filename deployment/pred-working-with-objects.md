@@ -206,36 +206,6 @@ If you want to inspect the custom log immediately, you can call the predictive s
 
 To consume the log, see the [Logging and Feedback](pred-logging-feedback.md) section in this user guide.
 
-##### Python Package Dependencies
-
-If your custom logic depends on other Python packages, you should use the `@graphlab.deploy.required_packages` decorator for your custom query function.
-
-For example, if your query depends on a package called 'names', then you would do the following:
-
-```python
-@graphlab.deploy.required_packages(['names=0.3.0'])
-def generate_names(num_names):
-    import names
-    # your query logic here
-```
-
-Notice the format for the required_packages parameter is consistent with the format required by the [Python distutils module](https://docs.python.org/2.7/library/distutils.html).
-
-##### Dependent Python Files
-
-If your custom query is defined in another Python file, or if it depends on other Python files you have created, you may instruct GraphLab Create to package those files for you by using the ``@graphlab.deploy.required_files` decorator.
-
-For example, if you have a set of Python scripts in a folder called ‘product_recommender’, and your custom query depends on all Python files in that folder:
-
-```python
-@graphlab.deploy.required_files('product_recommender', '*.py')
-    def recommend_similar_products(product_id):
-        from product_recommend import query_db
-        ...
-```
-
-The first parameter to `required_files` can be a file name, a folder name or a list containing both file or folder names. GraphLab Create automatically extracts the required files and ships them to the predictive service cluster. The second parameter is a file name "glob" pattern that is used to select only the files that are needed. It is implemented using the [fnmatch](https://docs.python.org/2/library/fnmatch.html) Python package.
-
 #### Removing a Predictive Object
 
 To remove a Predictive Object from your deployment, simply call the [remove](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.remove.html) method, which takes the name of the object to be removed as a parameter. Like the `add` method, this has the effect of staging a change, but it will not take affect until `apply_changes` is called.

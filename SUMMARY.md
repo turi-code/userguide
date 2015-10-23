@@ -87,6 +87,7 @@ This is the User Guide for GraphLab Create
         * [Querying](deployment/pred-querying.md)
         * [Predictive Objects](deployment/pred-working-with-objects.md)
         * [Logging and Feedback](deployment/pred-logging-feedback.md)
+        * [Dependencies](deployment/pred-dependencies.md)
         * [Experimentation](deployment/pred-experimentation.md)
         * [Operations](deployment/pred-operating.md)
         * [Run Locally](deployment/pred-on-premises.md)
