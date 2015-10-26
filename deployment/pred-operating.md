@@ -8,5 +8,6 @@ The chapter about [Monitoring and Metrics](deployment/pred-monitoring.md) shows 
 * Using APIs to retrieve monitoring status and metrics.
 
 [Administration](deployment/pred-administration.md) explains how a running predictive service can be reconfigured and managed:
-* changing the number of nodes and replacing nodes,
-* 
+* Changing the number of nodes and replacing nodes,
+* Changing the cache configuration and behavior, and
+* Modifying cross-origin request behavior.
