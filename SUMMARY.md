@@ -89,6 +89,8 @@ This is the User Guide for GraphLab Create
     * [Dependencies](deployment/pred-dependencies.md)
     * [Experimentation](deployment/pred-experimentation.md)
     * [Operations](deployment/pred-operating.md)
+        * [Monitoring and Metrics](deployment/pred-monitoring.md)
+        * [Administration](deployment/pred-administration.md)
     * [Run Locally](deployment/pred-on-premises.md)
 * [Data Formats and Sources](data_formats_and_sources/intro.md)
     * [Spark RDDs](data_formats_and_sources/spark_integration.md)
