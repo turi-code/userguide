@@ -48,6 +48,7 @@ If you have suggestions or bug reports, we welcome Github issues and pull reques
 To build the userguide, install npm and run the following: 
 ```
 npm install
+npm install gitbook-plugin-collapsible-menu
 npm run gitbook
 ```
 The generated html will be located at `_book/index.html`.
