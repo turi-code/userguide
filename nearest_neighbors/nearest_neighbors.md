@@ -281,3 +281,17 @@ depending on the shape and dimension of the data. Our houses example only has 15
 rows, so the ``leaf_size`` parameter (and the ``ball_tree`` method for that
 matter) are not too useful, but for illustration purposes we set the leaf size
 to 5 above.
+
+#### Missing data
+
+The reference dataset that is used to create the nearest neighbors model cannot
+have missing data. Please use the [SFrame.fillna](https://dato.com/products/cre
+ate/docs/generated/graphlab.SFrame.fillna.html#graphlab.SFrame.fillna) and 
+[SFrame.dropna](https://dato.com/products/create/docs/generated/graphlab.SFrame
+.dro pna.html#graphlab.SFrame.dropna) utilities to preprocess missing values
+before creating a nearest neighbors model.
+
+On the other hand, data passed to the `query` method *can* have missing data.
+For numeric columns, missing values are imputed to be the mean of the
+corresponding column in the reference dataset used to create the model. Missing
+values in string columns are imputed as empty strings.
