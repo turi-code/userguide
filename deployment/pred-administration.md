@@ -57,6 +57,50 @@ Note: currently we cannot preserve the state of the distributed cache when repai
 
 Similarly, you can add and remove nodes with the [`add_nodes`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.add_nodes.html) and [`remove_nodes`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.remove_nodes.html) APIs.
 
+#### Environment Variables
+
+It is common to use system environment variables for specific application configurations. Specifically, it is a general best practice to use such variables for secrets, like credentials, as opposed to storing them on disk. Dato Predictive Services provides an API to set environment variables for the scope of a predictive service:
+
+A variable is set using the [`set`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.set.html) API:
+
+```python
+ps.environment_variables.set('DB_USERNAME', 'bob')
+ps.apply_changes()
+```
+
+Note that this type of configuration is queued up and needs to be submitted by executing `apply_changes`.
+
+Please consider these security implications:
+* When using this feature to set secrets, make sure you configured your predictive service to use SSL in order to encrypt the data transfer upon executing this API.
+* To make sure these variables will be available as nodes are added to or replaced in the predictive service, they are stored in the S3 path specified when the predictive service was created. Please make sure to secure that location appropriately as well.
+
+The value of a variable can then be used in your deployed code (e.g., a custom predictive object) as follows:
+
+```python
+db_config = {
+  'USER': os.environ.get('DB_USERNAME'),
+  'PASSWORD': os.environ.get('DB_PASSWORD'),
+}
+```
+
+On the client, the value of a variable can be retrieved through the deployment object using [`get`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.get.html):
+
+```python
+username = ps.environment_variables.get('DB_USERNAME')
+```
+
+Similarly, [`unset`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.unset.html) removes the variable from the deployment.
+
+All currently set variables can be shown using [`list`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.list.html):
+
+```python
+ps.environment_variables.list()
+```
+
+```python
+TBD: output
+```
+
 #### Cache Management
 
 Caching is supported for Predictive Service clusters of any size. It can be controlled both at the cluster level and at the Predictive Object level. By default, the cache is enabled globally (ie. for all models) in a Predictive Service deployment. Caching is enabled for all Predictive Objects by default. You may control the cache globally and at the level of individual Predictive Objects.
