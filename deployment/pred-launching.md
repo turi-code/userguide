@@ -30,7 +30,7 @@ If this security group does not exist, a new one will be created.
 
 #### Deployment
 
-With a valid configuration, a Predictive Service is launched using the [`graphlab.deploy.predictive_service.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) command:
+With a valid configuration, a Predictive Service is launched using the [`graphlab.deploy.predictive_service.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html) command:
 
 ```python
 deployment = graphlab.deploy.predictive_service.create(
@@ -96,15 +96,6 @@ If different credentials should be used to load this deployment than those
 already defined in your shell environment, the new credentials can be specified
 as additional parameters to this method call as shown above.
 
-#### Port Configuration
-
-A Predictive Service running in EC2 exposes several open ports:
-
-* Query endpoint: A client that queries a model through Predictive Service endpoint can either use HTTP or HTTPS, which requires ports 80 and 443 to be open, respectively.
-* Administration: In order for a GraphLab Create client to be able to administer a Predictive Service, it needs to be able to talk to each node in the deployment. This happens through port 9005 by default, or a custom port if specified as a parameter to [`create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create).
-
-Additionally, the internal distributed cache communicates between nodes through ports 9006 and 19006.
-
 #### Non-default Virtual Private Cloud
 
 When configured as above a predictive service is deployed into a default subnet of your AWS account's default Virtual Private Cloud (VPC). You have the option to deploy a predictive service into a non-default VPC, as long as your subnet has internet access.
@@ -125,12 +116,3 @@ ec2 = graphlab.deploy.Ec2Config(security_group_id='YOUR_SECURITY_GROUP_ID',
 It is possible to specify a security group by name through the parameter `security_group`; if a group with the given name does not exist, it will be created.
 
 Note that if `subnet_id` is not specified and there are more than one subnets in the VPC, the predictive service might be launched into any of the VPC's subnets.
-
-
-#### Best Practices in AWS
-
-Because EC2 is a multi-tenancy service, we recommend a few best practices to ensure your service and data remain secure.
-
-* Provide SSL credentials when creating your Predictive Service to enable HTTPS as the protocol for your data flow when querying the service.
-* Create a security group in AWS and specify it when configuring your EC2 deployment through an [`Ec2Config`](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html#graphlab.deploy.Ec2Config) to restrict access to your Predictive Service.
-* Specify explicit CIDR rules when configuring your EC2 deployment to further restrict access to your Predictive Service.
