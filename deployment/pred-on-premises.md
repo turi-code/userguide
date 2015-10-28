@@ -11,7 +11,7 @@ Predictive Services on-premises uses [Docker](https://www.docker.com/) as its pa
 ##### OS X
 On OS X the newly introduced Docker Toolbox replaced the boot2docker tool (internally docker-machine still uses boot2docker). Follow the instructions on the Docker website for [creating a Docker VM in Mac OS X](http://docs.docker.com/mac/step_one/). These instructions entail:
 
-* installing the Docker Toolbox (which include VirtualBox),
+* installing the Docker Toolbox (which includes VirtualBox),
 * creating a Docker VM, and
 * setting required environment variables to use the new VM.
 
@@ -34,19 +34,17 @@ mkdir -p <deployment_path>
 4. Decide where the Predictive Services runtime data (state files, logs, etc.) will be stored; this could be a network file system, a S3 file path, or an HDFS file path. This path will be used by data scientists to manage the predictive service later through the GraphLab Create Python API. A common path is usually a HDFS path, like `hdfs://<hdfs-name-node>:8020/user/<ps-service-user>/dato_predictive_service`
 We will call this path the “ps path”.
 5. Modify predictive_service.cfg file included in the package. You will need to make the following changes for a local setup:
- * `hostname=localhost` (unless you need to deploy on a different machine, see below)
- * `ps_path`: the path you chose in step ‘4’ above
- * `deployment_path`: the path you chose in step ‘3’ above
+ * `hostname`: the target machine hostname
+ * `ps_path`: the path you chose in step 4 above
+ * `deployment_path`: the path you chose in step 3 above
  * `hdfs_conf_dir`: optional, needed if you decide to use HDFS as ps path. If you want to use HDFS for storing the predictive service's runtime data the setup script needs to know where to find the Hadoop/HDFS configuration files in order to access HDFS. This is the same folder that you would specify to the Hadoop client command.
-6. Other parameters that are set to defaults, but might need to be changed for your scenario (also depending on the size of your VirtualBox VM), are:
+6. Other parameters that are set to defaults, but might need to be changed for your scenario, are:
+ * `use_ssl`: Force connections to the predictive service to use HTTPS. Setting this to `true` also requires a path to a certificate PEM file (see also the chapter about [best security practices](pred-security.md))
  * `server_memory`: Memory in MB to be used by the predictive service's container.
  * `max_cache_memory`: Maximum amount of cache the predictive service can use.
-6. If you are setting up the predictive service on a machine other than localhost, you also need to provide credentials to the remote machine:
- * `remote_user_name`: a user name that can log into the remote machine
- * `pem_file_path`: path to key file required for accessing the remote machine
 7. Run setup, providing the path to your Predictive Services product key file:
 ```
-./setup_dato_ps.sh ~/Downloads/Dato-Predictive-Services-License.ini
+./setup_dato_ps.sh <path-to-predictive-service-license-file>
 ```
 
 If the predictive service is setup correctly, you should see this message after the script has finished:
