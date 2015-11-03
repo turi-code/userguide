@@ -483,7 +483,7 @@ Notice this TimeSeries object covers almost four years of data. Imagine we are m
 We achieve this by using:
 
 ```python
-ts1_2010 = electric_meter_ts1.datetime_range(dt.datetime(2010,1,1),dt.datetime(2010, 11, 26, 21, 2))
+ts1_2010 = electric_meter_ts1.slice(dt.datetime(2010,1,1),dt.datetime(2010, 11, 26, 21, 2))
 or
 ts1_2010 = electric_meter_ts1[dt.datetime(2010,1,1):dt.datetime(2010, 11, 26, 21, 2)]
 ```
