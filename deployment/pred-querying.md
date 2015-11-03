@@ -17,6 +17,12 @@ recs = deployment.query('recs', method='recommend', data={'users': ['Jacob Smith
 
 This query results in a call to the `recommend` method on the deployed predictive object named `recs`, and returns a set of recommendations as JSON.
 
+To query a custom predictive object you use its signature directly. Assume your method is defined as `my_method(a, b)`, and deployed as `my_method` you would query it as follows:
+
+```python
+result = deployment.query('my_method', a='foo', b='bar')
+```
+
 We also offer a standalone Python client package, which makes it easy for Python applications to query the Predictive Service. You can download that client package from [pypi](https://pypi.python.org/pypi):
 
 ```no-highlight
