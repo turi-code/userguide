@@ -54,6 +54,8 @@ You may check your Predictive Service stats on the load balancer's dashboard:
   open http://<host-name>:9000/stats
 ```
 
+At this point the docker containers are deployed. Now the predictive service needs to start up, which will take up to 1 minute (commonly not more than a few seconds). After that period the service is ready.
+
 #### Use
 GraphLab Create is required to connect to Dato Predictive Services and deploy/monitor/manage the service. For more information on obtaining and installing GraphLab Create see [Getting Started](https://dato.com/learn/userguide/install.html).
 
