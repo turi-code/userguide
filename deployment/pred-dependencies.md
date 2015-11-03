@@ -6,10 +6,10 @@ In this section we explain how you can specify the dependency of your methods on
 
 If your custom logic depends on other Python packages, you can use the `@graphlab.deploy.required_packages` decorator for your custom query function.
 
-For example, if your query depends on a package called 'names', then you would do the following:
+For example, if your query depends on the specific version '0.3.0' of a package called 'names', then you would do the following:
 
 ```python
-@graphlab.deploy.required_packages(['names=0.3.0'])
+@graphlab.deploy.required_packages(['names==0.3.0'])
 def generate_names(num_names):
     import names
     # your query logic here
