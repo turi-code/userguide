@@ -19,10 +19,11 @@ ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
 
 deployment = graphlab.deploy.predictive_service.create(
     name='testing',
-    config=ec2,
+    ec2_config=ec2,
     state_path='s3://sample-testing/first',
-    ssl_credentials=('privatekey.key', 'server.crt', True))
+    ssl_credentials=('privatekey.key', 'certificate.crt', True))
 ```
+In this example, we are indicating that the given certificate is self-signed (using `True` in the tuple).
 
 You can create a self-signed certificate from a private key in a Linux shell as follows:
 
@@ -46,10 +47,11 @@ openssl x509 -req -days 365 -in CSR.csr -signkey privatekey.key -out certificate
 cat certificate.crt privatekey.key > certificate.pem
 ```
 
-This creates the combined PEM file `certificate.pem` that can be passed to the Predictive Services setup script `predictive_service.cfg` (see also the chapter about [Predictive Services on-premises](pred-on-premises.md)):
+This creates the combined PEM file `certificate.pem` that can be specified in the Predictive Services setup script `predictive_service.cfg` (see also the chapter about [Predictive Services on-premises](pred-on-premises.md)):
 
-```no-highlight
+```bash
 ...
+# secure communication configuration
 use_ssl=true
 certificate_is_self_signed=true
 certificate_path=/home/user/certs/certificate.pem
@@ -90,7 +92,7 @@ ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
 
 deployment = graphlab.deploy.predictive_service.create(
     name='testing',
-    config=ec2,
+    ec2_config=ec2,
     state_path='s3://sample-testing/first',
     cors_origin='https://dato.com')
 ```
@@ -123,7 +125,7 @@ When you create a predictive service, by default a new security group **Dato_Pre
 ec2 = graphlab.deploy.Ec2Config(security_group='YOUR_SECURITY_GROUP_NAME')
 ```
 
-If this security group does not exist, a new one will be created.
+If this security group does not exist, it will be created.
 
 #### CIDR Rules in EC2
 
