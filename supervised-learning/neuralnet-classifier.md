@@ -195,3 +195,54 @@ Confusion Matrix :
 Note: Only the head of the SFrame is printed.
 You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns.
 ```
+
+###### Using a neural network for feature extraction
+
+A previously trained model can be used to extract dense features for a given input.
+The ```extract_features()``` function takes an input dataset, propagates each 
+example through the network, and returns an SArray of dense feature vectors, 
+each of which is the concatenation of all the hidden unit values at ```layer[layer_id]```. 
+These feature vectors can be used as input to train another classifier such 
+as a ```LogisticClassifier```, an ```SVMClassifier```, another 
+```NeuralNetClassifier```, or a ```BoostedTreesClassifier```. 
+Input dataset size must be the same as for the training of the model, 
+except for images which are automatically resized.
+
+If the original network is trained on a large dataset, these deep features can
+be very powerful. This is especially true in the context of image analysis, where
+a model trained on the very large ImageNet dataset can learn [general purpose 
+features](http://blog.dato.com/deep-learning-blog-post).
+
+In this example, we will build a neural network for classification of digits, then
+build a generic classifier on top of those extracted features. 
+
+```python
+ # The data is the MNIST digit recognition dataset
+ data = graphlab.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/train6k')
+ net = graphlab.deeplearning.get_builtin_neuralnet('mnist')
+ m = graphlab.neuralnet_classifier.create(data,
+ ...                                          target='label',
+ ...                                          network=net,
+ ...                                          max_iterations=3)
+ # Now, let's extract features from the last layer
+ data['features'] = m.extract_features(data)
+ # Now, let's build a new classifier on top of extracted features
+ m = graphlab.classifier.create(data,
+ ...                                          features = ['features'],
+ ...                                          target='label')
+```
+
+We also provide a [model trained on Imagenet](http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf).
+This pre-trained model gives pre-trained features of excellent quality for 
+images, and the way you would use such a model is demonstrated below:
+
+```python
+ imagenet_model = graphlab.load_model('http://s3.amazonaws.com/dato-datasets/deeplearning/imagenet_model_iter45')
+ data['image'] = graphlab.image_analysis.resize(data['image'], 256, 256, 3)
+ data['imagenet_features'] = imagenet_model.extract_features(data)
+```
+
+
+
+One can also use our [feature engineering](../feature-engineering/deep_feature_extractor.md) 
+tools for extracting deep features.

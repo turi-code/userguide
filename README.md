@@ -49,6 +49,7 @@ To build the userguide, install npm and run the following:
 ```
 npm install
 npm run gitbook-dep
+npm run build
 ```
 The generated html will be located at `_book/index.html`.
 
