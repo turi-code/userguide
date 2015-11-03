@@ -37,7 +37,7 @@ measurements of electric power consumption in one household through two
 electric meters. We store their measurements in two separate SFrames.
 
 ```python
-import graphlab
+import graphlab as gl
 import datetime as dt
 from datetime import timedelta
 ```
@@ -186,6 +186,8 @@ There exists other useful parameters in `resample` operator. For example, `label
 `label` is by default 'left'. Notice how the index column changes when we set `label` to 'right'.
 ```python
 ts1_resample_3m = electric_meter_ts1.resample(dt.timedelta(0,180),downsample_method='sum',upsample_method='none',label='right')
+```
+```python
 +---------------------+---------------------+-----------------------+---------+
 |       DateTime      | Global_active_power | Global_reactive_power | Voltage |
 +---------------------+---------------------+-----------------------+---------+
@@ -222,6 +224,8 @@ are filled with values from their above and below neighbors,respectively.
 
 ```python
 ts1_resample_3m = electric_meter_ts1.resample(dt.timedelta(0,180),downsample_method='sum',upsample_method='nearest',label='right')
+```
+```python
 +---------------------+---------------------+-----------------------+---------+
 |       DateTime      | Global_active_power | Global_reactive_power | Voltage |
 +---------------------+---------------------+-----------------------+---------+
@@ -259,8 +263,10 @@ column along the time dimension. GraphLab Create provides two methods
 
 `tshift` operator shift the index column of the TimeSeries object along the time dimension while keeping other columns intact.
 For example, we can shift the `electric_meter_ts1` by 5 mintues, so all the tuples move 5 minutes ahead:
-```point 
+```python
 electric_meter_ts1.tshift(dt.timedelta(0,300))
+```
+```python
 +---------------------+---------------------+-----------------------+---------+
 |       DateTime      | Global_active_power | Global_reactive_power | Voltage |
 +---------------------+---------------------+-----------------------+---------+
@@ -295,6 +301,8 @@ electric_meter_ts1.tshift(dt.timedelta(0,300))
 Notice that this operator does not change the *range* of the TimeSeries object and it fills those edge tuples that lost their value with `None`.
 ```python
 electric_meter_ts1.shift(3)
+```
+```python
 +---------------------+---------------------+------------------+-----------------------+
 |       DateTime      | Global_active_power | Global_intensity | Global_reactive_power |
 +---------------------+---------------------+------------------+-----------------------+
@@ -397,7 +405,7 @@ Note: Only the head of the Time
 ```
 `how` parameter in `index_join` operator determines the join method. The acceptable values are 
 'inner','left','right', and 'outer'. The behavior is exactly like the *SQL*
-join methods. For example, `how='right'` alos brings all the tuples of the right
+join methods. For example, `how='right'` also brings all the tuples of the right
 TimeSeries object that is not matched with any tuple in the left TimeSeries
 object to the output result.
 ```python
@@ -468,16 +476,16 @@ Let's do some pre-processing on `electric_meter_ts1` TimeSeries object to make i
 First we are interested in the *range* of this TimeSeries object.
 ```python
 electric_meter_ts1.range
-(datetime.datetime(2006, 12, 16, 17, 24),
-  datetime.datetime(2010, 11, 26, 21, 2))
+(dt.datetime(2006, 12, 16, 17, 24),
+  dt.datetime(2010, 11, 26, 21, 2))
 ```
 Notice this TimeSeries object covers almost four years of data. Imagine we are more interested in data of the year '2010'.
 We achieve this by using:
 
 ```python
-ts1_2010 = electric_meter_ts1.datetime_range(dt.datetime(2010,1,1),datetime.datetime(2010, 11, 26, 21, 2))
+ts1_2010 = electric_meter_ts1.datetime_range(dt.datetime(2010,1,1),dt.datetime(2010, 11, 26, 21, 2))
 or
-ts1_2010 = electric_meter_ts1[dt.datetime(2010,1,1):datetime.datetime(2010, 11, 26, 21, 2)]
+ts1_2010 = electric_meter_ts1[dt.datetime(2010,1,1):dt.datetime(2010, 11, 26, 21, 2)]
 ```
 Next, we want to remove all the value columns except `Global_active_power`. 
 ```python
@@ -536,9 +544,10 @@ individual TimeSeries that are *grouped* by day of the week.
 
 ```python
 tsg = ts1_final.group(ts1_final.date_part.WEEKDAY)
+tsg.groups()
 ```
 ```python
-tsg.groups()
+dtype: int
 Rows: 7
 [0, 1, 2, 3, 4, 5, 6]
 ```
@@ -547,6 +556,8 @@ In this example groups are named between 0 and 6 where 0 is Monday. We can easil
 For instance, the following return a TimeSeries object that represents all the metering tuples of the `ts1_final` on 'Tuesdays'.
 ```python
 ts_tues = tsg.get_group(1)
+```
+```python
 +---------------------+---------------------+
 |       DateTime      | Global_active_power |
 +---------------------+---------------------+
