@@ -91,14 +91,14 @@ username = ps.environment_variables.get('DB_USERNAME')
 
 Similarly, [`unset`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.unset.html) removes the variable from the deployment.
 
-All currently set variables can be shown using [`list`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.list.html):
+All currently set variables (that have been applied to the service) can be shown using [`list`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.list.html), which returns a dictionary of key-value pairs:
 
 ```python
 ps.environment_variables.list()
 ```
 
 ```python
-TBD: output
+{'DB_USERNAME': 'bob', 'DB_PASSWORD': 'abc123'}
 ```
 
 #### Cache Management
