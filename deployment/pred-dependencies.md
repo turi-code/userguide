@@ -22,7 +22,7 @@ Aside from packages available in the python package index pypi, you can also spe
 
 ```python
 @graphlab.deploy.required_packages(
-    ['file://home/user/mypackages/fluxcapacitor-85.1.1-py27_0.tar.bz2'])
+    ['/home/user/mypackages/fluxcapacitor-85.1.1-py27_0.tar.bz2'])
 def my_method(input):
     # your query logic using your custom package here
 ```
@@ -31,7 +31,7 @@ The parameter to `required_packages` is an array, so you can list a set of packa
 
 #### Dependent Python Files
 
-If your custom query is defined in another Python file, or if it depends on other Python files you have created, you may instruct GraphLab Create to package those files for you by using the ``@graphlab.deploy.required_files` decorator.
+If your custom query is defined in another Python file, or if it depends on other Python files you have created, you may instruct GraphLab Create to package those files for you by using the `@graphlab.deploy.required_files` decorator.
 
 For example, if you have a set of Python scripts in a folder called ‘product_recommender’ and your custom query depends on these scripts, you can specify this dependency as follows:
 
@@ -42,4 +42,4 @@ def recommend_similar_products(product_id):
     ...
 ```
 
-The first parameter to `required_files` can be a file name, a folder name or a list containing both file or folder names. GraphLab Create automatically extracts the required files and ships them to the Predictive Service cluster. The second parameter is a file name "glob" pattern that is used to select only the files that are needed. It is implemented using the [fnmatch](https://docs.python.org/2/library/fnmatch.html) Python package.
+The first parameter to `required_files` describes the location(s) that will be searched. This can be a file name, a folder name or a list containing both file or folder names, either as absolute paths, or relative to the current working directory. GraphLab Create automatically extracts the required files and ships them to the Predictive Service cluster. The second parameter is a file name "glob" pattern that is used to select only the files that are needed. It is implemented using the [fnmatch](https://docs.python.org/2/library/fnmatch.html) Python package.
