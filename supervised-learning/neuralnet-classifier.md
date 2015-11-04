@@ -15,7 +15,7 @@ network does not always work out of the box, and you will often need to tweak
 the architectures a bit to make it work for your problem.
 
 
-##### Introductory Example: Digit Recognition on MNIST Data
+#### Introductory Example: Digit Recognition on MNIST Data
 
 
 In this example, we will train a covolutional neural network for digit
@@ -24,6 +24,7 @@ neural nets have fixed input size. We can use the resize function. The setup
 code to get started is as follows:
 
 ```python
+
 import graphlab as gl
 
 # Load the MNIST data (from an S3 bucket)
@@ -44,6 +45,7 @@ convolutional neuralnet work). The layers of the network can be viewed
 as follows.
 
 ```python
+
 net = gl.deeplearning.get_builtin_neuralnet('mnist')
 
 print "Layers of the network "
@@ -91,6 +93,7 @@ Parameters of the network
 We can now train the neural network using the specified network as follows:
 
 ```python
+
 model = gl.neuralnet_classifier.create(training_data, target='label',
                                          network = net,
                                          validation_set=validation_data,
@@ -98,7 +101,7 @@ model = gl.neuralnet_classifier.create(training_data, target='label',
                                          max_iterations=3)
 ```
 
-##### Making Predictions
+#### Making Predictions
 
 We can now classify the test data, and output the most likely class label. The
 score corresponds to the learned probability of the testing instance belonging
@@ -109,6 +112,7 @@ the classify provides the **top** label predictions for each data point along
 with a probability/confidence of the class prediction.
 
 ```python
+
 predictions = model.classify(test_data)
 print predictions
 ```
@@ -132,7 +136,7 @@ print predictions
 ```
 
 
-###### Making detailed predictions
+#### Making Detailed Predictions
 
 We can use the **predict_topk()** interface if we want prediction scores for
 each class in the **top-k** classes (sorted in decreasing order of score).
@@ -140,6 +144,7 @@ each class in the **top-k** classes (sorted in decreasing order of score).
 Predict the top 2 most likely digits
 
 ```python
+
 pred_top2 = model.predict_topk(test_data, k=2)
 print pred_top2
 ```
@@ -163,12 +168,13 @@ print pred_top2
 [20000 rows x 3 columns]
 ```
 
-##### Evaluating the model
+#### Evaluating the Model
 
 We can evaluate the classifier on the test data. Default metrics are accuracy,
 and confusion matrix.
 
 ```python
+
 result = model.evaluate(test_data)
 print "Accuracy         : %s" % result['accuracy']
 print "Confusion Matrix : \n%s" % result['confusion_matrix']
@@ -196,27 +202,16 @@ Note: Only the head of the SFrame is printed.
 You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns.
 ```
 
-###### Using a neural network for feature extraction
+#### Using a Neural Network for Feature Extraction
 
-A previously trained model can be used to extract dense features for a given input.
-The ```extract_features()``` function takes an input dataset, propagates each 
-example through the network, and returns an SArray of dense feature vectors, 
-each of which is the concatenation of all the hidden unit values at ```layer[layer_id]```. 
-These feature vectors can be used as input to train another classifier such 
-as a ```LogisticClassifier```, an ```SVMClassifier```, another 
-```NeuralNetClassifier```, or a ```BoostedTreesClassifier```. 
-Input dataset size must be the same as for the training of the model, 
-except for images which are automatically resized.
+A previously trained model can be used to extract dense features for a given input. The[```graphlab.toolkits.classifier.neuralnet_classifier.NeuralNetClassifier.extract_features(layer_id)```](https://dato.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.extract_features.html#graphlab.neuralnet_classifier.NeuralNetClassifier.extract_features) function takes an input dataset, propagates each example through the network, and returns an SArray of dense feature vectors, each of which is the concatenation of all the hidden unit values at ```layer[layer_id]```. These feature vectors can be used as input to train another classifier such as a [```LogisticClassifier```](https://dato.com/products/create/docs/generated/graphlab.logistic_classifier.LogisticClassifier.html#graphlab.logistic_classifier.LogisticClassifier), an [```SVMClassifier```](https://dato.com/products/create/docs/generated/graphlab.svm_classifier.SVMClassifier.html#graphlab.svm_classifier.SVMClassifier), another [```NeuralNetClassifier```](https://dato.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.html#graphlab.neuralnet_classifier.NeuralNetClassifier), or [```BoostedTreesClassifier```](https://dato.com/products/create/docs/generated/graphlab.boosted_trees_classifier.BoostedTreesClassifier.html#graphlab.boosted_trees_classifier.BoostedTreesClassifier). Input dataset size must be the same as for the training of the model, except for images which are automatically resized.
 
-If the original network is trained on a large dataset, these deep features can
-be very powerful. This is especially true in the context of image analysis, where
-a model trained on the very large ImageNet dataset can learn [general purpose 
-features](http://blog.dato.com/deep-learning-blog-post).
+If the original network is trained on a large dataset, these deep features canbe very powerful. This is especially true in the context of image analysis, wherea model trained on the very large ImageNet dataset can learn [general purpose features](http://blog.dato.com/deep-learning-blog-post).
 
-In this example, we will build a neural network for classification of digits, then
-build a generic classifier on top of those extracted features. 
+In this example, we will build a neural network for classification of digits, thenbuild a generic classifier on top of those extracted features. 
 
 ```python
+ 
  # The data is the MNIST digit recognition dataset
  data = graphlab.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/train6k')
  net = graphlab.deeplearning.get_builtin_neuralnet('mnist')
@@ -232,17 +227,16 @@ build a generic classifier on top of those extracted features.
  ...                                          target='label')
 ```
 
-We also provide a [model trained on Imagenet](http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf).
-This pre-trained model gives pre-trained features of excellent quality for 
-images, and the way you would use such a model is demonstrated below:
+We also provide a [model trained on Imagenet](http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf).This pre-trained model gives pre-trained features of excellent quality for images, and the way you would use such a model is demonstrated below:
 
 ```python
- imagenet_model = graphlab.load_model('http://s3.amazonaws.com/dato-datasets/deeplearning/imagenet_model_iter45')
+
+ imagenet_path =  'http://s3.amazonaws.com/dato-datasets/deeplearning/imagenet_model_iter45'
+ imagenet_model = graphlab.load_model(imagenet_path)
  data['image'] = graphlab.image_analysis.resize(data['image'], 256, 256, 3)
  data['imagenet_features'] = imagenet_model.extract_features(data)
 ```
 
 
 
-One can also use our [feature engineering](../feature-engineering/deep_feature_extractor.md) 
-tools for extracting deep features.
+One can also use our [feature engineering](../feature-engineering/deep_feature_extractor.md) tools for extracting deep features.
