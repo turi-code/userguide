@@ -102,3 +102,4 @@ This is the User Guide for GraphLab Create
     * [Text analysis](text/exercises.md)
     * [Recommender systems](recommender/exercises.md)
 * [FAQ/Common Problems](faq.md)
+* [Contributing](contributing.md)
