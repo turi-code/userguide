@@ -4,14 +4,13 @@ For an SFrame of strings, where each row is assumed to be a natural English lang
 
 The transformed output is a column of type list[string] with the list of tokens for each document.
 
-#### Introductory Example
-
 ```python
 import graphlab as gl
 
 sf = gl.SFrame({'docs': ["This is a document!",
                           "This one's also a document."]})
-tokenizer = graphlab.feature_engineering.Tokenizer(feature = 'docs')
+tokenizer = graphlab.feature_engineering.Tokenizer(features = ['docs'])
+tokenizer.fit(sf)
 tokenized_sf = tokenizer.transform(sf)
 ```
 ```no-highlight
