@@ -77,7 +77,7 @@ Graph structure can be visualized with [`SGraph.show()`](https://dato.com/produc
 
 #### Model Visualization
 
-Models such as Recommender and Classifier can be visually inspected by calling model.show(). The model visualization provides model summary view, model evaluation view and model comparison view. More details about how to use the model comparison visualization can be found in [`gl.compare()`](https://dato.com/products/create/docs/generated/graphlab.toolkits.compare.html) and [`gl.show_comparison()`](https://dato.com/products/create/docs/generated/graphlab.toolkits.show_comparison.html).
+Models such as Recommender and Classifier can be visually inspected by calling model.show(). The model visualization provides model summary view, model evaluation view and model comparison view. More details about how to use the model comparison visualization can be found in [`gl.compare()`](https://dato.com/products/create/docs/generated/graphlab.compare.html) and [`gl.show_comparison()`](https://dato.com/products/create/docs/generated/graphlab.show_comparison.html).
 
 The summary view provides basic statistics about the training data as well as the model training time.
 [<img alt="Example of Canvas Model Summary View" src="images/model_summary.png" style="max-width: 50%; margin-left: 25%;" />](images/model_summary.png)
