@@ -14,8 +14,7 @@ they have a zero count and are not explicitly included in the dictionary.
 
 NGramCounter can be applied to all the string-, dictionary-, and list-typed
 columns in a given SFrame. Its behavior for each supported input column
-type is as follows. (See :func:`~graphlab.feature_engineering.NGramCounter.transform`
-for usage examples).
+type is as follows. 
 
 * **string** : By default, all letters are first converted to lower case.
   Then, if computing word ngrams, each string is tokenized by space and
@@ -61,8 +60,8 @@ compute. Calling this function with large values `n` (larger than 3 or 4)
 should be done very carefully.
 
 #### References
-- `N-gram wikipedia article <http://en.wikipedia.org/wiki/N-gram>`_
-- `Penn treebank tokenization <https://www.cis.upenn.edu/~treebank/tokenization.html>`_
+- [N-gram wikipedia article](http://en.wikipedia.org/wiki/N-gram)
+- [Penn treebank tokenization](https://www.cis.upenn.edu/~treebank/tokenization.html)
 
 #### Introductory example
 
