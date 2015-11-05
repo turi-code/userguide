@@ -9,8 +9,7 @@ count is zero, which are not explicitly included in the dictionary.
 
 WordCounter can be applied to all the string-, dictionary-, and list-typed 
 columns in a given SFrame. Its behavior for each supported input column
-type is as follows. (See :func:`~graphlab.feature_engineering.WordCounter.transform`
-for usage examples).
+type is as follows. 
 
 * **string** : The string is first tokenized. By default, all letters are 
 first converted to lower case, then tokenized by space characters. The
