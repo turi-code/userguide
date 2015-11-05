@@ -63,7 +63,9 @@ whose input is an SArray and output is an SArray. Internally it simply runs
 `fit_transform` on the corresponding transformation. 
 
 ```python
-transformed_docs = gl.text_analytics.tf_idf(data['docs'])
+tfidf_transforms = gl.text_analytics.tf_idf(data['docs'])
+bag_of_words_transforms = gl.text_analytics.count_words(data['docs'])
+bag_of_ngrams_transforms = gl.text_analytics.count_words(data['docs'])
 ```
 
 ## Transforming multiple columns 
