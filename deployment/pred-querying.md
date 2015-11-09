@@ -15,7 +15,34 @@ deployment = gl.deploy.predictive_services.load('s3://sample-testing/first')
 recs = deployment.query('recs', method='recommend', data={'users': ['Jacob Smith']})
 ```
 
-This query results in a call to the `recommend` method on the deployed predictive object named `recs`, and returns a set of recommendations as JSON.
+This query results in a call to the `recommend` method on the deployed predictive object named `recs`, and returns a set of recommendations as JSON. We are using a `PopularityRecommender` model in this example (which we have deployed in the chapter about [Launching a Predictive Service](pred-launching.md)). All `recommend` methods of GraphLab Create recommender models take a `users` parameter. The array can contain one or more user names, for which an equal number of recommendations will be returned by the predictive service.
+
+If we were using a classifier or regression model to make predictions, the signature looks different. The `predict` method of these models takes a parameter named `dataset`, which is an SFrame with the same columns that were used during training of the model (see for instance [`LinearRegression.predict`](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.predict.html)). For example, if we had deployed a model named `house_prices` trained on features `zipcode`, `sqft`, and `year`, the query call would look as follows:
+
+```python
+preds = deployment.query('house_prices', method='predict',
+                         data={'dataset': {'zipcode': 98102,
+                                           'sqft': 1350,
+                                           'year': 1985}
+                              })
+```
+
+You can see the pattern: the content of the `data` parameter needs to match the method's signature.
+
+Just like the regular `predict` method can take an SFrame with multiple rows, a predictive service can return batch predictions:
+
+```python
+preds = deployment.query('house_prices', method='predict',
+                         data={'dataset': [{'zipcode': 98102,
+                                            'sqft': 1350,
+                                            'year': 1985},
+                                           {'zipcode': 98103,
+                                            'sqft': 1800,
+                                            'year': 1978}]
+                              })
+```
+
+
 
 We also offer a standalone Python client package, which makes it easy for Python applications to query the Predictive Service. You can download that client package from [pypi](https://pypi.python.org/pypi):
 
@@ -55,13 +82,42 @@ No Pending changes.
 The HTTP endpoint of a predictive object (GraphLab Create model or custom method) is composed of the DNS name and the path `/query/<object name>`. For our previous example that would be `/query/recs`. The JSON body needs to contain the API key and the input to the object. In case of a GraphLab Create model it also requires the name of the model's method to call:
 
 ```no-highlight
-curl -X POST -d '{"api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
-                  "data": {
-                    "method": "recommend",
-                    "data": { "users": [ "Jacob Smith" ] }
-                    }
-                  }'
+curl -X POST -d '{ "api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
+                   "data": {
+                     "method": "recommend",
+                     "data": { "users": [ "Jacob Smith" ] }
+                   }
+                 }'
      http://first-8410747484.us-west-2.elb.amazonaws.com/query/recs
+```
+
+In the case of a classifier or regression model you need to pass a dataset. Following our example from above, the call would be:
+
+```no-highlight
+curl -X POST -d '{ "api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
+                   "data": {
+                     "method": "recommend",
+                     "data": {
+                       "dataset": {'zipcode': 98102, 'sqft': 1350, 'year': 1985}
+                     }
+                   }
+                 }'
+     http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
+```
+
+Or for batch predictions:
+
+```no-highlight
+curl -X POST -d '{ "api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
+                   "data": {
+                     "method": "recommend",
+                     "data": {
+                       "dataset": [{'zipcode': 98102, 'sqft': 1350, 'year': 1985},
+                                   {'zipcode': 98103, 'sqft': 1800, 'year': 1978}]
+                     }
+                   }
+                 }'
+     http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
 ```
 
 If you are querying a custom predictive object, the JSON body only requires the object's parameter names and values:
