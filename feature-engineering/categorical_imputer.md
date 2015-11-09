@@ -14,12 +14,11 @@ values. If it contains values, they will be returned untouched with a probabilit
 
 #### Introductory Example
 ```python
-
 # Import GraphLab if not already imported
-import  graphlab
+import graphlab
 
 # Create data.
-sf = graphlab.SFrame({'a': [1,0,1], 'b' : [0,1,0], 'c' : ["a", "b", None]})
+sf = graphlab.SFrame({'a': [1,0,1], 'b' : [0,1,0], 'c' : ['a', 'b', None]})
 
 # Create a transformer that fits learns from the data above, and tries to impute column c.
 from graphlab.toolkits.feature_engineering import CategoricalImputer
@@ -57,12 +56,12 @@ Data:
 ```python
 
 # Import GraphLab if not already imported
-import  graphlab
+import graphlab
 
 # Fit and Transform the same column
 # ----------------------------------------------------------------------
 # Create the data
-sf = graphlab.SFrame({'a': [1,0,1], 'b' : [0,1,0], 'c' : ["a", "b", None]})
+sf = graphlab.SFrame({'a': [1,0,1], 'b' : [0,1,0], 'c' : ['a', 'b', None]})
 
 # Create the imputer.
 imputer = graphlab.feature_engineering.CategoricalImputer(feature='c')
@@ -99,7 +98,7 @@ import  graphlab
 
 # Fit on one set, and transform another
 # ----------------------------------------------------------------------
-sf = graphlab.SFrame({'a': [1,0,1], 'b' : [0,1,1], 'c' : ["a", "b", "c"]})
+sf = graphlab.SFrame({'a': [1,0,1], 'b' : [0,1,1], 'c' : ['a', 'b', 'c']})
 
 # Construct and fit.
 from graphlab.toolkits.feature_engineering import CategoricalImputer
@@ -119,6 +118,7 @@ Column to impute              : c
 ```python
 # Data to be imputed
 sf2 = graphlab.SFrame({'a': [1,0,1,0], 'b' : [0,1,1,0], 'c' : [None, None, None, None]})
+sf2['c'] = sf2['c'].astype(str)
 
 # Transform the data
 transformed_sf = imputer.transform(sf2)
@@ -140,8 +140,8 @@ Data:
 +---+---+------+---------------------+-----------------------+
 | a | b |  c   | predicted_feature_c | feature_probability_c |
 +---+---+------+---------------------+-----------------------+
-| 1 | 0 | None |          a          |          0.5          |
-| 0 | 1 | None |          b          |          1.0          |
+| 1 | 0 | None |          a          |          1.0          |
+| 0 | 1 | None |          c          |          0.5          |
 | 1 | 1 | None |          c          |          0.5          |
 | 0 | 0 | None |          c          |          0.5          |
 +---+---+------+---------------------+-----------------------+
