@@ -4,18 +4,48 @@ The following sub-sections explain how various properties of a deployed predicti
 
 #### Launching and Terminating
 
-In chapter [Launching](pred-launching.md) we have shown how a predictive service is started, given a valid configuration for EC2:
+In chapter [Launching](pred-launching.md) we have shown how a predictive service is created, given a valid configuration for EC2:
 
 ```python
 ps = graphlab.deploy.predictive_service.create(
     'first', ec2, 's3://sample-testing/first')
 ```
 
-Alternatively, a handle to a running predictive service can be retrieved:
+A reference to an existing predictive service can be retrieved through the [`load`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.load.html) API:
 
 ```python
 ps = graphlab.deploy.predictive_service.load(
     's3://sample-testing/first')
+```
+
+This method will load an existing predictive service from the specified path, which corresponds to the path given at creation time (The predictive service keeps a state file in that path).
+
+If you have worked with a predictive service in your local machine at least once, it will be added to your session. The list of predictive services registered in your session  can be listed as follows:
+
+```python
+graphlab.deploy.predictive_services
+```
+
+```python
+PredictiveService(s):
++-------+-----------------+-----------------------------+-------------------+
+| Index |       Name      |         State_path          |        Type       |
++-------+-----------------+-----------------------------+-------------------+
+|   0   |      first      |  s3://sample-testing/first  | PredictiveService |
+|   1   | demolab-one-six | s3://gl-demo-usw/demolab/ps | PredictiveService |
++-------+-----------------+-----------------------------+-------------------+
++------------------+----------------------------+
+| Unsaved changes? |       Creation date        |
++------------------+----------------------------+
+|        No        | 2015-10-30 11:33:43.395008 |
+|        No        | 2015-10-28 13:29:43.274104 |
++------------------+----------------------------+
+```
+
+You can load a reference to a predictive service from this list like this:
+
+```python
+ps = graphlab.deploy.predictive_services[0]
 ```
 
 To terminate a Predictive Service, call the [`terminate_service`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.terminate_service.html) method. There are options to delete the logs and predictive objects as well. **Note:** There is no warning or confirmation on this method; it will terminate the EC2 instances and tear down the Elastic Load Balancer.
