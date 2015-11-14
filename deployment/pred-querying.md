@@ -8,6 +8,8 @@ The deployment serves models through a REST API. The API takes JSON input, and r
 
 To make it easy to validate deployment changes, and to manually warm up the distributed cache, we offer a [query](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.query.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.query) method as part of the Predictive Services API. This makes it is easy to query the deployment directly from within your GraphLab Create session.
 
+##### GraphLab Create Models
+
 For the example deployment, the code below demonstrates how we query for recommendations for user ```Jacob Smith```:
 
 ```python
@@ -17,7 +19,29 @@ recs = deployment.query('recs', method='recommend', data={'users': ['Jacob Smith
 
 This query results in a call to the `recommend` method on the deployed predictive object named `recs`, and returns a set of recommendations as JSON. We are using a `PopularityRecommender` model in this example (which we have deployed in the chapter about [Launching a Predictive Service](pred-launching.md)). All `recommend` methods of GraphLab Create recommender models take a `users` parameter. The array can contain one or more user names, for which an equal number of recommendations will be returned by the predictive service.
 
-If we were using a classifier or regression model to make predictions, the signature looks different. The `predict` method of these models takes a parameter named `dataset`, which is an SFrame with the same columns that were used during training of the model (see for instance [`LinearRegression.predict`](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.predict.html)). For example, if we had deployed a model named `house_prices` trained on features `zipcode`, `sqft`, and `year`, the query call would look as follows:
+If we were using a classifier or regression model to make predictions, the signature looks different. The `predict` method of these models takes a parameter named `dataset`, which needs to contain values for the features the model was trained for (for more information on model training see for instance [`LinearRegression.predict`](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.predict.html)).
+
+Assume, for instance, we had deployed a model named `house_prices` trained on features `zipcode`, `sqft`, and `year`. Now we want to query the model with a specific sample:
+the query call could look as follows:
+
+```python
+example_house
+```
+
+```python
+{'zipcode': '98125',
+ 'sqft': 2170,
+ 'year': 1951}
+```
+
+```python
+preds = deployment.query('house_prices', method='predict',
+                         data={'dataset': example_house})
+```
+
+Note that `example_house` could include other features as well; they will be ignored if they have not been used for model training.
+
+You can also specify the dictionary of feature key-value pairs explicitly:
 
 ```python
 preds = deployment.query('house_prices', method='predict',
@@ -27,9 +51,14 @@ preds = deployment.query('house_prices', method='predict',
                               })
 ```
 
-You can see the pattern: the content of the `data` parameter needs to match the method's signature.
+Just like the regular `predict` method can take an SFrame with multiple rows, a predictive service can return batch predictions based on an SFrame:
 
-Just like the regular `predict` method can take an SFrame with multiple rows, a predictive service can return batch predictions:
+```python
+preds = deployment.query('house_prices', method='predict',
+                         data={'dataset': house_data[:10]})
+```
+
+Or explicitly specified:
 
 ```python
 preds = deployment.query('house_prices', method='predict',
@@ -42,7 +71,7 @@ preds = deployment.query('house_prices', method='predict',
                               })
 ```
 
-
+##### Custom Predictive Objects
 
 To query a custom predictive object you use its signature directly. Assume your method is defined as `my_method(a, b)`, and deployed as `my_method` you would query it as follows:
 
