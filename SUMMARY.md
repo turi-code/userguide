@@ -8,7 +8,7 @@ This is the User Guide for GraphLab Create
         * [Loading and Saving](sframe/sframe-intro.md)
         * [Data Manipulation](sframe/data-manipulation.md)
     * [Graph data](sgraph/sgraph.md)
-    * [TimeSeries data](timeseries/timeseries-data.md)
+    * [Time series data](timeseries/timeseries-data.md)
     * [Visualization](vis/visualization.md)
     * [Feature Engineering](feature-engineering/introduction.md)
       * [Numeric Features](feature-engineering/numeric_features.md)
