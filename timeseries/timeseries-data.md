@@ -1,102 +1,79 @@
-#Working with TimeSeries Data
-There are many instances of data used for machine learning tasks that has a
-timestamp feature which provides an implicit temporal ordering on the
-observations, e.g., log data, sensor data, market data. Under such
-circumstances it is important to be able to build more functionality treating
-the timestamp column as an index - time series. With this we will provide the
-ability to group the data with respect to various intervals of time, aggregate
-within each of those time slices, impute the values in those time slices, etc.
-This greatly simplifies the development time for manipulating such data.
+# Time series 
 
-## TimeSeries Abstraction in GraphLab Create
+Data sources such as usage logs, sensor measurements, financial instruments,
+the presence of a time-stamp results in an implicit temporal ordering on the
+observations.
 
-*TimeSeries* is the fundamental data-structure to hold multi-variate timeseries data with GraphLab Create. 
-TimeSeries object is backed by a single [SFrame](https://dato.com/products/create/docs/generated/graphlab.SFrame.html)
-,the tabular data structure included with GraphLab Create for complicated data analysis.
+In these applications, it becomes important to be able to treat the time-stamp
+as an index around which several important operations such as:
+- grouping the data with respect to various intervals of time
+- aggregating data across time intervals
+- aggregate/impute raw data into regular discrete intervals
 
-GraphLab Create stores TimeSeries object like the following:
+
+The `TimeSeries` object is the fundamental data structure for multivariate time
+series data. TimeSeries objects are backed by a single `SFrame`, but include
+extra metadata.
+
+
+|   $$T$$   |  $$V_1$$   |  $$V_2$$   | $$...$$ |  $$V_k$$   |
+|-----------|------------|------------|---------|------------|
+| $$t_{1}$$ | $$v_{11}$$ | $$v_{21}$$ | $$...$$ | $$v_{k1}$$ |
+| $$t_{2}$$ | $$v_{12}$$ | $$v_{22}$$ | $$...$$ | $$v_{k2}$$ |
+| $$t_{3}$$ | $$v_{13}$$ | $$v_{23}$$ | $$...$$ | $$v_{k3}$$ |
+| $$...$$   |  $$...$$   | $$...$$    | $$...$$ | $$...$$    |
+| $$...$$   |  $$...$$   | $$...$$    | $$...$$ | $$...$$    |
+| $$t_{n}$$ | $$v_{1n}$$ | $$v_{2n}$$ | $$...$$ | $$v_{kn}$$ |
+
+
+Each column pair $$(V_i, T)$$ in the table corresponds to a univariate time
+series. $$V_i$$ is the value column for $$T$$ is the index column that is
+shared among all the single (univariate) time series. 
+
+In this chapter, we will use a dataset obtained from the [UCI machine learning
+repository](https://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption).
+The dataset contains measurements of electric power consumption in one
+household with a one-minute sampling rate over a period of almost 4 years. The
+entire dataset contains around 2,075,259 measurements gathered between December
+2006 and November 2010 (47 months). The dataset is stored as an SFrame that can
+be loaded as follows:
+
+
 ```python
-====== ====== ====== ===== ======
-   T     V_0    V_1   ...    V_n 
-====== ====== ====== ===== ======
-  t_0   v_00   v_10   ...   v_n0 
-  t_1   v_01   v_11   ...   v_n1 
-  t_2   v_02   v_12   ...   v_n2 
-  ...   ...    ...    ...   ...  
-  t_k   v_0k   v_1k   ...   v_nk 
-====== ====== ====== ===== ======
+import graphlab as gl
+household_data = gl.SFrame("http://s3.amazonaws.com/dato-datasets/household_electric_sample.sf")
 ```
-
-Each column pair `(V_i,T)` in the table corresponds to a uni-variate `TimeSeries_i`. 
-`V_i` is the value column for `TimeSeries_i` and `T` is the index column that is shared 
-among all the single (uni-variate) `TimeSeries_k k={0,1,...,n}` in this TimeSeries object. 
-
-## TimeSeries Functionality in GraphLab Create
-We illustrate the TimeSeries functionalities in GraphLab Create throughout an example. Imagine we have access to 
-measurements of electric power consumption in one household through two
-electric meters. We store their measurements in two separate SFrames.
-
-```python
-import graphlab
-import datetime as dt
-from datetime import timedelta
-```
-```python
-electric_meter_sf1 = gl.SFrame("http://s3.amazonaws.com/dato-datasets/household_electric_power1.sf")
-electric_meter_sf2 = gl.SFrame("http://s3.amazonaws.com/dato-datasets/household_electric_power2.sf")
-print electric_meter_sf1
-```
-```python
-Columns:
-	Global_active_power	float
-	Global_reactive_power	float
-	Voltage	float
-	Global_intensity	float
-	Sub_metering_1	float
-	Sub_metering_2	float
-	Sub_metering_3	float
-	DateTime	datetime
-
-Rows: 1025260
-
+```no-highlight
 Data:
-+---------------------+-----------------------+---------+------------------+----------------+
-| Global_active_power | Global_reactive_power | Voltage | Global_intensity | Sub_metering_1 |
-+---------------------+-----------------------+---------+------------------+----------------+
-|        4.216        |         0.418         |  234.84 |       18.4       |      0.0       |
-|        5.374        |         0.498         |  233.29 |       23.0       |      0.0       |
-|        3.666        |         0.528         |  235.68 |       15.8       |      0.0       |
-|         3.52        |         0.522         |  235.02 |       15.0       |      0.0       |
-|         3.7         |          0.52         |  235.22 |       15.8       |      0.0       |
-|        3.668        |          0.51         |  233.99 |       15.8       |      0.0       |
-|         3.27        |         0.152         |  236.73 |       13.8       |      0.0       |
-|        3.728        |          0.0          |  235.84 |       16.4       |      0.0       |
-|        5.894        |          0.0          |  232.69 |       25.4       |      0.0       |
-|        7.026        |          0.0          |  232.21 |       30.6       |      0.0       |
-+---------------------+-----------------------+---------+------------------+----------------+
-+----------------+----------------+---------------------+
-| Sub_metering_2 | Sub_metering_3 |       DateTime      |
-+----------------+----------------+---------------------+
-|      1.0       |      17.0      | 2006-12-16 17:24:00 |
-|      2.0       |      17.0      | 2006-12-16 17:26:00 |
-|      1.0       |      17.0      | 2006-12-16 17:28:00 |
-|      2.0       |      17.0      | 2006-12-16 17:29:00 |
-|      1.0       |      17.0      | 2006-12-16 17:31:00 |
-|      1.0       |      17.0      | 2006-12-16 17:32:00 |
-|      0.0       |      17.0      | 2006-12-16 17:40:00 |
-|      0.0       |      17.0      | 2006-12-16 17:43:00 |
-|      0.0       |      16.0      | 2006-12-16 17:44:00 |
-|      0.0       |      16.0      | 2006-12-16 17:46:00 |
-+----------------+----------------+---------------------+
-[1025260 rows x 8 columns]
++---------------------+-----------------------+---------+---------------------+
+| Global_active_power | Global_reactive_power | Voltage |       DateTime      |
++---------------------+-----------------------+---------+---------------------+
+|        4.216        |         0.418         |  234.84 | 2006-12-16 17:24:00 |
+|        5.374        |         0.498         |  233.29 | 2006-12-16 17:26:00 |
+|        3.666        |         0.528         |  235.68 | 2006-12-16 17:28:00 |
+|         3.52        |         0.522         |  235.02 | 2006-12-16 17:29:00 |
+|         3.7         |          0.52         |  235.22 | 2006-12-16 17:31:00 |
+|        3.668        |          0.51         |  233.99 | 2006-12-16 17:32:00 |
+|         3.27        |         0.152         |  236.73 | 2006-12-16 17:40:00 |
+|        3.728        |          0.0          |  235.84 | 2006-12-16 17:43:00 |
+|        5.894        |          0.0          |  232.69 | 2006-12-16 17:44:00 |
+|        7.026        |          0.0          |  232.21 | 2006-12-16 17:46:00 |
++---------------------+-----------------------+---------+---------------------+
+[1025260 rows x 4 columns]
 ```
-###TimeSeries Construction
-We construct a TimeSeries object from `electric_meter1_sf` as follows:
+
+## Time series construction
+
+We construct a `TimeSeries` object from the SFrame `household_data` by
+specifying the `DateTime` column as the index column. The data is **sorted** by
+the `DateTime` column when indexed into a time series.
+
 
 ```python
-electric_meter_ts1 = graphlab.TimeSeries(electric_meter_sf1,index="DateTime")
+household_ts = gl.TimeSeries(household_data, index="DateTime")
 ```
-```python
+```no-highlight
+The index column of the TimeSeries is: DateTime
 +---------------------+---------------------+-----------------------+---------+
 |       DateTime      | Global_active_power | Global_reactive_power | Voltage |
 +---------------------+---------------------+-----------------------+---------+
@@ -111,582 +88,377 @@ electric_meter_ts1 = graphlab.TimeSeries(electric_meter_sf1,index="DateTime")
 | 2006-12-16 17:44:00 |        5.894        |          0.0          |  232.69 |
 | 2006-12-16 17:46:00 |        7.026        |          0.0          |  232.21 |
 +---------------------+---------------------+-----------------------+---------+
-+------------------+----------------+----------------+----------------+
-| Global_intensity | Sub_metering_1 | Sub_metering_2 | Sub_metering_3 |
-+------------------+----------------+----------------+----------------+
-|       18.4       |      0.0       |      1.0       |      17.0      |
-|       23.0       |      0.0       |      2.0       |      17.0      |
-|       15.8       |      0.0       |      1.0       |      17.0      |
-|       15.0       |      0.0       |      2.0       |      17.0      |
-|       15.8       |      0.0       |      1.0       |      17.0      |
-|       15.8       |      0.0       |      1.0       |      17.0      |
-|       13.8       |      0.0       |      0.0       |      17.0      |
-|       16.4       |      0.0       |      0.0       |      17.0      |
-|       25.4       |      0.0       |      0.0       |      16.0      |
-|       30.6       |      0.0       |      0.0       |      16.0      |
-+------------------+----------------+----------------+----------------+
+[1025260 rows x 4 columns]
 ```
-`electric_meter_ts1` is a TimeSeries object sorted by its index column `DateTime`.
-### TimeSeries Save and Load
 
-Let's see how we can materialize TimeSeries objects. `TimeSeries.save` and `graphlab.load_timeseries` are two useful 
-operators to save/load your TimeSeries object.
-```python
-electric_meter_ts1.save("/tmp/first_copy")
-second_copy = graphlab.load_timeseries("/tmp/first_copy")
-```
-We can also construct a TimeSeries object directly from a file path.
-```python
-third_copy = graphlab.TimeSeries("/tmp/first_copy")
-```
-### TimeSeries ReSample
+The following figure illustrates the multivariate time series. The index column
+`DateTime` is the x-axis and the columns `Global_active_power`,
+`Global_reactive_power`, and `Voltage` are illustrated in the y-axis.
 
-Now assume we are interested in TimeSeries data in 3 minute-granularity. We
-can use `TimeSeries.resample` operator to accomplish this task.
+[<img alt="Multivariate time series " src="images/constructing-time-series.png"
+style="max-width: 70%; margin-left: 15%;"
+/>](images/constructing-time-series.png)
+
+Now, the dataset is indexed by the column `Datetime` and all future operations
+involving time are now optimized. At any point of time, the time series can be
+**converted to an SFrame** using the `to_sframe` function at **zero cost**.
+
 ```python
-ts1_resample_3m = electric_meter_ts1.resample(dt.timedelta(0,180),downsample_method='sum',upsample_method='none')
+sf = household_ts.to_sframe()
 ```
+
+Note that each column in the `TimeSeries` object is an **SArray**. A subset
+of columns can be selected as follows: 
+
 ```python
+ts_power = household_ts[['Global_reactive_power', 'Global_reactive_power']]
+```
+The following figure illustrates the time series `ts_power`. 
+
+[<img alt="Time series with 2 columns" src="images/selecting-time-series.png"
+style="max-width: 70%; margin-left: 15%;"
+/>](images/selecting-time-series.png)
+
+
+
+### Resampling 
+
+In many practical time series analysis problems, we require observations to be
+over uniform time intervals. However, data is often in the form of non-uniform
+events with accompanying time stamps. As a result, one common prerequisite for
+time series applications is to convert an time series that is potentially
+irregularly sampled to one that is sampled at a regular frequency (or to a
+frequency different from the input data source).
+
+
+There are three important primitive operations required for this purpose:
+
+- **Mapping** – The operation which determines which time slice a specific
+  observation belongs to. 
+- **Interpolation/Upsampling** – The operation used to fill in the missing
+  values when there are no observations that map to a particular time slice.
+- **Aggregation/Downsampling** –The operation used to aggregate multiple
+  observations that below to the same time slice.
+
+As an example, we resample the `household_ts` into a time-series at an hourly
+granularity.
+
+```python
+import datetime as dt
+
+day = dt.timedelta(days = 1)
+daily_ts = household_ts.resample(day, downsample_method='max', upsample_method=None)
+```
+```no-highlight
 +---------------------+---------------------+-----------------------+---------+
 |       DateTime      | Global_active_power | Global_reactive_power | Voltage |
 +---------------------+---------------------+-----------------------+---------+
-| 2006-12-16 17:24:00 |         9.59        |         0.916         |  468.13 |
-| 2006-12-16 17:27:00 |        7.186        |          1.05         |  470.7  |
-| 2006-12-16 17:30:00 |        7.368        |          1.03         |  469.21 |
-| 2006-12-16 17:33:00 |         None        |          None         |   None  |
-| 2006-12-16 17:36:00 |         None        |          None         |   None  |
-| 2006-12-16 17:39:00 |         3.27        |         0.152         |  236.73 |
-| 2006-12-16 17:42:00 |        9.622        |          0.0          |  468.53 |
-| 2006-12-16 17:45:00 |         12.2        |          0.0          |  466.4  |
-| 2006-12-16 17:48:00 |        10.958       |          0.0          |  707.46 |
-| 2006-12-16 17:51:00 |        3.258        |          0.0          |  235.49 |
+| 2006-12-16 00:00:00 |        7.026        |         0.528         |  243.73 |
+| 2006-12-17 00:00:00 |         6.58        |         0.582         |  249.07 |
+| 2006-12-18 00:00:00 |        5.436        |         0.646         |  248.48 |
+| 2006-12-19 00:00:00 |         7.84        |         0.606         |  248.89 |
+| 2006-12-20 00:00:00 |        5.988        |         0.482         |  249.48 |
+| 2006-12-21 00:00:00 |        5.614        |         0.688         |  247.08 |
+| 2006-12-22 00:00:00 |        7.884        |         0.622         |  248.82 |
+| 2006-12-23 00:00:00 |        8.698        |         0.724         |  246.77 |
+| 2006-12-24 00:00:00 |        6.498        |         0.494         |  249.27 |
+| 2006-12-25 00:00:00 |        6.702        |          0.7          |  250.62 |
 +---------------------+---------------------+-----------------------+---------+
-+------------------+----------------+----------------+----------------+
-| Global_intensity | Sub_metering_1 | Sub_metering_2 | Sub_metering_3 |
-+------------------+----------------+----------------+----------------+
-|       41.4       |      0.0       |      3.0       |      34.0      |
-|       30.8       |      0.0       |      3.0       |      34.0      |
-|       31.6       |      0.0       |      2.0       |      34.0      |
-|       None       |      None      |      None      |      None      |
-|       None       |      None      |      None      |      None      |
-|       13.8       |      0.0       |      0.0       |      17.0      |
-|       41.8       |      0.0       |      0.0       |      33.0      |
-|       52.6       |      0.0       |      0.0       |      33.0      |
-|       46.6       |      0.0       |      0.0       |      51.0      |
-|       13.8       |      0.0       |      0.0       |      17.0      |
-+------------------+----------------+----------------+----------------+
-[691753 rows x 8 columns]
+[1442 rows x 4 columns]
 ```
-There are two important parameters here: First, `downsample_method` determines the
-aggregation function in each bucket. In this example, resample operators calculates the `sum` of all the 
-meterings in each bucket. Second, `upsample_method` determines the method to
-fill the empty buckets. Here we choose to fill those buckets with `None` values. 
 
-There exists other useful parameters in `resample` operator. For example, `label` identifies which edge label to label bucket with.
-`label` is by default 'left'. Notice how the index column changes when we set `label` to 'right'.
-```python
-ts1_resample_3m = electric_meter_ts1.resample(dt.timedelta(0,180),downsample_method='sum',upsample_method='none',label='right')
+The following figure illustrates the resampled time series `daily_ts`. 
+
+[<img alt="Resampling time series" src="images/resampled-time-series.png"
+style="max-width: 70%; margin-left: 15%;"
+/>](images/selecting-time-series.png)
+
+In this example, the **mapping** is performed by choosing intervals of length
+**1 hour**, the **downsampling** method is chosen by returning the **maximum**
+value (for each column) of all the data points in the original time series, the
+**upsampling** method sets a `None` value (for a column) corresponding to an
+interval in the returned time series if there are no any values (for that
+column) within that time interval in the original time series.
+
+### Shifting time series data 
+
+Time series data can also be shifted along the time dimension using the
+`TimeSeries.shift` and `TimeSeries.tshift` methods. 
+
+The `tshift` operator shifts the index column of the time series along the time
+dimension while keeping other columns intact.  For example, we can shift the
+`household_ts` by 5 mintues, so all the tuples by an hour: 
+
+```python 
+interval = dt.timedelta(hours = 1)
+shifted_ts = household_ts.tshift(interval)
+```
+```
 +---------------------+---------------------+-----------------------+---------+
 |       DateTime      | Global_active_power | Global_reactive_power | Voltage |
 +---------------------+---------------------+-----------------------+---------+
-| 2006-12-16 17:27:00 |         9.59        |         0.916         |  468.13 |
-| 2006-12-16 17:30:00 |        7.186        |          1.05         |  470.7  |
-| 2006-12-16 17:33:00 |        7.368        |          1.03         |  469.21 |
-| 2006-12-16 17:36:00 |         None        |          None         |   None  |
-| 2006-12-16 17:39:00 |         None        |          None         |   None  |
-| 2006-12-16 17:42:00 |         3.27        |         0.152         |  236.73 |
-| 2006-12-16 17:45:00 |        9.622        |          0.0          |  468.53 |
-| 2006-12-16 17:48:00 |         12.2        |          0.0          |  466.4  |
-| 2006-12-16 17:51:00 |        10.958       |          0.0          |  707.46 |
-| 2006-12-16 17:54:00 |        3.258        |          0.0          |  235.49 |
+| 2006-12-16 18:24:00 |        4.216        |         0.418         |  234.84 |
+| 2006-12-16 18:26:00 |        5.374        |         0.498         |  233.29 |
+| 2006-12-16 18:28:00 |        3.666        |         0.528         |  235.68 |
+| 2006-12-16 18:29:00 |         3.52        |         0.522         |  235.02 |
+| 2006-12-16 18:31:00 |         3.7         |          0.52         |  235.22 |
+| 2006-12-16 18:32:00 |        3.668        |          0.51         |  233.99 |
+| 2006-12-16 18:40:00 |         3.27        |         0.152         |  236.73 |
+| 2006-12-16 18:43:00 |        3.728        |          0.0          |  235.84 |
+| 2006-12-16 18:44:00 |        5.894        |          0.0          |  232.69 |
+| 2006-12-16 18:46:00 |        7.026        |          0.0          |  232.21 |
 +---------------------+---------------------+-----------------------+---------+
-+------------------+----------------+----------------+----------------+
-| Global_intensity | Sub_metering_1 | Sub_metering_2 | Sub_metering_3 |
-+------------------+----------------+----------------+----------------+
-|       41.4       |      0.0       |      3.0       |      34.0      |
-|       30.8       |      0.0       |      3.0       |      34.0      |
-|       31.6       |      0.0       |      2.0       |      34.0      |
-|       None       |      None      |      None      |      None      |
-|       None       |      None      |      None      |      None      |
-|       13.8       |      0.0       |      0.0       |      17.0      |
-|       41.8       |      0.0       |      0.0       |      33.0      |
-|       52.6       |      0.0       |      0.0       |      33.0      |
-|       46.6       |      0.0       |      0.0       |      51.0      |
-|       13.8       |      0.0       |      0.0       |      17.0      |
-+------------------+----------------+----------------+----------------+
-[691753 rows x 8 columns]
+[1025260 rows x 8 columns]
 ```
-`upsample_method` accepts many other options. For example, we can assign empty buckets to receive values from their *nearest* bucket.
-Notice how index column corresponding to '2006-12-16 17:36:00' and '2006-12-16 17:39:00' 
-are filled with values from their above and below neighbors,respectively. 
+
+The `shift` operator shifts forward/backward all the value columns while
+keeping the index column intact.  Notice that this operator does not change the
+*range* of the TimeSeries object and it fills those edge tuples that lost their
+value with `None`.
 
 ```python
-ts1_resample_3m = electric_meter_ts1.resample(dt.timedelta(0,180),downsample_method='sum',upsample_method='nearest',label='right')
-+---------------------+---------------------+-----------------------+---------+
-|       DateTime      | Global_active_power | Global_reactive_power | Voltage |
-+---------------------+---------------------+-----------------------+---------+
-| 2006-12-16 17:27:00 |         9.59        |         0.916         |  468.13 |
-| 2006-12-16 17:30:00 |        7.186        |          1.05         |  470.7  |
-| 2006-12-16 17:33:00 |        7.368        |          1.03         |  469.21 |
-| 2006-12-16 17:36:00 |        7.368        |          1.03         |  469.21 |
-| 2006-12-16 17:39:00 |         3.27        |         0.152         |  236.73 |
-| 2006-12-16 17:42:00 |         3.27        |         0.152         |  236.73 |
-| 2006-12-16 17:45:00 |        9.622        |          0.0          |  468.53 |
-| 2006-12-16 17:48:00 |         12.2        |          0.0          |  466.4  |
-| 2006-12-16 17:51:00 |        10.958       |          0.0          |  707.46 |
-| 2006-12-16 17:54:00 |        3.258        |          0.0          |  235.49 |
-+---------------------+---------------------+-----------------------+---------+
-+------------------+----------------+----------------+----------------+
-| Global_intensity | Sub_metering_1 | Sub_metering_2 | Sub_metering_3 |
-+------------------+----------------+----------------+----------------+
-|       41.4       |      0.0       |      3.0       |      34.0      |
-|       30.8       |      0.0       |      3.0       |      34.0      |
-|       31.6       |      0.0       |      2.0       |      34.0      |
-|       31.6       |      0.0       |      2.0       |      34.0      |
-|       13.8       |      0.0       |      0.0       |      17.0      |
-|       13.8       |      0.0       |      0.0       |      17.0      |
-|       41.8       |      0.0       |      0.0       |      33.0      |
-|       52.6       |      0.0       |      0.0       |      33.0      |
-|       46.6       |      0.0       |      0.0       |      51.0      |
-|       13.8       |      0.0       |      0.0       |      17.0      |
-+------------------+----------------+----------------+----------------+
-[691753 rows x 8 columns]
+shifted_ts = household_ts.shift(steps = 3)
 ```
-### Shifting TimeSeries Data
-One of the important features in TimeSeries data is the ability to shift its
-column along the time dimension. GraphLab Create provides two methods
-`TimeSeries.shift` and `TimeSeries.tshift` for this purpose. 
-
-`tshift` operator shift the index column of the TimeSeries object along the time dimension while keeping other columns intact.
-For example, we can shift the `electric_meter_ts1` by 5 mintues, so all the tuples move 5 minutes ahead:
-```point 
-electric_meter_ts1.tshift(dt.timedelta(0,300))
+```no-highlight
 +---------------------+---------------------+-----------------------+---------+
 |       DateTime      | Global_active_power | Global_reactive_power | Voltage |
 +---------------------+---------------------+-----------------------+---------+
+| 2006-12-16 17:24:00 |         None        |          None         |   None  |
+| 2006-12-16 17:26:00 |         None        |          None         |   None  |
+| 2006-12-16 17:28:00 |         None        |          None         |   None  |
 | 2006-12-16 17:29:00 |        4.216        |         0.418         |  234.84 |
 | 2006-12-16 17:31:00 |        5.374        |         0.498         |  233.29 |
-| 2006-12-16 17:33:00 |        3.666        |         0.528         |  235.68 |
-| 2006-12-16 17:34:00 |         3.52        |         0.522         |  235.02 |
-| 2006-12-16 17:36:00 |         3.7         |          0.52         |  235.22 |
-| 2006-12-16 17:37:00 |        3.668        |          0.51         |  233.99 |
-| 2006-12-16 17:45:00 |         3.27        |         0.152         |  236.73 |
-| 2006-12-16 17:48:00 |        3.728        |          0.0          |  235.84 |
-| 2006-12-16 17:49:00 |        5.894        |          0.0          |  232.69 |
-| 2006-12-16 17:51:00 |        7.026        |          0.0          |  232.21 |
+| 2006-12-16 17:32:00 |        3.666        |         0.528         |  235.68 |
+| 2006-12-16 17:40:00 |         3.52        |         0.522         |  235.02 |
+| 2006-12-16 17:43:00 |         3.7         |          0.52         |  235.22 |
+| 2006-12-16 17:44:00 |        3.668        |          0.51         |  233.99 |
+| 2006-12-16 17:46:00 |         3.27        |         0.152         |  236.73 |
 +---------------------+---------------------+-----------------------+---------+
-+------------------+----------------+----------------+----------------+
-| Global_intensity | Sub_metering_1 | Sub_metering_2 | Sub_metering_3 |
-+------------------+----------------+----------------+----------------+
-|       18.4       |      0.0       |      1.0       |      17.0      |
-|       23.0       |      0.0       |      2.0       |      17.0      |
-|       15.8       |      0.0       |      1.0       |      17.0      |
-|       15.0       |      0.0       |      2.0       |      17.0      |
-|       15.8       |      0.0       |      1.0       |      17.0      |
-|       15.8       |      0.0       |      1.0       |      17.0      |
-|       13.8       |      0.0       |      0.0       |      17.0      |
-|       16.4       |      0.0       |      0.0       |      17.0      |
-|       25.4       |      0.0       |      0.0       |      16.0      |
-|       30.6       |      0.0       |      0.0       |      16.0      |
-+------------------+----------------+----------------+----------------+
 [1025260 rows x 8 columns]
-```
-`shift` does the opposite. This operator shifts forward/backward all the value columns while keeping the index column intact.
-Notice that this operator does not change the *range* of the TimeSeries object and it fills those edge tuples that lost their value with `None`.
-```python
-electric_meter_ts1.shift(3)
-+---------------------+---------------------+------------------+-----------------------+
-|       DateTime      | Global_active_power | Global_intensity | Global_reactive_power |
-+---------------------+---------------------+------------------+-----------------------+
-| 2006-12-16 17:24:00 |         None        |       None       |          None         |
-| 2006-12-16 17:26:00 |         None        |       None       |          None         |
-| 2006-12-16 17:28:00 |         None        |       None       |          None         |
-| 2006-12-16 17:29:00 |        4.216        |       18.4       |         0.418         |
-| 2006-12-16 17:31:00 |        5.374        |       23.0       |         0.498         |
-| 2006-12-16 17:32:00 |        3.666        |       15.8       |         0.528         |
-| 2006-12-16 17:40:00 |         3.52        |       15.0       |         0.522         |
-| 2006-12-16 17:43:00 |         3.7         |       15.8       |          0.52         |
-| 2006-12-16 17:44:00 |        3.668        |       15.8       |          0.51         |
-| 2006-12-16 17:46:00 |         3.27        |       13.8       |         0.152         |
-+---------------------+---------------------+------------------+-----------------------+
-+----------------+----------------+----------------+---------+
-| Sub_metering_1 | Sub_metering_2 | Sub_metering_3 | Voltage |
-+----------------+----------------+----------------+---------+
-|      None      |      None      |      None      |   None  |
-|      None      |      None      |      None      |   None  |
-|      None      |      None      |      None      |   None  |
-|      0.0       |      1.0       |      17.0      |  234.84 |
-|      0.0       |      2.0       |      17.0      |  233.29 |
-|      0.0       |      1.0       |      17.0      |  235.68 |
-|      0.0       |      2.0       |      17.0      |  235.02 |
-|      0.0       |      1.0       |      17.0      |  235.22 |
-|      0.0       |      1.0       |      17.0      |  233.99 |
-|      0.0       |      0.0       |      17.0      |  236.73 |
-+----------------+----------------+----------------+---------+
-[1025260 rows x 8 columns]
-```
-### TimeSeries Index Join
-Another important feature of TimeSeries objects in GraphLab Create is the ability to efficiently join them across the index column. 
-So far we created a resampled TimeSeries from one of the electeric meters. Now is the time to join the first resampled TimeSeries object 
-`ts1_resample_3m` with the second TimeSeries object `electric_meter_ts2`.
-```python
-electric_meter_ts2 = graphlab.TimeSeries(electric_meter_sf2,index="DateTime")
-ts1_resample_3m = electric_meter_ts1.resample(dt.timedelta(0,180),downsample_method='sum',upsample_method='none')
-ts1_resample_3m.index_join(electric_meter_ts2,how='inner')
 ```
 
+### Index Join
+
+Another important feature of TimeSeries objects in GraphLab Create is the
+ability to efficiently join them across the index column.  So far we created a
+resampled TimeSeries from one of the electeric meters. Now is the time to join
+the first resampled TimeSeries object `ts1_resample_3m` with the second
+TimeSeries object `electric_meter_ts2`.
+
 ```python
+sf_other = gl.SFrame('http://s3.amazonaws.com/dato-datasets/household_electric_sample_2.sf')
+ts_other = gl.TimeSeries(sf_other, index = 'DateTime')
+
+household_ts.index_join(ts_other, how='inner')
+```
+
+```no-highlight
 +---------------------+---------------------+-----------------------+---------+
 |       DateTime      | Global_active_power | Global_reactive_power | Voltage |
 +---------------------+---------------------+-----------------------+---------+
-| 2006-12-16 17:24:00 |         9.59        |         0.916         |  468.13 |
-| 2006-12-16 17:27:00 |        7.186        |          1.05         |  470.7  |
-| 2006-12-16 17:30:00 |        7.368        |          1.03         |  469.21 |
-| 2006-12-16 17:33:00 |         None        |          None         |   None  |
-| 2006-12-16 17:36:00 |         None        |          None         |   None  |
-| 2006-12-16 17:39:00 |         3.27        |         0.152         |  236.73 |
-| 2006-12-16 17:42:00 |        9.622        |          0.0          |  468.53 |
-| 2006-12-16 17:45:00 |         12.2        |          0.0          |  466.4  |
-| 2006-12-16 17:48:00 |        10.958       |          0.0          |  707.46 |
-| 2006-12-16 17:51:00 |        3.258        |          0.0          |  235.49 |
+| 2006-12-16 17:24:00 |        4.216        |         0.418         |  234.84 |
+| 2006-12-16 17:26:00 |        5.374        |         0.498         |  233.29 |
+| 2006-12-16 17:28:00 |        3.666        |         0.528         |  235.68 |
+| 2006-12-16 17:29:00 |         3.52        |         0.522         |  235.02 |
+| 2006-12-16 17:31:00 |         3.7         |          0.52         |  235.22 |
+| 2006-12-16 17:32:00 |        3.668        |          0.51         |  233.99 |
+| 2006-12-16 17:40:00 |         3.27        |         0.152         |  236.73 |
+| 2006-12-16 17:43:00 |        3.728        |          0.0          |  235.84 |
+| 2006-12-16 17:44:00 |        5.894        |          0.0          |  232.69 |
+| 2006-12-16 17:46:00 |        7.026        |          0.0          |  232.21 |
 +---------------------+---------------------+-----------------------+---------+
-+------------------+----------------+----------------+----------------+-----------------------+
-| Global_intensity | Sub_metering_1 | Sub_metering_2 | Sub_metering_3 | Global_active_power.1 |
-+------------------+----------------+----------------+----------------+-----------------------+
-|       41.4       |      0.0       |      3.0       |      34.0      |          None         |
-|       30.8       |      0.0       |      3.0       |      34.0      |         5.388         |
-|       31.6       |      0.0       |      2.0       |      34.0      |         3.702         |
-|       None       |      None      |      None      |      None      |         3.662         |
-|       None       |      None      |      None      |      None      |         5.224         |
-|       13.8       |      0.0       |      0.0       |      17.0      |         3.384         |
-|       41.8       |      0.0       |      0.0       |      33.0      |         3.266         |
-|       52.6       |      0.0       |      0.0       |      33.0      |         7.706         |
-|       46.6       |      0.0       |      0.0       |      51.0      |          None         |
-|       13.8       |      0.0       |      0.0       |      17.0      |         3.228         |
-+------------------+----------------+----------------+----------------+-----------------------+
-+-------------------------+-----------+--------------------+------------------+
-| Global_reactive_power.1 | Voltage.1 | Global_intensity.1 | Sub_metering_1.1 |
-+-------------------------+-----------+--------------------+------------------+
-|           None          |    None   |        None        |       None       |
-|          0.502          |   233.74  |        23.0        |       0.0        |
-|           0.52          |   235.09  |        15.8        |       0.0        |
-|           0.51          |   233.86  |        15.8        |       0.0        |
-|          0.478          |   232.99  |        22.4        |       0.0        |
-|          0.282          |   237.14  |        14.2        |       0.0        |
-|           0.0           |   237.13  |        13.8        |       0.0        |
-|           0.0           |   230.98  |        33.2        |       0.0        |
-|           None          |    None   |        None        |       None       |
-|           0.0           |   235.6   |        13.6        |       0.0        |
-+-------------------------+-----------+--------------------+------------------+
-+------------------+------------------+
-| Sub_metering_2.1 | Sub_metering_3.1 |
-+------------------+------------------+
-|       None       |       None       |
-|       1.0        |       17.0       |
-|       1.0        |       17.0       |
-|       2.0        |       16.0       |
-|       1.0        |       16.0       |
-|       0.0        |       17.0       |
-|       0.0        |       18.0       |
-|       0.0        |       17.0       |
-|       None       |       None       |
-|       0.0        |       17.0       |
-+------------------+------------------+
-[691753 rows x 15 columns]
-Note: Only the head of the Time
++------------------+
+| Global_intensity |
++------------------+
+|       18.4       |
+|       23.0       |
+|       15.8       |
+|       15.0       |
+|       15.8       |
+|       15.8       |
+|       13.8       |
+|       16.4       |
+|       25.4       |
+|       30.6       |
++------------------+
+[1025260 rows x 5 columns]
+
 ```
-`how` parameter in `index_join` operator determines the join method. The acceptable values are 
-'inner','left','right', and 'outer'. The behavior is exactly like the *SQL*
-join methods. For example, `how='right'` alos brings all the tuples of the right
-TimeSeries object that is not matched with any tuple in the left TimeSeries
-object to the output result.
+
+The `how` parameter in `index_join` operator determines the join method. The
+acceptable values are 'inner','left','right', and 'outer'. The behavior is
+exactly like the **SFrame** join methods. 
+
+###  Time series slicing 
+
+The range of a time series is defined as the interval `(start, end)` of the 
+time stamps that span the time series. It can be obtained as follows: 
+
 ```python
-ts1_resample_3m.index_join(electric_meter_ts2,how='right')
+start_time, end_time = household_ts.range
 ```
+```no-highlight
+(datetime.datetime(2006, 12, 16, 17, 24), datetime.datetime(2007, 11, 26, 20, 57))
+```
+We can obtain a slice of a time series that lies within its range using the
+`TimeSeries.slice` operator.
+
 ```python
+import datetime as dt
+start = dt.datetime(2006, 12, 16, 17, 24)
+end = dt.datetime(2007, 11, 26, 21, 2)
+
+sliced_ts = household_ts.slice(start, end)
+```
+```no-highlight
 +---------------------+---------------------+-----------------------+---------+
 |       DateTime      | Global_active_power | Global_reactive_power | Voltage |
 +---------------------+---------------------+-----------------------+---------+
-| 2006-12-16 17:25:00 |         None        |          None         |   None  |
-| 2006-12-16 17:27:00 |        7.186        |          1.05         |  470.7  |
-| 2006-12-16 17:30:00 |        7.368        |          1.03         |  469.21 |
-| 2006-12-16 17:33:00 |         None        |          None         |   None  |
-| 2006-12-16 17:34:00 |         None        |          None         |   None  |
-| 2006-12-16 17:35:00 |         None        |          None         |   None  |
-| 2006-12-16 17:36:00 |         None        |          None         |   None  |
-| 2006-12-16 17:37:00 |         None        |          None         |   None  |
-| 2006-12-16 17:38:00 |         None        |          None         |   None  |
-| 2006-12-16 17:39:00 |         3.27        |         0.152         |  236.73 |
+| 2006-12-16 17:24:00 |        4.216        |         0.418         |  234.84 |
+| 2006-12-16 17:26:00 |        5.374        |         0.498         |  233.29 |
+| 2006-12-16 17:28:00 |        3.666        |         0.528         |  235.68 |
+| 2006-12-16 17:29:00 |         3.52        |         0.522         |  235.02 |
+| 2006-12-16 17:31:00 |         3.7         |          0.52         |  235.22 |
+| 2006-12-16 17:32:00 |        3.668        |          0.51         |  233.99 |
+| 2006-12-16 17:40:00 |         3.27        |         0.152         |  236.73 |
+| 2006-12-16 17:43:00 |        3.728        |          0.0          |  235.84 |
+| 2006-12-16 17:44:00 |        5.894        |          0.0          |  232.69 |
+| 2006-12-16 17:46:00 |        7.026        |          0.0          |  232.21 |
 +---------------------+---------------------+-----------------------+---------+
-+------------------+----------------+----------------+----------------+-----------------------+
-| Global_intensity | Sub_metering_1 | Sub_metering_2 | Sub_metering_3 | Global_active_power.1 |
-+------------------+----------------+----------------+----------------+-----------------------+
-|       None       |      None      |      None      |      None      |          5.36         |
-|       30.8       |      0.0       |      3.0       |      34.0      |         5.388         |
-|       31.6       |      0.0       |      2.0       |      34.0      |         3.702         |
-|       None       |      None      |      None      |      None      |         3.662         |
-|       None       |      None      |      None      |      None      |         4.448         |
-|       None       |      None      |      None      |      None      |         5.412         |
-|       None       |      None      |      None      |      None      |         5.224         |
-|       None       |      None      |      None      |      None      |         5.268         |
-|       None       |      None      |      None      |      None      |         4.054         |
-|       13.8       |      0.0       |      0.0       |      17.0      |         3.384         |
-+------------------+----------------+----------------+----------------+-----------------------+
-+-------------------------+-----------+--------------------+------------------+
-| Global_reactive_power.1 | Voltage.1 | Global_intensity.1 | Sub_metering_1.1 |
-+-------------------------+-----------+--------------------+------------------+
-|          0.436          |   233.63  |        23.0        |       0.0        |
-|          0.502          |   233.74  |        23.0        |       0.0        |
-|           0.52          |   235.09  |        15.8        |       0.0        |
-|           0.51          |   233.86  |        15.8        |       0.0        |
-|          0.498          |   232.86  |        19.6        |       0.0        |
-|           0.47          |   232.78  |        23.2        |       0.0        |
-|          0.478          |   232.99  |        22.4        |       0.0        |
-|          0.398          |   232.91  |        22.6        |       0.0        |
-|          0.422          |   235.24  |        17.6        |       0.0        |
-|          0.282          |   237.14  |        14.2        |       0.0        |
-+-------------------------+-----------+--------------------+------------------+
-+------------------+------------------+
-| Sub_metering_2.1 | Sub_metering_3.1 |
-+------------------+------------------+
-|       1.0        |       16.0       |
-|       1.0        |       17.0       |
-|       1.0        |       17.0       |
-|       2.0        |       16.0       |
-|       1.0        |       17.0       |
-|       1.0        |       17.0       |
-|       1.0        |       16.0       |
-|       2.0        |       17.0       |
-|       1.0        |       17.0       |
-|       0.0        |       17.0       |
-+------------------+------------------+
-[1024020 rows x 15 columns]
-Note: Only the head of the TimeSeries
+[246363 rows x 4 columns]
 ```
-### TimeSeries Data Manipulation
-Let's do some pre-processing on `electric_meter_ts1` TimeSeries object to make it ready for further analysis. 
-First we are interested in the *range* of this TimeSeries object.
-```python
-electric_meter_ts1.range
-(datetime.datetime(2006, 12, 16, 17, 24),
-  datetime.datetime(2010, 11, 26, 21, 2))
-```
-Notice this TimeSeries object covers almost four years of data. Imagine we are more interested in data of the year '2010'.
-We achieve this by using:
+
+We can also `slice` the data for a particular year as follows:
+
 
 ```python
-ts1_2010 = electric_meter_ts1.datetime_range(dt.datetime(2010,1,1),datetime.datetime(2010, 11, 26, 21, 2))
-or
-ts1_2010 = electric_meter_ts1[dt.datetime(2010,1,1):datetime.datetime(2010, 11, 26, 21, 2)]
+start = dt.datetime(2010,1,1)
+end  = dt.datetime(2011,1,1)
+ts_2010 = household_ts.slice(start, end)
 ```
-Next, we want to remove all the value columns except `Global_active_power`. 
-```python
-for name in ts1_2010.column_names():
-  if name not in ['Global_active_power','DateTime']:
-     ts1_2010.remove_column(name)
+```no-highlight
++---------------------+---------------------+-----------------------+---------+
+|       DateTime      | Global_active_power | Global_reactive_power | Voltage |
++---------------------+---------------------+-----------------------+---------+
+| 2010-01-01 00:00:00 |         1.79        |         0.236         |  240.65 |
+| 2010-01-01 00:01:00 |         1.78        |         0.234         |  240.07 |
+| 2010-01-01 00:03:00 |        1.746        |         0.186         |  240.26 |
+| 2010-01-01 00:06:00 |         1.68        |          0.1          |  239.72 |
+| 2010-01-01 00:07:00 |        1.688        |         0.102         |  240.34 |
+| 2010-01-01 00:08:00 |        1.676        |         0.072         |  241.0  |
+| 2010-01-01 00:11:00 |        1.618        |          0.0          |  240.11 |
+| 2010-01-01 00:13:00 |        1.618        |          0.0          |  240.09 |
+| 2010-01-01 00:14:00 |        1.622        |          0.0          |  240.38 |
+| 2010-01-01 00:15:00 |        1.622        |          0.0          |  240.4  |
++---------------------+---------------------+-----------------------+---------+
+[229027 rows x 4 columns]
 ```
-```python
-+---------------------+---------------------+
-|       DateTime      | Global_active_power |
-+---------------------+---------------------+
-| 2010-01-01 00:00:00 |         1.79        |
-| 2010-01-01 00:01:00 |         1.78        |
-| 2010-01-01 00:03:00 |        1.746        |
-| 2010-01-01 00:06:00 |         1.68        |
-| 2010-01-01 00:07:00 |        1.688        |
-| 2010-01-01 00:08:00 |        1.676        |
-| 2010-01-01 00:11:00 |        1.618        |
-| 2010-01-01 00:13:00 |        1.618        |
-| 2010-01-01 00:14:00 |        1.622        |
-| 2010-01-01 00:15:00 |        1.622        |
-+---------------------+---------------------+
-[229026 rows x 2 columns]
-```
-Finally, we only want to keep those tuples with `Global_active_power` more than '1.5':
-```python
-ts1_final = ts1_2010[ts1_2010['Global_active_power'] > 1.5]
-```
-```python
-+---------------------+---------------------+
-|       DateTime      | Global_active_power |
-+---------------------+---------------------+
-| 2010-01-01 00:00:00 |         1.79        |
-| 2010-01-01 00:01:00 |         1.78        |
-| 2010-01-01 00:03:00 |        1.746        |
-| 2010-01-01 00:06:00 |         1.68        |
-| 2010-01-01 00:07:00 |        1.688        |
-| 2010-01-01 00:08:00 |        1.676        |
-| 2010-01-01 00:11:00 |        1.618        |
-| 2010-01-01 00:13:00 |        1.618        |
-| 2010-01-01 00:14:00 |        1.622        |
-| 2010-01-01 00:15:00 |        1.622        |
-+---------------------+---------------------+
-[58906 rows x 2 columns]
-```
-### TimeSeries Grouping
-TimeSeries `Group` is a very powerful operator that separates a TimeSeries by
-the distinct values in one or more columns. The output of this operator is a `graphlab.timeseries.GroupedTimeSeries` object, 
-which provides an interface for retrieving one or more groups by their group name, or iterating through all groups. 
-Each group is a separate TimeSeries, which possesses the same columns as the original TimeSeries.
-To group the TimeSeries by a part of it's timestamp (e.g. "DAY" or "HOUR"), 
-use the special types declared in `graphlab.TimeSeries.date_part`.
 
-Consider the previous example. We created `ts1_final` TimeSeries object. Imagine a scenario that we are interested in 
-individual TimeSeries that are *grouped* by day of the week. 
+### Time series grouping
+
+Quite often in time series analysis, we are required to split a single large
+time series in to groups of smaller time series grouped based on a property of
+the time stamp (e.g. per day of week).
+
+The output of this operator is a `graphlab.timeseries.GroupedTimeSeries`
+object, which can be used for retrieving one or more groups, or iterating
+through all groups. Each group is a separate time series which possesses the
+same columns as the original time series. 
+
+In this example, we group the time series `household_ts` by the day of the week.
 
 ```python
-tsg = ts1_final.group(ts1_final.date_part.WEEKDAY)
+household_ts_groups = household_ts.group(gl.TimeSeries.date_part.WEEKDAY)
+print household_ts_groups.groups()
 ```
-```python
-tsg.groups()
+```no-highlight
 Rows: 7
 [0, 1, 2, 3, 4, 5, 6]
 ```
-tsg is a GroupedTimeSeries containing 7 groups where each group is a single TimeSeries. 
-In this example groups are named between 0 and 6 where 0 is Monday. We can easily access each group in the GroupedTimeSeries object.
-For instance, the following return a TimeSeries object that represents all the metering tuples of the `ts1_final` on 'Tuesdays'.
+
+`household_ts_groups` is a `GroupedTimeSeries` containing 7 groups where each
+group is a single TimeSeries.  In this example groups are named between 0 and 6
+where 0 is Monday. We can access the data corresponding to a Monday as follows:
+
 ```python
-ts_tues = tsg.get_group(1)
-+---------------------+---------------------+
-|       DateTime      | Global_active_power |
-+---------------------+---------------------+
-| 2010-01-05 06:42:00 |        2.672        |
-| 2010-01-05 06:43:00 |        3.184        |
-| 2010-01-05 06:44:00 |        3.692        |
-| 2010-01-05 06:46:00 |        3.062        |
-| 2010-01-05 06:47:00 |        3.016        |
-| 2010-01-05 06:48:00 |         2.88        |
-| 2010-01-05 06:50:00 |        1.632        |
-| 2010-01-05 06:53:00 |        1.564        |
-| 2010-01-05 06:55:00 |        1.582        |
-| 2010-01-05 06:56:00 |        1.582        |
-+---------------------+---------------------+
+household_ts_monday = household_ts_groups.get_group(0)
+```
+```no-highlight
++---------------------+---------------------+-----------------------+---------+
+|       DateTime      | Global_active_power | Global_reactive_power | Voltage |
++---------------------+---------------------+-----------------------+---------+
+| 2006-12-18 00:00:00 |        0.278        |         0.126         |  246.17 |
+| 2006-12-18 00:03:00 |        0.206        |          0.0          |  245.94 |
+| 2006-12-18 00:04:00 |        0.206        |          0.0          |  245.98 |
+| 2006-12-18 00:06:00 |        0.204        |          0.0          |  245.22 |
+| 2006-12-18 00:07:00 |        0.204        |          0.0          |  244.14 |
+| 2006-12-18 00:08:00 |        0.212        |          0.0          |  244.0  |
+| 2006-12-18 00:09:00 |        0.316        |         0.134         |  244.62 |
+| 2006-12-18 00:10:00 |        0.308        |         0.132         |  244.61 |
+| 2006-12-18 00:11:00 |        0.306        |         0.134         |  244.97 |
+| 2006-12-18 00:12:00 |        0.306        |         0.136         |  245.51 |
++---------------------+---------------------+-----------------------+---------+
+[146934 rows x 4 columns]
 ```
 We can also iterate over all the groups in this GroupedTimeSeries object:
 ```python 
-day_mapping = {0:'Monday',1:'Tuesday',2:'Wednesday',3:'Thursday',4:'Friday',5:'Saturday',6:'Sunday'}
-for name, group in tsg:
-  print "Group name: " + day_mapping[name]
-  print group
-  print "\n"
+for name, group in household_ts_groups:
+  print name, group
 ```
+
+### Time series union
+
+We can also merge multiple time series into a single one using the union
+operator. The merged time series is a valid time series with the time stamps
+sorted correctly. In this example, we will use the `union` operator to re-unite
+the time series that we split by the day of the week (using the `group`
+operator).
+
 ```python
-Group name: Monday
-+---------------------+---------------------+
-|       DateTime      | Global_active_power |
-+---------------------+---------------------+
-| 2010-01-04 03:06:00 |        1.584        |
-| 2010-01-04 03:10:00 |        1.542        |
-| 2010-01-04 03:14:00 |        1.506        |
-| 2010-01-04 03:27:00 |        1.536        |
-| 2010-01-04 03:28:00 |        1.518        |
-| 2010-01-04 03:31:00 |        1.522        |
-| 2010-01-04 06:40:00 |        1.828        |
-| 2010-01-04 06:41:00 |        2.456        |
-| 2010-01-04 06:43:00 |        2.456        |
-| 2010-01-04 06:48:00 |        2.014        |
-+---------------------+---------------------+
-[7756 rows x 2 columns]
+household_ts_combined = household_ts_groups.get_group(0) 
+for i in range(1, 7):
+  group = household_ts_groups.get_group(i)
+  household_ts_combined = household_ts_combined.union(group)
+```
+```no-highlight
++---------------------+---------------------+-----------------------+---------+
+|       DateTime      | Global_active_power | Global_reactive_power | Voltage |
++---------------------+---------------------+-----------------------+---------+
+| 2006-12-16 17:24:00 |        4.216        |         0.418         |  234.84 |
+| 2006-12-16 17:26:00 |        5.374        |         0.498         |  233.29 |
+| 2006-12-16 17:28:00 |        3.666        |         0.528         |  235.68 |
+| 2006-12-16 17:29:00 |         3.52        |         0.522         |  235.02 |
+| 2006-12-16 17:31:00 |         3.7         |          0.52         |  235.22 |
+| 2006-12-16 17:32:00 |        3.668        |          0.51         |  233.99 |
+| 2006-12-16 17:40:00 |         3.27        |         0.152         |  236.73 |
+| 2006-12-16 17:43:00 |        3.728        |          0.0          |  235.84 |
+| 2006-12-16 17:44:00 |        5.894        |          0.0          |  232.69 |
+| 2006-12-16 17:46:00 |        7.026        |          0.0          |  232.21 |
++---------------------+---------------------+-----------------------+---------+
+[1025260 rows x 4 columns]
+```
 
-Group name: Tuesday
-+---------------------+---------------------+
-|       DateTime      | Global_active_power |
-+---------------------+---------------------+
-| 2010-01-05 06:42:00 |        2.672        |
-| 2010-01-05 06:43:00 |        3.184        |
-| 2010-01-05 06:44:00 |        3.692        |
-| 2010-01-05 06:46:00 |        3.062        |
-| 2010-01-05 06:47:00 |        3.016        |
-| 2010-01-05 06:48:00 |         2.88        |
-| 2010-01-05 06:50:00 |        1.632        |
-| 2010-01-05 06:53:00 |        1.564        |
-| 2010-01-05 06:55:00 |        1.582        |
-| 2010-01-05 06:56:00 |        1.582        |
-+---------------------+---------------------+
-[8204 rows x 2 columns]
+### Common operations with SFrame/SArray 
 
-Group name: Wednesday
-+---------------------+---------------------+
-|       DateTime      | Global_active_power |
-+---------------------+---------------------+
-| 2010-01-06 00:03:00 |        2.612        |
-| 2010-01-06 00:04:00 |        2.606        |
-| 2010-01-06 00:05:00 |         2.6         |
-| 2010-01-06 00:10:00 |        2.594        |
-| 2010-01-06 00:11:00 |        2.594        |
-| 2010-01-06 00:15:00 |         2.61        |
-| 2010-01-06 00:16:00 |        1.524        |
-| 2010-01-06 06:12:00 |        1.514        |
-| 2010-01-06 06:14:00 |        1.554        |
-| 2010-01-06 06:15:00 |        1.624        |
-+---------------------+---------------------+
-[8633 rows x 2 columns]
+Because the time series data structure is backed by an SFrame, there are many
+operations that behave exactly like the SFrame. These include
+- Logical filters (row selection)
+- SArray apply functions (univariate user defined functions UDFs)
+- Time series apply functions (multivariate UDFs)
+- Selecting columns 
+- Adding, removing, and swapping columns
+- Head, tail, row range selection
+- Joins (on the non-index column)
+ 
 
-Group name: Thursday
-+---------------------+---------------------+
-|       DateTime      | Global_active_power |
-+---------------------+---------------------+
-| 2010-01-07 05:55:00 |        1.518        |
-| 2010-01-07 05:56:00 |        1.514        |
-| 2010-01-07 05:57:00 |        1.502        |
-| 2010-01-07 05:59:00 |        1.508        |
-| 2010-01-07 06:20:00 |        1.578        |
-| 2010-01-07 06:21:00 |        1.552        |
-| 2010-01-07 06:22:00 |        1.582        |
-| 2010-01-07 06:35:00 |        2.102        |
-| 2010-01-07 06:36:00 |        2.344        |
-| 2010-01-07 07:33:00 |        2.162        |
-+---------------------+---------------------+
-[7294 rows x 2 columns]
+See the chapter on SFrame for more usage details on the above functions.
 
-Group name: Friday
-+---------------------+---------------------+
-|       DateTime      | Global_active_power |
-+---------------------+---------------------+
-| 2010-01-01 00:00:00 |         1.79        |
-| 2010-01-01 00:01:00 |         1.78        |
-| 2010-01-01 00:03:00 |        1.746        |
-| 2010-01-01 00:06:00 |         1.68        |
-| 2010-01-01 00:07:00 |        1.688        |
-| 2010-01-01 00:08:00 |        1.676        |
-| 2010-01-01 00:11:00 |        1.618        |
-| 2010-01-01 00:13:00 |        1.618        |
-| 2010-01-01 00:14:00 |        1.622        |
-| 2010-01-01 00:15:00 |        1.622        |
-+---------------------+---------------------+
-[8065 rows x 2 columns]
+### Save and Load
 
-Group name: Saturday
-+---------------------+---------------------+
-|       DateTime      | Global_active_power |
-+---------------------+---------------------+
-| 2010-01-02 00:34:00 |        1.528        |
-| 2010-01-02 00:35:00 |        1.568        |
-| 2010-01-02 00:36:00 |        1.566        |
-| 2010-01-02 00:38:00 |        1.542        |
-| 2010-01-02 00:40:00 |         1.54        |
-| 2010-01-02 00:43:00 |        1.626        |
-| 2010-01-02 00:44:00 |         1.63        |
-| 2010-01-02 00:46:00 |        1.622        |
-| 2010-01-02 00:50:00 |        1.524        |
-| 2010-01-02 09:34:00 |         2.25        |
-+---------------------+---------------------+
-[9907 rows x 2 columns]
+Just like every other object, the time series can be saved and loaded as
+follows:
 
-Group name: Sunday
-+---------------------+---------------------+
-|       DateTime      | Global_active_power |
-+---------------------+---------------------+
-| 2010-01-03 02:01:00 |        1.508        |
-| 2010-01-03 08:46:00 |        3.022        |
-| 2010-01-03 08:48:00 |        2.806        |
-| 2010-01-03 08:49:00 |        2.664        |
-| 2010-01-03 08:50:00 |        2.666        |
-| 2010-01-03 08:52:00 |        1.968        |
-| 2010-01-03 08:53:00 |         1.53        |
-| 2010-01-03 08:59:00 |         1.72        |
-| 2010-01-03 09:00:00 |        1.738        |
-| 2010-01-03 09:01:00 |        1.742        |
-+---------------------+---------------------+
-[9047 rows x 2 columns]
+```python
+household_ts.save("/tmp/first_copy")
+household_ts_copy = graphlab.TimeSeries("/tmp/first_copy")
 ```
