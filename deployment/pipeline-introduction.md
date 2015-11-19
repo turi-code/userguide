@@ -6,6 +6,8 @@ Dato Distributed provides a light-weight framework for creating an environment (
 
 In order to work with a Dato Distributed deployment (either on an on-premises cluster, or in the Cloud), you will use a GraphLab Create client. The APIs under `graphlab.deploy` provide the necessary functionality to create, use, and administer Dato Distributed environments. Moreover, some of the runtime information about distributed job execution can be visualized in GraphLab Canvas.
 
+[<img alt="Jobs Dashboard in GraphLab Canvas" src="images/jobs-dashboard.png" style="max-height: 500px; max-width: 60%; margin-left: 15%;" />](images/jobs-dashboard.png)
+
 The following chapters provide more details on the following aspects of remote and asynchronous job execution:
 
 [Asynchronous Jobs](pipeline-launch.md) describes how you can execute jobs asynchronously, but still within you local machine. Note that this functionality does not depend on Dato Distributed.

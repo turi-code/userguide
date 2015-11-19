@@ -1,4 +1,4 @@
-# Time series 
+# Time series
 
 Data sources such as usage logs, sensor measurements, financial instruments,
 the presence of a time-stamp results in an implicit temporal ordering on the
@@ -28,7 +28,7 @@ extra metadata.
 
 Each column pair $$(V_i, T)$$ in the table corresponds to a univariate time
 series. $$V_i$$ is the value column for $$T$$ is the index column that is
-shared among all the single (univariate) time series. 
+shared among all the single (univariate) time series.
 
 In this chapter, we will use a dataset obtained from the [UCI machine learning
 repository](https://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption).
@@ -43,6 +43,7 @@ be loaded as follows:
 import graphlab as gl
 household_data = gl.SFrame("http://s3.amazonaws.com/dato-datasets/household_electric_sample.sf")
 ```
+
 ```no-highlight
 Data:
 +---------------------+-----------------------+---------+---------------------+
@@ -108,12 +109,12 @@ sf = household_ts.to_sframe()
 ```
 
 Note that each column in the `TimeSeries` object is an **SArray**. A subset
-of columns can be selected as follows: 
+of columns can be selected as follows:
 
 ```python
 ts_power = household_ts[['Global_reactive_power', 'Global_reactive_power']]
 ```
-The following figure illustrates the time series `ts_power`. 
+The following figure illustrates the time series `ts_power`.
 
 [<img alt="Time series with 2 columns" src="images/selecting-time-series.png"
 style="max-width: 70%; margin-left: 15%;"
@@ -121,7 +122,7 @@ style="max-width: 70%; margin-left: 15%;"
 
 
 
-### Resampling 
+### Resampling
 
 In many practical time series analysis problems, we require observations to be
 over uniform time intervals. However, data is often in the form of non-uniform
@@ -134,7 +135,7 @@ frequency different from the input data source).
 There are three important primitive operations required for this purpose:
 
 - **Mapping** – The operation which determines which time slice a specific
-  observation belongs to. 
+  observation belongs to.
 - **Interpolation/Upsampling** – The operation used to fill in the missing
   values when there are no observations that map to a particular time slice.
 - **Aggregation/Downsampling** –The operation used to aggregate multiple
@@ -167,7 +168,7 @@ daily_ts = household_ts.resample(day, downsample_method='max', upsample_method=N
 [1442 rows x 4 columns]
 ```
 
-The following figure illustrates the resampled time series `daily_ts`. 
+The following figure illustrates the resampled time series `daily_ts`.
 
 [<img alt="Resampling time series" src="images/resampled-time-series.png"
 style="max-width: 70%; margin-left: 15%;"
@@ -180,19 +181,20 @@ value (for each column) of all the data points in the original time series, the
 interval in the returned time series if there are no any values (for that
 column) within that time interval in the original time series.
 
-### Shifting time series data 
+### Shifting time series data
 
 Time series data can also be shifted along the time dimension using the
-`TimeSeries.shift` and `TimeSeries.tshift` methods. 
+`TimeSeries.shift` and `TimeSeries.tshift` methods.
 
 The `tshift` operator shifts the index column of the time series along the time
 dimension while keeping other columns intact.  For example, we can shift the
-`household_ts` by 5 mintues, so all the tuples by an hour: 
+`household_ts` by 5 mintues, so all the tuples by an hour:
 
-```python 
+```python
 interval = dt.timedelta(hours = 1)
 shifted_ts = household_ts.tshift(interval)
 ```
+
 ```
 +---------------------+---------------------+-----------------------+---------+
 |       DateTime      | Global_active_power | Global_reactive_power | Voltage |
@@ -219,6 +221,7 @@ value with `None`.
 ```python
 shifted_ts = household_ts.shift(steps = 3)
 ```
+
 ```no-highlight
 +---------------------+---------------------+-----------------------+---------+
 |       DateTime      | Global_active_power | Global_reactive_power | Voltage |
@@ -287,16 +290,17 @@ household_ts.index_join(ts_other, how='inner')
 
 The `how` parameter in `index_join` operator determines the join method. The
 acceptable values are 'inner','left','right', and 'outer'. The behavior is
-exactly like the **SFrame** join methods. 
+exactly like the **SFrame** join methods.
 
-###  Time series slicing 
+###  Time series slicing
 
-The range of a time series is defined as the interval `(start, end)` of the 
-time stamps that span the time series. It can be obtained as follows: 
+The range of a time series is defined as the interval `(start, end)` of the
+time stamps that span the time series. It can be obtained as follows:
 
 ```python
 start_time, end_time = household_ts.range
 ```
+
 ```no-highlight
 (datetime.datetime(2006, 12, 16, 17, 24), datetime.datetime(2007, 11, 26, 20, 57))
 ```
@@ -363,7 +367,7 @@ the time stamp (e.g. per day of week).
 The output of this operator is a `graphlab.timeseries.GroupedTimeSeries`
 object, which can be used for retrieving one or more groups, or iterating
 through all groups. Each group is a separate time series which possesses the
-same columns as the original time series. 
+same columns as the original time series.
 
 In this example, we group the time series `household_ts` by the day of the week.
 
@@ -401,7 +405,7 @@ household_ts_monday = household_ts_groups.get_group(0)
 [146934 rows x 4 columns]
 ```
 We can also iterate over all the groups in this GroupedTimeSeries object:
-```python 
+```python
 for name, group in household_ts_groups:
   print name, group
 ```
@@ -415,7 +419,7 @@ the time series that we split by the day of the week (using the `group`
 operator).
 
 ```python
-household_ts_combined = household_ts_groups.get_group(0) 
+household_ts_combined = household_ts_groups.get_group(0)
 for i in range(1, 7):
   group = household_ts_groups.get_group(i)
   household_ts_combined = household_ts_combined.union(group)
@@ -438,18 +442,18 @@ for i in range(1, 7):
 [1025260 rows x 4 columns]
 ```
 
-### Common operations with SFrame/SArray 
+### Common operations with SFrame/SArray
 
 Because the time series data structure is backed by an SFrame, there are many
 operations that behave exactly like the SFrame. These include
 - Logical filters (row selection)
 - SArray apply functions (univariate user defined functions UDFs)
 - Time series apply functions (multivariate UDFs)
-- Selecting columns 
+- Selecting columns
 - Adding, removing, and swapping columns
 - Head, tail, row range selection
 - Joins (on the non-index column)
- 
+
 
 See the chapter on SFrame for more usage details on the above functions.
 

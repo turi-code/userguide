@@ -5,21 +5,21 @@ to the CountThresholder must by of type int, string, dict, or list. For each
 column in the input, the transformed output is a column where the input
 category is retained as is if it has has occurred at least threshold times in
 the training data. Categories that do not satisfy the above are set to
-output_category_name.
+`output_category_name`.
 
 The behaviour for different input data column types is as follows: 
-(see transform() for examples).
+(see `transform()` for examples).
 
-string : Strings are marked with the output_category_name if the
+* **string** : Strings are marked with the `output_category_name` if the
 threshold condition described above is not satisfied.
 
-int : Behave the same way as string. If output_category_name is
+* **int** : Behave the same way as string. If `output_category_name` is
 of type string, then the entire column is cast to string.
 
-list : Each of the values in the list are mapped in the same way as
+* **list** : Each of the values in the list are mapped in the same way as
 a string value.
 
-dict : They key of the dictionary is treated as a namespace and the
+* **dict** : They key of the dictionary is treated as a namespace and the
 value is treated as a sub-category in the namespace. The categorical variable 
 passed through the transformer is a combination of the namespace and the 
 sub-category.
@@ -36,8 +36,7 @@ from graphlab.toolkits.feature_engineering import *
 sf = gl.SFrame({'a': [1,2,3], 'b' : [2,3,4]})
 
 # Create a transformer.
-count_tr = gl.feature_engineering.create(sf,
-                                            CountThresholder(threshold = 1))
+count_tr = gl.feature_engineering.create(sf, CountThresholder(threshold = 1))
 
 # Transform the data.
 transformed_sf = count_tr.transform(sf)
@@ -111,16 +110,15 @@ Data:
 # Lists can be used to encode sets of categories for each example.
 # ----------------------------------------------------------------------
 sf = gl.SFrame({'categories': [['cat', 'mammal'],
-                                         ['cat', 'mammal'],
-                                         ['human', 'mammal'],
-                                         ['seahawk', 'bird'],
-                                         ['duck', 'bird'],
-                                         ['seahawk', 'bird']]})
+                               ['cat', 'mammal'],
+                               ['human', 'mammal'],
+                               ['seahawk', 'bird'],
+                               ['duck', 'bird'],
+                               ['seahawk', 'bird']]})
 
 # Construct and fit.
 from graphlab.toolkits.feature_engineering import CountThresholder
-count_tr = graphlab.feature_engineering.create(sf,
-                CountThresholder(threshold = 2))
+count_tr = graphlab.feature_engineering.create(sf, CountThresholder(threshold = 2))
 
 # Transform the data
 transformed_sf = count_tr.transform(sf)

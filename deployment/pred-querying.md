@@ -8,6 +8,8 @@ The deployment serves models through a REST API. The API takes JSON input, and r
 
 To make it easy to validate deployment changes, and to manually warm up the distributed cache, we offer a [query](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.query.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.query) method as part of the Predictive Services API. This makes it is easy to query the deployment directly from within your GraphLab Create session.
 
+##### GraphLab Create Models
+
 For the example deployment, the code below demonstrates how we query for recommendations for user ```Jacob Smith```:
 
 ```python
@@ -17,7 +19,29 @@ recs = deployment.query('recs', method='recommend', data={'users': ['Jacob Smith
 
 This query results in a call to the `recommend` method on the deployed predictive object named `recs`, and returns a set of recommendations as JSON. We are using a `PopularityRecommender` model in this example (which we have deployed in the chapter about [Launching a Predictive Service](pred-launching.md)). All `recommend` methods of GraphLab Create recommender models take a `users` parameter. The array can contain one or more user names, for which an equal number of recommendations will be returned by the predictive service.
 
-If we were using a classifier or regression model to make predictions, the signature looks different. The `predict` method of these models takes a parameter named `dataset`, which is an SFrame with the same columns that were used during training of the model (see for instance [`LinearRegression.predict`](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.predict.html)). For example, if we had deployed a model named `house_prices` trained on features `zipcode`, `sqft`, and `year`, the query call would look as follows:
+If we were using a classifier or regression model to make predictions, the signature looks different. The `predict` method of these models takes a parameter named `dataset`, which needs to contain values for the features the model was trained for (for more information on model training see for instance [`LinearRegression.predict`](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.predict.html)).
+
+Assume, for instance, we had deployed a model named `house_prices` trained on features `zipcode`, `sqft`, and `year`. Now we want to query the model with a specific sample:
+the query call could look as follows:
+
+```python
+example_house
+```
+
+```python
+{'zipcode': '98125',
+ 'sqft': 2170,
+ 'year': 1951}
+```
+
+```python
+preds = deployment.query('house_prices', method='predict',
+                         data={'dataset': example_house})
+```
+
+Note that `example_house` could include other features as well; they will be ignored if they have not been used for model training.
+
+You can also specify the dictionary of feature key-value pairs explicitly:
 
 ```python
 preds = deployment.query('house_prices', method='predict',
@@ -27,9 +51,14 @@ preds = deployment.query('house_prices', method='predict',
                               })
 ```
 
-You can see the pattern: the content of the `data` parameter needs to match the method's signature.
+Just like the regular `predict` method can take an SFrame with multiple rows, a predictive service can return batch predictions based on an SFrame:
 
-Just like the regular `predict` method can take an SFrame with multiple rows, a predictive service can return batch predictions:
+```python
+preds = deployment.query('house_prices', method='predict',
+                         data={'dataset': house_data[:10]})
+```
+
+Or explicitly specified:
 
 ```python
 preds = deployment.query('house_prices', method='predict',
@@ -42,7 +71,13 @@ preds = deployment.query('house_prices', method='predict',
                               })
 ```
 
+##### Custom Predictive Objects
 
+To query a custom predictive object you use its signature directly. Assume your method is defined as `my_method(a, b)`, and deployed as `my_method` you would query it as follows:
+
+```python
+result = deployment.query('my_method', a='foo', b='bar')
+```
 
 We also offer a standalone Python client package, which makes it easy for Python applications to query the Predictive Service. You can download that client package from [pypi](https://pypi.python.org/pypi):
 
@@ -58,11 +93,11 @@ import graphlab_service_client as gls
 gls.query(...)
 ```
 
-#### Using cURL
+#### Using the REST Endpoint directly
 
-We will use the Unix tool [cURL](http://curl.haxx.se/docs/manpage.html) to demonstrate how to submit the raw JSON body as a POST request to a predictive service. We can get the DNS name of the load balancer and the deployment's API key by printing the [PredictiveService](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.html?highlight=predictiveservice) object:
+We will use the Unix tool [cURL](http://curl.haxx.se/docs/manpage.html) to demonstrate how to submit the raw JSON body as a POST request to a predictive service. We can get the DNS name of the load balancer and the deployment's API key by printing the [PredictiveService](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.html) object:
 
-```no-highlight
+```python
 print deployment
 ```
 
@@ -90,6 +125,12 @@ curl -X POST -d '{ "api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
                  }'
      http://first-8410747484.us-west-2.elb.amazonaws.com/query/recs
 ```
+
+The possible HTTP response codes are:
+* 200: The query was successful, a response is returned.
+* 400: The execution of a custom predictive object failed due to an exception in the code. Further details are provided in the response body.
+* 404: The queried endpoint is not known to the predictive service.
+* 500: An internal error in the predictive service caused the query to fail. Further details are provided in the response body.
 
 In the case of a classifier or regression model you need to pass a dataset. Following our example from above, the call would be:
 
