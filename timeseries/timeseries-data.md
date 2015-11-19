@@ -63,7 +63,7 @@ Data:
 [1025260 rows x 4 columns]
 ```
 
-## Time series construction
+### Time series construction
 
 We construct a `TimeSeries` object from the SFrame `household_data` by
 specifying the `DateTime` column as the index column. The data is **sorted** by
