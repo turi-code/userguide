@@ -117,12 +117,12 @@ No Pending changes.
 The HTTP endpoint of a predictive object (GraphLab Create model or custom method) is composed of the DNS name and the path `/query/<object name>`. For our previous example that would be `/query/recs`. The JSON body needs to contain the API key and the input to the object. In case of a GraphLab Create model it also requires the name of the model's method to call:
 
 ```no-highlight
-curl -X POST -d '{ "api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
-                   "data": {
-                     "method": "recommend",
-                     "data": { "users": [ "Jacob Smith" ] }
-                   }
-                 }'
+curl -i -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
+  "data": {
+    "method": "recommend",
+    "data": { "users": [ "Jacob Smith" ] }
+  }
+}'
      http://first-8410747484.us-west-2.elb.amazonaws.com/query/recs
 ```
 
@@ -135,38 +135,38 @@ The possible HTTP response codes are:
 In the case of a classifier or regression model you need to pass a dataset. Following our example from above, the call would be:
 
 ```no-highlight
-curl -X POST -d '{ "api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
-                   "data": {
-                     "method": "recommend",
-                     "data": {
-                       "dataset": {'zipcode': 98102, 'sqft': 1350, 'year': 1985}
-                     }
-                   }
-                 }'
+curl -i -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
+  "data": {
+    "method": "recommend",
+    "data": {
+      "dataset": {'zipcode': 98102, 'sqft': 1350, 'year': 1985}
+    }
+  }
+}'
      http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
 ```
 
 Or for batch predictions:
 
 ```no-highlight
-curl -X POST -d '{ "api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
-                   "data": {
-                     "method": "recommend",
-                     "data": {
-                       "dataset": [{'zipcode': 98102, 'sqft': 1350, 'year': 1985},
-                                   {'zipcode': 98103, 'sqft': 1800, 'year': 1978}]
-                     }
-                   }
-                 }'
+curl -i -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
+  "data": {
+    "method": "recommend",
+    "data": {
+      "dataset": [{'zipcode': 98102, 'sqft': 1350, 'year': 1985},
+                  {'zipcode': 98103, 'sqft': 1800, 'year': 1978}]
+    }
+  }
+}'
      http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
 ```
 
-If you are querying a custom predictive object, the JSON body only requires the object's parameter names and values:
+If you are querying a custom predictive object, the JSON body only requires the object's parameter names and values, inside a `data` object:
 
 ```no-highlight
-curl -X POST -d '{"api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
-                  "data": { "product_id": 1 }
-                 }'
+curl -i -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
+  "data": { "product_id": 1 }
+}'
      http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
 ```
 
@@ -203,4 +203,4 @@ For more information on how to install and use the JS library visit [its GitHub 
 
 #### Writing your own client library
 
-Because querying the API is easy using ```curl```, building a client library that depends on ```libcurl``` is straightforward, since ```libcurl``` has bindings for all recent programming languages.
+Because querying the API is easy using cURL, building a client library that depends on [libcurl](http://curl.haxx.se/libcurl/) is straightforward, since libcurl has bindings for all recent programming languages.
