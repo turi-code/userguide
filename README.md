@@ -41,15 +41,14 @@ questions you may have at our
 
 ### Open source
 
-The source for this userguide is [available on Github](https://github.com/dato-code/userguide) 
+The source for this userguide is [available on Github](https://github.com/dato-code/userguide)
 under the 3-clause [BSD license](LICENSE).
-If you have suggestions or bug reports, we welcome Github issues and pull requests!
+If you have suggestions or bug reports, we welcome Github issues and pull requests! See the chapter about [contributing](contributing.md) on guidelines for adding content.
 
-To build the userguide, install npm and run the following: 
+To build the userguide, install npm and run the following:
 ```
 npm install
 npm run gitbook-dep
-npm run build
+npm run gitbook
 ```
 The generated html will be located at `_book/index.html`.
-

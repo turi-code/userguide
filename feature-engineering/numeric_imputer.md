@@ -12,19 +12,19 @@ feature.
 
 The behavior for different input data column types is as follows:
 
-- float: If there is a missing value, it is replaced with the mean
+- **float**: If there is a missing value, it is replaced with the mean
   of that column.
 
-- int: Behaves the same way as *float*.
+- **int**: Behaves the same way as *float*.
 
-- list: Each index of the list is treated as a feature column, and
+- **list**: Each index of the list is treated as a feature column, and
   missing values are replaced with per-feature means. This is
   the same as unpacking, computing the mean, and re-packing. See [pack_columns](https://dato.com/products/create/docs/generated/graphlab.SFrame.pack_columns.html) 
   for more information. All elements must be of type *float*, *int*, or *None*.
 
-- array: Same behavior as *list*
+- **array**: Same behavior as *list*
 
-- dict: Same behavior as *list*, except keys not present in
+- **dict** : Same behavior as *list*, except keys not present in
   a particular row are implicitly interpreted as having the
   value 0. This makes the  *dict* type a sparse representation
   of a vector.
@@ -33,12 +33,12 @@ The behavior for different input data column types is as follows:
 ```python
 
 # Create data.
-sf = graphlab.SFrame({'a': [1,None,3], 'b' : [2,None,4]})
+sf = graphlab.SFrame({'a': [1, None, 3], 
+                      'b' : [2, None, 4]})
 
 # Create a transformer.
 from graphlab.toolkits.feature_engineering import NumericImputer
-imputer = graphlab.feature_engineering.create(sf,
-                         NumericImputer())
+imputer = graphlab.feature_engineering.create(sf, NumericImputer())
 
 # Transform the data.
 transformed_sf = imputer.transform(sf)
@@ -71,7 +71,8 @@ Data:
 # Integer/Float columns
 # ----------------------------------------------------------------------
 # Create the data
-sf = graphlab.SFrame({'a' : [1,2,None,4,5], 'b' : [2,3,None,5,6]})
+sf = graphlab.SFrame({'a' : [1, 2, None, 4, 5], 
+                      'b' : [2, 3, None, 5, 6]})
 
 # Create the imputer.
 imputer = graphlab.feature_engineering.NumericImputer()
@@ -98,20 +99,20 @@ Data:
 +-----+-----+
 [5 rows x 2 columns]
 ```
+
+Lists can contain numeric and None values.
+
 ```python
-# Lists can contain numeric and None values.
-# ----------------------------------------------------------------------
 sf = graphlab.SFrame({'a': [[1, 2],
-                                [2, 3],
-                                [3, 4],
-                                [None, None],
-                                [5, 6],
-                                [6, 7]]})
+                            [2, 3],
+                            [3, 4],
+                            [None, None],
+                            [5, 6],
+                            [6, 7]]})
 
 # Construct and fit.
 from graphlab.toolkits.feature_engineering import NumericImputer
-imputer = graphlab.feature_engineering.create(sf,
-                NumericImputer())
+imputer = graphlab.feature_engineering.create(sf, NumericImputer())
 
 # Transform the data
 transformed_sf = imputer.transform(sf)
@@ -135,10 +136,11 @@ Data:
 +------------+
 [6 rows x 1 columns]
 ```
+
+Dictionaries can contain numeric and None values. Assumes sparse
+data format.
+
 ```python
-# Dictionaries can contain numeric and None values. Assumes sparse
-# data format.
-# ----------------------------------------------------------------------
 sf = graphlab.SFrame({'X':
                 [{'a':1, 'b': 2, 'c': 3},
                  None,
@@ -146,8 +148,7 @@ sf = graphlab.SFrame({'X':
 
 # Construct and fit.
 from graphlab.feature_engineering import NumericImputer
-imputer = graphlab.feature_engineering.create(sf,
-                 NumericImputer())
+imputer = graphlab.feature_engineering.create(sf, NumericImputer())
 
 # Transform the data
 transformed_sf = imputer.transform(sf)

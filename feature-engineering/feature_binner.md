@@ -44,7 +44,7 @@ Once a FeatureBinner object is constructed, it must first be fitted and then
 the transform function can be called to generate hashed features. 
 
 
-Lograrithmic strategy:
+Logarithmic strategy:
 
 ```python
 sf = graphlab.SFrame({'a' : range(100), 'b' : range(100)})

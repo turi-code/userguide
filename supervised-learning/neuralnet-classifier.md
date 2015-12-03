@@ -1,11 +1,11 @@
-#Neuralnet Classifier 
+#Neuralnet Classifier
 The deep learning module is useful to create and manipulate different neural
 network architectures. The core of this module is the
 [NeuralNet](https://dato.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.html)
 class, which stores the definition of each layer of a neural network and
 a dictionary of learning parameters.
 
-A **NeuralNet** object can be obtained from **graphlab.deeplearning.create()**.
+A **NeuralNet** object can be obtained from [`graphlab.deeplearning.create`](https://dato.com/products/create/docs/generated/graphlab.deeplearning.create.html).
 The function, selects a *default* network architecture depending on the input
 dataset using simple rules: it creates a 2-layer Perceptron Network for dense
 numeric input, and a 1-layer Convolution Network for image data input.
@@ -24,7 +24,6 @@ neural nets have fixed input size. We can use the resize function. The setup
 code to get started is as follows:
 
 ```python
-
 import graphlab as gl
 
 # Load the MNIST data (from an S3 bucket)
@@ -45,7 +44,6 @@ convolutional neuralnet work). The layers of the network can be viewed
 as follows.
 
 ```python
-
 net = gl.deeplearning.get_builtin_neuralnet('mnist')
 
 print "Layers of the network "
@@ -93,12 +91,11 @@ Parameters of the network
 We can now train the neural network using the specified network as follows:
 
 ```python
-
 model = gl.neuralnet_classifier.create(training_data, target='label',
-                                         network = net,
-                                         validation_set=validation_data,
-                                         metric=['accuracy', 'recall@2'],
-                                         max_iterations=3)
+                                       network = net,
+                                       validation_set=validation_data,
+                                       metric=['accuracy', 'recall@2'],
+                                       max_iterations=3)
 ```
 
 #### Making Predictions
@@ -112,7 +109,6 @@ the classify provides the **top** label predictions for each data point along
 with a probability/confidence of the class prediction.
 
 ```python
-
 predictions = model.classify(test_data)
 print predictions
 ```
@@ -138,13 +134,12 @@ print predictions
 
 #### Making Detailed Predictions
 
-We can use the **predict_topk()** interface if we want prediction scores for
+We can use the [`predict_topk`](https://dato.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.predict_topk.html) interface if we want prediction scores for
 each class in the **top-k** classes (sorted in decreasing order of score).
 
 Predict the top 2 most likely digits
 
 ```python
-
 pred_top2 = model.predict_topk(test_data, k=2)
 print pred_top2
 ```
@@ -174,7 +169,6 @@ We can evaluate the classifier on the test data. Default metrics are accuracy,
 and confusion matrix.
 
 ```python
-
 result = model.evaluate(test_data)
 print "Accuracy         : %s" % result['accuracy']
 print "Confusion Matrix : \n%s" % result['confusion_matrix']
@@ -204,39 +198,35 @@ You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns
 
 #### Using a Neural Network for Feature Extraction
 
-A previously trained model can be used to extract dense features for a given input. The[```graphlab.toolkits.classifier.neuralnet_classifier.NeuralNetClassifier.extract_features(layer_id)```](https://dato.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.extract_features.html#graphlab.neuralnet_classifier.NeuralNetClassifier.extract_features) function takes an input dataset, propagates each example through the network, and returns an SArray of dense feature vectors, each of which is the concatenation of all the hidden unit values at ```layer[layer_id]```. These feature vectors can be used as input to train another classifier such as a [```LogisticClassifier```](https://dato.com/products/create/docs/generated/graphlab.logistic_classifier.LogisticClassifier.html#graphlab.logistic_classifier.LogisticClassifier), an [```SVMClassifier```](https://dato.com/products/create/docs/generated/graphlab.svm_classifier.SVMClassifier.html#graphlab.svm_classifier.SVMClassifier), another [```NeuralNetClassifier```](https://dato.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.html#graphlab.neuralnet_classifier.NeuralNetClassifier), or [```BoostedTreesClassifier```](https://dato.com/products/create/docs/generated/graphlab.boosted_trees_classifier.BoostedTreesClassifier.html#graphlab.boosted_trees_classifier.BoostedTreesClassifier). Input dataset size must be the same as for the training of the model, except for images which are automatically resized.
+A previously trained model can be used to extract dense features for a given input. The[`extract_features`](https://dato.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.extract_features.html) function takes an input dataset, propagates each example through the network, and returns an SArray of dense feature vectors, each of which is the concatenation of all the hidden unit values at `layer[layer_id]`. These feature vectors can be used as input to train another classifier such as a [`LogisticClassifier`](https://dato.com/products/create/docs/generated/graphlab.logistic_classifier.LogisticClassifier.html), an [`SVMClassifier`](https://dato.com/products/create/docs/generated/graphlab.svm_classifier.SVMClassifier.html), another [`NeuralNetClassifier`](https://dato.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.html), or [`BoostedTreesClassifier`](https://dato.com/products/create/docs/generated/graphlab.boosted_trees_classifier.BoostedTreesClassifier.html). Input dataset size must be the same as for the training of the model, except for images which are automatically resized.
 
-If the original network is trained on a large dataset, these deep features canbe very powerful. This is especially true in the context of image analysis, wherea model trained on the very large ImageNet dataset can learn [general purpose features](http://blog.dato.com/deep-learning-blog-post).
+If the original network is trained on a large dataset, these deep features can be very powerful. This is especially true in the context of image analysis, where a model trained on the very large ImageNet dataset can learn [general purpose features](http://blog.dato.com/deep-learning-blog-post).
 
-In this example, we will build a neural network for classification of digits, thenbuild a generic classifier on top of those extracted features. 
+In this example, we will build a neural network for classification of digits, then build a generic classifier on top of those extracted features.
 
 ```python
- 
- # The data is the MNIST digit recognition dataset
- data = graphlab.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/train6k')
- net = graphlab.deeplearning.get_builtin_neuralnet('mnist')
- m = graphlab.neuralnet_classifier.create(data,
- ...                                          target='label',
- ...                                          network=net,
- ...                                          max_iterations=3)
- # Now, let's extract features from the last layer
- data['features'] = m.extract_features(data)
- # Now, let's build a new classifier on top of extracted features
- m = graphlab.classifier.create(data,
- ...                                          features = ['features'],
- ...                                          target='label')
+# The data is the MNIST digit recognition dataset
+data = graphlab.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/train6k')
+net = graphlab.deeplearning.get_builtin_neuralnet('mnist')
+m = graphlab.neuralnet_classifier.create(data,
+                                         target='label',
+                                         network=net,
+                                         max_iterations=3)
+# Now, let's extract features from the last layer
+data['features'] = m.extract_features(data)
+# Now, let's build a new classifier on top of extracted features
+m = graphlab.classifier.create(data,
+                               features = ['features'],
+                               target='label')
 ```
 
 We also provide a [model trained on Imagenet](http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf).This pre-trained model gives pre-trained features of excellent quality for images, and the way you would use such a model is demonstrated below:
 
 ```python
-
- imagenet_path =  'http://s3.amazonaws.com/dato-datasets/deeplearning/imagenet_model_iter45'
- imagenet_model = graphlab.load_model(imagenet_path)
- data['image'] = graphlab.image_analysis.resize(data['image'], 256, 256, 3)
- data['imagenet_features'] = imagenet_model.extract_features(data)
+imagenet_path = 'http://s3.amazonaws.com/dato-datasets/deeplearning/imagenet_model_iter45'
+imagenet_model = graphlab.load_model(imagenet_path)
+data['image'] = graphlab.image_analysis.resize(data['image'], 256, 256, 3)
+data['imagenet_features'] = imagenet_model.extract_features(data)
 ```
-
-
 
 One can also use our [feature engineering](../feature-engineering/deep_feature_extractor.md) tools for extracting deep features.
