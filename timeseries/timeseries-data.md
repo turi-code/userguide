@@ -63,7 +63,7 @@ Data:
 [1025260 rows x 4 columns]
 ```
 
-## Time series construction
+#### Time series construction
 
 We construct a `TimeSeries` object from the SFrame `household_data` by
 specifying the `DateTime` column as the index column. The data is **sorted** by
@@ -122,7 +122,7 @@ style="max-width: 70%; margin-left: 15%;"
 
 
 
-### Resampling
+#### Resampling
 
 In many practical time series analysis problems, we require observations to be
 over uniform time intervals. However, data is often in the form of non-uniform
@@ -181,7 +181,7 @@ value (for each column) of all the data points in the original time series, the
 interval in the returned time series if there are no any values (for that
 column) within that time interval in the original time series.
 
-### Shifting time series data
+#### Shifting time series data
 
 Time series data can also be shifted along the time dimension using the
 `TimeSeries.shift` and `TimeSeries.tshift` methods.
@@ -240,7 +240,7 @@ shifted_ts = household_ts.shift(steps = 3)
 [1025260 rows x 8 columns]
 ```
 
-### Index Join
+#### Index Join
 
 Another important feature of TimeSeries objects in GraphLab Create is the
 ability to efficiently join them across the index column.  So far we created a
@@ -292,7 +292,7 @@ The `how` parameter in `index_join` operator determines the join method. The
 acceptable values are 'inner','left','right', and 'outer'. The behavior is
 exactly like the **SFrame** join methods.
 
-###  Time series slicing
+####  Time series slicing
 
 The range of a time series is defined as the interval `(start, end)` of the
 time stamps that span the time series. It can be obtained as follows:
@@ -358,7 +358,7 @@ ts_2010 = household_ts.slice(start, end)
 [229027 rows x 4 columns]
 ```
 
-### Time series grouping
+#### Time series grouping
 
 Quite often in time series analysis, we are required to split a single large
 time series in to groups of smaller time series grouped based on a property of
@@ -410,7 +410,7 @@ for name, group in household_ts_groups:
   print name, group
 ```
 
-### Time series union
+#### Time series union
 
 We can also merge multiple time series into a single one using the union
 operator. The merged time series is a valid time series with the time stamps
@@ -442,7 +442,7 @@ for i in range(1, 7):
 [1025260 rows x 4 columns]
 ```
 
-### Common operations with SFrame/SArray
+#### Common operations with SFrame/SArray
 
 Because the time series data structure is backed by an SFrame, there are many
 operations that behave exactly like the SFrame. These include
@@ -457,7 +457,7 @@ operations that behave exactly like the SFrame. These include
 
 See the chapter on SFrame for more usage details on the above functions.
 
-### Save and Load
+#### Save and Load
 
 Just like every other object, the time series can be saved and loaded as
 follows:
