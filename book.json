@@ -1,6 +1,6 @@
 {
   "gitbook": "2.x.x",
-  "plugins": ["customtheme", "collapsible-menu", "anchors"],
+  "plugins": ["customtheme", "collapsible-menu", "anchors", "mathjax"],
   "pluginsConfig": {
     "fontSettings": {
       "theme": "white",
