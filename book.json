@@ -1,6 +1,6 @@
 {
   "gitbook": "2.x.x",
-  "plugins": ["customtheme", "collapsible-menu", "anchors", "mathjax"],
+  "plugins": ["customtheme", "collapsible-menu", "anchors", "mathjax@1.0.0"],
   "pluginsConfig": {
     "fontSettings": {
       "theme": "white",
@@ -14,12 +14,12 @@
         "supervised-learning/images/random-utils.js",
         "supervised-learning/images/plotting-utils.js",
         "dato/js/metrics.js"]
-      }
-    },
-    "links": {
-      "sidebar": {
-        "Dato.com": "https://dato.com",
-        "Edit this on Github": "https://github.com/dato-code/userguide"
-      }
+    }
+  },
+  "links": {
+    "sidebar": {
+      "Dato.com": "https://dato.com",
+      "Edit this on Github": "https://github.com/dato-code/userguide"
     }
   }
+}
