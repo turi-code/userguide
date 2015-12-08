@@ -95,13 +95,12 @@ recs = deployment.query('recs',
 Outside of the Python client, an application can use the endpoint directly, for instance through curl (replace the api_key and URL with your parameters as displayed by the `print deployment` command above):
 
 ```no-highlight
-curl -X POST -d '{"api_key": "7a99ccbf-3f51-4c5a-bf32-c03a6f07ecd2",
-                  "data": {
-                    "method": "recommend",
-                    "data": { "users": [ "Jacob Smith" ] }
-                    }
-                  }'
-     http://first-1793598482.us-west-2.elb.amazonaws.com/query/recs
+curl -u api_key:7a99ccbf-3f51-4c5a-bf32-c03a6f07ecd2 -d '{
+  "data": {
+    "method": "recommend",
+    "data": { "users": [ "Jacob Smith" ] }
+  }
+}' http://first-1793598482.us-west-2.elb.amazonaws.com/query/recs
 ```
 
 #### Shutdown the Predictive Service

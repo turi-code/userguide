@@ -153,10 +153,9 @@ ps.query('get-similar-products', product_id=1)
 Like for a regular model you can use the HTTP endpoint directly to query the custom predictive object. In the POST body you reference the API key as well as the method's parameter name and value:
 
 ```no-highlight
-curl -X POST -d '{"api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
-                  "data": { "product_id": 1 }
-                 }'
-     http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
+curl -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
+  "data": { "product_id": 1 }
+}' http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
 ```
 
 To help the consumer of your custom query, the doc string for your query is automatically extracted from your custom query function. You can get the doc string back via the [`describe`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.describe.html) API:
