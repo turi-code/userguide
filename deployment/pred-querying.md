@@ -128,6 +128,7 @@ curl -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
 The possible HTTP response codes are:
 * 200: The query was successful, a response is returned.
 * 400: The execution of a custom predictive object failed due to an exception in the code. Further details are provided in the response body.
+* 401: The request was not authorized, because the API key is missing or wrong.
 * 404: The queried endpoint is not known to the predictive service.
 * 500: An internal error in the predictive service caused the query to fail. Further details are provided in the response body.
 
