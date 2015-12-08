@@ -122,8 +122,7 @@ curl -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
     "method": "recommend",
     "data": { "users": [ "Jacob Smith" ] }
   }
-}'
-     http://first-8410747484.us-west-2.elb.amazonaws.com/query/recs
+}' http://first-8410747484.us-west-2.elb.amazonaws.com/query/recs
 ```
 
 The possible HTTP response codes are:
@@ -142,8 +141,7 @@ curl -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
       "dataset": {'zipcode': 98102, 'sqft': 1350, 'year': 1985}
     }
   }
-}'
-     http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
+}' http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
 ```
 
 Or for batch predictions:
@@ -157,8 +155,7 @@ curl -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
                   {'zipcode': 98103, 'sqft': 1800, 'year': 1978}]
     }
   }
-}'
-     http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
+}' http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
 ```
 
 If you are querying a custom predictive object, the JSON body only requires the object's parameter names and values, inside a `data` object:
@@ -166,8 +163,7 @@ If you are querying a custom predictive object, the JSON body only requires the 
 ```no-highlight
 curl -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
   "data": { "product_id": 1 }
-}'
-     http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
+}' http://first-8410747484.us-west-2.elb.amazonaws.com/query/get-similar-products
 ```
 
 For more information about custom predictive object see Chapter [Working with Objects](pred-working-with-objects.md).

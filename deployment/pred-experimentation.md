@@ -103,14 +103,12 @@ This endpoint will now serve models 'sim_model' for 90% of requests, and 'fact_m
 The URL schema is no different from serving a single model:
 
 ```no-highlight
-curl -X POST
-     -d '{"api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
-          "data": {
-            "method": "recommend",
-            "data": { "users": [ "Jacob Smith" ] }
-            }
-          }'
-     http://first-8410747484.us-west-2.elb.amazonaws.com/query/ab%20test
+curl -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
+  "data": {
+    "method": "recommend",
+    "data": { "users": [ "Jacob Smith" ] }
+  }
+}' http://first-8410747484.us-west-2.elb.amazonaws.com/query/ab%20test
 ```
 
 Also the GLC query API is the same as for any other predictive object:
