@@ -6,7 +6,7 @@ list.  The transformed output is a column of type dictionary (max_categories
 per column dimension sparse vector) where the key corresponds to the index of 
 the categorical variable and the value is 1.
 
-The behaviour of the OneHotEncoder for each input data column type is as 
+The behaviour of the one-hot-encoder for each input data column type is as 
 follows (see transform() for examples of the same):
 
  - **string** : The key in the output dictionary is the string category and
