@@ -1,15 +1,14 @@
 # Time series
 
-Data sources such as usage logs, sensor measurements, financial instruments,
+For data sources such as usage logs, sensor measurements, and financial instruments,
 the presence of a time-stamp results in an implicit temporal ordering on the
 observations.
 
 In these applications, it becomes important to be able to treat the time-stamp
-as an index around which several important operations such as:
+as an index around which several important operations can be performed, such as:
 - grouping the data with respect to various intervals of time
 - aggregating data across time intervals
-- aggregate/impute raw data into regular discrete intervals
-
+- aggregating/imputing raw data into regular discrete intervals
 
 The `TimeSeries` object is the fundamental data structure for multivariate time
 series data. TimeSeries objects are backed by a single `SFrame`, but include
@@ -27,7 +26,7 @@ extra metadata.
 
 
 Each column pair $$(V_i, T)$$ in the table corresponds to a univariate time
-series. $$V_i$$ is the value column for $$T$$ is the index column that is
+series. The $$V_i$$ is the value column for $$T$$, which is the index column that is
 shared among all the single (univariate) time series.
 
 In this chapter, we will use a dataset obtained from the [UCI machine learning
