@@ -126,21 +126,21 @@ style="max-width: 70%; margin-left: 15%;"
 In many practical time series analysis problems, we require observations to be
 over uniform time intervals. However, data is often in the form of non-uniform
 events with accompanying time stamps. As a result, one common prerequisite for
-time series applications is to convert an time series that is potentially
+time series applications is to convert any time series that is potentially
 irregularly sampled to one that is sampled at a regular frequency (or to a
 frequency different from the input data source).
 
 
 There are three important primitive operations required for this purpose:
 
-- **Mapping** – The operation which determines which time slice a specific
+- **Mapping** – The operation that determines which time slice a specific
   observation belongs to.
 - **Interpolation/Upsampling** – The operation used to fill in the missing
   values when there are no observations that map to a particular time slice.
 - **Aggregation/Downsampling** –The operation used to aggregate multiple
-  observations that below to the same time slice.
+  observations that belong to the same time slice.
 
-As an example, we resample the `household_ts` into a time-series at an hourly
+As an example, we resample the `household_ts` into a time series at an hourly
 granularity.
 
 ```python
@@ -187,7 +187,7 @@ Time series data can also be shifted along the time dimension using the
 
 The `tshift` operator shifts the index column of the time series along the time
 dimension while keeping other columns intact.  For example, we can shift the
-`household_ts` by 5 mintues, so all the tuples by an hour:
+`household_ts` by 5 minutes, so all the tuples by an hour:
 
 ```python
 interval = dt.timedelta(hours = 1)
@@ -360,7 +360,7 @@ ts_2010 = household_ts.slice(start, end)
 #### Time series grouping
 
 Quite often in time series analysis, we are required to split a single large
-time series in to groups of smaller time series grouped based on a property of
+time series into groups of smaller time series grouped based on a property of
 the time stamp (e.g. per day of week).
 
 The output of this operator is a `graphlab.timeseries.GroupedTimeSeries`
@@ -368,7 +368,7 @@ object, which can be used for retrieving one or more groups, or iterating
 through all groups. Each group is a separate time series which possesses the
 same columns as the original time series.
 
-In this example, we group the time series `household_ts` by the day of the week.
+In this example, we group the time series `household_ts` by day of the week.
 
 ```python
 household_ts_groups = household_ts.group(gl.TimeSeries.date_part.WEEKDAY)
@@ -451,7 +451,7 @@ operations that behave exactly like the SFrame. These include
 - Selecting columns
 - Adding, removing, and swapping columns
 - Head, tail, row range selection
-- Joins (on the non-index column)
+- Joins (on non-index columns)
 
 
 See the chapter on SFrame for more usage details on the above functions.
