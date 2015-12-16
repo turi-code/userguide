@@ -1,14 +1,16 @@
 #Numeric Imputer 
 
-Impute missing values with feature means. Input columns to the NumericImputer
+NumericImputer allows you to impute missing values with feature means. Input columns to the NumericImputer
 must be of type *int*, *float*, *dict*, *list*, or *array.array*.  For each
-column in the input, the transformed output is a column where the input is
-retained as is if:
+ input column, the transformed output is a column where the input is
+retained as-is if:
 
 - there is no missing value.
 
 Inputs that do not satisfy the above are set to the mean value of that
 feature.
+
+
 
 The behavior for different input data column types is as follows:
 
