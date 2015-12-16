@@ -1,9 +1,9 @@
 #Count Thresholder 
 
-Map infrequent categorical variables to a new/separate category. Input columns
-to the CountThresholder must by of type int, string, dict, or list. For each
+Count Thresholder allows you to map infrequent categorical variables to a new/separate category. Input columns
+to the CountThresholder must by of type **string**, **int**, **list**, or **dict**. For each
 column in the input, the transformed output is a column where the input
-category is retained as is if it has has occurred at least threshold times in
+category is retained as-is if it has  occurred at least threshold times in
 the training data. Categories that do not satisfy the above are set to
 `output_category_name`.
 
@@ -24,8 +24,8 @@ value is treated as a sub-category in the namespace. The categorical variable
 passed through the transformer is a combination of the namespace and the 
 sub-category.
 
-You specify the threshold at which to perserve the categories with the 
-parameter threshold. 
+You specify the threshold at which to preserve the categories with the 
+parameter "threshold". 
 
 #### Introductory Example 
 
