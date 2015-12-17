@@ -4,7 +4,7 @@ The prototypical application of TF-IDF transformations involves
 document collections, where each element represents a document. Documents are represented in a
 bag-of-words format, i.e. a dictionary whose keys are words and whose
 values are the number of times the word occurs in the document. For more
-details, check the reference section for further reading.
+details and further reading, check the reference section.
 
 The TF-IDF transformation performs the following computation
 
