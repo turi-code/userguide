@@ -1,7 +1,7 @@
 #Transformer Chain 
 
 Sequentially apply a list of transforms. Each of the individual steps in the
-chain must be transformers (i.e a child class of TransformerBase) which can be
+chain must be transformers (ie., a child class of TransformerBase), which can be
 one of the following:
 
  - Native transformer modules in GraphLab Create (e.g. FeatureHasher).
