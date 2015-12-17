@@ -6,7 +6,7 @@ difficult term to define precisely &mdash; is a region of the data space where
 there are lots of points, surrounded by a region where there are few points.
 DBSCAN does this by partitioning the input data points into three types:
 
-- *Core* points have a large number of points within a given neighborhood. The
+- *Core* points have a large number of other points within a given neighborhood. The
   parameter `min_core_neighbors` defines how many points counts as a "large
   number", while the `radius` parameter defines how large the neighborhoods are
   around each point. Specifically, a point $$y$$ is in the neighborhood of point
