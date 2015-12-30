@@ -148,8 +148,8 @@ In addition to these functions, JSON imports and exports, ODBC imports, and vari
 * [to_spark_dataframe](https://dato.com/products/create/docs/generated/graphlab.SFrame.to_spark_dataframe.html)
 
 For interfacing with Spark RDDs and relational databases see also the specific subsections in this user guide:
-* [Spark RDDs](data_formats_and_sources/spark_integration.md)
-* [SQL Databases](data_formats_and_sources/odbc_integration.md)
+* [Spark RDDs](../data_formats_and_sources/spark_integration.md)
+* [SQL Databases](../data_formats_and_sources/odbc_integration.md)
 
 
 
