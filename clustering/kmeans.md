@@ -26,7 +26,7 @@ is in turn far from center $$B$$, then there is no need to compute the exact
 distance from point $$x$$ to center $$B$$ when assigning $$x$$ to a cluster.
 
 
-#### Basic usage
+#### Basic Usage
 
 We illustrate usage of GraphLab Create K-means with the dataset from the [June
 2014 Kaggle competition to classify schizophrenic subjects based on MRI
@@ -97,11 +97,7 @@ Accessible fields               :
    cluster_info                 : An SFrame containing the cluster centers.
 ```
 
-The model summary shows the usual fields about model schema, training time, and
-training iterations. It also shows that the K-means results are returned in two
-SFrames contained in the model: `cluster_id` and `cluster_info`. The
-`cluster_info` SFrame indicates the final cluster centers, one per row, in
-terms of the same features used to create the model.
+The model summary shows the usual fields about model schema, training time, and training iterations. It also shows that the K-means results are returned in two SFrames contained in the model: `cluster_id` and `cluster_info`. The `cluster_info` SFrame indicates the final cluster centers, one per row, in terms of the same features used to create the model.
 
 ```python
 kmeans_model['cluster_info'].print_rows(num_columns=5, max_row_width=80,
@@ -168,13 +164,9 @@ kmeans_model['cluster_id'].head()
 ```
 
 
-#### Assigning *new* points to clusters
+#### Assigning *New* Points to Clusters
 
-New data points can be assigned to the clusters of a K-means model with the
-model's `predict` method. For K-means, the assignment is simply the nearest
-cluster center (in Euclidean distance), which is how the training data are
-assigned as well. Note that the model's cluster centers *are not updated* by
-the `predict` method.
+New data points can be assigned to the clusters of a K-means model with the [KmeansModel.predict](https://dato.com/products/create/docs/generated/graphlab.kmeans.KmeansModel.predict.html) method. For K-means, the assignment is simply the nearest cluster center (in Euclidean distance), which is how the training data are assigned as well. Note that the model's cluster centers *are not updated* by the `predict` method.
 
 For illustration purposes, we predict the cluster assignments for the first 5 rows of our existing data. The assigned clusters are identical to the assignments in the model results (above), which is a good sanity check.
 
@@ -189,7 +181,7 @@ Rows: 5
 ```
 
 
-#### Advanced usage
+#### Advanced Usage
 
 For large datasets K-means clustering can be a time-consuming method. One
 simple way to reduce the computation time is to reduce the number of training
