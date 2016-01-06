@@ -22,7 +22,7 @@ Here are a couple ways of measuring regression performance:
 
 - [Root-Mean-Squared-Error](regression.md#rmse)
 - [Max-Error](regression.md#max_error)
-- 
+
 
 ## [Classification Metrics](classification.md)
 
