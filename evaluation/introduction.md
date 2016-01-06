@@ -9,6 +9,21 @@ ranking losses such as precision-recall (also popular as a classification
 metric), or NDCG. These are all examples of task-specific performance metrics.
 
 
+### [Regression Metrics](regression.md)
+
+In a regression task, the model learns to predict numeric scores. An example is
+predicting the price of a stock on future days given past price history and
+other information about the company and the market. Another example is
+personalized recommendations, where the goal is to predict a user’s rating for
+an item.
+
+
+Here are a couple ways of measuring regression performance:
+
+- [Root-Mean-Squared-Error](regression.md#rmse)
+- [Max-Error](regression.md#max_error)
+- 
+
 ## [Classification Metrics](classification.md)
 
 Classification is about predicting class labels given input data. In binary
@@ -28,18 +43,3 @@ There are many ways of measuring classification performance:
 - [F-Scores](classification.md#f_scores)
 - [Receiver operating characteristic (ROC) curve](classification.md#roc_curve)
 - [Area under curve (AUC) ("curve" corresponds to the ROC curve)](classification.md#auc)
-
-
-### [Regression Metrics](regression.md)
-
-In a regression task, the model learns to predict numeric scores. An example is
-predicting the price of a stock on future days given past price history and
-other information about the company and the market. Another example is
-personalized recommendations, where the goal is to predict a user’s rating for
-an item.
-
-
-Here are a couple ways of measuring regression performance:
-
-- [Root-Mean-Squared-Error](regression.md#rmse)
-- [Max-Error](regression.md#max_error)
