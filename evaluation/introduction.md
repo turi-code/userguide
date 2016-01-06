@@ -1,16 +1,12 @@
 # Evaluating models.
 
-Evaluation metrics are tied to the machine learning task. There are different
-metrics for the tasks of classification, regression, ranking, clustering, topic
-modeling, etc. If you built a classifier to detect spam emails vs. normal
-emails, then you should consider classification performance metrics: for
-example, average accuracy, log-loss, and AUC. If you are trying to predict a
+When evaluating models, choice of evaluation metrics is tied to the specific machine learning task. For example, if you built a classifier to detect spam emails vs. normal
+emails, then you should consider classification performance metrics, such as average accuracy, log-loss, and AUC. If you are trying to predict a
 score, such as Google’s daily stock price, then you might want to consider
 regression metrics like the root mean-squared error (RMSE). If you are ranking
-items by relevance to a query, such as in a search engine, then look into
+items by relevance to a query, such as in a search engine, then you'll want to look into
 ranking losses such as precision-recall (also popular as a classification
-metric), or NDCG. These are all examples of performance metrics for various
-tasks.
+metric), or NDCG. These are all examples of task-specific performance metrics.
 
 
 ## [Classification Metrics](classification.md)
@@ -23,14 +19,14 @@ and metadata (sender, sending time), and the output label is either “spam” o
 “not spam.” Sometimes, people use generic names for the two classes: “positive”
 and “negative,” or “class 1” and “class 0.”
 
-There are many ways of measuring classification performance
+There are many ways of measuring classification performance:
 
 - [Accuracy](classification.md#accuracy)
 - [Confusion matrix](classification.md#confusion_matrix)
 - [Log-loss](classification.md#log_loss)
 - [Precision and Recall](classification.md#precision_recall)
 - [F-Scores](classification.md#f_scores)
-- [Receiver operating characteristic (ROC curve)](classification.md#roc_curve)
+- [Receiver operating characteristic (ROC) curve](classification.md#roc_curve)
 - [Area under curve (AUC) ("curve" corresponds to the ROC curve)](classification.md#auc)
 
 
@@ -43,7 +39,7 @@ personalized recommendations, where the goal is to predict a user’s rating for
 an item.
 
 
-There are many ways of measuring regression performance
+Here are a couple ways of measuring regression performance:
 
 - [Root-Mean-Squared-Error](regression.md#rmse)
 - [Max-Error](regression.md#max_error)
