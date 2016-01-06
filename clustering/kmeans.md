@@ -33,8 +33,8 @@ We illustrate usage of GraphLab Create K-means with the dataset from the [June
 scans](https://www.kaggle.com/c/mlsp-2014-mri). The original data consists of
 two sets of features: functional network connectivity (FNC) features and
 source-based morphometry (SBM) features, which we incorporate into a single
-[SFrame](https://dato.com/products/create/docs/generated/graphlab.SFrame.html)
-with [SFrame.join](https://dato.com/products/create/docs/generated/graphlab.SFra
+[`SFrame`](https://dato.com/products/create/docs/generated/graphlab.SFrame.html)
+with [`SFrame.join`](https://dato.com/products/create/docs/generated/graphlab.SFra
 me.join.html). For convenience the data can be downloaded from our public AWS S3
 bucket; the following code snippet does this if the data is not found in the
 local working directory.
@@ -63,10 +63,12 @@ but the following simple heuristic sometimes works well:
 
 $$
     K \approx \sqrt{n/2}
-$$ 
+$$
 
 where $$n$$ is the number of rows in your dataset. By default, the maximum
 number of iterations is 10, and all features in the input dataset are used.
+
+Analogous to all other GraphLab Create toolkits the model is created through the [`kmeans.create`](https://dato.com/products/create/docs/generated/graphlab.kmeans.create.html) API:
 
 ```python
 from math import sqrt
@@ -92,7 +94,7 @@ Number of training iterations   : 2
 Batch size                      : 86
 Total training time (seconds)   : 0.2836
 
-Accessible fields               : 
+Accessible fields               :
    cluster_id                   : An SFrame containing the cluster assignments.
    cluster_info                 : An SFrame containing the cluster centers.
 ```
@@ -166,7 +168,7 @@ kmeans_model['cluster_id'].head()
 
 #### Assigning *New* Points to Clusters
 
-New data points can be assigned to the clusters of a K-means model with the [KmeansModel.predict](https://dato.com/products/create/docs/generated/graphlab.kmeans.KmeansModel.predict.html) method. For K-means, the assignment is simply the nearest cluster center (in Euclidean distance), which is how the training data are assigned as well. Note that the model's cluster centers *are not updated* by the `predict` method.
+New data points can be assigned to the clusters of a K-means model with the [`KmeansModel.predict`](https://dato.com/products/create/docs/generated/graphlab.kmeans.KmeansModel.predict.html) method. For K-means, the assignment is simply the nearest cluster center (in Euclidean distance), which is how the training data are assigned as well. Note that the model's cluster centers *are not updated* by the `predict` method.
 
 For illustration purposes, we predict the cluster assignments for the first 5 rows of our existing data. The assigned clusters are identical to the assignments in the model results (above), which is a good sanity check.
 
@@ -202,11 +204,11 @@ chosen randomly from a sample of the original dataset, then passed to the final
 K-means model.
 
 ```python
-kmeans_sample = gl.kmeans.create(sf.sample(0.2), num_clusters=K, 
+kmeans_sample = gl.kmeans.create(sf.sample(0.2), num_clusters=K,
                                  max_iterations=0)
 
 my_centers = kmeans_sample['cluster_info']
-my_centers = my_centers.remove_columns(['cluster_id', 'size', 
+my_centers = my_centers.remove_columns(['cluster_id', 'size',
                                         'sum_squared_distance'])
 
 kmeans_model = gl.kmeans.create(sf, initial_centers=my_centers)
@@ -244,7 +246,7 @@ Number of training iterations   : 10
 Batch size                      : 30
 Total training time (seconds)   : 0.3387
 
-Accessible fields               : 
+Accessible fields               :
    cluster_id                   : An SFrame containing the cluster assignments.
    cluster_info                 : An SFrame containing the cluster centers.
 ```
