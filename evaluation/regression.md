@@ -5,7 +5,7 @@ predicting the price of a stock on future days given past price history and
 other information about the company and the market. 
 
 
-There are many ways of measuring regression performance
+This section will deal with two ways of measuring regression performance:
 
 - [Root-Mean-Squared-Error](regression.md#rmse)
 - [Max-Error](regression.md#max_error)
@@ -15,7 +15,7 @@ There are many ways of measuring regression performance
 
 The most commonly used metric for regression tasks is RMSE (Root Mean Square
 Error). This is defined as the square root of the average squared distance
-between the actual score and the predicted score.
+between the actual score and the predicted score:
 
 $$
 \mbox{rmse} = \sqrt{\frac{\sum_{i=1}^{n}(y_i - \hat{y_i})^2}{n}}
@@ -45,7 +45,7 @@ print gl.evaluation.rmse(y, yhat)
 
 While RMSE is the most common metric, it can be hard to interpret. One
 alternative is to look at quantiles of the distribution of the absolute
-percentage errors. One such metric is the **worst case** error between the 
+percentage errors. The Max-Error metric is the **worst case** error between the 
 predicted value and the true value. 
 
 ```python
