@@ -207,8 +207,7 @@ new_model = graphlab.load_model('my_model')
 
 ##### Importing from other formats
 
-In some cases your data my in a format that some refer to as "docword"
-format, where each row in the text file contains a document id, a word id, and the number
+In some cases your data may be in a format that some refer to as "docword", where each row in the text file contains a document id, a word id, and the number
 of times that word occurs in that document. For this situation, check out the
 `parse_docword` utility:
 
