@@ -1,18 +1,15 @@
 # Classification Metrics 
 
-Evaluation metrics are tied to the machine learning task. There are different
-metrics for the tasks of classification, regression, ranking, clustering, topic
-modeling, etc. In this section, we will cover metrics for classification task.
-In binary classification, there are two possible output classes. In multi-class
+As mentioned previously, evaluation metrics are tied to the machine learning task. In this section, we will cover metrics for classification tasks. In binary classification, there are two possible output classes. In multi-class
 classification, there are more than two possible classes. 
 
-There are many ways of measuring classification performance
+There are many ways of measuring classification performance:
 - [Accuracy](classification.md#accuracy)
 - [Confusion matrix](classification.md#confusion_matrix)
 - [Log-loss](classification.md#log_loss)
 - [Precision and Recall](classification.md#precision_recall)
 - [F-Scores](classification.md#f_scores)
-- [Receiver operating characteristic (ROC curve)](classification.md#roc_curve)
+- [Receiver operating characteristic (ROC) curve](classification.md#roc_curve)
 - [Area under curve (AUC) ("curve" corresponds to the ROC curve)](classification.md#auc)
 
 
@@ -24,7 +21,7 @@ It’s the ratio between the number of correct predictions and the total number
 of predictions (the number of test data points). 
 
 $$
-    \mbox{accuracy} = \frac{\mbox{# correct}}{\mbox{# examples}} 
+    \mbox{accuracy} = \frac{\mbox{# correct}}{\mbox{# predictions}} 
 $$
 
 ```python
@@ -84,10 +81,10 @@ the other, then the accuracy will give a very distorted picture, because the
 class with more examples will dominate the statistic. In that case, you should
 look at the average per-class accuracy (average="micro"), as well as the
 individual per-class accuracy numbers (average=None). Per-class accuracy is not
-without its own caveats. For instance, if there are very few examples of one
-class, then test statistics for that class will be unreliable (i.e., they have
-large variance) so it’s not statistically sound to average quantities with
-different degrees of variance. 
+without its own caveats, however: for instance, if there are very few examples of one
+class, the test statistics for that class will be unreliable (i.e., they have
+large variance), so it’s not statistically sound to average quantities with
+different degrees of variance.
 
 
 ## Confusion matrix <a name="confusion_matrix"></a>
@@ -96,7 +93,7 @@ A confusion matrix (or confusion table) shows a more detailed breakdown of
 correct and incorrect classifications for each class. Here is an example of how
 the confusion matrix can be computed. 
 
-The confusion table is an SFrame consisting of three rows:
+The confusion table is an SFrame consisting of three columns:
 * **target_label**: The label of the ground truth.
 * **predicted_label**: The predicted label.
 * **count**: The number of times the `target_label` was predicted as the
@@ -223,7 +220,7 @@ log_loss = gl.evaluation.log_loss(y, yhat)
 Precision and recall are actually two metrics. But they are often used
 together. Precision answers the question: *Out of the items that the classifier
 predicted to be true, how many are actually true?* Whereas, recall answers the
-question: *Out of all the items that are true relevant, how many are found to
+question: *Out of all the items that are true, how many are found to
 be true by the classifier?* 
 
 The precision score quantifies the ability of a classifier to not label a
@@ -301,10 +298,8 @@ print per_class_pr
 **Note:** The micro average precision, recall, and accuracy scores are
 mathematically equivalent. 
 
-** Undefined Precision-Recall *** 
-
-The precision (or recall) score is not defined when the number of true
-positives + false positives (true positives + false negatives) is zero. In
+** Undefined Precision-Recall ** 
+The precision (or recall) score is not defined when the number of true positives + false positives (true positives + false negatives) is zero. In
 other words, then the denominators of the respective equations are 0, the
 metrics are not defined. In those settings, we return a value of `None`. In the
 multi-class setting, the `None` is skipped during averaging.
@@ -314,17 +309,17 @@ multi-class setting, the `None` is skipped during averaging.
 The F1-score is a single metric that combines both precision and recall via
 their harmonic mean:
 
-$$F_1 = 2 \frac{\mbox{precision} * \mbox{recall}}{\mbox{precision + recall}}.$$
+$$F_1 = 2 \frac{\mbox{precision} * \mbox{recall}}{\mbox{precision + recall}}$$
 
 The score lies in the range [0,1] with 1 being ideal and 0 being the worst.
 Unlike the arithmetic mean, the harmonic mean tends toward the smaller of the
 two elements.  Hence the F1 score will be small if either precision or recall
 is small.
 
-The F1-score (sometimes known as the balanced F-beta score) is a special case
-of a metric known as the F-Beta score which *measures the effectiveness of
+The F1-score (sometimes known as the balanced F-beta score), is a special case
+of a metric known as the F-Beta score, which *measures the effectiveness of
 retrieval with respect to a user who attaches $$\beta$$ times as much
-importance to recall as precision*.
+importance to recall as to precision*.
 
 
 $$F_\beta = (1 + \beta^2) \frac{\mbox{precision} * \mbox{recall}}{\mbox{\beta^2 precision + recall}}.$$
@@ -341,7 +336,7 @@ print f1, fbeta
 0.333333333333 0.416666666667
 ```
 
-Like the other metrics, the f1-score (or f-beta score) can also be defined then
+Like the other metrics, the F1-score (or F-beta score) can also be defined when
 the target classes are of type **string**.  For binary classification, when the
 target label is of type **string**, then the labels are sorted alphanumerically
 and the largest label is considered the "positive" label.
