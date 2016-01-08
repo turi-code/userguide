@@ -478,11 +478,11 @@ print auc
 0.5
 ```
 
-**Note**: The auc score is computed using a binned histogram and hence always
+**Note**: The AUC score is computed using a binned histogram and hence always
 contains 100K rows. The binned histogram provides a curve that is accurate to
 the 5th decimal.
 
-The AUC score can also be defined then the target classes are of type
+The AUC score can also be defined when the target classes are of type
 **string**.  For binary classification, when the target label is of type
 **string**, then the labels are sorted alphanumerically and the largest label
 is considered the "positive" label.
