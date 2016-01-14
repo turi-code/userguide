@@ -1,10 +1,10 @@
 #TF-IDF
 
 The prototypical application of TF-IDF transformations involves
-document collections, where each element represents a document in
+document collections, where each element represents a document. Documents are represented in a
 bag-of-words format, i.e. a dictionary whose keys are words and whose
 values are the number of times the word occurs in the document. For more
-details, check the reference section for further reading.
+details and further reading, check the reference section.
 
 The TF-IDF transformation performs the following computation
 
@@ -21,7 +21,7 @@ The transformed output is a column of type dictionary
 corresponds to the index of the categorical variable and the value is `1`.
 
 The behavior of TF-IDF for each input data column type for supported types
-is as follows.
+is as follows:
 
 
 - **dict**: Each (key, value) pair is treated as count associated with
@@ -31,7 +31,7 @@ is as follows.
   that word occurs in the document. All non-numeric values are
   ignored.
 
-- **list**: The list is converted to bag of words of format, where the keys
+- **list**: The list is converted to a bag of words format, where the keys
   are the unique elements in the list and the values are the
   counts of those unique elements. After this step, the behaviour
   is identical to dict.

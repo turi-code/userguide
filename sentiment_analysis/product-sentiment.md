@@ -4,7 +4,7 @@ This toolkit aims to help you explore and summarize sentiment about products wit
 
 ## Summarizing sentiment
 
-As a quick example, suppose we want to summarize people's Comcast complaints:
+As a quick example, suppose we want to summarize people's Comcast complaints. We can use [`graphlab.product_sentiment.create`](https://dato.com/products/create/docs/generated/graphlab.product_sentiment.create.html#graphlab.product_sentiment.create) to build a model that can be queried for summaries of product sentiment:
 
 ```python
 >>> import graphlab as gl
@@ -27,7 +27,7 @@ Here we see that there are 369 sentences that mention "slow", and the mean predi
 
 ## Under the hood
 
-In the example above, we created a `ProductSentimentModel` using the text in the "Description" column. While creating the model, several operations are completed under the hood:
+In the example above, we created a [`ProductSentimentModel`](https://dato.com/products/create/docs/generated/graphlab.product_sentiment.ProductSentimentModel.html#graphlab.product_sentiment.ProductSentimentModel) using the text in the "Description" column. While creating the model, several operations are completed under the hood:
 
 - a data structure is created that helps facilitate searching for text snippets, including doing a TF-IDF transform of the text and creating an inverted index.
 - each piece of text is tokenized into sentences using NLTK's punkt sentence parser.

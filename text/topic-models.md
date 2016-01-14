@@ -31,7 +31,7 @@ docs = gl.text_analytics.count_words(docs['X1'])
 docs = docs.dict_trim_by_keys(gl.text_analytics.stopwords(), exclude=True)
 
 # Learn topic model
-m = gl.topic_model.create(docs)
+model = gl.topic_model.create(docs)
 ```
 
 There are a variety of additional arguments available which are covered in the [API Reference](https://dato.com/products/create/docs/generated/graphlab.topic_model.create.html). The two most commonly used arguments are:
@@ -45,32 +45,24 @@ You may get details on a subset of topics by supplying a list of topic names or 
 
 
 ```python
-print m.get_topics()
+print model.get_topics()
 ```
 ```
-Columns:
-topic   int
-word    str
-score   float
-
-Rows: 50
-
-Data:
 +-------+--------+------------------+
 | topic |  word  |      score       |
 +-------+--------+------------------+
-|   0   |  team  | 0.0136297268967  |
-|   0   |  year  | 0.0104321717128  |
-|   0   |  won   | 0.00947045945792 |
-|   0   | world  | 0.00824050916636 |
-|   0   | games  | 0.00753046730465 |
-|   1   | south  | 0.0141457234255  |
-|   1   |  town  | 0.0117033932114  |
-|   1   | people | 0.00798413922024 |
-|   1   | family | 0.00795199007715 |
-|   1   |  east  | 0.00790276170179 |
-|  ...  |  ...   |       ...        |
+|   0   |  team  | 0.0116096428466  |
+|   0   | state  | 0.00781031634036 |
+|   0   | league | 0.00734010266384 |
+|   0   | world  | 0.00707611127116 |
+|   0   | party  | 0.00693101676527 |
+|   1   |  area  | 0.00939951828831 |
+|   1   |  film  | 0.00903846641308 |
+|   1   | album  | 0.00810524480636 |
+|   1   | states | 0.00592481420794 |
+|   1   |  part  | 0.00591876305919 |
 +-------+--------+------------------+
+
 [50 rows x 3 columns]
 Note: Only the head of the SFrame is printed.
 You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns.
@@ -80,26 +72,30 @@ You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns
 If we just want to see the top words per topic, this code snippet will rearrange the above SFrame to do that.
 
 ```python
-print m.get_topics(output_type='topic_words')
+print model.get_topics(output_type='topic_words')
 ```
 
 ```
-['club', 'league', 'year', 'family', 'time']
-['season', 'team', 'time', 'world', 'played']
-['town', 'age', 'people', 'years', 'area']
-['river', 'north', 'war', 'british', 'army']
-['building', 'state', 'united', 'police', 'act']
-['album', 'band', 'company', 'film', 'song']
-['system', 'game', 'games', 'number', 'show']
-['president', 'life', 'made', 'released', 'general']
-['party', 'national', 'state', 'members', 'government']
-['high', 'city', 'school', 'students', 'university']
++-------------------------------+
+|             words             |
++-------------------------------+
+| [team, state, league, worl... |
+| [area, film, album, states... |
+| [city, family, war, built,... |
+| [united, american, state, ... |
+| [school, year, high, stati... |
+| [season, music, church, ye... |
+| [de, century, part, includ... |
+| [university, 2006, line, s... |
+| [age, population, people, ... |
+| [time, series, work, life,... |
++-------------------------------+
 ```
 
 The model object keeps track of various useful statistics about how the model was trained and its current status.
 
 ```python
-m
+model
 ```
 
 ```
@@ -111,6 +107,7 @@ Topic Model
         alpha:               5.0
         beta:                0.1
         Iterations:          10
+        Training time:       7.2635
         Verbose:             False
     Accessible fields:
         m['topics']          An SFrame containing the topics.
@@ -124,30 +121,32 @@ Topic Model
 To predict the topic of a given document, one can get an SArray of integers containing the most probable topic ids:
 
 ```python
-pred = m.predict(docs)
+pred = model.predict(docs)
 ```
 
 Combining the above method with standard SFrame capabilities, one can use predict to find documents related to a particular topic
 
 ```
-documents[m.predict(docs) == topic_id]
+docs_in_topic_0 = docs[model.predict(docs) == 0]
 ```
 
 or join with other data in order to analyze an author's typical topics or how topics change over time. For example, if we had author and timestamp data, we could do the following:
 
 ```
-doc_data.column_names()
+>>> doc_data.column_names()
 ['timestamp', 'author', 'text']
-m = topic_model.create(doc_data['text'])
-doc_data['topic'] = m.predict(doc_data['text'])
-doc_data['author'][doc_data['topic'] == 1] # authors of docs in topic 1
+>>> model = topic_model.create(doc_data['text'])
+>>> doc_data['topic'] = m.predict(doc_data['text'])
+>>> doc_data['author'][doc_data['topic'] == 1] # authors of docs in topic 1
 ```
 
 Sometimes you want to know how certain the model's predictions are. One can optionally also get the probability of each topic for a set of documents. Each element of the returned SArray is a vector containing the probability of each document.
 
 
 ```python
-pred = m.predict(docs, output_type='probability')
+>>> pred = model.predict(docs, output_type='probability')
+>>> pred
+Out[13]: array('d', [0.049204587495375506, 0.14502404735479096, 0.028116907140214576, 0.1709211986681465, 0.1220865704772475, 0.15945246022937476, 0.08213096559378469, 0.017388087310395855, 0.219385867554569, 0.006289308176100629])
 ```
 
 
@@ -159,61 +158,56 @@ The value for each metadata field listed in ```m.get_fields()``` is accessible v
 A topic model will learn parameters for every word that is present in the corpus. The "vocabulary" stored by the model will return this list of words.
 
 ```python
-m['vocabulary']
+model['vocabulary']
 ```
 ```
 dtype: str
-Rows: 170715
-['house', 'krainiks', 'america', 'appointed', 'gala', 'general', 'daughter', 'roles', 'lyric', 'arts', 'director', 'opera', 'native', 'career', 'leadership', 'norwegian', 'served', 'krainik', 'pavarotti', 'manitowoc', 'northwestern', 'odp', 'national', 'finalist', '2003', 'thomas', 'played', 'allcounty', 'team', 'state', 'florida', 'led', 'december', 'goals', '34', 'american', '41', 'high', '2', 'st', 'school', 'plantation', 'south', '1', 'honors', 'named', 'year', 'earned', 'record', 'district', 'assists', 'fla', '2004', 'owen', 'client', 'father', 'learn', 'marry', 'left', 'visit', 'donegal', 'leaves', 'gerhardt', 'beret', 'red', 'asianamerican', 'time', 'coming', 'beatrice', 'roger', 'siri', 'eventually', 'rescues', 'exhusband', '1991', 'gulf', 'car', 'war', 'visits', 'suburban', 'city', 'inherited', 'rich', 'live', 'rescued', 'ends', 'pay', 'husband', 'calls', 'accident', 'day', 'spend', 'hoffmanns', 'pryde', 'owner', 'pres', 'agrees', 'angry', 'attends', 'jared', ... ]
+Rows: 632779
+['definitional', 'diversity', 'countereconomics', 'level', 'simultaneously', 'process', 'technology', 'phenomena', 'attitudes', 'consumer', 'creation', 'selfdetermined', 'ivan', 'popularized', 'se', 'questioned', 'organizing', 'addition', 'germany', 'experiments', 'activity', 'childled', 'series', 'inspiration', 'moderna', 'field', 'country', 'projects', 'pedagogical', 'murray', 'anticlerical', 'fiercely', 'noncoercive', 'rational', 'widely', 'church', 'defiance', 'progressive', 'ferrer', 'freethinker', 'fragments', 'linvention', 'solaire', 'amoureux', 'du', 'onfray', 'joy', 'writing', 'recently', 'proponent', 'consenting', 'camaraderie', 'la', 'emile', 'teufel', 'beginning', 'homosexuality', 'spoke', '18491898', 'reitzel', 'fact', 'boldly', 'campaigned', 'noted', 'frequented', 'villagers', 'discussion', 'margaret', 'lesbian', 'millay', 'edna', 'bisexual', 'sexuality', 'encouraged', 'greenwich', 'lazarus', 'une', 'staunchly', '18721890', 'angela', 'heywood', 'existed', 'discriminated', 'womens', 'sexual', 'viewed', 'pleasure', 'experimental', 'love', 'proven', 'disputes', 'internal', 'overlapping', 'cryptography', 'intersecting', 'bonanno', 'alfredo', 'formal', 'critical', 'recent', ... ]
 ```
 
 Similarly, we can obtain the current parameters for each word by requesting the "topics" stored by the model. Each element of the "topic_probabilities" column contains an array with length ```num_topics``` where element $k$ is the probability of that word under topic $k$.
 
 
 ```python
-m['topics']
+model['topics']
 ```
 
 ```
 Columns:
-topic_probabilities     array
-vocabulary      str
+        topic_probabilities     array
+        vocabulary      str
 
 Rows: 632779
 
 Data:
-+--------------------------------+------------------------+
-|      topic_probabilities       |       vocabulary       |
-+--------------------------------+------------------------+
-| array('d', [7.889354018974 ... |      information       |
-| array('d', [7.889354018974 ... |        freebsd         |
-| array('d', [7.889354018974 ... |         linux          |
-| array('d', [7.889354018974 ... |        supports        |
-| array('d', [7.889354018974 ... |        windows         |
-| array('d', [7.889354018974 ... |          php           |
-| array('d', [7.889354018974 ... |         mysql          |
-| array('d', [7.889354018974 ... | suspensionreenablement |
-| array('d', [7.889354018974 ... |       additions        |
-| array('d', [7.889354018974 ... |        resource        |
-|              ...               |          ...           |
-+--------------------------------+------------------------+
-[632779 rows x 2 columns]
-Note: Only the head of the SFrame is printed.
-You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns.
++-------------------------------+------------------+
+|      topic_probabilities      |    vocabulary    |
++-------------------------------+------------------+
+| [8.49255529868e-08, 8.6181... |   definitional   |
+| [8.49255529868e-08, 7.8347... |    diversity     |
+| [8.49255529868e-08, 7.8347... | countereconomics |
+| [8.49255529868e-08, 7.8347... |      level       |
+| [8.49255529868e-08, 7.8347... |  simultaneously  |
+| [8.49255529868e-08, 7.8347... |     process      |
+| [8.49255529868e-08, 7.8347... |    technology    |
+| [8.49255529868e-08, 2.4287... |    phenomena     |
+| [2.13163137997e-05, 0.0001... |    attitudes     |
+| [8.49255529868e-08, 2.8283... |     consumer     |
++-------------------------------+------------------+
 ```
 
 As with other models in GraphLab Create, it's also easy to save and load models.
 
 ```python
-m.save('my_model')
-m2 = graphlab.load_model('my_model')
+model.save('my_model')
+new_model = graphlab.load_model('my_model')
 ```
 
 
 ##### Importing from other formats
 
-In some cases your data my in a format that some refer to as "docword"
-format, where each row in the text file contains a document id, a word id, and the number
+In some cases your data may be in a format that some refer to as "docword", where each row in the text file contains a document id, a word id, and the number
 of times that word occurs in that document. For this situation, check out the
 `parse_docword` utility:
 
@@ -227,76 +221,59 @@ It is also easy to create a new topic model from an old one – whether it was c
 
 
 ```python
-m2 = graphlab.topic_model.create(docs,
-                                 num_topics=m['num_topics'],
-                                 initial_topics=m['topics'])
+new_model = graphlab.topic_model.create(docs,
+                                        num_topics=m['num_topics'],
+                                        initial_topics=m['topics'])
 ```
 
 ##### Seeding the model with prior knowledge
 
 To manually fix several words to always be assigned to a topic, use the associations argument. This can be useful for experimentation purposes:
 
-For example, the following will ensure that "recognition" will have a high probability under topic 0:
+For example, the following will ensure that "season" and "club" will have a high probability under topic 1 and "2008" and "2009" will have a high probability under topic 2:
 
 ```python
-associations = graphlab.SFrame({'word':['recognition'],
-                                'topic': [0]})
+associations = graphlab.SFrame({'word':['season', 'club', '2008', '2009'],
+                                'topic': [1, 1, 2, 2]})
 ```
 
-If we fit a topic model using this option, we indeed find that "recognition" is present in topic 0, and we find other related words such as "speech" in the same topic. This is unsurprising for this corpus of machine learning abstracts since "speech recognition" is a common phrase.
+If we fit a topic model using this option, we indeed find that "season" and "club" are present in topic 1, and we find other related words in the same topic. 
 
 ```python
+
 m2 = graphlab.topic_model.create(docs,
                                  num_topics=20,
                                  num_iterations=50,
                                  associations=associations,
                                  verbose=False)
 ```
-```
-PROGRESS: Running collapsed Gibbs sampling
-PROGRESS:  Iteration Tokens/second Seconds/iter Perplexity
-PROGRESS:          5        464119     0.491813    2219.54
-PROGRESS:         10        515565     0.443252    2116.41
-PROGRESS:         15        548836     0.427076    2043.09
-PROGRESS:         20        552304     0.427512    1984.96
-PROGRESS:         25        554642     0.421929    1942.93
-PROGRESS:         30        558313     0.419381     1912.7
-PROGRESS:         35        567691     0.411404    1887.41
-PROGRESS:         40        570496     0.411835    1862.76
-PROGRESS:         45        489016     0.482391    1846.65
-```
 
 ```python
-m2.get_topics(num_words=10)
-```
-```
-Columns:
-topic   int
-word    str
-score   float
 
-Rows: 200
-
-Data:
-+-------+----------------+-----------------+
-| topic |      word      |      score      |
-+-------+----------------+-----------------+
-|   0   |    network     | 0.0933487986426 |
-|   0   |  recognition   | 0.0369355681344 |
-|   0   |     system     | 0.0228250710557 |
-|   0   |     speech     | 0.0221732274407 |
-|   0   |      word      | 0.0213200791798 |
-|   0   |     neural     | 0.0206394777582 |
-|   0   |   classifier   | 0.0153863850958 |
-|   0   |     vector     | 0.0125681200543 |
-|   0   | classification | 0.0124818466346 |
-|   0   |    features    |  0.012414745086 |
-|  ...  |      ...       |       ...       |
-+-------+----------------+-----------------+
-[200 rows x 3 columns]
-Note: Only the head of the SFrame is printed.
-You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns.
+>>> m2.get_topics(num_words=10, output_type='topic_words')['words'][1]
+['season',
+ 'club',
+ 'league',
+ 'played',
+ 'won',
+ 'football',
+ 'world',
+ 'cup',
+ 'year',
+ 'championship']
+>>> m2.get_topics(num_words=10, output_type='topic_words')['words'][2]
+['team',
+ '2008',
+ 'game',
+ '2009',
+ '2007',
+ '2010',
+ 'final',
+ 'player',
+ '1',
+ 'players']
 ```
+
 
 ##### Evaluating topic models
 

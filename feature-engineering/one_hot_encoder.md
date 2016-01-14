@@ -7,18 +7,18 @@ per column dimension sparse vector) where the key corresponds to the index of
 the categorical variable and the value is 1.
 
 The behaviour of the one-hot-encoder for each input data column type is as 
-follows. (see transform() for examples of the same).
+follows (see transform() for examples of the same):
 
- - string : The key in the output dictionary is the string category and
+ - **string** : The key in the output dictionary is the string category and
    the value is 1.
 
- - int : Behave similar to string columns.
+ - **int** : Behave similar to string columns.
 
- - list : Each value in the list is treated like an individual string.
+ - **list** : Each value in the list is treated like an individual string.
    Hence, a list of categorical variables can be used to represent a feature 
    where all categories in the list are simultaneously hot.
 
- - dict : They key of the dictionary is treated as a namespace and the
+ - **dict** : They key of the dictionary is treated as a namespace and the
   value is treated as a sub-category in the namespace. The categorical variable 
   being encoded in this case is a combination of the namespace and the sub-category.
 

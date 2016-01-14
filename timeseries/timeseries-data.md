@@ -1,15 +1,14 @@
 # Time series
 
-Data sources such as usage logs, sensor measurements, financial instruments,
+For data sources such as usage logs, sensor measurements, and financial instruments,
 the presence of a time-stamp results in an implicit temporal ordering on the
 observations.
 
 In these applications, it becomes important to be able to treat the time-stamp
-as an index around which several important operations such as:
+as an index around which several important operations can be performed, such as:
 - grouping the data with respect to various intervals of time
 - aggregating data across time intervals
-- aggregate/impute raw data into regular discrete intervals
-
+- aggregating/imputing raw data into regular discrete intervals
 
 The `TimeSeries` object is the fundamental data structure for multivariate time
 series data. TimeSeries objects are backed by a single `SFrame`, but include
@@ -27,7 +26,7 @@ extra metadata.
 
 
 Each column pair $$(V_i, T)$$ in the table corresponds to a univariate time
-series. $$V_i$$ is the value column for $$T$$ is the index column that is
+series. The $$V_i$$ is the value column for $$T$$, which is the index column that is
 shared among all the single (univariate) time series.
 
 In this chapter, we will use a dataset obtained from the [UCI machine learning
@@ -63,7 +62,7 @@ Data:
 [1025260 rows x 4 columns]
 ```
 
-## Time series construction
+#### Time series construction
 
 We construct a `TimeSeries` object from the SFrame `household_data` by
 specifying the `DateTime` column as the index column. The data is **sorted** by
@@ -122,26 +121,26 @@ style="max-width: 70%; margin-left: 15%;"
 
 
 
-### Resampling
+#### Resampling
 
 In many practical time series analysis problems, we require observations to be
 over uniform time intervals. However, data is often in the form of non-uniform
 events with accompanying time stamps. As a result, one common prerequisite for
-time series applications is to convert an time series that is potentially
+time series applications is to convert any time series that is potentially
 irregularly sampled to one that is sampled at a regular frequency (or to a
 frequency different from the input data source).
 
 
 There are three important primitive operations required for this purpose:
 
-- **Mapping** – The operation which determines which time slice a specific
+- **Mapping** – The operation that determines which time slice a specific
   observation belongs to.
 - **Interpolation/Upsampling** – The operation used to fill in the missing
   values when there are no observations that map to a particular time slice.
 - **Aggregation/Downsampling** –The operation used to aggregate multiple
-  observations that below to the same time slice.
+  observations that belong to the same time slice.
 
-As an example, we resample the `household_ts` into a time-series at an hourly
+As an example, we resample the `household_ts` into a time series at an hourly
 granularity.
 
 ```python
@@ -181,14 +180,14 @@ value (for each column) of all the data points in the original time series, the
 interval in the returned time series if there are no any values (for that
 column) within that time interval in the original time series.
 
-### Shifting time series data
+#### Shifting time series data
 
 Time series data can also be shifted along the time dimension using the
 `TimeSeries.shift` and `TimeSeries.tshift` methods.
 
 The `tshift` operator shifts the index column of the time series along the time
 dimension while keeping other columns intact.  For example, we can shift the
-`household_ts` by 5 mintues, so all the tuples by an hour:
+`household_ts` by 5 minutes, so all the tuples by an hour:
 
 ```python
 interval = dt.timedelta(hours = 1)
@@ -240,7 +239,7 @@ shifted_ts = household_ts.shift(steps = 3)
 [1025260 rows x 8 columns]
 ```
 
-### Index Join
+#### Index Join
 
 Another important feature of TimeSeries objects in GraphLab Create is the
 ability to efficiently join them across the index column.  So far we created a
@@ -292,7 +291,7 @@ The `how` parameter in `index_join` operator determines the join method. The
 acceptable values are 'inner','left','right', and 'outer'. The behavior is
 exactly like the **SFrame** join methods.
 
-###  Time series slicing
+####  Time series slicing
 
 The range of a time series is defined as the interval `(start, end)` of the
 time stamps that span the time series. It can be obtained as follows:
@@ -358,10 +357,10 @@ ts_2010 = household_ts.slice(start, end)
 [229027 rows x 4 columns]
 ```
 
-### Time series grouping
+#### Time series grouping
 
 Quite often in time series analysis, we are required to split a single large
-time series in to groups of smaller time series grouped based on a property of
+time series into groups of smaller time series grouped based on a property of
 the time stamp (e.g. per day of week).
 
 The output of this operator is a `graphlab.timeseries.GroupedTimeSeries`
@@ -369,7 +368,7 @@ object, which can be used for retrieving one or more groups, or iterating
 through all groups. Each group is a separate time series which possesses the
 same columns as the original time series.
 
-In this example, we group the time series `household_ts` by the day of the week.
+In this example, we group the time series `household_ts` by day of the week.
 
 ```python
 household_ts_groups = household_ts.group(gl.TimeSeries.date_part.WEEKDAY)
@@ -410,7 +409,7 @@ for name, group in household_ts_groups:
   print name, group
 ```
 
-### Time series union
+#### Time series union
 
 We can also merge multiple time series into a single one using the union
 operator. The merged time series is a valid time series with the time stamps
@@ -442,7 +441,7 @@ for i in range(1, 7):
 [1025260 rows x 4 columns]
 ```
 
-### Common operations with SFrame/SArray
+#### Common operations with SFrame/SArray
 
 Because the time series data structure is backed by an SFrame, there are many
 operations that behave exactly like the SFrame. These include
@@ -452,12 +451,12 @@ operations that behave exactly like the SFrame. These include
 - Selecting columns
 - Adding, removing, and swapping columns
 - Head, tail, row range selection
-- Joins (on the non-index column)
+- Joins (on non-index columns)
 
 
 See the chapter on SFrame for more usage details on the above functions.
 
-### Save and Load
+#### Save and Load
 
 Just like every other object, the time series can be saved and loaded as
 follows:

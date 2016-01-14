@@ -2,32 +2,32 @@
 
 Hashes an input feature space to an n-bit feature space. Feature hashing is an
 efficient way of vectorizing features, and performing dimensionality reduction
-or expansion along the way. Supported types include array.array, list, dict,
-float, int, and string. The behaviour for different input data column types
+or expansion along the way. Supported types include *array.array*, *list*, *dict*,
+*float*, *int*, and *string*. The behaviour for different input data column types
 is as follows:
 
- - array.array : The index of each element is combined with the column name and 
+ - **array.array** : The index of each element is combined with the column name and 
   hashed, and the element becomes the value.
 
- - list : Behaves the same as array.array, but if the element is non-numerical 
+ - **list** : Behaves the same as array.array; if the element is non-numerical, 
    the element is combined with the column name and hashed, and 1 is used as the value.
 
- - dict : Each key in the dictionary is combined with the column name and hashed, 
+ - **dict** : Each key in the dictionary is combined with the column name and hashed, 
  and the value is kept. If the value is is non-numerical, the element is 
  combined with the column name and hashed, and 1 is used as the value.
 
- - float : the column name is hashed, and the column entry becomes the value
+ - **float** : The column name is hashed, and the column entry becomes the value.
 
- - int : Same behavior as float
+ - **int** : Same behavior as float.
 
- - string : Hash the string and use it as a key, and use 1 as the value.
+ - **string** : Hash the string and use it as a key, and use 1 as the value.
 
 The hashed values are collapsed into a single sparse representation of a vector.
-The number of bits to hash to is specified by the num_bits parameter.
+The num_bits parameter specifies the number of bits to hash to.
 
-**Note:** Each an entry is hashed, a seperate hash on the key is performed to 
+**Note:** Each time an entry is hashed, a separate hash on the key is performed to 
   either add or subtract a value with equal probability. This keeps the value
-  unbiased, since the expectation value for each feature(across all examples) 
+  unbiased, since the expectation value for each feature (across all examples) 
   is 0. 
 
 #### Introductory Example 

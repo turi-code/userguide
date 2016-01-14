@@ -40,7 +40,7 @@ iterations is reached.
 
 As with other GraphLab Create methods, the model object is constructed with the
 `create` function. The `summary()` method provides a snapshot of the result, and
-the `list_fields()` indicates the attributes of the model that can be queried.
+the `list_fields()` method gives the attributes of the model that can be queried.
 
 ```python
 pr = graphlab.pagerank.create(sg, max_iterations=10)
@@ -86,7 +86,7 @@ Queriable Fields
 ```
 
 The model fields are retrieved either with the `get` method or by treating the
-model as a dictionary, as in the following snippet which shows the model
+model as a dictionary, as in the following snippet, which shows the model
 creation run time of about 7 seconds.
 
 ```python
@@ -206,7 +206,7 @@ find the shortest path from all vertices in the graph to a user-specified target
 node. The source vertex with the smallest distribution of shortest paths can be
 considered the most central node in the graph.
 
-Because GraphLab Create SGraph's use directed edges, the shortest path toolkit
+Because GraphLab Create SGraphs use directed edges, the shortest path toolkit
 also finds the shortest directed paths to a source vertex. In this example we
 find all shortest paths to the node for the Microsoft article, then visualize
 the shortest path from the Microsoft article to the Weyerhauser article.
