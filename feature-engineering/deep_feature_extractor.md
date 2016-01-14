@@ -3,7 +3,7 @@
 Takes an input dataset, propagates each example through the network, and
 returns an SArray of dense feature vectors. These feature vectors can be used
 as input to train another classifier such as a LogisticClassifier,
-SVMClassifier, BoostedTreesClassifier, or NeuralNetClassifier
+SVMClassifier, BoostedTreesClassifier, or NeuralNetClassifier.
 
 Deep features can be used to extract features from your own models or using a
 pre-trained model for ImageNet (NIPS 2012, Alex Krizhevsky et al.).  Dato provides 

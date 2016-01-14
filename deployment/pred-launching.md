@@ -11,7 +11,7 @@ ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
                                 aws_secret_access_key='YOUR_SECRET_KEY')
 ```
 
-Click on the link above to go to the API documentation, which has more details on supported EC2 instance types.
+Note that this simply creates a configuration object in your local session, without actually interacting with AWS. The actual deployment happens when the `Ec2Config` object is passed to `graphlab.deploy.predictive_service.create` (see below).
 
 As an alternative to explicitly specifying the AWS credentials as parameters to the config you can also set them in your shell:
 
@@ -20,17 +20,23 @@ export AWS_ACCESS_KEY_ID='YOUR_ACCESS_KEY'
 export AWS_SECRET_ACCESS_KEY='YOUR_SECRET_KEY'
 ```
 
-When you create a predictive service with this configuration (see below), a new security group **Dato_Predictive_Service** will be created in the default subnet. You can also specify a custom security group:
+When you create a predictive service with this configuration (see below), a new security group **Dato_Predictive_Service** will be created in the default subnet. You can also specify a custom security group when creating the `Ec2Config` object:
 
 ```python
-ec2 = graphlab.deploy.Ec2Config(security_group='YOUR_SECURITY_GROUP_NAME')
+ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
+                                instance_type='m3.xlarge',
+                                aws_access_key_id='YOUR_ACCESS_KEY',
+                                aws_secret_access_key='YOUR_SECRET_KEY',
+                                security_group='YOUR_SECURITY_GROUP_NAME')
 ```
 
 If this security group does not exist, a new one will be created.
 
+For other configuration parameters, including more details on supported EC2 instance types, please refer to [`Ec2Config`](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html).
+
 #### Deployment
 
-With a valid configuration, a Predictive Service is launched using the [`graphlab.deploy.predictive_service.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html) command:
+With a valid configuration object of type `Ec2Config`, a Predictive Service is launched using the [`graphlab.deploy.predictive_service.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html) command:
 
 ```python
 deployment = graphlab.deploy.predictive_service.create(

@@ -1,6 +1,6 @@
 #Introduction to Graph Analytics
-Going from inspiration to production with graph models requires knowledge of
-influential and outlier nodes in the graph, clusters and communities, hidden
+Going from inspiration to production with graph models requires knowledge of several of the graph's attributes:
+influential and outlier nodes, clusters and communities, hidden
 connections between nodes, and the ability to compare different graphs based on
 these attributes. The
 [Graph Analytics toolkit](https://dato.com/products/create/docs/graphlab.toolkits.graph_analytics.html)

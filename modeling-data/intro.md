@@ -4,5 +4,5 @@ GraphLab Create offers toolkits for easily creating models for common tasks, suc
 - predicting numeric quantities
 - making recommendation systems
 - clustering data and documents
-- analyzing graphs.
+- analyzing graphs
 

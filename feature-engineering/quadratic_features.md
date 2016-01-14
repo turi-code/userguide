@@ -40,7 +40,7 @@ quadratic = graphlab.feature_engineering.create(sf,
 
 #### Fitting and transforming 
 
-Once a QuadraticFeatures object is constructed, it must first be fitted and then 
+Once a QuadraticFeatures object is constructed, it must first be fitted, and then 
 the transform function can be called to generate hashed features. 
 
 For numeric columns:
