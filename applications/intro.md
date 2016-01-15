@@ -7,3 +7,4 @@ In the following sections we demonstrate how you can use the Dato platform to ta
 * [Churn prediction](../churn_prediction/churn-prediction.md)
 * [Frequent Pattern Mining](../pattern_mining/frequent-pattern-mining.md)
 * [Sentiment analysis](../sentiment_analysis/introduction.md)
+* [Anomaly detection](../anomaly_detection/intro.md)

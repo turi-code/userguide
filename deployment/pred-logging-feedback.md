@@ -76,18 +76,17 @@ deployment.feedback('e8f13b17-173a-402d-835d-cc816eba626f',
 
 The values for the uuid as well as the search term and suggestion were returned as query response. The user behavior is known by the application. Together this information is now logged as custom keyword arguments of the `feedback` call; they end up in the feedback logs, where they can be collected and used to improve the predictive model.
 
-The example below demonstrates how to call the HTTP version of the feedback API using curl curl:
+The example below demonstrates how to call the HTTP version of the feedback API using curl:
 
 ```no-highlight
-curl -X POST -d '{"api_key": "b0a1c056-30b9-4468-9b8d-c07289017228",
-                  "id": "e8f13b17-173a-402d-835d-cc816eba626f",
-                  "data": {
-                    "search_term: "dato pre",
-                    "suggested": "dato predictive services",
-                    "suggestion_accepted": "True"
-                    }
-                  }'
-     http://first-8410747484.us-west-2.elb.amazonaws.com/feedback
+curl -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
+  "id": "e8f13b17-173a-402d-835d-cc816eba626f",
+  "data": {
+    "search_term: "dato pre",
+    "suggested": "dato predictive services",
+    "suggestion_accepted": "True"
+  }
+}' http://first-8410747484.us-west-2.elb.amazonaws.com/feedback
 ```
 
 You can retrieve feedback logs like the regular query and result logs using the [get_feedback_logs](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_feedback_logs.html) API. A feedback log entry has a timestamp, the uuid, and the custom information that encapsulates the feedback. It is now up to your application how to express feedback when submitting it for a query result, and how to process it when retrieving it from the logs.

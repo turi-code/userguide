@@ -26,15 +26,15 @@ is in turn far from center $$B$$, then there is no need to compute the exact
 distance from point $$x$$ to center $$B$$ when assigning $$x$$ to a cluster.
 
 
-#### Basic usage
+#### Basic Usage
 
 We illustrate usage of GraphLab Create K-means with the dataset from the [June
 2014 Kaggle competition to classify schizophrenic subjects based on MRI
 scans](https://www.kaggle.com/c/mlsp-2014-mri). The original data consists of
 two sets of features: functional network connectivity (FNC) features and
 source-based morphometry (SBM) features, which we incorporate into a single
-[SFrame](https://dato.com/products/create/docs/generated/graphlab.SFrame.html)
-with [SFrame.join](https://dato.com/products/create/docs/generated/graphlab.SFra
+[`SFrame`](https://dato.com/products/create/docs/generated/graphlab.SFrame.html)
+with [`SFrame.join`](https://dato.com/products/create/docs/generated/graphlab.SFra
 me.join.html). For convenience the data can be downloaded from our public AWS S3
 bucket; the following code snippet does this if the data is not found in the
 local working directory.
@@ -63,10 +63,12 @@ but the following simple heuristic sometimes works well:
 
 $$
     K \approx \sqrt{n/2}
-$$ 
+$$
 
 where $$n$$ is the number of rows in your dataset. By default, the maximum
 number of iterations is 10, and all features in the input dataset are used.
+
+Analogous to all other GraphLab Create toolkits the model is created through the [`kmeans.create`](https://dato.com/products/create/docs/generated/graphlab.kmeans.create.html) API:
 
 ```python
 from math import sqrt
@@ -92,17 +94,12 @@ Number of training iterations   : 2
 Batch size                      : 86
 Total training time (seconds)   : 0.2836
 
-Accessible fields               : 
+Accessible fields               :
    cluster_id                   : An SFrame containing the cluster assignments.
    cluster_info                 : An SFrame containing the cluster centers.
 ```
 
-The model summary shows the usual fields about model schema, training time, and
-training iterations. It also shows that the K-means results are returned in two
-SFrames contained in the model; there is no need to call a separate predict or
-query method as with many supervised models. The `cluster_info` SFrame indicates
-the final cluster centers, one per row, in terms of the same features used to
-create the model.
+The model summary shows the usual fields about model schema, training time, and training iterations. It also shows that the K-means results are returned in two SFrames contained in the model: `cluster_id` and `cluster_info`. The `cluster_info` SFrame indicates the final cluster centers, one per row, in terms of the same features used to create the model.
 
 ```python
 kmeans_model['cluster_info'].print_rows(num_columns=5, max_row_width=80,
@@ -112,12 +109,12 @@ kmeans_model['cluster_info'].print_rows(num_columns=5, max_row_width=80,
 +-----------+-----------+-----------+------------+-----------+-----+
 |    FNC1   |    FNC2   |    FNC3   |    FNC4    |    FNC5   | ... |
 +-----------+-----------+-----------+------------+-----------+-----+
-|  0.24935  | 0.1910... | -0.052... | -0.209...  | 0.2108... | ... |
-| 0.2657... | 0.1496... | -0.064885 | -0.0159845 | 0.2050... | ... |
-| 0.2294... | 0.0468... | -0.083... | -0.001...  | 0.2293... | ... |
-| 0.1448524 | -0.073752 | -0.143306 |  -0.2104   |  0.26996  | ... |
-|  0.37518  | 0.0692715 |  0.314985 | -0.2189335 | -0.001041 | ... |
-| 0.1416... | -0.036... | -0.153... | -0.215...  | 0.0075653 | ... |
+| 0.1870... | 0.0801... | -0.092... | -0.0957298 | 0.0893... | ... |
+|  0.21752  | 0.0363... | -0.027... | -0.063...  | 0.0556... | ... |
+| 0.2293... | 0.1017... | -0.046... | -0.051...  | 0.2313... | ... |
+| 0.1654... | -0.156... | -0.327... | -0.278...  | -0.033... | ... |
+| 0.2549... |  0.02532  | 0.0081... | -0.134...  | 0.3875... | ... |
+| 0.1072... | 0.0754... | -0.119422 | -0.312...  | 0.1100... | ... |
 +-----------+-----------+-----------+------------+-----------+-----+
 [6 rows x 413 columns]
 ```
@@ -133,12 +130,12 @@ kmeans_model['cluster_info'][['cluster_id', 'size', 'sum_squared_distance']]
 +------------+------+----------------------+
 | cluster_id | size | sum_squared_distance |
 +------------+------+----------------------+
-|     0      |  9   |     419.09369278     |
-|     1      |  14  |    701.154155731     |
-|     2      |  32  |    1779.06003189     |
-|     3      |  5   |    207.496253967     |
-|     4      |  2   |    65.7113265991     |
-|     5      |  24  |    1463.26512146     |
+|     0      |  7   |     340.44890213     |
+|     1      |  11  |    533.886421204     |
+|     2      |  49  |    2713.56332016     |
+|     3      |  13  |     714.04801178     |
+|     4      |  3   |    177.421077728     |
+|     5      |  3   |     151.59986496     |
 +------------+------+----------------------+
 [6 rows x 3 columns]
 ```
@@ -154,24 +151,42 @@ kmeans_model['cluster_id'].head()
 +--------+------------+---------------+
 | row_id | cluster_id |    distance   |
 +--------+------------+---------------+
-|   0    |     5      | 6.66008281708 |
-|   1    |     2      | 6.27191209793 |
-|   2    |     0      | 6.47308111191 |
-|   3    |     2      | 8.02576828003 |
-|   4    |     5      | 8.29527854919 |
-|   5    |     0      | 7.80406332016 |
-|   6    |     5      | 7.80014944077 |
-|   7    |     5      |  6.7954287529 |
-|   8    |     3      | 7.58359575272 |
-|   9    |     5      | 8.34588241577 |
+|   0    |     3      | 6.52821207047 |
+|   1    |     2      | 6.45124673843 |
+|   2    |     2      | 7.58535766602 |
+|   3    |     2      | 7.64395523071 |
+|   4    |     3      | 7.42247104645 |
+|   5    |     2      | 8.29837036133 |
+|   6    |     4      | 7.61347103119 |
+|   7    |     2      | 6.98522281647 |
+|   8    |     2      | 8.56831073761 |
+|   9    |     0      | 7.91477823257 |
 +--------+------------+---------------+
-[86 rows x 3 columns]
+[10 rows x 3 columns]
 ```
 
-#### Advanced usage
 
-For large datasets K-means clustering can be a time-consuming method. One simple
-way to reduce the computation time is to reduce the number of training
+#### Assigning *New* Points to Clusters
+
+New data points can be assigned to the clusters of a K-means model with the [`KmeansModel.predict`](https://dato.com/products/create/docs/generated/graphlab.kmeans.KmeansModel.predict.html) method. For K-means, the assignment is simply the nearest cluster center (in Euclidean distance), which is how the training data are assigned as well. Note that the model's cluster centers *are not updated* by the `predict` method.
+
+For illustration purposes, we predict the cluster assignments for the first 5 rows of our existing data. The assigned clusters are identical to the assignments in the model results (above), which is a good sanity check.
+
+```python
+new_clusters = kmeans_model.predict(sf[:5])
+new_clusters
+```
+```no-highlight
+dtype: int
+Rows: 5
+[3, 2, 2, 2, 3]
+```
+
+
+#### Advanced Usage
+
+For large datasets K-means clustering can be a time-consuming method. One
+simple way to reduce the computation time is to reduce the number of training
 iterations with the `max_iterations` parameter. The model prints a warning
 during training to indicate that the algorithm stops before convergence is
 reached.
@@ -189,11 +204,11 @@ chosen randomly from a sample of the original dataset, then passed to the final
 K-means model.
 
 ```python
-kmeans_sample = gl.kmeans.create(sf.sample(0.2), num_clusters=K, 
+kmeans_sample = gl.kmeans.create(sf.sample(0.2), num_clusters=K,
                                  max_iterations=0)
 
 my_centers = kmeans_sample['cluster_info']
-my_centers = my_centers.remove_columns(['cluster_id', 'size', 
+my_centers = my_centers.remove_columns(['cluster_id', 'size',
                                         'sum_squared_distance'])
 
 kmeans_model = gl.kmeans.create(sf, initial_centers=my_centers)
@@ -231,7 +246,7 @@ Number of training iterations   : 10
 Batch size                      : 30
 Total training time (seconds)   : 0.3387
 
-Accessible fields               : 
+Accessible fields               :
    cluster_id                   : An SFrame containing the cluster assignments.
    cluster_info                 : An SFrame containing the cluster centers.
 ```

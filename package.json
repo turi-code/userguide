@@ -4,11 +4,11 @@
   "description": "userguide",
   "main": "index.js",
   "devDependencies": {
-    "gitbook": "1.5.0",
-    "gitbook-plugin-customtheme": "0.1.9"
+    "gitbook-cli": "1.0.1",
+    "gitbook-plugin-mathjax": "1.0.0"
   },
   "scripts": {
-    "gitbook-dep": "./node_modules/.bin/gitbook install",
+    "gitbook-dep": "./node_modules/.bin/gitbook install ./",
     "build": "./node_modules/.bin/gitbook build",
     "gitbook": "./node_modules/.bin/gitbook build",
     "serve": "./node_modules/.bin/gitbook serve"
