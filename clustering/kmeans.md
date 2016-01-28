@@ -86,6 +86,7 @@ Number of clusters              : 6
 Number of examples              : 86
 Number of feature columns       : 410
 Number of unpacked features     : 410
+Row label name                  : row_id
 
 Training Summary
 ----------------
@@ -238,6 +239,7 @@ Number of clusters              : 6
 Number of examples              : 86
 Number of feature columns       : 410
 Number of unpacked features     : 410
+Row label name                  : row_id
 
 Training Summary
 ----------------
