@@ -78,6 +78,7 @@ This is the User Guide for GraphLab Create
     * [Anomaly Detection](anomaly_detection/intro.md)
         * [Local Outlier Factor](anomaly_detection/local_outlier_factor.md)
         * [Moving Z-Score](anomaly_detection/moving_zscore.md)
+        * [Bayesian Changepoints](anomaly_detection/bayesian_changepoints.md)
 * [Dato Distributed](deployment/pipeline-introduction.md)
     * [Asynchronous Jobs](deployment/pipeline-launch.md)
     * [Installing on Hadoop](deployment/pipeline-hadoop-setup.md)
