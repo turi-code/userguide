@@ -1,5 +1,5 @@
 # Anomaly Detection
-**Anomalies** are data points that are different from other observations in some day, typically measured against a model fit to the data.
+**Anomalies** are data points that are different from other observations in some way, typically measured against a model fit to the data.
 
 We assume the anomaly detection task is unsupervised, i.e. we don’t have training data with points labeled as anomalous. Each data point passed to an anomaly detection model is given an score from 0 to infinity indicating how different the point is relative to the rest of the dataset. The calculation of this score varies between models, but a higher score always indicates a point is more anomalous. Often a threshold is chosen to make a final classification of each point as typical or anomalous; this post-processing step is left to the user.
 
