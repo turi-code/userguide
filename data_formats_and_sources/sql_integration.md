@@ -35,9 +35,8 @@ results = c.fetchall()
 ```
 (example adapted from [here](https://docs.python.org/2/library/sqlite3.html))
 
-Since SFrame now offers DBAPI2 integration, you can write very similar code
-while using SFrame. Using the connection object in the previous example, here
-is how you would read the data as an SFrame:
+SFrame offers a DBAPI2 integration that enables you to read and write SQL data in a similar, concise fashion. Using the connection object in the previous example, here
+is how you would read the data as an SFrame using the [`from_sql`](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_sql.html) method:
 
 ```python
 import graphlab as gl
@@ -45,7 +44,7 @@ stocks_sf = gl.SFrame.from_sql(conn, "SELECT * FROM stocks")
 ```
 
 If you would like to then write this table to the database, that's easy too,
-using the `to_sql` method. `to_sql` simply attempts to append to an already
+using the [`to_sql`](https://dato.com/products/create/docs/generated/graphlab.SFrame.to_sql.html) method. `to_sql` simply attempts to append to an already
 existing table, so if you intend to write the data to a new table in your
 database, then you must use the "CREATE TABLE" syntax, including the type
 syntax supported by your database. Here's an example of creating a new table
@@ -54,7 +53,7 @@ and then appending more data to the table.
 import datetime as dt
 c = conn.cursor()
 
-c.execute('''CREATE TABLE more_stocks 
+c.execute('''CREATE TABLE more_stocks
              (date text, trans text, symbol text, qty real, price real)''')
 c.commit()
 stocks_sf.to_sql(conn, "more_stocks")
@@ -70,9 +69,9 @@ another_row.to_sql(conn, "more_stocks")
 
 That is all there is to know to get started using SFrames with Python DBAPI2
 modules! For more details you can consult the API documentation of
-[from_sql](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_sql.html)
+[`from_sql`](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_sql.html)
 and
-[to_sql](https://dato.com/products/create/docs/generated/graphlab.SFrame.to_sql.html).
+[`to_sql`](https://dato.com/products/create/docs/generated/graphlab.SFrame.to_sql.html).
 Currently, we have tested our DBAPI2 support with these modules:
  - [MySQLdb](https://github.com/PyMySQL/mysqlclient-python)
  - [psycopg2](http://initd.org/psycopg/)
