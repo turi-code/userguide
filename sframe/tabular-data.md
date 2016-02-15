@@ -15,4 +15,4 @@ We will introduce the basics of the SFrame in the following chapters:
 
 * [Apache Spark RDDs](../data_formats_and_sources/spark_integration.md) goes into more detail about getting data in and out of Apache Spark RDDs.
 
-* The chapter about [SQL databases (through ODBC)](../data_formats_and_sources/odbc_integration.md) explains how to interface with relational data sources through ODBC.
+* The chapter about [SQL databases](../data_formats_and_sources/sql_integration.md) explains how to interface with relational data sources through Python DBAPI2 or ODBC.
