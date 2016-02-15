@@ -1,5 +1,5 @@
 #Moving Z-Score
-The [`Moving Z-score model`](https://dato.com/products/create/docs/generated/graphlab.moving_zscore.create.html) scores anomalies in a univariate sequential dataset, often a time series.
+The [`Moving Z-score model`](https://dato.com/products/create/docs/generated/graphlab.toolkits.anomaly_detection.moving_zscore.create.html) scores anomalies in a univariate sequential dataset, often a time series.
 
 #### Background
 The moving Z-score is a very simple model for measuring the anomalousness of each point in a sequential dataset like a time series. Given a window size $$w$$, the moving Z-score is the number of standard deviations each observation is away from the mean, where the mean and standard deviation are computed *only* over the previous $$w$$ observations.

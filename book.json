@@ -1,5 +1,5 @@
 {
-  "gitbook": "2.x.x",
+  "gitbook": "2.6.4",
   "plugins": [
     "customtheme@0.2.1",
     "collapsible-menu@1.0.2",

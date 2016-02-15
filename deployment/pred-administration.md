@@ -164,7 +164,7 @@ deployment.cache_enable('my-no-cache-model')
 
 You can modify some underlying configuration parameters of the Predictive Service deployment using the [`reconfigure`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.reconfigure.html) method. The available configuration options are:
 
-- `cache_max_memory_mb`: The amount of memory allocated to the distributed cache. Default is 2GB for EC2; for the on-premises limit see the configuration file.
+- `cache_max_memory_mb`: The amount of memory allocated to the distributed cache. Default is 2GB per node for EC2; for the on-premises limit see the configuration file.
 - `cache_query_ttl_secs`: The TTL (time to live) of cached query requests. This determines when cached query results expire. Default is 1 year.
 - `cache_feedback_ttl_secs`: The TTL of query responses to be available in the cache for feedback. Default is 24 hours.
 - `cache_ttl_on_update_secs`: The TTL of existing cache keys after a model update. This determines how long after an update cached values of the previous version will be served. Default is 15 minutes.
