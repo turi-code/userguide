@@ -157,7 +157,7 @@ Regular A/B testing involves a set of experiments and associated probabilities. 
 In the context of Dato Predictive Services, this methodology is implemented through a ``ProbabilityPolicy`` endpoint. It is instantiated as follows:
 
 ```python
-from graphlab.deploy import ProbabilityPolicy
+from graphlab.deploy.predictive_service import ProbabilityPolicy
 
 p = ProbabilityPolicy({'sim_model': 0.9, 'fact_model': 0.1})
 ```
@@ -171,7 +171,7 @@ The idea of multi-armed bandits is to balance exploration (exposing experiments 
 Let's look at how to use this policy:
 
 ```python
-from graphlab.deploy import EpsilonGreedyPolicy
+from graphlab.deploy.predictive_service import EpsilonGreedyPolicy
 
 p = EpsilonGreedyPolicy(['sim_model', 'fact_model'], epsilon=0.1)
 

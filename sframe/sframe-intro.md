@@ -137,11 +137,12 @@ Loading is then very fast:
 same_usage_data = gl.load_sframe('./music_usage_data')
 ```
 
-In addition to these functions, JSON imports and exports, ODBC imports, and various Spark RDD conversion capabilities are also supported. For further information see the respective pages in the GraphLab Create API Documentation:
+In addition to these functions, JSON imports and exports, SQL/ODBC imports, and various Spark RDD conversion capabilities are also supported. For further information see the respective pages in the GraphLab Create API Documentation:
 * [read_json](https://dato.com/products/create/docs/generated/graphlab.SFrame.read_json.html)
 * [export_json](https://dato.com/products/create/docs/generated/graphlab.SFrame.export_json.html)
 * [read_csv](https://dato.com/products/create/docs/generated/graphlab.SFrame.read_csv.html)
 * [export_csv](https://dato.com/products/create/docs/generated/graphlab.SFrame.export_csv.html)
+* [from_odbc](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_sql.html)
 * [from_odbc](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_odbc.html)
 * [from_rdd](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_rdd.html)
 * [to_rdd](https://dato.com/products/create/docs/generated/graphlab.SFrame.to_rdd.html)
@@ -149,7 +150,7 @@ In addition to these functions, JSON imports and exports, ODBC imports, and vari
 
 For interfacing with Spark RDDs and relational databases see also the specific subsections in this user guide:
 * [Spark RDDs](../data_formats_and_sources/spark_integration.md)
-* [SQL Databases](../data_formats_and_sources/odbc_integration.md)
+* [SQL Databases](../data_formats_and_sources/sql_integration.md)
 
 
 

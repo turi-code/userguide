@@ -1,5 +1,5 @@
 #Moving Z-Score
-The [`Moving Z-score model`](https://dato.com/products/create/docs/generated/graphlab.toolkits.moving_zscore.create.html) scores anomalies in a univariate sequential dataset, often a time series.
+The [`Moving Z-score model`](https://dato.com/products/create/docs/generated/graphlab.toolkits.anomaly_detection.moving_zscore.create.html) scores anomalies in a univariate sequential dataset, often a time series.
 
 #### Background
 The moving Z-score is a very simple model for measuring the anomalousness of each point in a sequential dataset like a time series. Given a window size $$w$$, the moving Z-score is the number of standard deviations each observation is away from the mean, where the mean and standard deviation are computed *only* over the previous $$w$$ observations.
@@ -32,7 +32,7 @@ data_url = 'https://data.seattle.gov/api/views/65db-xm6k/rows.csv?accessType=DOW
 hourly_counts = gl.SFrame.read_csv(data_url)
 
 # Add the counts from each side of the bridge.
-hourly_counts['count'] = (hourly_counts['Fremont Bridge West Sidewalk'] + 
+hourly_counts['count'] = (hourly_counts['Fremont Bridge West Sidewalk'] +
                           hourly_counts['Fremont Bridge East Sidewalk'])
 
 # Convert the SFrame to a TimeSeries object
@@ -201,4 +201,4 @@ old_scores = new_scores[old_window]
 ![updated_anomalies](images/updated_anomalies.png)
 
 #### Further reading
-Jake Vanderplas wrote [an in-depth analysis](https://jakevdp.github.io/blog/2014/06/10/is-seattle-really-seeing-an-uptick-in-cycling/) of the Fremont bridge bicycle traffic data. The goal of his analysis is not anomaly detection, but it is an excellent read. 
+Jake Vanderplas wrote [an in-depth analysis](https://jakevdp.github.io/blog/2014/06/10/is-seattle-really-seeing-an-uptick-in-cycling/) of the Fremont bridge bicycle traffic data. The goal of his analysis is not anomaly detection, but it is an excellent read.
