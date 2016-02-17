@@ -8,7 +8,7 @@ This is the User Guide for GraphLab Create
         * [Loading and Saving](sframe/sframe-intro.md)
         * [Data Manipulation](sframe/data-manipulation.md)
         * [Spark RDDs](data_formats_and_sources/spark_integration.md)
-        * [SQL Databases](data_formats_and_sources/odbc_integration.md)
+        * [SQL Databases](data_formats_and_sources/sql_integration.md)
     * [Graph data](sgraph/sgraph.md)
     * [Time series data](timeseries/timeseries-data.md)
     * [Visualization](vis/visualization.md)

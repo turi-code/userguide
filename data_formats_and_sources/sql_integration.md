@@ -1,30 +1,123 @@
-#ODBC Integration
+#Introduction
+There are two ways to read data from a SQL database in to GraphLab Create:
+
+- [Python DBAPI2](./sql_integration.md#DBAPI2_Integration)
+- [ODBC](./sql_integration.md#ODBC_Integration)
+
+DBAPI2 support is a new feature and currently released as beta, but we strongly
+encourage you to try it first. The ease of getting started with DBAPI2 far
+surpasses using ODBC.
+
+<a name="DBAPI2_Integration"></a>
+#DBAPI2 Integration
+[DBAPI2](https://www.python.org/dev/peps/pep-0249/) is a standard written to
+encourage database providers to expose a common interface for executing SQL
+queries when making Python modules for their database. Common usage of a
+DBAPI2-compliant module from Python looks something like this:
+
+```python
+import sqlite3
+conn = sqlite3.connect('example.db')
+c = conn.cursor()
+
+# Create table
+c.execute('''CREATE TABLE stocks
+             (date text, trans text, symbol text, qty real, price real)''')
+
+# Insert a row of data
+c.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
+
+# Save (commit) the changes
+conn.commit()
+
+c.execute("SELECT * FROM stocks")
+results = c.fetchall()
+```
+(example adapted from [here](https://docs.python.org/2/library/sqlite3.html))
+
+SFrame offers a DBAPI2 integration that enables you to read and write SQL data in a similar, concise fashion. Using the connection object in the previous example, here
+is how you would read the data as an SFrame using the [`from_sql`](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_sql.html) method:
+
+```python
+import graphlab as gl
+stocks_sf = gl.SFrame.from_sql(conn, "SELECT * FROM stocks")
+```
+
+If you would like to then write this table to the database, that's easy too,
+using the [`to_sql`](https://dato.com/products/create/docs/generated/graphlab.SFrame.to_sql.html) method. `to_sql` simply attempts to append to an already
+existing table, so if you intend to write the data to a new table in your
+database, then you must use the "CREATE TABLE" syntax, including the type
+syntax supported by your database. Here's an example of creating a new table
+and then appending more data to the table.
+```python
+import datetime as dt
+c = conn.cursor()
+
+c.execute('''CREATE TABLE more_stocks
+             (date text, trans text, symbol text, qty real, price real)''')
+c.commit()
+stocks_sf.to_sql(conn, "more_stocks")
+
+# Append another row
+another_row = gl.SFrame({'date':[dt.datetime(2006, 3, 28)],
+                         'trans':['BUY'],
+                         'symbol':['IBM'],
+                         'qty':[1000],
+                         'price':[45.00]})
+another_row.to_sql(conn, "more_stocks")
+```
+
+That is all there is to know to get started using SFrames with Python DBAPI2
+modules! For more details you can consult the API documentation of
+[`from_sql`](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_sql.html)
+and
+[`to_sql`](https://dato.com/products/create/docs/generated/graphlab.SFrame.to_sql.html).
+Currently, we have tested our DBAPI2 support with these modules:
+ - [MySQLdb](https://github.com/PyMySQL/mysqlclient-python)
+ - [psycopg2](http://initd.org/psycopg/)
+ - [sqlite3](https://docs.python.org/2/library/sqlite3.html)
+
+This means that our DBAPI2 support may or may not work on other modules
+claiming to be DBAPI2-compliant. We will be adding more modules to this list as
+driven by what our users are interested in, so if you are interested in other
+modules, please try them out and let us know! If there is an issue with using
+one, please file an issue on [our GitHub
+page](https://github.com/dato-code/SFrame/issues) and include the error output
+you received and/or some small code sample that exhibits the error.  You can
+even [submit a pull
+request](https://github.com/dato-code/SFrame) if you are able to fix the issue.
+
+If your database does not support a DBAPI2 python module, but does support an
+ODBC driver, keep reading.
+
 <a name="ODBC_Integration"></a>
-GraphLab Create supports reading data from a SQL database and storing
-it in an SFrame, as well as writing SFrames to the database.  It does this via
-[ODBC](http://en.wikipedia.org/wiki/Open_Database_Connectivity).  ODBC stands
-for "Open Database Connectivity", and while there are a few extra steps to set
-it up and extra concepts to learn before you start using it, it is the most
-universal way to communicate with a wide range of databases.  Let's get
-started.
-
-Note: If you are already familiar with ODBC (especially unixODBC), you can skip the next section and go [here](#Using_ODBC).
-
-If you are looking for accessing MySQL from OSX, see the step-by-step instructions [here](#MySQL_on_OSX).
+#ODBC Integration
+[ODBC](http://en.wikipedia.org/wiki/Open_Database_Connectivity) stands
+for "Open Database Connectivity". It is an old standard (first version was
+released in 1992) that provides a language-agnostic interface for programs to
+access data in SQL databases. There are a few extra steps to set it up and
+extra concepts to learn before you start using it, but it remains one of the
+most universal ways to communicate with SQL databases. The ODBC connector
+included in SFrame only supports Linux and OS X. Windows is not supported at
+this time.
 
 #### ODBC Overview
 ODBC provides maximum portability by requiring the database vendor to write a
-driver that implements a common SQL-based interface.  One or more of
-these drivers are managed by a system-wide ODBC driver manager.  This means
-that in order to use ODBC, you must install the driver manager and the driver
-for the database you want to use.  The database itself need not be installed on
-your computer; it can be installed on a remote machine.  It is very
-important to make sure your ODBC driver works with your database before
-trying GraphLab Create's ODBC functions to make sure you are debugging the
-correct problem. The next section will help you do this.
+driver that implements a common SQL-based interface.  One or more of these
+drivers are managed by a system-wide ODBC driver manager.  This means that in
+order to use ODBC, you must first install an ODBC driver manager, and then find
+your database's ODBC driver, download it, and install it into the driver
+manager.  The database itself need not be installed on your computer; it can be
+installed on a remote machine. It is very important to make sure your ODBC
+driver works with your database before trying GraphLab Create's ODBC functions
+to make sure you are debugging the correct problem. The next section will help
+you do this.
 
 #### Setting Up An ODBC Environment
-The only ODBC driver manager we officially support is [unixODBC](http://www.unixodbc.org/). You are welcome to try others if you really want to, but we do not guarantee that this will work.  If you are so bold, let us know what happened!
+The only ODBC driver manager we officially support is
+[unixODBC](http://www.unixodbc.org/). You are welcome to try others if you
+really want to, but we do not guarantee that this will work.  If you are so
+bold, let us know what happened!
 
 Execute this command to install unixODBC on Ubuntu:
 
@@ -32,12 +125,12 @@ Execute this command to install unixODBC on Ubuntu:
 sudo apt-get install unixodbc
 ```
 
-this in CentOS 6:
+this on CentOS 6:
 ```bash
 sudo yum install unixODBC.x86_64
 ```
 
-and this in Mac OS X (if you use Homebrew):
+and this on OS X (if you use Homebrew):
 ```
 brew install unixodbc
 ```
@@ -48,16 +141,6 @@ Once you have this installed, try executing this command:
 odbcinst -j
 ```
 
-A driver is installed into the driver manager when a corresponding entry in the
-correct configuration file has been entered. The output for the above command
-shows which file the driver manager will use to look for drivers. Often, if you
-are able to use your system's package manager to install your
-database's ODBC driver, it will add the correct entry to install the driver to the correct place. If
-your ODBC driver does not do this, you will have to either add the entry
-yourself or use one of unixODBC's utilities (either the odbcinst command-line
-utility or their GUI program) to help you through the process. This is a
-minimal example of such an entry, for SQLite and mySQL, which will be just fine
-to get you started:
 
 ```ini
 [SQLite]
@@ -314,7 +397,7 @@ We do not support writing all types that are possible to hold in an SFrame,
 namely list, dict, or image types.  This is because there is no clean mapping to an
 ODBC type.
 
-We support reading all [ODBC types](http://msdn.microsoft.com/en-us/library/ms710150(v=vs.85).aspx) except
+We support reading all [ODBC types](http://msdn.microsoft.com/en-us/library/ms710150.aspx) except
 time intervals.  Reading SQL time intervals may work for certain drivers, but
 your mileage may vary so we are not officially supporting it at this time.
 Also, SFrames do not support timestamps that use fractions of seconds, so the

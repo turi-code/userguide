@@ -10,4 +10,4 @@ SFrames can extract data from the following static file formats:
 and these other sources:
 
 * [Apache Spark RDDs](spark_integration.md)
-* [SQL databases (through ODBC)](odbc_integration.md)
+* [SQL databases](sql_integration.md)
