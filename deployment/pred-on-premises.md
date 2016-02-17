@@ -17,6 +17,10 @@ On OS X the newly introduced Docker Toolbox replaced the boot2docker tool (inter
 
 You might run into an incompatibility issue with the included VirtualBox version, causing an error during the docker-machine create call. The current (8/31/2015) workaround is to install a more recent VirtualBox test build from https://www.virtualbox.org/wiki/Testbuilds. See also https://www.virtualbox.org/ticket/14412.
 
+#### Windows
+
+On Windows, follow the instructions to [install Docker VM in Windows](https://docs.docker.com/windows/step_one/). Once you install Docker, running the Docker Quickstart Terminal will initiate a BASH MINGW session that can run the installation instructions below.
+
 #### Installation
 Deployment of a predictive service is achieved by installing and running a set of Docker containers. The containers as well as a setup script are included in the package you downloaded from dato.com.
 
