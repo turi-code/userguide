@@ -62,7 +62,10 @@ extra metadata.
 | $$...$$   |  $$...$$   | $$...$$    | $$...$$ | $$...$$    |
 | $$t_{n}$$ | $$v_{1n}$$ | $$v_{2n}$$ | $$...$$ | $$v_{kn}$$ |
 
-Each column in the table corresponds to a univariate time series. 
+
+Each column pair $$(V_i, T)$$ in the table corresponds to a univariate time
+series. $$V_i$$ is the value column for $$T$$ is the index column that is
+shared among all the single (univariate) time series.
 
 We construct a `TimeSeries` object from the SFrame `household_data` by
 specifying the `DateTime` column as the index column. The data is **sorted** by
