@@ -3,7 +3,7 @@
 The [`model_parameter_search.create`](https://dato.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.create.html) method has executed a search of parameters over a pre-defined space of possibilities. 
 This can be helpful for newcomers who may not yet know the intricacies of each model and which parameters to consider in a first search.
 
-The GraphLab Create models that have default search ranges provided include:
+The following GraphLab Create models have default search ranges provided:
 - kmeans.create
 - logistic_classifier.create
 - boosted_trees_classifier.create
@@ -35,7 +35,7 @@ job = model_parameter_search.create((training, validation),
 
 ### Tuning a GraphLab Create model
 
-Let's grab the Iris dataset, rename the final column to be 'target', and create a random train/test split.
+First of all, let's grab the Iris dataset, rename the final column to be 'target', and create a random train/test split.
 ```
 import graphlab as gl
 url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
@@ -139,14 +139,14 @@ X_train, X_test, y_train, y_test = cross_validation.train_test_split(
     iris.data, iris.target, test_size=0.4, random_state=0)
 ```
 
-In this case, both the train and test datasets must be a tuple of numpy matrices (X, y) representing the feature matrix and the target vector, respectively. This time, we use [`grid_search.create`](https://dato.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.grid_search.create.html) to perform a grid search which fits a model for all possible combination of parameters.
+In this case, both the train and test datasets must be a tuple of numpy matrices (X, y) representing the feature matrix and the target vector, respectively. This time, we use [`grid_search.create`](https://dato.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.grid_search.create.html) to perform a grid search which fits a model for all possible combinations of parameters.
 ```
 data = ((X_train, y_train), (X_test, y_test))
 params = {'kernel': 'linear', 'C': [0.5, .75, 1.0]}
 j = gl.grid_search.create(data, svm.SVC, params)
 ```
 
-Running this job we get the following results table. By default, `model_parameter_search` methods use an sklearn model's `score` function to make predictions for the training and validation datasets. These values are presented in the `training_score` and `validation_score` columns.
+Running this job we get the following results table. By default, `model_parameter_search` methods use a sklearn model's `score` function to make predictions for the training and validation datasets. These values are presented in the `training_score` and `validation_score` columns.
 
 ```
 j.get_results()
@@ -207,7 +207,7 @@ def custom_evaluator(scorer, train, valid):
             'valid_acc': gl.evaluation.accuracy(valid['target'], yhat_valid)}
 ```
 
-Finally, we can perform a model parameter search over a chosen set of proportions. We pass in our custom function, our parameters, and our custom evaluator. We can again use the Iris data, where this time we are classifying whether or not each isntance has the label "Iris-setosa":
+Finally, we can perform a model parameter search over a chosen set of proportions. We pass in our custom function, our parameters, and our custom evaluator. We can again use the Iris data, where this time we are classifying whether or not each instance has the label "Iris-setosa":
 ```
 data = gl.SFrame.read_csv(url, header=False)
 data.rename({'X5': 'target'})
@@ -242,7 +242,7 @@ No valid results have been created from this search.
 [WARNING] Trial run failed prior to launching model parameter search.  Please check for exceptions using get_metrics() on the returned object.
 ```
 
-You may then do retrieve the message of the thrown exception. In this case we used an incorrect value for the `target` parameter.
+You may then retrieve the message of the thrown exception. In this case we used an incorrect value for the `target` parameter.
 ```
 j.get_metrics()['exception_message']
 Out[47]: 
