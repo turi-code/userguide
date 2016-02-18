@@ -1,11 +1,12 @@
 # Time series
 
-Data sources such as usage logs, sensor measurements, financial instruments,
+For data sources such as usage logs, sensor measurements, and financial instruments,
 the presence of a time-stamp results in an implicit temporal ordering on the
 observations.
 
 In these applications, it becomes important to be able to treat the time-stamp
-as an index around which several important operations such as:
+as an index around which we can perform several important operations such as:
+
 - **grouping** the data with respect to various intervals of time
 - **aggregating** data across time intervals
 - **transforming** data into regular discrete intervals
@@ -16,8 +17,25 @@ repository](https://archive.ics.uci.edu/ml/datasets/Individual+household+electri
 The dataset contains measurements of electric power consumption in one
 household with a one-minute sampling rate over a period of almost 4 years. The
 entire dataset contains around 2,075,259 measurements gathered between December
-2006 and November 2010 (47 months). The dataset is stored as an SFrame that can
-be loaded as follows:
+2006 and November 2010 (47 months). 
+
+
+## Time series construction
+
+The `TimeSeries` object is the fundamental data structure for multivariate time
+series data. TimeSeries objects are backed by a single `SFrame`, but include
+extra metadata. Each column in the SFrame corresponds to a univariate time
+series. 
+
+
+|   $$T$$   |  $$V_1$$   |  $$V_2$$   | $$...$$ |  $$V_k$$   |
+|-----------|------------|------------|---------|------------|
+| $$t_{1}$$ | $$v_{11}$$ | $$v_{21}$$ | $$...$$ | $$v_{k1}$$ |
+| $$t_{2}$$ | $$v_{12}$$ | $$v_{22}$$ | $$...$$ | $$v_{k2}$$ |
+| $$t_{3}$$ | $$v_{13}$$ | $$v_{23}$$ | $$...$$ | $$v_{k3}$$ |
+| $$...$$   |  $$...$$   | $$...$$    | $$...$$ | $$...$$    |
+| $$...$$   |  $$...$$   | $$...$$    | $$...$$ | $$...$$    |
+| $$t_{n}$$ | $$v_{1n}$$ | $$v_{2n}$$ | $$...$$ | $$v_{kn}$$ |
 
 
 ```python
@@ -27,6 +45,7 @@ import datetime as dt
 household_data = gl.SFrame(
       "http://s3.amazonaws.com/dato-datasets/household_electric_sample.sf")
 ```
+
 ```no-highlight
 Data:
 +---------------------+-----------------------+---------+---------------------+
@@ -46,26 +65,6 @@ Data:
 [1025260 rows x 4 columns]
 ```
 
-## Time series construction
-
-The `TimeSeries` object is the fundamental data structure for multivariate time
-series data. TimeSeries objects are backed by a single `SFrame`, but include
-extra metadata.
-
-
-|   $$T$$   |  $$V_1$$   |  $$V_2$$   | $$...$$ |  $$V_k$$   |
-|-----------|------------|------------|---------|------------|
-| $$t_{1}$$ | $$v_{11}$$ | $$v_{21}$$ | $$...$$ | $$v_{k1}$$ |
-| $$t_{2}$$ | $$v_{12}$$ | $$v_{22}$$ | $$...$$ | $$v_{k2}$$ |
-| $$t_{3}$$ | $$v_{13}$$ | $$v_{23}$$ | $$...$$ | $$v_{k3}$$ |
-| $$...$$   |  $$...$$   | $$...$$    | $$...$$ | $$...$$    |
-| $$...$$   |  $$...$$   | $$...$$    | $$...$$ | $$...$$    |
-| $$t_{n}$$ | $$v_{1n}$$ | $$v_{2n}$$ | $$...$$ | $$v_{kn}$$ |
-
-
-Each column pair $$(V_i, T)$$ in the table corresponds to a univariate time
-series. $$V_i$$ is the value column for $$T$$ is the index column that is
-shared among all the single (univariate) time series.
 
 We construct a `TimeSeries` object from the SFrame `household_data` by
 specifying the `DateTime` column as the index column. The data is **sorted** by
@@ -129,7 +128,7 @@ style="max-width: 70%; margin-left: 15%;"
 In many practical time series analysis problems, we require observations to be
 over uniform time intervals. However, data is often in the form of non-uniform
 events with accompanying time stamps. As a result, one common prerequisite for
-time series applications is to convert a time series that is potentially
+time series applications is to convert any time series that is potentially
 irregularly sampled to one that is sampled at a regular frequency (or to a
 frequency different from the input data source).
 
@@ -143,10 +142,11 @@ There are three important primitive operations required for this purpose:
 - **Aggregation/Downsampling** –The operation used to aggregate multiple
   observations that belong to the same time slice.
 
-As an example, we resample the `household_ts` into a time-series at an hourly
+As an example, we resample the `household_ts` into a time series at an hourly
 granularity.
 
 ```python
+import datetime as dt
 
 day = dt.timedelta(days = 1)
 daily_ts = household_ts.resample(day, downsample_method='max', upsample_method=None)
@@ -187,9 +187,9 @@ column) within that time interval in the original time series.
 Time series data can also be shifted along the time dimension using the
 `TimeSeries.shift` and `TimeSeries.tshift` methods.
 
-The `tshift` operator shifts the index column of the time series along the time
-dimension while keeping other columns intact.  For example, we can shift the
-`household_ts` by 5 mintues, so all the tuples by an hour:
+The `tshift` operator shifts the index column of the time series along the time 
+dimension while keeping other columns intact.  For example, we can shift the 
+`household_ts` by 5 minutes, so all the tuples by an hour:
 
 ```python
 interval = dt.timedelta(hours = 1)
@@ -250,7 +250,7 @@ the first resampled TimeSeries object with the second TimeSeries object.
 
 ```python
 sf_other = gl.SFrame(
-     'http://s3.amazonaws.com/dato-datasets/household_electric_sample_2.sf')
+      'http://s3.amazonaws.com/dato-datasets/household_electric_sample_2.sf')
 ts_other = gl.TimeSeries(sf_other, index = 'DateTime')
 household_ts.index_join(ts_other, how='inner')
 ```
@@ -301,12 +301,17 @@ time stamps that span the time series. It can be obtained as follows:
 start_time, end_time = household_ts.range
 ```
 
+```no-highlight
+(datetime.datetime(2006, 12, 16, 17, 24), datetime.datetime(2007, 11, 26, 20, 57))
+```
 We can obtain a slice of a time series that lies within its range using the
 `TimeSeries.slice` operator.
 
 ```python
+import datetime as dt
 start = dt.datetime(2006, 12, 16, 17, 24)
 end = dt.datetime(2007, 11, 26, 21, 2)
+
 sliced_ts = household_ts.slice(start, end)
 ```
 ```no-highlight
@@ -356,7 +361,7 @@ ts_2010 = household_ts.slice(start, end)
 ### Time series grouping
 
 Quite often in time series analysis, we are required to split a single large
-time series in to groups of smaller time series grouped based on a property of
+time series into groups of smaller time series grouped based on a property of
 the time stamp (e.g. per day of week).
 
 The output of this operator is a `graphlab.timeseries.GroupedTimeSeries`
