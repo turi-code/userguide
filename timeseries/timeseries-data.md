@@ -129,19 +129,19 @@ style="max-width: 70%; margin-left: 15%;"
 In many practical time series analysis problems, we require observations to be
 over uniform time intervals. However, data is often in the form of non-uniform
 events with accompanying time stamps. As a result, one common prerequisite for
-time series applications is to convert an time series that is potentially
+time series applications is to convert a time series that is potentially
 irregularly sampled to one that is sampled at a regular frequency (or to a
 frequency different from the input data source).
 
 
 There are three important primitive operations required for this purpose:
 
-- **Mapping** – The operation which determines which time slice a specific
+- **Mapping** – The operation that determines which time slice a specific
   observation belongs to.
 - **Interpolation/Upsampling** – The operation used to fill in the missing
   values when there are no observations that map to a particular time slice.
 - **Aggregation/Downsampling** –The operation used to aggregate multiple
-  observations that below to the same time slice.
+  observations that belong to the same time slice.
 
 As an example, we resample the `household_ts` into a time-series at an hourly
 granularity.
