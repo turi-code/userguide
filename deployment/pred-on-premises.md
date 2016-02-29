@@ -45,21 +45,21 @@ Follow these steps to install Dato Predictive Services:
 ```
 tar zxvf dato_ps_setup_1.8.3.tar.gz
 ```
-3. Create a Predictive Services working directory in the host machine where Predictive Services files (include docker images) will be copied to. On Windows, this must be on the same drive as your DOcker installation, which is the C drive.
+3. Create a Predictive Services working directory in the host machine where Predictive Services files (include docker images) will be copied to. On Windows, this must be on the same drive as your Docker installation, which is the C drive.
 ```
 mkdir -p <deployment_path>
 ```
 4. Decide where the Predictive Services runtime data (state files, logs, etc.) will be stored; this could be a network file system, a S3 file path, or an HDFS file path. This path will be used by data scientists to manage the predictive service later through the GraphLab Create Python API. A common path is usually a HDFS path, like `hdfs://<hdfs-name-node>:8020/user/<ps-service-user>/dato_predictive_service`
 We will call this path the “ps path”.
 5. Modify predictive_service.cfg file included in the package. You will need to make the following changes for a local setup:
-    * `internal_ip`: The intenal IP address of your host, usually a private IP address such as 10.X.X.X or 192.168.X.X.
+    * `internal_ip`: The internal IP address of your host, usually a private IP address such as 10.X.X.X or 192.168.X.X.
     * `external_ip`: The external IP address of your host, which is not one of the private IP addresses. This is how other machines can find your host.
     * `ps_path`: the path you chose in step 4 above
     * `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`: Specify these if you gave an S3 address for `ps_path`.
     * `deployment_path`: the path you chose in step 3 above
     * `server_memory`: The memory size, in MB, of your predictive service container. The default of 4096 is fine for most purposes.
     * `server_port`: The internal server port. When Predictive Services is configured, there is a load balancer configured to forward traffic to a server. This port will not be used externally.
-    * `use_ssl`: If you'd like to use SSL, set this to `true`
+    * `use_ssl`: If you'd like to use SSL, set this to `true`. You'll also need to specify `certificate_path` and `certificate_is_self_signed`.
     * `certificate_path`: The path to the SSL certificate.
     * `certificate_is_self_signed`: If you're using SSL and a self-signed certificate, set this to `true`.
     * `lb_port`: The port used to query predictive services through the load balancer. Setting this to `default` will cause it to be set to 80 for non-SSL installations or 443 for SSL installations.
