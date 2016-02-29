@@ -114,6 +114,7 @@ To configure port forwarding:
 5. Choose the "Adapter 1" tab. You should see that it is "Attached to" "NAT". This means that the interface is attached to a NAT managed by Virtualbox itself.
 6. Click on the "Port Forwarding" button.
 7. Add the following three rules by clicking on the "add rule" icon and editing the fields. Please substitute the ports appropriately. IE, if you're using SSL, then you would use 443 rather than 80.
+
 | Name    | Protocol | Host IP       | Host Port | Guest IP      | Guest Port |
 |---------|----------|---------------|-----------|---------------|------------|
 | ps      | TCP      | (leave blank) | 80        | (leave blank) | 80         |
