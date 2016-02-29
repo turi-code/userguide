@@ -50,7 +50,7 @@ tar zxvf dato_ps_setup_1.8.3.tar.gz
 ```
 mkdir -p <deployment_path>
 ```
-    * On Windows, this must be on the same drive as your Docker installation, which is the C drive.
+ * On Windows, this must be on the same drive as your Docker installation, which is the C drive.
 4. Decide where the Predictive Services runtime data (state files, logs, etc.) will be stored; this could be a network file system, a S3 file path, or an HDFS file path. This path will be used by data scientists to manage the predictive service later through the GraphLab Create Python API. A common path is usually a HDFS path, like `hdfs://<hdfs-name-node>:8020/user/<ps-service-user>/dato_predictive_service`
 We will call this path the “ps path”.
 5. Modify predictive_service.cfg file included in the package. You will need to make the following changes for a local setup:
