@@ -15,7 +15,7 @@ Here is a short summary of what you can do with each of these features:
 
 #### GraphLab Predictive Services
 
-- Deploy trained GraphLab Create models into a elastic web service with a single line of code.
+- Deploy trained GraphLab Create models into an elastic web service with a single line of code.
 - Incorporate business logic with the ability to deploy arbitrary python code.
 - Scale up/down the number of nodes in the web service based on needs.
 - Easily update or switch the deployed models without any downtime.

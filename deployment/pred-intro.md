@@ -2,7 +2,7 @@
 
 Dato Predictive Services enable straightforward deployment of machine learning models as reliable and scalable web services for easy integration into predictive applications using a low-latency REST API. With one command, launch a cluster, deploy a model, update a model (with no downtime), or capture interaction data to improve the next version of the model. Here are some of the highlights of Dato Predictive Services:
 
-- Deploy trained GraphLab Create models into a elastic web service with a single line of code.
+- Deploy trained GraphLab Create models into an elastic web service with a single line of code.
 - Incorporate business logic with the ability to deploy arbitrary python code.
 - Scale up/down the number of nodes in the web service based on needs.
 - Easily update or switch the deployed models without any downtime.
