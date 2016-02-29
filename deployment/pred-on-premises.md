@@ -8,14 +8,53 @@ You will need the Predictive Services package as well as a Predictive Services p
 
 Predictive Services on-premises uses [Docker](https://www.docker.com/) as its packaging and deployment mechanism. To install Docker on the machine that will host the predictive service, please download from https://docs.docker.com/installation/. Make sure to pick the installation that matches the host’s operating system.
 
-##### OS X
-On OS X the newly introduced Docker Toolbox replaced the boot2docker tool (internally docker-machine still uses boot2docker). Follow the instructions on the Docker website for [creating a Docker VM in Mac OS X](http://docs.docker.com/mac/step_one/). These instructions entail:
+##### OS X and Windows
 
-* installing the Docker Toolbox (which includes VirtualBox),
-* creating a Docker VM, and
-* setting required environment variables to use the new VM.
+Follow the instructions on the Docker website for [creating a Docker VM in Mac OS X](http://docs.docker.com/mac/step_one/) or [creating a Docker VM in Windows](https://docs.docker.com/windows/step_one/).
+
+The installation instructions below assume you have:
+
+* installed the Docker Toolbox (which includes VirtualBox),
+* created a Docker VM (usually named `default`), and
+* set required environment variables to use the new VM.
+
+These things should occur automatically when you use the Docker Quickstart Terminal.
+
+You can verify that this is setup properly by running:
+
+    $ echo $DOCKER_MACHINE_NAME
+
+which should print something like "default".
+
+If you'd prefer to run on another docker host you've created, just run the command:
+
+    $ eval $(docker-machine env <your machine name>)
 
 You might run into an incompatibility issue with the included VirtualBox version, causing an error during the docker-machine create call. The current (8/31/2015) workaround is to install a more recent VirtualBox test build from https://www.virtualbox.org/wiki/Testbuilds. See also https://www.virtualbox.org/ticket/14412.
+
+If you want to setup your Windows or Mac OS machine to be a server, then please configure your network appropriately.
+
+In Virtualbox, there are two network interfaces configured for your docker machine. The first is a NAT interface. You can add to the "Port Forwarding" configuration ports for the query, metrics, and admin interfaces.
+
+To do so, open up Virtualbox. Click on the instance that servers as the docker machine. It should have the same name as your docker machine, which is `default` if you haven't changed it.
+
+Configure the instance by clicking on the "Settings" button with the instance highlighted.
+
+Click on the "Network" tab. Choose the "Adapter 1" tab. You should see that it is "Attached to" "NAT". This means that the interface is attached to a NAT managed by Virtualbox itself.
+
+Click on the "Port Forwarding" button.
+
+Add the following three rules by clicking on the "add rule" icon:
+
+* Name: ps, Protocol: TCP, Host IP: leave it blank, Host Port: 80 (or whatever other port you choose), Guest IP: leave it blank, and Guest Port: 80. This rule will forward incoming traffic on port 80 (HTTP) of your Windows or Mac OS X machine to port 80 of the docker machine instance.
+* Name: stats, Protocol: TCP; Host IP: leave it blank; Host Port: 9000 (or whatever other port you choose); Guest IP: leave it blank; Guest Port: 9000. This port will forward incoming traffic on port 9000 to your docker machine instance port 9000, which is the stats port.
+* Name: metrics, Protocol: TCP; Host IP: leave it blank; Host Port: 9015 (or whatever other port you choose); Guest IP: leave it blank; Guest Port: 9015. This port will forward incoming traffic on port 9015 to your docker machine instance port 9015, which serves the metrics data.
+
+Click "OK" on the port forwarding dialogue, and "OK" on the network interface dialogue to save your changes. Note that you do not need to stop your docker machine instance to make these changes.
+
+On Windows, when you make these changes, you will be prompted to open up your firewall to allow incoming connections on these ports. Accept the dialogue. If you don't accept this, you can change your firewall settings in the firewall configuration.
+
+Once the configuration is complete, when your predictive services are running, you should be able to access your predictive services installation from outside your Windows or Mac OS X host through its IP address and the appropriate port.
 
 #### Installation
 Deployment of a predictive service is achieved by installing and running a set of Docker containers. The containers as well as a setup script are included in the package you downloaded from dato.com.
