@@ -107,6 +107,7 @@ In Virtualbox, there are two network interfaces configured for your docker machi
 Note that you do not need to stop your docker machine instance to make these changes.
 
 To configure port forwarding:
+
 1. Open up the Virtualbox application.
 2. Click on the instance that serves as the docker machine. It should have the same name as your docker machine, which is `default` if you haven't changed it.
 3. Configure the instance by clicking on the "Settings" button with the instance highlighted.
