@@ -104,18 +104,27 @@ In order to access predictive services from outside your Windows or OS X host, y
 
 In Virtualbox, there are two network interfaces configured for your docker machine instance. The first is a NAT interface. You can add to the "Port Forwarding" configuration ports for the query, metrics, and admin interfaces.
 
-To do so, open up Virtualbox. Click on the instance that servers as the docker machine. It should have the same name as your docker machine, which is `default` if you haven't changed it.
+To configure port forwarding:
+1. Open up the Virtualbox application.
+2. Click on the instance that serves as the docker machine. It should have the same name as your docker machine, which is `default` if you haven't changed it.
+3. Configure the instance by clicking on the "Settings" button with the instance highlighted.
+4 Click on the "Network" tab.
+5. Choose the "Adapter 1" tab. You should see that it is "Attached to" "NAT". This means that the interface is attached to a NAT managed by Virtualbox itself.
+6. Click on the "Port Forwarding" button.
+7. Add the following three rules by clicking on the "add rule" icon and editing the fields:
+.. list-table:: Port Forwarding
+    :widths: 5 5 5 5 5 5
+    :header-rows: 1
+    * - Name
+      - Protocol
+      - Host IP
+      - Host Port
+      - Guest IP
+      - Guest Port
 
-Configure the instance by clicking on the "Settings" button with the instance highlighted.
 
-Click on the "Network" tab. Choose the "Adapter 1" tab. You should see that it is "Attached to" "NAT". This means that the interface is attached to a NAT managed by Virtualbox itself.
-
-Click on the "Port Forwarding" button.
-
-Add the following three rules by clicking on the "add rule" icon:
-
-* Name: ps, Protocol: TCP, Host IP: leave it blank, Host Port: 80 (or whatever other port you choose), Guest IP: leave it blank, and Guest Port: 80. This rule will forward incoming traffic on port 80 (HTTP) of your Windows or Mac OS X machine to port 80 of the docker machine instance.
-* Name: stats, Protocol: TCP; Host IP: leave it blank; Host Port: 9000 (or whatever other port you choose); Guest IP: leave it blank; Guest Port: 9000. This port will forward incoming traffic on port 9000 to your docker machine instance port 9000, which is the stats port.
+    * Name: ps, Protocol: TCP, Host IP: leave it blank, Host Port: 80 (or whatever other port you choose), Guest IP: leave it blank, and Guest Port: 80. This rule will forward incoming traffic on port 80 (HTTP) of your Windows or Mac OS X machine to port 80 of the docker machine instance.
+    * Name: stats, Protocol: TCP; Host IP: leave it blank; Host Port: 9000 (or whatever other port you choose); Guest IP: leave it blank; Guest Port: 9000. This port will forward incoming traffic on port 9000 to your docker machine instance port 9000, which is the stats port.
 * Name: metrics, Protocol: TCP; Host IP: leave it blank; Host Port: 9015 (or whatever other port you choose); Guest IP: leave it blank; Guest Port: 9015. This port will forward incoming traffic on port 9015 to your docker machine instance port 9015, which serves the metrics data.
 
 Click "OK" on the port forwarding dialogue, and "OK" on the network interface dialogue to save your changes. Note that you do not need to stop your docker machine instance to make these changes.
