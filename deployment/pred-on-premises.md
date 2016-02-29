@@ -10,15 +10,12 @@ Predictive Services on-premises uses [Docker](https://www.docker.com/) as its pa
 
 ##### OS X and Windows
 
-Follow the instructions on the Docker website for [creating a Docker VM in Mac OS X](http://docs.docker.com/mac/step_one/) or [creating a Docker VM in Windows](https://docs.docker.com/windows/step_one/).
+Follow the instructions on the Docker website for [creating a Docker VM in Mac OS X](http://docs.docker.com/mac/step_one/) or [creating a Docker VM in Windows](https://docs.docker.com/windows/step_one/). Once you have Docker installed, you can begin installation by starting the Docker Quickstart Terminal.
 
-The installation instructions below assume you have:
-
-* installed the Docker Toolbox (which includes VirtualBox),
-* created a Docker VM (usually named `default`), and
-* set required environment variables to use the new VM.
-
-These things should occur automatically when you use the Docker Quickstart Terminal.
+The Docker Quickstart Terminal does the following things:
+* Creates a Virtualbox instance called `default` that will serve as the docker machine instance, if it is not yet created.
+* Starts the default instance.
+* Configures the environment variables to point to the default instance.
 
 You can verify that this is setup properly by running:
 
@@ -26,13 +23,20 @@ You can verify that this is setup properly by running:
 
 which should print something like "default".
 
+You can start and stop the machine with:
+
+    $ docker-machine start
+    $ docker-machine stop
+
 If you'd prefer to run on another docker host you've created, just run the command:
 
     $ eval $(docker-machine env <your machine name>)
 
+The installation script is aware of the `$DOCKER_MACHINE_NAME` environment variable and will load and run the docker instances appropriately.
+
 You might run into an incompatibility issue with the included VirtualBox version, causing an error during the docker-machine create call. The current (8/31/2015) workaround is to install a more recent VirtualBox test build from https://www.virtualbox.org/wiki/Testbuilds. See also https://www.virtualbox.org/ticket/14412.
 
-After installation is complete, be sure to configure port forwarding as noted below.
+After installation is complete, be sure to configure port forwarding as noted below. This is not necessary on a Linux machine, since it is not run from inside of a Virtualbox instance.
 
 #### Installation
 Deployment of a predictive service is achieved by installing and running a set of Docker containers. The containers as well as a setup script are included in the package you downloaded from dato.com.
