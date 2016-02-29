@@ -40,17 +40,15 @@ Deployment of a predictive service is achieved by installing and running a set o
 Follow these steps to install Dato Predictive Services:
 
 1. Download the dato-predictive-services-1.8.3.tar.gz (or the latest version) and your license file.
-2. Move the package and license file to the computer you want to install Dato Predictive Services on.
-    * For Windows hosts, be sure to do all of the work from your C drive where Docker is installed. Trying to setup from another drive may lead to problems.
+2. Move the package and license file to the computer you want to install Dato Predictive Services on. For Windows hosts, be sure to do all of the work from your C drive where Docker is installed. Trying to setup from another drive may lead to problems.
 2. Unzip the file to a temporary folder:
 ```
 tar zxvf dato_ps_setup_1.8.3.tar.gz
 ```
-3. Create a Predictive Services working directory in the host machine where Predictive Services files (include docker images) will be copied to.
+3. Create a Predictive Services working directory in the host machine where Predictive Services files (include docker images) will be copied to. On Windows, this must be on the same drive as your DOcker installation, which is the C drive.
 ```
 mkdir -p <deployment_path>
 ```
- * On Windows, this must be on the same drive as your Docker installation, which is the C drive.
 4. Decide where the Predictive Services runtime data (state files, logs, etc.) will be stored; this could be a network file system, a S3 file path, or an HDFS file path. This path will be used by data scientists to manage the predictive service later through the GraphLab Create Python API. A common path is usually a HDFS path, like `hdfs://<hdfs-name-node>:8020/user/<ps-service-user>/dato_predictive_service`
 We will call this path the “ps path”.
 5. Modify predictive_service.cfg file included in the package. You will need to make the following changes for a local setup:
