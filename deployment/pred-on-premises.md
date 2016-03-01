@@ -118,16 +118,16 @@ To configure port forwarding:
 4 Click on the "Network" tab.
 5. Choose the "Adapter 1" tab. You should see that it is "Attached to" "NAT". This means that the interface is attached to a NAT managed by Virtualbox itself.
 6. Click on the "Port Forwarding" button.
-7. Add the following three rules by clicking on the "add rule" icon and editing the fields. Please substitute the ports appropriately. IE, if you're using SSL, then you would use 443 rather than 80.
-
-  | Name    | Protocol | Host IP       | Host Port | Guest IP      | Guest Port |
-  |---------|----------|---------------|-----------|---------------|------------|
-  | ps      | TCP      | (leave blank) | 80        | (leave blank) | 80         |
-  | stats   | TCP      | (leave blank) | 9000      | (leave blank) | 9000       |
-  | metrics | TCP      | (leave blank) | 9015      | (leave blank) | 9015       |
-
+7. Add the three rules below by clicking on the "add rule" icon and editing the fields. Please substitute the ports appropriately. IE, if you're using SSL, then you would use 443 rather than 80.
 8. Click "OK" on the port forwarding dialogue
 9. Click "OK" on the network interface dialogue to save your changes.
+
+| Name    | Protocol | Host IP       | Host Port | Guest IP      | Guest Port |
+| ------- | -------- | ------------- | --------- | ------------- | ---------- |
+| ps      | TCP      | (leave blank) | 80        | (leave blank) | 80         |
+| stats   | TCP      | (leave blank) | 9000      | (leave blank) | 9000       |
+| metrics | TCP      | (leave blank) | 9015      | (leave blank) | 9015       |
+
 
 On Windows, when you make these changes, you will be prompted to open up your firewall to allow incoming connections on these ports. Accept the dialogue. If you don't accept this, you can change your firewall settings in the firewall configuration.
 
