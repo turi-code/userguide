@@ -85,7 +85,7 @@ fig.show()
 
 ![arbitrary_projection](images/arbitrary_projection.png)
 
-However, if we apply a random projection to 2 dimension, then plot the two classes, we can see that the classes remain separated in the low-dimension space. Note that we do not need to unpack the input data manually; the `RandomProjection` transformer takes care of that for us. However, the output data *is* packed into a single column of array type. To access each entry, this column needs to be unpacked.
+On the other hand, if we use a Gaussian random projection of the data into 2-dimensional space, we can see the classes much more clearly. Note that we do not need to unpack the input data manually; the `RandomProjection` transformer takes care of that for us. The data returned by the `RandomProjection` transformer is also packed into a single column of array type. To access each entry separately, this column needs to be unpacked.
 
 ```python
 from graphlab.toolkits.feature_engineering import RandomProjection
@@ -121,8 +121,7 @@ Embedding dimension           : 2
 Original dimension            : 784
 Features                      : ['array']
 Excluded features             : None
-Unpacked features             : [array[0], array[1], array[2], ... array[783]] (total 784 features)
-Output column prefix          : y
+Output column name            : embedded_features
 Random seed                   : 19
 Has been fitted               : 1
 ```
