@@ -29,6 +29,7 @@ This is the User Guide for GraphLab Create
         * [Deep Feature Extractor](feature-engineering/deep_feature_extractor.md)
       * [Other Transformations](feature-engineering/other_transformations.md)
         * [Hasher](feature-engineering/feature_hasher.md)
+        * [Random Projection](feature-engineering/random_projection.md)
         * [Transformer Chain](feature-engineering/transformer_chain.md)
         * [Custom Transformer](feature-engineering/custom_transformer.md)
 * [Modeling data](modeling-data/intro.md)
