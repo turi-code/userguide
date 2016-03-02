@@ -85,15 +85,17 @@ fig.show()
 
 ![arbitrary_projection](images/arbitrary_projection.png)
 
-However, if we apply a random projection to 2 dimension, then plot the two classes, we can see that the classes remain separated in the low-dimension space. Note that we do not need to unpack the data manually; the `RandomProjection` transformer takes care of that for us.
+However, if we apply a random projection to 2 dimension, then plot the two classes, we can see that the classes remain separated in the low-dimension space. Note that we do not need to unpack the input data manually; the `RandomProjection` transformer takes care of that for us. However, the output data *is* packed into a single column of array type. To access each entry, this column needs to be unpacked.
 
 ```python
 from graphlab.toolkits.feature_engineering import RandomProjection
 
 rp = RandomProjection(features=['array'], embedding_dimension=2,
-                      output_column_prefix='y', random_seed=19)
+                      random_seed=19)
 
 mnist_embedded = rp.fit_transform(mnist)
+mnist_embedded = mnist_embedded.unpack('embedded_features',
+                                       column_name_prefix='y')
 mnist_embedded = mnist_embedded.filter_by([0, 1], 'label')
 
 fig, ax = plt.subplots()
