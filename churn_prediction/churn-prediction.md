@@ -1,163 +1,347 @@
-#Churn Prediction
-The Churn Prediction toolkit allows predicting which users will churn (stop using) a product or website given user activity logs.
+# Churn prediction
 
-Given data in the form: user id, time stamp, and user events, the churn prediction model will learn historical user behavior patterns that predict whether they are likely to stop using the website/product. Given the same, or a different set of user logs, the toolkit will compute the probability of a user churning.
+Churn prediction is the task of identifying of users/customers that are likely
+to stop using a service/product/website. With this toolkit, you can accurately
+forecast the probability that a customer is likely to churn using raw
+usage/activity logs. 
 
-##### Background
+#### Introduction
 
-The core piece of the churn prediction toolkit is the organization of the log data into a format that can be used to learn user behavior patterns from. The log data needs to contain user IDs as well as a time stamp. Every other column will be used to generate features. 
+A [`churn predictor
+model`](https://dato.com/products/create/docs/generated/graphlab.toolkits.churn_predictor.create.html)
+learns historical user behavior patterns in-order to make an accurate forecast
+for the probability of in-activity in the future (defined as churn). 
 
-In a nutshell, the toolkit does:
-* Receive as input data in the form User Id, Time stamp, user actions
-* Organize the user actions by time (from oldest to most current)
-* Group the actions into blocks of a certain resolution (by default, one day)
-* Aggregate the data by User Id
 
-Once the data is organized into blocks of a certain resolution for each user:
+#### What is Churn?
 
-* From the entire time range available (beginning to end of log), a number of time boundaries are determined (10 by default)
-* For each time boundary, for each User Id: 
- * Build user behavior features looking back a number of time blocks (by default, [7, 14, 21, 60, 90] blocks)
- * Compute a label by looking at whether the user id is still present after the time boundary
+Churn can be defined in many ways. We define churn to be **no activity** within
+a period of time (called the `churn_period`). Using this definition, a
+user/customer is said to have churned any form of activity is followed by **no
+activity** for an entire duration of time known as the `churn_period` (by
+default, we assume 30 days). The following figure better illustrates this
+concept.
 
-At this point, for each user, for each time boundary, for each look-back period, we have a set of features as well as a label:
+![churn-illustration](images/churn-illustration.png)
 
-* Train a model (currently only decision tree model is supported)
-* Store the model (can be saved, etc...)
-* Allow prediction on the same data set as training, or on a new data set
+A churn forecast is always associated with a particular timestamp (at which the
+`churn_period` starts). We refer to this timestamp as the `time_boundary`.  An
+en example, a user churning at the `time_boundary` Jan 2015 implies the user
+showed activity before Jan 2015 but then had no activity for a `churn_period`
+of time after Jan 2015.
 
-Predictions can be executed on the training data set safely. This is because the portion of the data that is at the very end (ordered by time) cannot be used to generate labels; and therefore is not used for training. Another data set of the same form as the training data can also be used.
 
-##### Introductory Example
+#### Input Data: Raw event logs
 
-First, let us load sample data. In this data, we have sales receipts for baked goods. The first step of the process is to prepare our data. In this particular case, the time stamps are entered as strings. The toolkit requires either time stamps in seconds or milliseconds since January 1st 1970 (unix time stamps); or Python `datetime.datetime` objects. 
+A churn prediction model can be trained on time-series of `observation_data`.
+The time-series must contain a column named `user_id` and atleat one other
+column that can be treated as a feature column. The following example depicts a
+typical dataset that can be consumed directly by the churn predictor. 
 
-Let us make use Python `datetime.datetime` here.
+```no-highlight
++---------------------+------------+----------+
+|     InvoiceDate     | CustomerID | Quantity |
++---------------------+------------+----------+
+| 2010-12-01 08:26:00 |   17850    |    6     |
+| 2010-12-01 08:26:00 |   17850    |    6     |
+| 2010-12-01 08:26:00 |   17850    |    8     |
+| 2010-12-01 08:26:00 |   17850    |    6     |
+| 2010-12-01 08:26:00 |   17850    |    6     |
+| 2010-12-01 08:26:00 |   17850    |    2     |
+| 2010-12-01 08:26:00 |   17850    |    6     |
+| 2010-12-01 08:28:00 |   17850    |    6     |
+| 2010-12-01 08:28:00 |   17850    |    6     |
+| 2010-12-01 08:34:00 |   13047    |    32    |
+| 2010-12-01 08:34:00 |   13047    |    6     |
+| 2010-12-01 08:34:00 |   13047    |    6     |
+| 2010-12-01 08:34:00 |   13047    |    8     |
+| 2010-12-01 08:34:00 |   13047    |    6     |
+| 2010-12-01 08:34:00 |   13047    |    6     |
+| 2010-12-01 08:34:00 |   13047    |    3     |
+| 2010-12-01 08:34:00 |   13047    |    2     |
+| 2010-12-01 08:34:00 |   13047    |    3     |
+| 2010-12-01 08:34:00 |   13047    |    3     |
+| 2010-12-01 08:34:00 |   13047    |    4     |
++---------------------+------------+----------+
+[532618 rows x 5 columns]
+```
+
+In the above dataset, the last timestamp was October 1, 2011. If we assume that
+the `churn_period` was defined as 1 month, a churn prediction (or forecast)
+predicts the probability that a user will have no activity for a 1 month period
+into the future (i.e. November 1, 2011).
+
+
+#### Introductory Example
+
+In this example, we will explore the task of predicting churn directly from
+customer activity logs. The following
+[dataset](http://archive.ics.uci.edu/ml/datasets/Online+Retail) contains
+transactions occurring between 01/12/2010 and 09/12/2011 for a UK-based and
+registered non-store online retail.
+
+In this example, we will train a churn-predictor with a few lines of code. 
+
 
 ```python
 import graphlab as gl
+import datetime
 
-def replace(x):
-  for i in range(1, 10):
-    if x[1] == '-':
-      x = x.replace('%s-' % i, '0%s-' % i)
-  return x
+# Load a data set.
+raw_data = gl.SFrame('http://s3.amazonaws.com/dato-datasets/churn-prediction/online_retail.csv')
 
-sf = gl.SFrame("http://s3.amazonaws.com/dato-datasets/bakery.sf")
-sf['SaleDateTime'] = sf['SaleDate'].apply(replace).str_to_datetime('%d-%b-%Y')
-sf.remove_column("SaleDate")
+# Convert InvoiceDate from string to a Python datetime.
+import dateutil
+from dateutil import parser
+sf['InvoiceDate'] = sf['InvoiceDate'].apply(parser.parse)
+
+# Convert the SFrame into TimeSeries with InvoiceDate as the index.
+time_series = gl.TimeSeries(raw_data, 'InvoiceDate')
+
+
+# Split the data using the special train, validation split. 
+train, valid = gl.churn_predictor.random_split(time_series,
+                              user_id='CustomerID', fraction=0.9)
+
+# Define the period of in-activity that constitutes churn. 
+churn_period = datetime.timedelta(days = 30)
+
+# Train a churn prediction model.
+model = gl.churn_predictor.create(train, user_id='CustomerID',
+                      features = ['Quantity'],
+                      churn_period = churn_period)
 ```
 
-Our data looks like:
+**Warning**: When parsing the dataset, expect a few warnings. The dataset, as
+obtained from its original source, has some malformed rows. We will ignore
+those rows while making predictions.
+
+#### Predicting churn (in the future)
+
+The goal of a churn prediction model is to predict the probability that a user
+has no activity for a `churn_period` of time in the future. Hence, the output
+of this model is a forecast of what might happen **in the future**. The
+following example illustrates this concept.
 
 ```python
->>> sf
-
-Columns:
-	Receipt	int
-	EmpId	int
-	StoreNum	int
-	Quantity	int
-	Item	str
-	SaleDateTime	datetime
-
-Rows: 266209
-
-Data:
-+---------+-------+----------+----------+-----------------+---------------------+
-| Receipt | EmpId | StoreNum | Quantity |       Item      |     SaleDateTime    |
-+---------+-------+----------+----------+-----------------+---------------------+
-|    1    |   20  |    20    |    1     |  GanacheCookie  | 2000-01-12 00:00:00 |
-|    1    |   20  |    20    |    5     |     ApplePie    | 2000-01-12 00:00:00 |
-|    2    |   35  |    10    |    1     |   CoffeeEclair  | 2000-01-15 00:00:00 |
-|    2    |   35  |    10    |    3     |     ApplePie    | 2000-01-15 00:00:00 |
-|    2    |   35  |    10    |    4     |   AlmondTwist   | 2000-01-15 00:00:00 |
-|    2    |   35  |    10    |    3     |    HotCoffee    | 2000-01-15 00:00:00 |
-|    3    |   13  |    13    |    5     |    OperaCake    | 2000-01-08 00:00:00 |
-|    3    |   13  |    13    |    3     |   OrangeJuice   | 2000-01-08 00:00:00 |
-|    3    |   13  |    13    |    3     | CheeseCroissant | 2000-01-08 00:00:00 |
-|    4    |   16  |    16    |    1     |   TruffleCake   | 2000-01-24 00:00:00 |
-+---------+-------+----------+----------+-----------------+---------------------+
-[266209 rows x 6 columns]
+model.predict(time_series)
 ```
 
-Now, we can train a churn prediction model on top of this data:
-
-```python
->>> model = gl.churn_predictor.create(sf, timestamp='SaleDateTime', user_id='EmpId', features=['Item'])
-
-PROGRESS: Initializing churn predictor
-PROGRESS: Sorting input data by time order
-PROGRESS: Aggregating input data by groups of 1 day, 0:00:00
-PROGRESS: No time boundaries specified, computing 10 boundaries from 2000-01-01 00:00:00 to 2000-12-29 00:00:00
-PROGRESS: Generating user data for aggregate 2000-02-06 07:12:00
-PROGRESS: Generating user data for aggregate 2000-03-13 14:24:00
-PROGRESS: Generating user data for aggregate 2000-04-18 21:36:00
-PROGRESS: Generating user data for aggregate 2000-05-25 04:48:00
-PROGRESS: Generating user data for aggregate 2000-06-30 12:00:00
-PROGRESS: Generating user data for aggregate 2000-08-05 19:12:00
-PROGRESS: Generating user data for aggregate 2000-09-11 02:24:00
-PROGRESS: Generating user data for aggregate 2000-10-17 09:36:00
-PROGRESS: Generating user data for aggregate 2000-11-22 16:48:00
-PROGRESS: Training model
-PROGRESS: Random forest classifier:
-PROGRESS: --------------------------------------------------------
-PROGRESS: Number of examples          : 441
-PROGRESS: Number of classes           : 2
-PROGRESS: Number of feature columns   : 765
-PROGRESS: Number of unpacked features : 765
-PROGRESS: Starting Boosted Trees
-PROGRESS: --------------------------------------------------------
-PROGRESS:   Iter    Accuracy Elapsed time
-PROGRESS:      0   1.000e+00        0.13s
-PROGRESS: All done!
+```no-highlight
++------------+-----------------+
+| CustomerID |   probability   |
++------------+-----------------+
+|    None    | 0.0661627277732 |
+|   12346    |  0.67390537262  |
+|   12347    |  0.760785758495 |
+|   12348    |  0.62475168705  |
+|   12349    |  0.372504591942 |
+|   12350    |  0.67390537262  |
+|   12352    |  0.201043695211 |
+|   12353    |  0.821378648281 |
+|   12354    |  0.737500548363 |
+|   12355    |  0.699232280254 |
++------------+-----------------+
+[4340 rows x 2 columns]
 ```
 
-The accuracy reported here is the training accuracy, and given the very small amount of training data (441 rows, for 50 unique EmpId), this is not really surprising. On a real data set, this would not be the case.
+#### Evaluating the model (post-hoc analysis) 
+    
+Unlike most other toolkits, it can be safe to evaluate the model on the same
+data on which it was trained (although not recommended). The
+:func:`~graphlab.churn_predictor.random_split` function provides a safe way to
+split the `observation_data` into a train and validation split specially for
+the task of churn prediction.
 
-However, the interesting thing here is that the model does output progress for each step of the process described earlier on. The data is aggregated in blocks of 1 day, and 10 boundaries are automatically chosen. Finally, 441 rows of data generated from the 50 unique users are generated internally and used to train the model.
+The recommended way to evaluate a churn prediction model is to perform post-hoc
+analysis using historical data. In other words, we first simulate what the
+model would have predicted at a `time_boundary` in the past and compare those
+predictions with the ground truth obtained from events after the
+`time_boundary`.
 
-Finally, we can perform predictions or save the model for later use:
 
 ```python
->>> predictions = model.predict(sf)
-
-PROGRESS: Sorting input data by time order
-PROGRESS: Aggregating input data by groups
-PROGRESS: Generating user data for aggregate
-PROGRESS: Performing predictions
-PROGRESS: All done!
-
->>> predictions
-
-Columns:
-	EmpId	int
-	stay_probability	float
-
-Rows: 49
-
-Data:
-+-------+------------------+
-| EmpId | stay_probability |
-+-------+------------------+
-|   1   |  0.841130895119  |
-|   2   |  0.121616783954  |
-|   3   |  0.121616783954  |
-|   4   |  0.121616783954  |
-|   5   |  0.121616783954  |
-|   6   |  0.121616783954  |
-|   7   |  0.121616783954  |
-|   8   |  0.121616783954  |
-|   9   |  0.121616783954  |
-|   10  |  0.121616783954  |
-+-------+------------------+
-[49 rows x 2 columns]
+eval_time = datetime.datetime(2011, 10, 1)
+metrics = model.evaluate(valid, time_boundary = eval_time)
 ```
 
-It is important to notice that the output of the model is the User Id, as well as the Probability of the user Staying (not churning). This means that 100% means the user will stay (not churn), and 0% means the user will definitely churn.
+```no-highlight
+{
+'auc'      : 0.6634142545907242,
+'recall'   : 0.6243386243386243,
+'precision': 0.6310160427807486,
+'evaluation_data':
+         +------------+-----------------+-------+
+         | CustomerID |   probability   | label |
+         +------------+-----------------+-------+
+         |   12348    |  0.93458378315  |   1   |
+         |   12361    |  0.437742382288 |   1   |
+         |   12365    |       0.5       |   1   |
+         |   12375    |  0.769197463989 |   0   |
+         |   12380    |  0.339888572693 |   0   |
+         |   12418    |  0.15767210722  |   1   |
+         |   12432    |  0.419652849436 |   0   |
+         |   12434    |  0.88883471489  |   1   |
+         |   12520    | 0.0719764530659 |   1   |
+         |   12546    |  0.949095606804 |   0   |
+         +------------+-----------------+-------+
+         [359 rows x 3 columns]
+'roc_curve':
+        +-----------+-----+-----+-----+-----+
+        | threshold | fpr | tpr |  p  |  n  |
+        +-----------+-----+-----+-----+-----+
+        |    0.0    | 1.0 | 1.0 | 189 | 170 |
+        |   1e-05   | 1.0 | 1.0 | 189 | 170 |
+        |   2e-05   | 1.0 | 1.0 | 189 | 170 |
+        |   3e-05   | 1.0 | 1.0 | 189 | 170 |
+        |   4e-05   | 1.0 | 1.0 | 189 | 170 |
+        |   5e-05   | 1.0 | 1.0 | 189 | 170 |
+        |   6e-05   | 1.0 | 1.0 | 189 | 170 |
+        |   7e-05   | 1.0 | 1.0 | 189 | 170 |
+        |   8e-05   | 1.0 | 1.0 | 189 | 170 |
+        |   9e-05   | 1.0 | 1.0 | 189 | 170 |
+        +-----------+-----+-----+-----+-----+
+        [100001 rows x 5 columns]
+'precision_recall_curve':
+         +---------+----------------+----------------+
+         | cutoffs |   precision    |     recall     |
+         +---------+----------------+----------------+
+         |   0.1   | 0.568181818182 | 0.925925925926 |
+         |   0.25  |  0.6138996139  | 0.84126984127  |
+         |   0.5   | 0.631016042781 | 0.624338624339 |
+         |   0.75  | 0.741935483871 | 0.243386243386 |
+         |   0.9   | 0.533333333333 | 0.042328042328 |
+         +---------+----------------+----------------+
+         [5 rows x 3 columns]
+}
+```
+
+#### Accessing the underlying features & model 
+
+The churn predictor allows access to the underlying features and boosted tree
+model that created the forecast.
 
 ```python
->>> model.save("model_file")
+# Get the trained boosted trees model.
+bt_model = model.trained_model
 
->>> load_model = gl.load_model("model_file")
+# Get the training data after feature engineering.
+train_data = model.processed_training_data
+```
+#### Model training explained 
+
+There two stages during the model training phase:
+- **Phase 1**: Feature engineering. In this phase, features are generated
+   using the provided activity data. For this phase, only the data before
+   the provided `time_boundary` is used. The data after the `time_boundary` is
+   used to infer the prediction target (labels).
+- **Phase 2**: Machine learning model training. In this phase, the computed features
+  and the inferred labels are used to train a classifier model (using boosted
+  trees).
+
+![churn-illustration](images/churn-features.png)
+
+For **Phase 1**, this toolkit performs a series of extremely rich set of
+feature transformations based on:
+ - aggregate statistics (over various periods of time) of the raw input feature
+   columns. 
+ - patterns over various period of time (e.g. rate of change of aggregate
+   usage). 
+ - user metadata (using the `user_data` parameter),
+
+For **Phase 2**, a classifier model is trained using gradient boosted trees.
+Note that a churn prediction model can be trained without any labelled data.
+All the target labels required for training the boosted tree model are inferred
+based on the activity data from the past. For example, a dataset that contains
+data from January 2015 to December 2015 contains historical information about
+whether or or a user churned during each of the months prior to November 2015.
+
+For a given `time_boundary` (say October 2015), all the events in
+`observation_data` after October 2015 are not (and must never be) included in
+the training data for the model. In order to create more training data for the
+boosted tree classifier, multiple time-boundaries can be used (using the
+parameter `time_boundaries`)
+
+#### Alternate data format: Aggregated event logs
+
+The churn prediction model performs a series of feature engineering steps.  The
+first of the many feature transformations involves a re-sample operation which
+aggregates data into a fixed granularity/time-scale e.g. daily, weekly, or
+monthly (defined by `time_period`). If your data is already aggregated at a
+granularity level that is of interest to you, then you can skip this step with
+the option `is_data_aggregated = True`.
+
+
+```no-highlight
++---------------------+------------+----------------+
+|     InvoiceDate     | CustomerID | Sum(Quantity)  |
++---------------------+------------+----------------+
+| 2010-12-01 00:00:00 |   17850    |     26997      |
+| 2010-12-02 00:00:00 |   17850    |     31310      |
+| 2010-12-03 00:00:00 |   17850    |     15121      |
+| 2010-12-04 00:00:00 |   17850    |      None      |
+| 2010-12-05 00:00:00 |   17850    |     16451      |
+| 2010-12-06 00:00:00 |   17850    |     21718      |
+| 2010-12-07 00:00:00 |   17850    |     25099      |
+| 2010-12-08 00:00:00 |   17850    |     23039      |
+| 2010-12-09 00:00:00 |   17850    |     18942      |
+| 2010-12-10 00:00:00 |   13047    |     20961      |
+| 2010-12-11 00:00:00 |   13047    |      None      |
+| 2010-12-12 00:00:00 |   13047    |     10603      |
+| 2010-12-13 00:00:00 |   13047    |     17727      |
+| 2010-12-14 00:00:00 |   13047    |     20727      |
+| 2010-12-15 00:00:00 |   13047    |     18488      |
+| 2010-12-16 00:00:00 |   13047    |     29947      |
+| 2010-12-17 00:00:00 |   13047    |     16959      |
+| 2010-12-18 00:00:00 |   13047    |      None      |
+| 2010-12-19 00:00:00 |   13047    |      3799      |
+| 2010-12-20 00:00:00 |   13047    |     15793      |
++---------------------+------------+----------------+
+[37459 rows x 2 columns]
+```
+
+#### Side information for users
+
+In many cases, additional metadata about the users can improve the quality of
+the predictions.  For example, including information about the geographic
+location of the customer, age, profession etc.  can be useful information while
+making predictions.  We call this type of information user side data.
+
+The `user_data` parameter is an SFrame and must have a user column that
+corresponds to the `user_id` column in the `observation_data`.  The churn
+prediction toolkit automatically joins the data to the computed feature table
+from Phase 1 before training the boosted tree model. 
+
+```python
+side_data = gl.SFrame('http://s3.amazonaws.com/dato-datasets/churn-prediction/online_retail_side_data.csv')
+
+# Train a churn prediction model.
+model = gl.churn_predictor.create(train, user_id='CustomerID',
+                      features = ['Quantity'],
+                      churn_period = churn_period, 
+                      user_data = side_data)
+
+# Make predictions
+predictions = model.predict(valid, user_data = side_data)
+
+# Evaluate the model
+evaluation_time = datetime.datetime(2011, 10, 1)
+metrics = model.evaluate(valid, evaluation_time, user_data = side_data,)
+```
+```no-highlight
++------------+----------------+
+| CustomerID |    Country     |
++------------+----------------+
+|   13050    | United Kingdom |
+|   14515    | United Kingdom |
+|   16257    | United Kingdom |
+|   17885    | United Kingdom |
+|   13560    | United Kingdom |
+|   15863    | United Kingdom |
+|   14406    | United Kingdom |
+|   13518    | United Kingdom |
+|   14388    | United Kingdom |
+|   16200    | United Kingdom |
++------------+----------------+
+[4340 rows x 2 columns]
 ```
