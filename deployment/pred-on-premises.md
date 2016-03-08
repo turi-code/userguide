@@ -45,22 +45,22 @@ Follow these steps to install Dato Predictive Services:
 
 1. Download the dato-predictive-services-1.8.3.tar.gz (or the latest version) and your license file.
 2. Move the package and license file to the computer you want to install Dato Predictive Services on. For Windows hosts, be sure to do all of the work from your C drive where Docker is installed. Trying to setup from another drive may lead to problems.
-2. Unzip the file to a temporary folder:
+3. Unzip the file to a temporary folder:
 ```
 tar zxvf dato_ps_setup_1.8.3.tar.gz
 ```
-3. Create a Predictive Services working directory in the host machine where Predictive Services files (include docker images) will be copied to. On Windows, this must be on the same drive as your Docker installation, which is the C drive.
+4. Create a Predictive Services working directory in the host machine where Predictive Services files (include docker images) will be copied to. On Windows, this must be on the same drive as your Docker installation, which is the C drive.
 ```
 mkdir -p <deployment_path>
 ```
-4. Decide where the Predictive Services runtime data (state files, logs, etc.) will be stored; this could be a network file system, a S3 file path, or an HDFS file path. This path will be used by data scientists to manage the predictive service later through the GraphLab Create Python API. A common path is usually a HDFS path, like `hdfs://<hdfs-name-node>:8020/user/<ps-service-user>/dato_predictive_service`
+5. Decide where the Predictive Services runtime data (state files, logs, etc.) will be stored; this could be a network file system, a S3 file path, or an HDFS file path. This path will be used by data scientists to manage the predictive service later through the GraphLab Create Python API. A common path is usually a HDFS path, like `hdfs://<hdfs-name-node>:8020/user/<ps-service-user>/dato_predictive_service`
 We will call this path the “ps path”.
-5. Modify predictive_service.cfg file included in the package. You will need to make the following changes for a local setup:
+6. Modify predictive_service.cfg file included in the package. You will need to make the following changes for a local setup:
     * `internal_ip`: The internal IP address of your host, usually a private IP address such as 10.X.X.X or 192.168.X.X.
     * `external_ip`: The external IP address of your host, which is not one of the private IP addresses. This is how other machines can find your host.
-    * `ps_path`: the path you chose in step 4 above
+    * `ps_path`: the path you chose in step 5 above
     * `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`: Specify these if you gave an S3 address for `ps_path`.
-    * `deployment_path`: the path you chose in step 3 above
+    * `deployment_path`: the path you chose in step 4 above
     * `server_memory`: The memory size, in MB, of your predictive service container. The default of 4096 is fine for most purposes.
     * `server_port`: The internal server port. When Predictive Services is configured, there is a load balancer configured to forward traffic to a server. This port will not be used externally.
     * `use_ssl`: If you'd like to use SSL, set this to `true`. You'll also need to specify `certificate_path` and `certificate_is_self_signed`.
@@ -89,7 +89,7 @@ At this point the docker containers are deployed. Now the predictive service nee
 #### Use
 GraphLab Create is required to connect to Dato Predictive Services and deploy/monitor/manage the service. For more information on obtaining and installing GraphLab Create see [Getting Started](https://dato.com/learn/userguide/install.html).
 
-After you have installed GraphLab Create, you can connect to the predictive service; In the code sample below remember to replace `ps-path` with your actual ps path specified in installation step 4 above. If this is an HDFS path, you need to have set up your environment to have access to HDFS (either by setting HADOOP_CLASSPATH or HADOOP_CONF_DIR).
+After you have installed GraphLab Create, you can connect to the predictive service; In the code sample below remember to replace `ps-path` with your actual ps path specified in installation step 5 above. If this is an HDFS path, you need to have set up your environment to have access to HDFS (either by setting HADOOP_CLASSPATH or HADOOP_CONF_DIR).
 
 ```
 import graphlab as gl
