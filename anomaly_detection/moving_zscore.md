@@ -32,7 +32,7 @@ data_url = 'https://data.seattle.gov/api/views/65db-xm6k/rows.csv?accessType=DOW
 hourly_counts = gl.SFrame.read_csv(data_url)
 
 # Add the counts from each side of the bridge.
-hourly_counts['count'] = (hourly_counts['Fremont Bridge West Sidewalk'] + 
+hourly_counts['count'] = (hourly_counts['Fremont Bridge West Sidewalk'] +
                           hourly_counts['Fremont Bridge East Sidewalk'])
 
 # Convert the SFrame to a TimeSeries object
@@ -126,7 +126,9 @@ scores.print_rows(20, max_row_width=100, max_column_width=20)
 [693 rows x 5 columns]
 ```
 
-Note that the first 15 rows of the `scores` output don't have a moving average or Z-score. This is because the moving window does not have sufficient data for those observations. Also note that if the input dataset is an `SFrame` instead of a `TimeSeries`, the `scores` field is also an `SFrame`.
+If the input dataset is an `SFrame` instead of a `TimeSeries`, the `scores` field is also an `SFrame`.
+
+Note that the first 15 rows of the `scores` output don't have a moving average or Z-score. This is because the moving window does not have sufficient data for those observations. The `min_observations` parameter indicates the minimum number of observations needed to compute the anomaly score; by default it is the same as `window size`, but setting it to be smaller would reduce the number of missing anomaly scores, both at the beginning of the dataset and after missing values in the input data.
 
 Typically the ultimate goal is to make a final binary decision whether each point is "typical" or "anomalous". A good way to do this is to look at the approximate distribution of the anomaly scores with the `SArray.sketch_summary` tool, then to get a threshold for the anomaly score with the sketch summary's `quantile` method. Here we declare the top two percent of the data to be anomalies.
 
@@ -199,4 +201,4 @@ old_scores = new_scores[old_window]
 ![updated_anomalies](images/updated_anomalies.png)
 
 #### Further reading
-Jake Vanderplas wrote [an in-depth analysis](https://jakevdp.github.io/blog/2014/06/10/is-seattle-really-seeing-an-uptick-in-cycling/) of the Fremont bridge bicycle traffic data. The goal of his analysis is not anomaly detection, but it is an excellent read. 
+Jake Vanderplas wrote [an in-depth analysis](https://jakevdp.github.io/blog/2014/06/10/is-seattle-really-seeing-an-uptick-in-cycling/) of the Fremont bridge bicycle traffic data. The goal of his analysis is not anomaly detection, but it is an excellent read.
