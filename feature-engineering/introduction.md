@@ -48,6 +48,7 @@ grouped based on the feature types:
 
 * [TF-IDF](tfidf.md)
 * [Tokenizer](tokenizer.md)
+* [RareWordTrimmer](rare_word_trimmer.md)
 * [BM25](bm25.md)
   
 #### Misc.

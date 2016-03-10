@@ -141,6 +141,9 @@ using [SArray.dict_trim_by_values](https://dato.com/products/create/docs/generat
 docs = sf['bow'].dict_trim_by_values(2)
 ```
 
+Alternatively, we can remove all words which do not occur at least ```threshold```
+number of times using the [RareWordTrimmer](../feature-engineering/word_trimmer.md).
+
 GraphLab Create also contains a helper function called
 [stopwords](https://dato.com/products/create/docs/generated/graphlab.text_analytics.stopwords.html?highlight=stopwords#graphlab.text_analytics.stopwords)
 that returns a list of common words. We can use

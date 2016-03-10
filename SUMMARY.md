@@ -24,6 +24,7 @@ This is the User Guide for GraphLab Create
       * [Text Features](feature-engineering/text_features.md)
         * [TF-IDF](feature-engineering/tfidf.md)
         * [Tokenizer](feature-engineering/tokenizer.md)
+        * [RareWordTrimmer](feature-engineering/rare_word_trimmer.md) 
         * [BM25](feature-engineering/bm25.md)
       * [Image Features](feature-engineering/image_features.md)
         * [Deep Feature Extractor](feature-engineering/deep_feature_extractor.md)
