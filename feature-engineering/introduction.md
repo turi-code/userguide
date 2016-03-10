@@ -39,6 +39,7 @@ grouped based on the feature types:
 * [One Hot Encoder](one_hot_encoder.md)
 * [Count Thresholder](count_thresholder.md)
 * [Categorical Imputer](categorical_imputer.md)
+* [Count Featurizer](count_featurizer.md)
 
 #### Image Features
 
