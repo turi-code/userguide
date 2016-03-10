@@ -11,20 +11,20 @@ following models are supported for classification:
 * [Nearest neighbor classifier](knn_classifier.md)
 * [Support vector machines (SVM) ](svm.md)
 * [Boosted Decision Trees](boosted_trees_classifier.md)
+* [Random Forests](random_forest_classifier.md)
+* [Decision Tree](decision_tree_classifier.md)
 * [Neural network classifier (deep learning)](neuralnet-classifier.md)
 
 These algorithms differ in how they make predictions, but conform to the same
 API. With all models, call **create()** to create a model, **predict()** to make
 flexible predictions on the returned model, **classify()** which provides
 all the sufficient statistics for classifying data, and **evaluate()** to
-measure performance of the predictions. All models can incorporate:
+measure performance of the predictions. Models can incorporate:
 
 * Numeric features
 * Categorical variables
-* Sparse features (i.e feature sets that have a large set of features,
-of which only a small subset of values are non-zero)
-* Dense features (i.e
-feature sets with a large number of numeric features)
+* Dictionary features (i.e sparse features) 
+* List features (i.e dense arrays)
 * Text data
 * Images
 

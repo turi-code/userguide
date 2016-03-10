@@ -1,4 +1,4 @@
-# Cross validation 
+# Cross Validation 
 
 Data is the first argument for all of the model parameter search functions. This argument allows for several different input types to allow you to better evaluate model performance on a given set of parameters.
 

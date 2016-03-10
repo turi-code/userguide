@@ -1,6 +1,6 @@
 # Applications
 
-In the following sections we demonstrate how you can use the Dato platform to tackle common scenarios:
+In this section, we demonstrate how you can use the Dato platform to tackle these common scenarios:
 
 * [Recommender systems](../recommender/introduction.md)
 * [Data matching](../data_matching/introduction.md)

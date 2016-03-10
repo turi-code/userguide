@@ -167,20 +167,38 @@ coefs = model['coefficients']
 print coefs
 ```
 ```no-highlight
-+-----------------------+-------+-------------------+
-|          name         | index |       value       |
-+-----------------------+-------+-------------------+
-|      (intercept)      |  None |   -2.22889143557  |
-|     user_avg_stars    |  None |   0.811893346977  |
-|   business_avg_stars  |  None |    0.7787097626   |
-|   user_review_count   |  None | 2.23660187288e-05 |
-| business_review_count |  None |  8.1640244929e-05 |
-+-----------------------+-------+-------------------+
++-----------------------+-------+-------------------+-------------------+
+|          name         | index |       value       |       stderr      |
++-----------------------+-------+-------------------+-------------------+
+|      (intercept)      |  None |   -2.22993154648  |  0.0199750718984  |
+|     user_avg_stars    |  None |   0.809669227421  |  0.00414406824672 |
+|   business_avg_stars  |  None |   0.781099022798  |  0.00419064940637 |
+|   user_review_count   |  None | 1.85023282568e-05 | 1.15481783547e-05 |
+| business_review_count |  None | 7.06842770902e-05 | 1.72332966093e-05 |
++-----------------------+-------+-------------------+-------------------+
 [5 rows x 3 columns]
 ```
 
 Note that the **index** column in the coefficients is only applicable for
-categorical features, lists, and dictionaries.
+categorical features, lists, and dictionaries. In the SFrame above, there is an
+extra column for `standard errors` on the estimated coefficients (see section
+below for a more detailed explanation).
+
+###### <a name="linregr-stderr"></a> Standard-errors
+
+The standard error is the empirical standard deviation on the estimated
+coefficient. For example, a coefficient of 1 with a standard error of 0.5
+implies a standard deviation of 0.5 on the estimated values of the
+coefficients. Standard errors capture the `confidence` we have in the
+coefficients estimated during model training. Smaller standard errors implies
+more confidence in the value of the coefficients returned by th model.
+
+Standard errors on coefficients are only available when `solver=newton` or
+when the default `auto` solver option choses the newton method and if the
+number of examples in the training data is more than the number of
+coefficients. If standard errors cannot be estimated, a column of `None` values
+are returned.
+
 
 ######  <a name="linregr-categorical-features"></a> Categorical features
 
@@ -629,3 +647,4 @@ model = gl.linear_regression.create(train_data, target='stars',
                                     l1_penalty = 1.0,
                                     l2_penalty = 1.0)
 ```
+
