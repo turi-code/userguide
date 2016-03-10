@@ -53,6 +53,7 @@ grouped based on the feature types:
 #### Misc.
 
 * [Hasher](feature_hasher.md)
+* [Random Projection](random_projection.md)
 * [Transformer Chain](transformer_chain.md)
 * [Custom Transformer](custom_transformer.md)
 
@@ -85,6 +86,8 @@ Other transformations take a set of columns and create a single column.
 Examples include [FeatureHasher](feature_hasher.md), [OneHotEncoder](one_hot_encoder.md), 
 and [QuadraticFeatures](quadratic_features.md). You may change the name of 
 the output column using the `output_column_name` argument.
+
+Finally, the [RandomProjection](random_projection.md) tool does a "many-to-many" transformation. It takes a set of columns as input and returns a  smaller set of (randomly projected) columns.
 
 ## Deploying feature engineering transformations
 
