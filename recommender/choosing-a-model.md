@@ -1,7 +1,7 @@
 #Choosing a Model
 In this section, we give some intuition for which modeling choices you may make depending on your data and your task.
 
-If your data is *implicit*, i.e., you only observe interactions between users and items, without a rating, then use item_similarity_recommender with Jaccard similarity (default) or the `ranking_factorization_recommender`.
+If your data is *implicit*, i.e., you only observe interactions between users and items, without a rating, then use `item_similarity_recommender` with Jaccard similarity (default), or the `ranking_factorization_recommender`.
 
 If your data is *explicit*, i.e., the observations include an actual rating given by the user, then you have a wide array of options.  `item_similarity_recommender` with cosine or Pearson similarity can incorporate ratings when computing similarity between items.  In addition, `factorization_recommender` and `popularity_recommender` both support rating prediction.  If you care about *ranking performance*, instead of simply predicting the rating accurately, then choose `item_similarity_recommender` or `ranking_factorization_recommender`.  Both can work well with either implicit or explicit data. Sometimes one works better, sometimes the other, depending on the data set.
 
