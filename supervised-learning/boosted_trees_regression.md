@@ -16,7 +16,7 @@ $$
 
 where the final classifier $$g$$ is the sum of simple base classifiers $$f_i$$.
 For boosted trees model, each base classifier is a simple [decision
-tree](http://en.wikipedia.org/wiki/Ensemble_learning). This broad technique of
+tree](decision_tree_regression.md). This broad technique of
 using multiple models to obtain better predictive performance is called
 [**model ensembling**](http://en.wikipedia.org/wiki/Ensemble_learning).
 
