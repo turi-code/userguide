@@ -186,3 +186,22 @@ For an SArray of strings, where each row is assumed to be a natural English lang
 tokenized_docs = graphlab.text_analytics.tokenize(docs['X1'])
 ```
 Note that our tokenizer does not normalize quote and bracket-like characters as described by the linked document.
+
+#####Part of Speech Extraction
+
+Sometimes, it can be useful to extract particular parts of speech. For example, you may want to highlight unique adjectives in your text. In order to pull out adjectives from an SArray of strings, the following API call is useful:
+
+```python
+adjectives = graphlab.text_analytics.extract_parts_of_speech(docs['X1'],chosen_pos=[graphlab.text_analytics.PartOfSpeech.ADJ])
+```
+Note that this API requires spaCy to be installed.
+
+#####Sentence Splitting
+
+For an SArray of strings, where each row is assumed to be a natural English language document, the sentence splitter splits by sentence and outputs a list of sentences. This is useful for many tasks at the sentence level, such as within-review sentiment analysis. The following command accomplishes this for you:
+
+```python
+sentences = graphlab.text_analytics.split_by_sentence(docs['X1'])
+```
+
+Note that this API requires spaCy to be installed. 
