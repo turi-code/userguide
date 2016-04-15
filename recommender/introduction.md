@@ -2,13 +2,14 @@
 
 A recommender system allows you to provide personalized recommendations to users. With this toolkit, you can train a model based on past interaction data and use that model to make recommendations.
 
-The code and data for the example below is available in the [sample-movie-recommender](https://github.com/dato-code/sample-movie-recommender/blob/master/movie_recommender.py).
+The code and data for the example below is available in the [sample-movie-recommender](https://github.com/dato-code/sample-movie-recommender/blob/master/movie_recommender.py) GitHub repository. Specifically you'll need to first run `python download_data.py`. 
 
 ## Input data
 
-Creating a recommender model requires a data set to use for training the model, with columns that contain the user IDs, the item IDs, and (optionally) the ratings.
+Creating a recommender model requires a data set to use for training the model, with columns that contain the user IDs, the item IDs, and (optionally) the ratings. 
 
 ```no-highlight
+>>> actions = gl.SFrame.read_csv('./dataset/ml-20m/ratings.csv')
 +--------+---------+--------+------------+
 | userId | movieId | rating | timestamp  |
 +--------+---------+--------+------------+
@@ -24,10 +25,12 @@ Creating a recommender model requires a data set to use for training the model, 
 |   1    |   260   |  4.0   | 1112484826 |
 +--------+---------+--------+------------+
 ```
+For information on how to load data into an SFrame from other sources, see the chapter on [Loading and Saving SFrames](/Users/chris/userguide-vnext/_book/sframe/sframe-intro.html).
 
 You may have additional data about users or items. For example we might have a dataset of movie metadata.
 
 ```no-highlight
+>>> items = gl.SFrame.read_csv('./dataset/ml-20m/movies.csv')
 +---------+---------------------+---------------------+------+
 | movieId |        title        |        genres       | year |
 +---------+---------------------+---------------------+------+
@@ -57,21 +60,23 @@ Now that you have a model, you can make recommendations
 # You can now make recommendations for all the users you've just trained on
 results = model.recommend()
 ```
-See [Using trained models](using-trained-models.md) for more details on
 
-* making recommendations
-* finding similar items and users
-* evaluating the model
-* saving models
-* and more
 
-If you want to choose a particular kind of model to train, check out [Choosing a Model](choosing-a-model.md), where we discuss types of data you might encounter (implicit or explicit) and the types of models worth considering (item-based similarity, factorization-based models, and so on).
+## Learn more
 
-Et voil&agrave;! You've just built your first recommender with GraphLab Create.
+The following sections provide more information about the recommender model:
 
-## Visualizations
-
-You can explore, explain, and evaluate the model. 
+- [Using trained models](using-trained-models.md)
+  * making recommendations
+  * finding similar items and users
+  * evaluating the model
+  * interactive visualizations
+  * saving models
+  * and more
+- [Choosing a model](choosing-a-model.md)
+  * data you might encounter (implicit or explicit) 
+  * types of models worth considering (item-based similarity, factorization-based models, and so on).
+- [API Docs](https://dato.com/products/create/docs/graphlab.toolkits.recommender.html)
 
 
 
