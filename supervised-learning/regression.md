@@ -62,8 +62,5 @@ predictions = model.predict(test_data)
 results = model.evaluate(test_data)
 ```
 
-GraphLab create implementations are built to work with up to billions of
-examples and up to millions of features.  GraphLab Create also provides a
-wrapper to [Vowpal
-Wabbit](https://github.com/JohnLangford/vowpal_wabbit/wiki), an open source
-out- of-core learning system that is also known to be fast and scalable.
+GraphLab Create implementations are built to work with up to billions of
+examples and up to millions of features. 
