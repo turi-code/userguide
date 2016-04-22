@@ -70,10 +70,10 @@ toolkit.
 [532618 rows x 5 columns]
 ```
 
-In the above dataset, the last timestamp was October 1, 2011. If we assume that
-the `churn_period` was defined as 1 month, a churn prediction (or forecast)
-predicts the probability that a user will have no activity for a 1 month period
-after October 1, 2011. 
+In the above dataset, let us assume that the last timestamp was October 1,
+2011. If the `churn_period` is set to 1 month, a churn forecast predicts the
+probability that a user will have no activity for a 1 month period after
+October 1, 2011. 
 
 
 #### Example
