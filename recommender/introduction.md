@@ -1,12 +1,12 @@
-# Recommender systems 
+# Recommender systems
 
 A recommender system allows you to provide personalized recommendations to users. With this toolkit, you can train a model based on past interaction data and use that model to make recommendations.
 
-The code and data for the example below is available in the [sample-movie-recommender](https://github.com/dato-code/sample-movie-recommender/blob/master/movie_recommender.py) GitHub repository. Specifically you'll need to first run `python download_data.py`. 
+**Note:** Follow the steps in the [sample-movie-recommender](https://github.com/dato-code/sample-movie-recommender) GitHub repository to get the code and data for this example.
 
 ## Input data
 
-Creating a recommender model requires a data set to use for training the model, with columns that contain the user IDs, the item IDs, and (optionally) the ratings. 
+Creating a recommender model requires a data set to use for training the model, with columns that contain the user IDs, the item IDs, and (optionally) the ratings.
 
 ```no-highlight
 >>> actions = gl.SFrame.read_csv('./dataset/ml-20m/ratings.csv')
@@ -44,10 +44,10 @@ You may have additional data about users or items. For example we might have a d
 
 ## Building a model
 
-There are a variety of machine learning techniques that can be used to build a recommender model. 
-GraphLab Create provides a method `graphlab.recommender.create` that will automatically choose an appropriate model for your data set. 
+There are a variety of machine learning techniques that can be used to build a recommender model.
+GraphLab Create provides a method `graphlab.recommender.create` that will automatically choose an appropriate model for your data set.
 
-First we create a random split of the data to produce a validation set that can be used to evaluate the model. 
+First we create a random split of the data to produce a validation set that can be used to evaluate the model.
 
 ```python
 training_data, validation_data = gl.recommender.util.random_split_by_user(actions, 'userId', 'movieId')
@@ -74,9 +74,6 @@ The following sections provide more information about the recommender model:
   * saving models
   * and more
 - [Choosing a model](choosing-a-model.md)
-  * data you might encounter (implicit or explicit) 
+  * data you might encounter (implicit or explicit)
   * types of models worth considering (item-based similarity, factorization-based models, and so on).
 - [API Docs](https://dato.com/products/create/docs/graphlab.toolkits.recommender.html)
-
-
-

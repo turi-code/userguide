@@ -1,20 +1,19 @@
-# Churn prediction 
+# Churn prediction
 
 Churn prediction is the task of identifying whether users are likely to stop
 using a service, product, or website. With this toolkit, you can start with raw
 (or processed) usage metrics and accurately forecast the probability that a
-given customer will churn. 
+given customer will churn.
 
-**Note**: The [`sample projects github
-repository`](https://github.com/dato-code/sample-churn-predictor) is a great
-resource to get the code and data used in this chapter. 
+**Note**: Follow the steps in the [sample-churn-predictor](https://github.com/dato-code/sample-churn-predictor)
+GitHub repo to get the code and data used in this chapter.
 
 #### Introduction
 
 A [`churn predictor
 model`](https://dato.com/products/create/docs/generated/graphlab.toolkits.churn_predictor.create.html)
 learns historical user behavior patterns to make an accurate forecast for the
-probability of no activity in the future (defined as churn). 
+probability of no activity in the future (defined as churn).
 
 #### How is churn defined?
 
@@ -39,7 +38,7 @@ A churn prediction model can be trained on time-series of `observation_data`.
 The time-series must contain a column to represent `user_id` and at least one
 other column that can be treated as a feature column. The following example
 shows a typical dataset that can be consumed directly by the churn predictor
-toolkit. 
+toolkit.
 
 
 ```no-highlight
@@ -73,7 +72,7 @@ toolkit.
 In the above dataset, let us assume that the last timestamp was October 1,
 2011. If the `churn_period` is set to 1 month, a churn forecast predicts the
 probability that a user will have no activity for a 1 month period after
-October 1, 2011. 
+October 1, 2011.
 
 
 #### Example
@@ -102,11 +101,11 @@ sf['InvoiceDate'] = sf['InvoiceDate'].apply(parser.parse)
 time_series = gl.TimeSeries(sf, 'InvoiceDate')
 
 
-# Split the data using the special train, validation split. 
+# Split the data using the special train, validation split.
 train, valid = gl.churn_predictor.random_split(time_series,
                               user_id='CustomerID', fraction=0.9)
 
-# Define the period of in-activity that constitutes churn. 
+# Define the period of in-activity that constitutes churn.
 churn_period = datetime.timedelta(days = 30)
 
 # Train a churn prediction model.
@@ -117,7 +116,7 @@ model = gl.churn_predictor.create(train, user_id='CustomerID',
 # Making a churn forecast
 predictions = model.predict(time_series)
 
-# Evaluating the model 
+# Evaluating the model
 evaluation_time = datetime.datetime(2011, 9, 1)
 predictions = model.predict(time_series, evaluation_time)
 
@@ -131,4 +130,4 @@ views.show()
 The following sections provide more information about the churn prediction model:
 - [Using a trained model](using-a-trained-model.md)
 - [Alternate input formats](alternate-input-formats.md)
-- [How it works](how-it-works.md) 
+- [How it works](how-it-works.md)
