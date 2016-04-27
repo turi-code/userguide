@@ -27,6 +27,8 @@ This is the User Guide for GraphLab Create
         * [Tokenizer](feature-engineering/tokenizer.md)
         * [RareWordTrimmer](feature-engineering/rare_word_trimmer.md) 
         * [BM25](feature-engineering/bm25.md)
+        * [PartOfSpeechExtractor](feature-engineering/pos_extractor.md)
+        * [SentenceSplitter](feature-engineering/sentence_splitter.md)
       * [Image Features](feature-engineering/image_features.md)
         * [Deep Feature Extractor](feature-engineering/deep_feature_extractor.md)
       * [Other Transformations](feature-engineering/other_transformations.md)
