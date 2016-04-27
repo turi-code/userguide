@@ -183,6 +183,102 @@ docs[0]
 For an SArray of strings, where each row is assumed to be a natural English language document, the tokenizer transforms each row into an ordered list of strings that represents the a simpler version of the Penn-Tree-Bank-style (PTB-style) tokenization of that row's document. For many text analytics tasks that require word-level granularity, simple space delimitation does not address some of the subtleties of natural language text, especially with respect to contractions, sentence-final punctuation, URL's, email addresses, phone numbers, and other quirks. The representation of a document provided by PTB-style of tokenization is essential for sequence-tagging, parsing, bag-of-words treatment, and any text analytics task that requires word-level granularity. For a description of this style of tokenization, see https://www.cis.upenn.edu/~treebank/tokenization.html. 
 
 ```python
-tokenized_docs = graphlab.text_analytics.tokenize(docs['X1'])
+tokenized_docs = graphlab.SFrame()
+tokenized_docs['tokens'] = graphlab.text_analytics.tokenize(sf['X1'])
+tokenized_docs
+```
+```no-highlight
+Columns:
+  tokens  list
+
+Rows: 72269
+
+Data:
++-------------------------------+
+|             tokens            |
++-------------------------------+
+| [alainconnes, alain, conne... |
+| [americannationalstandards... |
+| [alberteinstein, near, the... |
+| [austriangerman, as, germa... |
+| [arsenic, arsenic, is, a, ... |
+| [alps, the, alps, alpen, a... |
+| [alexiscarrel, born, in, s... |
+| [adelaide, adelaide, is, a... |
+| [artist, an, artist, is, a... |
+| [abdominalsurgery, the, th... |
++-------------------------------+
+[72269 rows x 1 columns]
+Note: Only the head of the SFrame is printed.
+You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns.
 ```
 Note that our tokenizer does not normalize quote and bracket-like characters as described by the linked document.
+
+#####Part of Speech Extraction
+
+It can be useful to extract particular parts of speech. Specifically, you may want to highlight unique nouns in your text, identify adjectives with the high sentiment scores, or pull out nouns to generate candidate entities. The `extract_parts_of_speech` method parses the text in each element and extracts the words that are a given part of speech. For instance, to find all instances of adjectives:
+
+```python
+parts_of_speech = graphlab.SFrame()
+parts_of_speech['adjectives'] = graphlab.text_analytics.extract_parts_of_speech(sf['X1'],chosen_pos=[graphlab.text_analytics.PartOfSpeech.ADJ])
+parts_of_speech
+```
+```no-highlight
+Columns:
+  adjectives  dict
+
+Rows: 10
+
+Data:
++-------------------------------+
+|           adjectives          |
++-------------------------------+
+| {'ADJ': {'first': 1, 'nati... |
+| {'ADJ': {'first': 2, 'tech... |
+| {'ADJ': {'standard': 2, 'm... |
+| {'ADJ': {'standard': 8, 'p... |
+| {'ADJ': {'arsenopyrite': 2... |
+| {'ADJ': {'main': 6, 'roman... |
+| {'ADJ': {'third': 2, 'cruc... |
+| {'ADJ': {'main': 2, 'ethni... |
+| {'ADJ': {'first': 1, 'whic... |
+| {'ADJ': {'aseptic': 1, 'ri... |
++-------------------------------+
+[72269 rows x 1 columns]
+```
+Note that this API requires spaCy to be [installed](https://spacy.io/docs#getting-started).
+
+#####Sentence Splitting
+
+For an SArray of strings, where each row is assumed to be a natural English language document, the sentence splitter splits by sentence and outputs a list of sentences. This aids in anlysis at the sentence level. For example, you may want a sentiment score for each sentence in a document. The following command accomplishes this for you:
+
+```python
+sentences = graphlab.SFrame()
+sentences['sent'] = graphlab.text_analytics.split_by_sentence(sf['X1'])
+sentences
+```
+```no-highlight
+Columns:
+  sent  list
+
+Rows: 10
+
+Data:
++-------------------------------+
+|              sent             |
++-------------------------------+
+| [alainconnes alain connes ... |
+| [americannationalstandards... |
+| [alberteinstein near the b... |
+| [austriangerman as german ... |
+| [arsenic arsenic is a meta... |
+| [alps the alps alpen alpi ... |
+| [alexiscarrel born in sain... |
+| [adelaide adelaide is a co... |
+| [artist an artist is a per... |
+| [abdominalsurgery the thre... |
++-------------------------------+
+[72269 rows x 1 columns]
+```
+
+Note that this API requires spaCy to be [installed](https://spacy.io/docs#getting-started). 
