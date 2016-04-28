@@ -1,10 +1,8 @@
 # Choosing a Model
 In this section, we give some intuition for which modeling choices you may make depending on your data and your task.
 
-
 ### Implicit and explicit data
-The first example included ratings that users gave items.
-In situations where users do not provide ratings, a dataset would instead have just two columns -- user ID and item ID. We can still use collaborative filtering techniques to make recommendations. In this case we are leveraging "implicit" data about items that users watched, liked, etc., in contrast to the "explicit" ratings data in the previous example.
+The above example included ratings given to items by users. In situations where users do not provide ratings, a dataset would instead have just two columns -- user ID and item ID. We can still use collaborative filtering techniques to make recommendations. In this case we are leveraging "implicit" data about items that users watched, liked, etc., in contrast to the "explicit" ratings data in the previous example.
 
 Training a model and making recommendations with such data is straightforward.
 
@@ -16,7 +14,7 @@ recs = m.recommend()
 ```
 
 When no `target` is available, as above, then by default this returns an [ItemSimilarityRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.item_similarity_recommender.ItemSimilarityRecommender.html) which computes the similarity between each pair of items and recommends items to each user that are closest to items she has already used or liked. It measures item similarity with either Jaccard or cosine distance, which can be set
-manually using a keyword argument called ``similarity_type`` by creating that
+manually using a keyword argument called ``similarity_type`` when creating that
 recommender directly:
 
 ```python
@@ -45,7 +43,7 @@ m = graphlab.factorization_recommender.create(data,
 ```
 
 
-If your data is *implicit*, i.e., you only observe interactions between users and items, without a rating, then use item_similarity_recommender with Jaccard similarity (default) or the `ranking_factorization_recommender`.
+If your data is *implicit*, i.e., you only observe interactions between users and items, without a rating, then use `item_similarity_recommender` with Jaccard similarity (default) or the `ranking_factorization_recommender`.
 
 If your data is *explicit*, i.e., the observations include an actual rating given by the user, then you have a wide array of options.  `item_similarity_recommender` with cosine or Pearson similarity can incorporate ratings when computing similarity between items.  In addition, `factorization_recommender` and `popularity_recommender` both support rating prediction.  If you care about *ranking performance*, instead of simply predicting the rating accurately, then choose `item_similarity_recommender` or `ranking_factorization_recommender`.  Both can work well with either implicit or explicit data. Sometimes one works better, sometimes the other, depending on the data set.
 
@@ -80,18 +78,18 @@ When the target ratings are binary, i.e., if they come from thumbs up/thumbs dow
 
 The latent factors learned by both factorization recommenders can be used as features for other tasks.  In this case, it can help to have non-negative factors for improved interpretability.  Simply set `nmf=True` as an input parameter to create(), and the matrix factorization model will learn non-negative factors.
 
-### When you don't want to choose 
+### When you don't want to choose
 
 Under the hood, the type of recommender is chosen based on the
 provided data and whether the desired task is ranking (default) or
-rating prediction.  The default recommender for this type of data and
+rating prediction. The default recommender for this type of data and
 the default ranking task is a matrix factorization model, implemented
 on top of the disk-backed SFrame data structure.  The default solver
 is stochastic gradient descent, and the recommender model used is the
 [RankingFactorizationModel](https://dato.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_model.RankingFactorizationModel.html), which balances rating prediction with
-a ranking objective.  The default `create()` function does not allow
-changes to the default parameters of a specefic model, but it is just
-as easy to build a specific recommender with your own parameters using
+a ranking objective. The default `create()` function does not allow
+changes to the default parameters of a specific model, but it is just
+as easy to build a recommender with your own parameters using
 the appropriate model-specific `create()` function.
 
 ### Side information for users, items, and observations
@@ -114,7 +112,7 @@ recommendations.
 In particular, the
 [FactorizationRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html) and the [RankingFactorizationRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_recommender.RankingFactorizationRecommender.html) both incorporate the side data into the prediction through additional interaction terms between the user, the item, and the side feature. For the actual formula, see the API docs for the [FactorizationRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html). Both of these models also allow you to obtain the parameters that have been learned for each of the side features via the `m['coefficients']` argument.
 
-Side data may also be provided for each observation. For example it might be useful to have recommendations change based on the time at which the query is being made. To do so you could create a model using an SFrame that contains a time column, in addition to a user and item column. For example, a "time" column could include a string indicating the hour; this will be treated as a categorical variable and the model will learn a latent factor for each unique hour.
+Side data may also be provided for each observation. For example, it might be useful to have recommendations change based on the time at which the query is being made. To do so, you could create a model using an SFrame that contains a time column, in addition to a user and item column. For example, a "time" column could include a string indicating the hour; this will be treated as a categorical variable and the model will learn a latent factor for each unique hour.
 
 ```
 # sf has columns: user_id, item_id, time

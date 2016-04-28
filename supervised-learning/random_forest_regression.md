@@ -14,7 +14,7 @@ $$
 
 where the final model $$g$$ is the sum of simple base models $$f_i$$. Here,
 each base classifier is a simple [decision
-tree](http://en.wikipedia.org/wiki/Ensemble_learning).  This broad technique of
+tree](decision_tree_regression.md).  This broad technique of
 using multiple models to obtain better predictive performance is called
 [**model ensembling**](http://en.wikipedia.org/wiki/Ensemble_learning).  In
 random forests, all the base models are constructed independently using a

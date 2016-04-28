@@ -1,4 +1,4 @@
-#Excercises
+#Exercises
 The following hands-on exercises will help you learn how to work with data
 using GraphLab Create.
 

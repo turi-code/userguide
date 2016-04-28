@@ -113,7 +113,7 @@ Note that each column in the `TimeSeries` object is an **SArray**. A subset
 of columns can be selected as follows:
 
 ```python
-ts_power = household_ts[['Global_reactive_power', 'Global_reactive_power']]
+ts_power = household_ts[['Global_active_power', 'Global_reactive_power']]
 ```
 The following figure illustrates the time series `ts_power`.
 

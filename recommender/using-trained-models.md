@@ -1,7 +1,7 @@
-## Using trained models
+# Using trained models
 
 All recommender objects in the [graphlab.recommender](https://dato.com/products/create/docs/graphlab.toolkits.recommender.html) module expose a common set of methods, such as [recommend](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.recommend.html#graphlab.recommender.factorization_recommender.FactorizationRecommender.recommend)
-and [evaluate](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.evaluate.html). 
+and [evaluate](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.evaluate.html).
 
 In this section we will cover
 
@@ -10,7 +10,7 @@ In this section we will cover
 - [Visualizations](#visualizations)
 - [Saving and loading](#saving-and-loading-models)
 
-#### Making recommendations
+##### Making recommendations
 
 The trained model can now make recommendations of new items for users.
 To do so, call `model.recommend()` with an SArray of user ids.  If `users`
@@ -30,7 +30,7 @@ model, for instance, a higher average score for a user means that the
 model thinks that this user is generally more enthusiastic than
 others.
 
-#### Finding Similar Items 
+##### Finding Similar Items
 
 Many of the above models make recommendations based on some notion of similarity between a pair of items. Querying for similar items can help you understand the model's behavior on your data.  
 
@@ -45,7 +45,7 @@ The above will return an SFrame containing the 20 nearest items for every item i
 
 For a factorization-based model, the similarity used for is the Euclidean distance between the items' two factors, which can be obtained using m['coefficients'].
 
-### Saving and loading models
+#### Saving and loading models
 
 The model can be saved for later use, either on the local machine or in an AWS S3 bucket.  The saved model sits in its own directory, and can be loaded back in later to make more predictions.
 
@@ -60,19 +60,19 @@ Like other models in GraphLab Create, we can load the model back:
 model = gl.load_model("my_model")
 ```
 
-### Visualizations
+#### Visualizations
 
 Once a model has been trained, you can easily visualize the model. There are
 three built-in visualizations to help explore, explain, and evaluate the model:
 - **Explore**: This view helps explore the predictions (and associated
-  recommendations) made by the model. 
+  recommendations) made by the model.
 - **Evaluate**: This view helps quickly provide all the information needed to
-  determine if the model compares well with a simple popularity-based baseline. 
+  determine if the model compares well with a simple popularity-based baseline.
 - **Overview**: This view combines the explore and evaluate views into a tabbed
   view.
 
-For example, to create an the "Overview" tab, you launch the interactive 
-visualization using the following code: 
+For example, to create an the "Overview" tab, you launch the interactive
+visualization using the following code:
 
 ```python
 # Get the metadata ready
@@ -91,7 +91,7 @@ view = model.views.overview(validation_set=validation_data,
 view.show()
 ```
 
-#### Explore
+##### Explore
 
 ![recommender-explore](explore.png)
 
@@ -105,6 +105,6 @@ By understanding the qualitative aspects of the model you can build confidence i
   detecting problems with your model prior to going to production,
 * exposing ways you can improve your model in the future.
 
-## Have questions?
+#### Have questions?
 
 Feel free to ask any questions on our [user forum](forum.dato.com).

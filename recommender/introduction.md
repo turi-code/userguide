@@ -4,7 +4,7 @@ A recommender system allows you to provide personalized recommendations to users
 
 **Note:** Follow the steps in the [sample-movie-recommender](https://github.com/dato-code/sample-movie-recommender) GitHub repository to get the code and data for this example.
 
-## Input data
+#### Input data
 
 Creating a recommender model requires a data set to use for training the model, with columns that contain the user IDs, the item IDs, and (optionally) the ratings.
 
@@ -25,7 +25,7 @@ Creating a recommender model requires a data set to use for training the model, 
 |   1    |   260   |  4.0   | 1112484826 |
 +--------+---------+--------+------------+
 ```
-For information on how to load data into an SFrame from other sources, see the chapter on [Loading and Saving SFrames](/Users/chris/userguide-vnext/_book/sframe/sframe-intro.html).
+For information on how to load data into an SFrame from other sources, see the chapter on [Loading and Saving SFrames](../sframe/sframe-intro.html).
 
 You may have additional data about users or items. For example we might have a dataset of movie metadata.
 
@@ -42,7 +42,7 @@ You may have additional data about users or items. For example we might have a d
 +---------+---------------------+---------------------+------+
 ```
 
-## Building a model
+#### Building a model
 
 There are a variety of machine learning techniques that can be used to build a recommender model.
 GraphLab Create provides a method `graphlab.recommender.create` that will automatically choose an appropriate model for your data set.
@@ -62,7 +62,7 @@ results = model.recommend()
 ```
 
 
-## Learn more
+#### Learn more
 
 The following sections provide more information about the recommender model:
 

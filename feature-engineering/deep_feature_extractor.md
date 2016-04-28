@@ -22,7 +22,7 @@ data = gl.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/train6k')
 # Create a DeepFeatureExtractorObject
 #If `model='auto'` is used, an appropriate model is chosen from a collection 
 #of pre-trained models hosted by Dato.
-extractor = gl.feature_engineering.DeepFeatureExtractor(feature = 'image', 
+extractor = gl.feature_engineering.DeepFeatureExtractor(features = 'image',
                                                         model='auto')
 
 # Fit the encoder for a given dataset.
