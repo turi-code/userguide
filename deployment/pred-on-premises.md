@@ -226,7 +226,12 @@ Common issues that may arise are included below.
 
 Please verify that you've followed all the steps above. Note any errors. Here are some of the more common ones you might encounter:
 
-* (Windows) Fails to read in predictive_service.cfg: This is likely because your predictive_service.cfg has been modified to use '\r\n' instead of '\n' for the linebreaks, probably because you used notepad or a similar program to edit the file. Try modifying the line endings by using a different text editor and configuring the line endings appropriately.
+* (Windows) Fails to read in predictive_service.cfg: This is likely because your predictive_service.cfg has been modified to use '\r\n' instead of '\n' for the linebreaks, probably because you used notepad or a similar program to edit the file. Try modifying the line endings by using a different text editor and configuring the line endings appropriately. You can also run the following AWK script from the Docker terminal which will replace '\r\n' with '\n':
+
+```bash
+awk '{ sub("\r$", ""); print }' predictive_service.cfg > predictive_service_new.cfg
+mv predictive_service_new.cfg predictive_service.cfg
+```
 
 * (Windows) `docker load` fails: This may be due to the docker image file existing on a separate drive than the docker installation. Try running the script from the same drive as your docker installation, and ensure the configuration points to directories on the same drive. It may also be due to the docker host virtual instance not running. Try `docker-machine start` to get it running again.
 
