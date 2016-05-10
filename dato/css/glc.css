@@ -3,3 +3,7 @@ body .book .book-header h1 {
   padding-right: 60px;
   opacity: 1;
 }
+.book .book-body .page-wrapper .page-inner section.normal table td,
+.book .book-body .page-wrapper .page-inner section.normal table th {
+  padding: 6px 8px;
+}
