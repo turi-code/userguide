@@ -35,9 +35,16 @@ To test to see if the Docker service is running and operational, run the followi
 
 This should list the Docker images on your system, if any.
 
-Also note that the `docker` command must be run as root. This is because running `docker` as a normal user may be a security risk. See https://docs.docker.com/engine/security/security/ for more details about the security implications of Docker. For this reason, you are encouraged to run our installation script as root. This is not necessary on Windows and OS X because they do not run docker directly.
+Also note that the `docker` command must be run as root. This is because
+running `docker` as a normal user may be a security risk. See
+https://docs.docker.com/engine/security/security/ for more details about the
+security implications of Docker. For this reason, you are encouraged to run our
+installation script as root. This is not necessary on Windows and OS X because
+they do not run docker directly.
 
-If you plan on using S3 to host the runtime files, you will need to install [awscli](http://docs.aws.amazon.com/cli/latest/userguide/installing.html). The installation script runs `aws a3` commands to initialize the runtime files.
+If you plan on using S3 to host the runtime files, you will need to install
+[awscli](http://docs.aws.amazon.com/cli/latest/userguide/installing.html). The
+installation script runs `aws s3` commands to initialize the runtime files.
 
 If you run our installation script with `sudo` and use an S3 URL for the runtime
 data, there may be a small complication with the `aws` command. When running
