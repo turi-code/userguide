@@ -25,13 +25,17 @@ Note that the docker service must be running for the installation script to work
 Refer to the docker manual for instructions on how to do this. Usually, this is
 simply a matter of running:
 
-    $ sudo service docker start
+```bash
+sudo service docker start
+```
 
 or the related command for your distribution and system.
 
 To test to see if the Docker service is running and operational, run the following command:
 
-    $ sudo docker images
+```bash
+sudo docker images
+```
 
 This should list the Docker images on your system, if any.
 
@@ -54,7 +58,9 @@ You may want to ensure that awscli is installed under `/usr/bin` rather than
 `/usr/local/bin`, or ensure that `/usr/local/bin` is part of the `secure_path` in
 `/etc/sudoers`. To test that `sudo` can run aws commands, try:
 
-    $ sudo aws --help
+```bash
+sudo aws --help
+```
 
 
 ##### OS X and Windows
@@ -68,17 +74,23 @@ The Docker Quickstart Terminal does the following things:
 
 You can verify that this is setup properly by running:
 
-    $ echo $DOCKER_MACHINE_NAME
+```bash
+echo $DOCKER_MACHINE_NAME
+```
 
 which should print something like "default".
 
 You can also check the status of the docker machine with:
 
-    $ docker-machine status
+```bash
+docker-machine status
+```
 
 If you'd prefer to run on another docker machine you've created, create the machine and be sure to run the command:
 
-    $ eval $(docker-machine env <your machine name>)
+```bash
+eval $(docker-machine env <your machine name>)
+```
 
 The installation script is aware of the `$DOCKER_MACHINE_NAME` environment variable and will load and run the docker instances appropriately, so the environment variables need to be set appropriately.
 
@@ -192,7 +204,7 @@ After you have installed GraphLab Create, you can connect to the predictive serv
 
 ```
 import graphlab as gl
-ps = gl.deploy.predictive_service.load(“<ps-path>”)
+ps = gl.deploy.predictive_service.load("<ps-path>")
 ps.get_status()
 ```
 
