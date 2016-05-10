@@ -115,7 +115,7 @@ A predictive service running in EC2 uses either 80 or 443 for control and data f
 
 ##### On-premises
 
-For an on-premises deployment, you can override the default (80 or 443) using the `lb_port` parameter in the setup config. We recommend to close any unused ports of the host machine.
+For an on-premises deployment, you can override the default (80 or 443) using the `lb_port` parameter in the setup config. We recommend to close any unused ports of the host machine. See [the on-premise documentation](https://dato.com/learn/userguide/deployment/pred-on-premises.html#configuring-the-network) for details on the various ports and their purpose.
 
 #### EC2 Security Groups
 
