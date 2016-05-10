@@ -266,4 +266,4 @@ Other issues that may arise:
 * On Windows, when I use a local directory for `ps_path`, the client can't find it. This is likely due to the fact that the file path in the Docker Quickstart Terminal follows Unix convention (IE, /c/...) rather than Windows convention (C:\\...) All you need to do is translate the path appropriately.
 
 
-Please contact us if you need further help.
+Please contact us if you need further help at <support@dato.com>.
