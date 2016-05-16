@@ -47,7 +47,7 @@ The first parameter to `required_files` describes the location(s) that will be s
 In order to refer to a generic file (other than a Python module) uploaded through this mechanism, you can use an environment variable to get its path:
 
 ```python
-@graphlab.deploy.required_files('lookup_table.csv', '*')
+@graphlab.deploy.required_files('lookup_table.csv')
 def recommend_similar_products(product_id):
     file_path = os.path.join(os.environ['DATO_PS_DEPENDENT_FILE_PATH'],
                              'lookup_table.csv')
