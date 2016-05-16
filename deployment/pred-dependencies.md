@@ -43,3 +43,14 @@ def recommend_similar_products(product_id):
 ```
 
 The first parameter to `required_files` describes the location(s) that will be searched. This can be a file name, a folder name or a list containing both file or folder names, either as absolute paths, or relative to the current working directory. GraphLab Create automatically extracts the required files and ships them to the Predictive Service cluster. The second parameter is a file name "glob" pattern that is used to select only the files that are needed. It is implemented using the [fnmatch](https://docs.python.org/2/library/fnmatch.html) Python package.
+
+In order to refer to a generic file (other than a Python module) uploaded through this mechanism, you can use an environment variable to get its path:
+
+```python
+@graphlab.deploy.required_files('lookup_table.csv')
+def recommend_similar_products(product_id):
+    file_path = os.path.join(os.environ['DATO_PS_DEPENDENT_FILE_PATH'],
+                             'lookup_table.csv')
+    lookup_table = graphlab.SFrame(file_path)
+    ...
+```
