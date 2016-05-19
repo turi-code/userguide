@@ -82,7 +82,13 @@ ps.api_key
 
 #### Cross-Origin Resource Sharing
 
-By default a predictive service does not allow cross-origin resource requests: Any code deployed to the predictive service can only request resources located on the same domain. In order to circumvent this restriction, you can specify a Cross-Origin Resource Sharing (CORS) directive in the form of a string parameter to [`create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html):
+By default a predictive service does not allow cross-origin resource requests. This means that the predictive service, by default, cannot be accessed from code that runs in a browser. In order to circumvent this restriction, you can specify a Cross-Origin Resource Sharing (CORS) directive through the `set_CORS` API, allowing access to the service from code that is hosted on a specific domain. For example, if your site http://www.example.com hosts an application that accesses a predictive service, you need to allow CORS as follows:
+
+```python
+deployment.set_CORS('http://www.example.com')
+```
+
+You can also specify a CORS directive when creating a predictive service, in the form of a string parameter to [`create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html):
 
 ```python
 ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
@@ -94,10 +100,10 @@ deployment = graphlab.deploy.predictive_service.create(
     name='testing',
     ec2_config=ec2,
     state_path='s3://sample-testing/first',
-    cors_origin='https://dato.com')
+    cors_origin='http://www.example.com')
 ```
 
-You can disable CORS by using `*` as the value for `cors_origin`.
+You can disable CORS entirely by using `*` as the value for `cors_origin`. However, be aware of the security implications of allowing cross-origin requests from _any_ origin to the service!
 
 You can find more information on CORS here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
 
