@@ -196,5 +196,7 @@ To disable CORS support for this Predictive Service:
 
 ```python
 # disable CORS support
-deployment.set_CORS()
+deployment.set_CORS('')
 ```
+
+For more information, see also [Best Practices](pred-security.md#crossorigin-resource-sharing).
