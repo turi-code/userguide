@@ -5,6 +5,8 @@
 In order to launch a Predictive Service you first need to configure it by instantiating a [`graphlab.deploy.Ec2Config`](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html) object:
 
 ```python
+import graphlab
+
 ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
                                 instance_type='m3.xlarge',
                                 aws_access_key_id='YOUR_ACCESS_KEY',
@@ -23,6 +25,8 @@ export AWS_SECRET_ACCESS_KEY='YOUR_SECRET_KEY'
 When you create a predictive service with this configuration (see below), a new security group **Dato_Predictive_Service** will be created in the default subnet. You can also specify a custom security group when creating the `Ec2Config` object:
 
 ```python
+import graphlab
+
 ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
                                 instance_type='m3.xlarge',
                                 aws_access_key_id='YOUR_ACCESS_KEY',
@@ -40,7 +44,7 @@ With a valid configuration object of type `Ec2Config`, a Predictive Service is l
 
 ```python
 deployment = graphlab.deploy.predictive_service.create(
-    'first', ec2, 's3://sample-testing/first')
+    'first', ec2, 's3://my-bucket/my-service-path')
 ```
 
 The 3rd parameter&mdash;the state path&mdash;is a S3 path that is used to manage the state for the Predictive Service. This can be used to create a Predictive Service object based on an existing, running service, for instance on another machine. The path determines where the models and any corresponding data dependencies will be saved. Logs are also written to this path with an added directory named `logs`. So for example, if we specified our S3 path to be `s3://my-bucket/`, then the logs for our Predictive Service would be saved at the following S3 path: `s3://my-bucket/logs`.
@@ -65,7 +69,7 @@ print deployment
 
 ```
 Name                  : first
-State Path            : s3://sample-testing/first
+State Path            : s3://my-bucket/my-service-path
 Description           : None
 API Key               : b0a1c056-30b9-4468-9b8d-c07289017228
 CORS origin           :
@@ -79,7 +83,6 @@ No Pending changes.
 To visualize this deployment in GraphLab Canvas, use the .show() method.
 
 ```python
-deployment
 deployment.show()
 ```
 
@@ -92,6 +95,8 @@ In some cases, multiple teams or team members may wish to collaborate on a share
 This way, it is easy to have one person on the team create a cluster, and have everyone else on the team share that cluster for deploying objects. The person that creates the cluster simply notifies the rest of the team of the S3 path for the cluster, and everyone else can load the deployment locally to start using it.
 
 ```python
+import graphlab
+
 deployment = graphlab.deploy.predictive_service.load(
     's3://sample-testing/pred-root/first',
     aws_access_key_id='YOUR_ACCESS_KEY',

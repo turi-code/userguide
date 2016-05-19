@@ -1,9 +1,11 @@
 # Working with Objects
-Dato Predictive Services host your models in a scalable REST-ful webservice. In addition to all GraphLab Create models, we support _custom predictive objects_ for composing multiple Models and GraphLab Create data structures. With custom predictive objects, you can deploy arbitrary business logic on top of your models simply by defining a Python function. In this chapter we will demonstrate both the usage of a model as well as a Custom Predictive Object in a predictive service.
+Dato Predictive Services host your models in a scalable REST-ful webservice. In addition to all GraphLab Create models, we support _custom predictive objects_ for composing multiple Models and GraphLab Create data structures. With custom predictive objects, you can deploy arbitrary business logic on top of your models simply by defining a Python function. In this chapter we will demonstrate both the usage of a GraphLab Create model as well as a Custom Predictive Object in a predictive service.
 
 Let's train a GraphLab Create model. For the rest of this chapter we will utilize this model when interacting with Predictive Services.
 
 ```python
+import graphlab
+
 data_url = 'https://s3.amazonaws.com/dato-datasets/movie_ratings/sample.small'
 data = graphlab.SFrame.read_csv(data_url,delimiter='\t',column_type_hints={'rating':int})
 model = graphlab.popularity_recommender.create(data, 'user', 'movie', 'rating')
@@ -11,10 +13,11 @@ model = graphlab.popularity_recommender.create(data, 'user', 'movie', 'rating')
 
 #### Add a Predictive Object to the Deployment
 
-The [`PredictiveService.add`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.add.html) method stages a Predictive Object for deployment to the cluster.
+The [`PredictiveService.add`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.add.html) method stages a Predictive Object for deployment to the cluster. In the following snippet, we are adding the model we created above under a new endpoint `recs`:
 
 ```python
-ps.add('recs', model)
+deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment.add('recs', model)
 ```
 
 Now if you print the PredictiveService object there will be pending change for the newly added object.
@@ -25,7 +28,7 @@ print ps
 
 ```
 Name                  : first
-S3 Path               : s3://sample-testing/first
+S3 Path               : s3://my-bucket/my-service-path
 Description           : None
 API Key               : b0a1c056-30b9-4468-9b8d-c07289017228
 CORS origin           :
@@ -41,25 +44,25 @@ To finish publishing this Predictive Object&mdash;a recommender model&mdash;call
 [`apply_changes`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.apply_changes.html) method. When you call this API, the pending predictive objects will be uploaded to S3, and the cluster will be notified to download them from S3.
 
 ```python
-ps.apply_changes()
+deployment.apply_changes()
 ```
 
 Of course you can deploy more than one Predictive Object. The `add` API can be called repeatedly to deploy multiple predictive objects (models or custom predictive functions):
 
 ```python
-ps.add(name='sim_model', obj=item_similarity_model)
-ps.add(name='fact_model', obj=factorization_model)
+deployment.add(name='sim_model', obj=item_similarity_model)
+deployment.add(name='fact_model', obj=factorization_model)
 ```
 
 Each object can be queried explicitly and directly, using its name:
 
 ```python
-recs_sim = ps.query('sim_model',
-                    method='recommend',
-                    data={'users': ['Jacob Smith']})
-recs_fact = ps.query('fact_model',
-                     method='recommend',
-                     data={'users': ['Jacob Smith']})
+recs_sim = deployment.query('sim_model',
+                            method='recommend',
+                            data={'users': ['Jacob Smith']})
+recs_fact = deployment.query('fact_model',
+                             method='recommend',
+                             data={'users': ['Jacob Smith']})
 ```
 
 Each deployment of a Predictive Object creates an endpoint for the object, which can be queried directly through HTTP (assuming an example DNS name):
@@ -79,6 +82,8 @@ The predictive service's
 [`update`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.update.html) method stages an existing Predictive Object for this deployment to be updated, which results in the object's version being incremented. Once `apply_changes` is called, the updated object will be proactively warmed in the distributed cache, and existing cached entries for this model will be expired and purged in 15 minutes. Using this method to update an existing object ensures rolling updates with zero downtime. By pre-emptively warming the cache you can be confident that latencies will not spike with popular requests during an update.
 
 ```python
+import graphlab
+
 new_model = graphlab.recommender.create(...)
 ps.update('recs', new_model)
 ps.apply_changes()
@@ -92,6 +97,7 @@ Let's look at an example. Suppose you want to take as input a product ID and rec
 
 ```python
 import graphlab as gl
+
 products = gl.SFrame({
     'id'        :[1,    2,    3],
     'name'      :['p1', 'p2', 'p3' ],
@@ -131,7 +137,10 @@ Now add the custom Predictive Object to your predictive service with the `add` o
 Given an existing predictive service deployment, and a handle to it (by way of a variable named `ps`), the snippet below demonstrates how you would add your own custom logic to the predictive service deployment:
 
 ```python
-ps.add('get-similar-products', recommend_similar_products,
+import graphlab
+
+deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment.add('get-similar-products', recommend_similar_products,
        description='Get two similar products given a product id')
 ```
 
@@ -140,14 +149,14 @@ In fact, what we've done is simply to define a query function and add it to our 
 Before you deploy your new custom query to production, it's a good idea to do a local test of the query using [`test_query`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.test_query.html). This method runs your query locally, but simulates the actual end-to-end flow of serializing inputs, running the query and returning the serialized result.
 
 ```python
-ps.test_query('get-similar-products', product_id=1)
+deployment.test_query('get-similar-products', product_id=1)
 ```
 
 After you are done, deploy to production and run the query:
 
 ```python
-ps.apply_changes()
-ps.query('get-similar-products', product_id=1)
+deployment.apply_changes()
+deployment.query('get-similar-products', product_id=1)
 ```
 
 Like for a regular model you can use the HTTP endpoint directly to query the custom predictive object. In the POST body you reference the API key as well as the method's parameter name and value:
@@ -161,7 +170,7 @@ curl -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
 To help the consumer of your custom query, the doc string for your query is automatically extracted from your custom query function. You can get the doc string back via the [`describe`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.describe.html) API:
 
 ```python
-print ps.describe('get-similar-products')
+print deployment.describe('get-similar-products')
 ```
 
 ```
@@ -175,7 +184,7 @@ None
 To list all currently deployed predictive objects, you can use the following API:
 
 ```python
-print ps.deployed_predictive_objects
+print deployment.deployed_predictive_objects
 ```
 
 ```python
@@ -212,7 +221,7 @@ To remove a Predictive Object from your deployment, simply call the [remove](htt
 For example, the following command will remove a previously added Predictive Object with the name `get-similar-products`:
 
 ```python
-ps.remove('get-similar-products')
+deployment.remove('get-similar-products')
 ```
 
 Note that this call will fail if the model is referred to by a policy or an alias (see [chapter about experimentation](pred-experimentation.html)). You can find out whether such a dependency exist by calling [`PredictiveService.get_endpoint_dependencies`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_endpoint_dependencies.html).
