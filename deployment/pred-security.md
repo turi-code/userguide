@@ -20,7 +20,7 @@ ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
 deployment = graphlab.deploy.predictive_service.create(
     name='testing',
     ec2_config=ec2,
-    state_path='s3://sample-testing/first',
+    state_path='s3://my-bucket/my-service-path',
     ssl_credentials=('privatekey.key', 'certificate.crt', True))
 ```
 In this example, we are indicating that the given certificate is self-signed (using `True` in the tuple).
@@ -65,7 +65,11 @@ Make sure to secure any copies of your private key file, including the PEM file 
 A client that is submitting queries to a Predictive Services endpoint needs to specify an API key in the request's HTTP body. Such a key is generated upon the creation of a predictive service but can be changed later, using the [`set_api_key`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html) command:
 
 ```python
-ps.set_api_key('new_api_key')
+import graphlab
+
+deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+
+deployment.set_api_key('new_api_key')
 ```
 
 The new API key will apply to all endpoints deployed in the respective predictive service. Note that this will affect any client that is currently querying the service.
@@ -73,7 +77,7 @@ The new API key will apply to all endpoints deployed in the respective predictiv
 You can retrieve the current value of the API key using the `api_key` property:
 
 ```python
-ps.api_key
+deployment.api_key
 ```
 
 ```
@@ -88,9 +92,11 @@ By default a predictive service does not allow cross-origin resource requests. T
 deployment.set_CORS('http://www.example.com')
 ```
 
-You can also specify a CORS directive when creating a predictive service, in the form of a string parameter to [`create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html):
+You can also specify a CORS directive when creating a predictive service in AWS, in the form of a string parameter to [`create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html):
 
 ```python
+import graphlab
+
 ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
                                 instance_type='m3.xlarge',
                                 aws_access_key_id='YOUR_ACCESS_KEY',
@@ -99,21 +105,13 @@ ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
 deployment = graphlab.deploy.predictive_service.create(
     name='testing',
     ec2_config=ec2,
-    state_path='s3://sample-testing/first',
+    state_path='s3://my-bucket/my-service-path',
     cors_origin='http://www.example.com')
 ```
 
 You can disable CORS entirely by using `*` as the value for `cors_origin`. However, be aware of the security implications of allowing cross-origin requests from _any_ origin to the service!
 
 You can find more information on CORS here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
-
-##### On-premises
-
-For an on-premises deployment of Predictive Services, which happens through a scipt-based deployment (as opposed to the GraphLab Create client using `graphlab.deploy.predictive_services.create`), you can use the [`set_CORS`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.set_CORS.html) method of the `PredictiveServices` object:
-
-```python
-ps.set_CORS('https://dato.com')
-```
 
 #### Port Configuration
 
@@ -128,6 +126,8 @@ For an on-premises deployment, you can override the default (80 or 443) using th
 When you create a predictive service, by default a new security group **Dato_Predictive_Service** will be created in the default subnet. If you want to manage the security group yourself, you can specify it when configuring the predictive service for EC2:
 
 ```python
+import graphlab
+
 ec2 = graphlab.deploy.Ec2Config(security_group='YOUR_SECURITY_GROUP_NAME')
 ```
 

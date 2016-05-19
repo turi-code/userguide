@@ -32,7 +32,7 @@ When the `create()` command is executed, the EC2 instances will be launched imme
 
 ```python
 deployment = graphlab.deploy.predictive_service.create(
-    'first', ec2, 's3://sample-testing/first')
+    'first', ec2, 's3://my-bucket/my-service-path')
 ```
 
 Additional parameters include the number of EC2 nodes to use for the service, SSL credentials to secure the data flow, and more. See  [`graphlab.deploy.predictive_service.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) for a complete list.

@@ -31,15 +31,27 @@ Each of these methods takes both a start and end time parameter to determine the
 ```python
 # read in all query logs from yesterday
 import datetime
+import graphlab
+
+deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+
 now = datetime.datetime.now()
 yesterday = now.replace(day=now.day-1, hour=0, minute=0, second=0, microsecond=0)
-query_logs_sf = deployment.get_query_logs(yesterday, now.replace(hour=0, minute=0, second=0, microsecond=0))
+today = now.replace(hour=0, minute=0, second=0, microsecond=0)
+
+query_logs_sf = deployment.get_query_logs(yesterday, today)
+```
+
+```no-highlight
 [INFO] Fetching 1 log files from S3...
 PROGRESS: download: s3://sample-testing/logs/recs_logs/2015-05-13T00:03:21.ip-172-31-30-62_query.log to ../../var/tmp/graphlab-username/4741/000009
 PROGRESS:
 PROGRESS: Finished parsing file s3://sample-testing/logs/recs_logs/2015-05-13T00:03:21.ip-172-31-30-62_query.log
 PROGRESS: Parsing completed. Parsed 5 lines in 0.8146 secs.
 [INFO] Read, parsed, and merged 1 log files in 4 seconds
+```
+
+```python
 print query_logs_sf
 ```
 
@@ -65,10 +77,16 @@ A predictive service's logs provide a deep insight into the behavior of a predic
 
 The idea behind feedback is for an application to assign custom information to a query result, which gets logged in the service. The association happens through the uuid that was returned with the query response, which is used as parameter for a call to the feedback interface. This interface, just like the query API, is accessible either from within the GraphLab Create Python API or as a RESTful endpoint though HTTP:
 
-Here is an example for an app that uses a predictive model to get suggestions for a user's text input ("auto-suggest"). The application returns feedback about whether the user accepted or ignored the suggested value:
+Here is an example for an app in Python that uses a predictive model to get suggestions for a user's text input ("auto-suggest"). The application returns feedback about whether the user accepted or ignored the suggested value:
 
 ```python
-deployment.feedback('e8f13b17-173a-402d-835d-cc816eba626f',
+deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+
+result = deployment.query(...)
+
+# process the query result...
+
+deployment.feedback(result['uuid'],
                     search_term='dato pre',
                     suggested='dato predictive services',
                     suggestion_accepted=True)
@@ -76,7 +94,7 @@ deployment.feedback('e8f13b17-173a-402d-835d-cc816eba626f',
 
 The values for the uuid as well as the search term and suggestion were returned as query response. The user behavior is known by the application. Together this information is now logged as custom keyword arguments of the `feedback` call; they end up in the feedback logs, where they can be collected and used to improve the predictive model.
 
-The example below demonstrates how to call the HTTP version of the feedback API using curl:
+The example below demonstrates how to call the HTTP version of the feedback API using curl (the uuid is explicitly spelled out as the value of `id` here):
 
 ```no-highlight
 curl -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{

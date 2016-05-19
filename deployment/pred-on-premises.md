@@ -202,10 +202,10 @@ GraphLab Create is required to connect to Dato Predictive Services and deploy/mo
 
 After you have installed GraphLab Create, you can connect to the predictive service; In the code sample below remember to replace `ps-path` with your actual ps path specified in installation step 5 above. If this is an HDFS path, you need to have set up your environment to have access to HDFS (either by setting HADOOP_CLASSPATH or HADOOP_CONF_DIR).
 
-```
-import graphlab as gl
-ps = gl.deploy.predictive_service.load("<ps-path>")
-ps.get_status()
+```python
+import graphlab
+deployment = graphlab.deploy.predictive_service.load("<ps-path>")
+deployment.get_status()
 ```
 
 For more information about the API see https://dato.com/learn/userguide/deployment/pred-intro.html and https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_services.html
@@ -253,7 +253,7 @@ mv predictive_service_new.cfg predictive_service.cfg
 First, check that you can access the service from within the Docker host. If it is not accessible from within the host, then:
 
 * Ensure that Docker is running.
-* Ensure that the predictive services docker processese are running by executing setup_dato_ps.sh again.
+* Ensure that the predictive services docker processes are running by executing setup_dato_ps.sh again.
 
 You may want to run through your network configuration to ensure that the
 service is accessible. Note that on OS X and Windows you need to add port

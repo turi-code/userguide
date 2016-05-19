@@ -19,6 +19,10 @@ Each deployed Predictive Object can be queried through its associated endpoint, 
 Besides Predictive Objects endpoints can also be backed by an _alias_ or a _policy_, as explained below. At any point you can retrieve the list of all active endpoints in your Predictive Service through the [`PredictiveService.get_endpoints`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_endpoints.html) API:
 
 ```python
+import graphlab
+
+deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+
 print deployment.get_endpoints()
 ```
 
@@ -94,8 +98,8 @@ from graphlab.deploy.predictive_service import ProbabilityPolicy
 
 p = ProbabilityPolicy({'sim_model': 0.9, 'fact_model': 0.1})
 
-ps.add(name='ab test', obj=p, description='Trying out fact_model')
-ps.apply_changes()
+deployment.add(name='ab test', obj=p, description='Trying out fact_model')
+deployment.apply_changes()
 ```
 
 This endpoint will now serve models 'sim_model' for 90% of requests, and 'fact_model' for 10% of requests. (This example assumes you have deployed both models with these names before, as outlined above.) For more information about experimentation policies, see below.
@@ -120,8 +124,8 @@ deployment.query('ab test', method='recommend', data={ 'users': [ 'Jacob Smith' 
 Of course you can still query each model directly using its ``.../query/<modelname>`` URL. Moreover you can point an alias to a policy:
 
 ```python
-ps.alias('recommender', 'ab test')
-ps.apply_changes()
+deployment.alias('recommender', 'ab test')
+deployment.apply_changes()
 ```
 
 The endpoint list contains the policy as well as the new alias:
@@ -175,8 +179,8 @@ from graphlab.deploy.predictive_service import EpsilonGreedyPolicy
 
 p = EpsilonGreedyPolicy(['sim_model', 'fact_model'], epsilon=0.1)
 
-ps.add(name='bandit', obj=p, description='Let the best one win')
-ps.apply_changes()
+deployment.add(name='bandit', obj=p, description='Let the best one win')
+deployment.apply_changes()
 ```
 
 This policy takes two required parameters:
@@ -189,14 +193,14 @@ Because this policy includes an exploitation path, it requires to be aware of so
 Here is an example, assuming the policy has been deployed according to the previous code snippet. The example uses a method `isSuccessful` which applies some measure of success to the query result (for instance, user engagement).
 
 ```python
-r = ps.query('bandit', data={'users':['Jacob Smith']})
+r = deployment.query('bandit', data={'users':['Jacob Smith']})
 
 ...
 
 if isSuccessful(r['response']):
-  ps.feedback(r['uuid'], reward = 1)
+  deployment.feedback(r['uuid'], reward = 1)
 else:
-  ps.feedback(r['uuid'], reward = 0)
+  deployment.feedback(r['uuid'], reward = 0)
 ```
 
 The epsilon-greedy policy uses the feedback mechanism built into Dato Predictive Services to update the success measure of each predictive object. Specifically it looks for the keyword `reward` and expects a float value for it. Upon receiving such feedback, the policy then updates the average reward of the predictive object that served this request. As you can see, this makes the policy stateful, as it maintains the average rewards of all of its predictive objects.

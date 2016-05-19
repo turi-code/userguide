@@ -7,6 +7,10 @@ Dato Predictive Services provides a set of interfaces to gain insight into a run
 To visualize a deployment using GraphLab Canvas, simply run [`show`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.show.html), as follows:
 
 ```python
+import graphlab
+
+deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+
 deployment.show()
 ```
 
@@ -82,7 +86,7 @@ This API returns an SFrame regarding each Predictive Object's status on each nod
 Through the [`get_metrics`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_metrics.html) API a variety of operational metrics about the predictive service can be retrieved. By default, the method returns the number of requests and the average latency over the last 12 hours, in 5 minute increments:
 
 ```python
-ps.get_metrics()
+deployment.get_metrics()
 ```
 
 ```
