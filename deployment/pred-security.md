@@ -109,7 +109,7 @@ deployment = graphlab.deploy.predictive_service.create(
     cors_origin='http://www.example.com')
 ```
 
-You can disable CORS entirely by using `*` as the value for `cors_origin`. However, be aware of the security implications of allowing cross-origin requests from _any_ origin to the service!
+You can disable CORS restrictions entirely by using `*` as the value for `cors_origin`. However, be aware of the security implications of allowing cross-origin requests from _any_ origin to the service!
 
 You can find more information on CORS here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
 
