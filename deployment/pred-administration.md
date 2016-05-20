@@ -96,7 +96,7 @@ A variable is set using the [`set`](https://dato.com/products/create/docs/genera
 ```python
 import graphlab
 
-deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
 
 deployment.environment_variables.set('DB_USERNAME', 'bob')
 deployment.apply_changes()

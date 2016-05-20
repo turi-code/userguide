@@ -16,7 +16,7 @@ model = graphlab.popularity_recommender.create(data, 'user', 'movie', 'rating')
 The [`PredictiveService.add`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.add.html) method stages a Predictive Object for deployment to the cluster. In the following snippet, we are adding the model we created above under a new endpoint `recs`:
 
 ```python
-deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
 deployment.add('recs', model)
 ```
 
@@ -139,7 +139,7 @@ Given an existing predictive service deployment, and a handle to it (by way of a
 ```python
 import graphlab
 
-deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
 deployment.add('get-similar-products', recommend_similar_products,
        description='Get two similar products given a product id')
 ```

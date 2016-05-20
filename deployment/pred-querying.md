@@ -15,7 +15,7 @@ For the example deployment, the code below demonstrates how we query for recomme
 ```python
 import graphlab
 
-deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
 recs = deployment.query('recs', method='recommend', data={'users': ['Jacob Smith']})
 ```
 

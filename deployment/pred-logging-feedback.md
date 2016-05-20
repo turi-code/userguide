@@ -33,7 +33,7 @@ Each of these methods takes both a start and end time parameter to determine the
 import datetime
 import graphlab
 
-deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
 
 now = datetime.datetime.now()
 yesterday = now.replace(day=now.day-1, hour=0, minute=0, second=0, microsecond=0)
@@ -80,7 +80,7 @@ The idea behind feedback is for an application to assign custom information to a
 Here is an example for an app in Python that uses a predictive model to get suggestions for a user's text input ("auto-suggest"). The application returns feedback about whether the user accepted or ignored the suggested value:
 
 ```python
-deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
 
 result = deployment.query(...)
 
