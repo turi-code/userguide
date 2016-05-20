@@ -21,7 +21,7 @@ Besides Predictive Objects endpoints can also be backed by an _alias_ or a _poli
 ```python
 import graphlab
 
-deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
 
 print deployment.get_endpoints()
 ```

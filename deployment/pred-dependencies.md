@@ -16,7 +16,7 @@ def generate_names(num_names):
     import names
     # your function logic here
 
-deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
 deployment.add('name-generator', generate_names, 'generates a set of names')
 deployment.apply_changes()
 ```
@@ -49,7 +49,7 @@ def recommend_similar_products(product_id):
     from product_recommend import query_db
     # your function logic here
 
-deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
 deployment.add('recs', recommend_similar_products,
                'recommend products similar to a given one')
 deployment.apply_changes()

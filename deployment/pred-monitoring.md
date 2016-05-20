@@ -9,7 +9,7 @@ To visualize a deployment using GraphLab Canvas, simply run [`show`](https://dat
 ```python
 import graphlab
 
-deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
 
 deployment.show()
 ```

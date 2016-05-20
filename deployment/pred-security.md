@@ -67,7 +67,7 @@ A client that is submitting queries to a Predictive Services endpoint needs to s
 ```python
 import graphlab
 
-deployment = graphlab.deploy.predictive_services.load('s3://my-bucket/my-service-path')
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
 
 deployment.set_api_key('new_api_key')
 ```
