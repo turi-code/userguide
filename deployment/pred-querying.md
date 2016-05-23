@@ -13,7 +13,9 @@ To make it easy to validate deployment changes, and to manually warm up the dist
 For the example deployment, the code below demonstrates how we query for recommendations for user ```Jacob Smith```:
 
 ```python
-deployment = gl.deploy.predictive_services.load('s3://sample-testing/first')
+import graphlab
+
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
 recs = deployment.query('recs', method='recommend', data={'users': ['Jacob Smith']})
 ```
 
@@ -103,7 +105,7 @@ print deployment
 
 ```
 Name                  : first
-S3 Path               : s3://sample-testing/first
+S3 Path               : s3://my-bucket/my-service-path
 Description           : None
 API Key               : b0a1c056-30b9-4468-9b8d-c07289017228
 CORS origin           :

@@ -7,15 +7,15 @@ The following sub-sections explain how various properties of a deployed predicti
 In chapter [Launching](pred-launching.md) we have shown how a predictive service is created, given a valid configuration for EC2:
 
 ```python
-ps = graphlab.deploy.predictive_service.create(
-    'first', ec2, 's3://sample-testing/first')
+deployment = graphlab.deploy.predictive_service.create(
+    'first', ec2, 's3://my-bucket/my-service-path')
 ```
 
 A reference to an existing predictive service can be retrieved through the [`load`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.load.html) API:
 
 ```python
-ps = graphlab.deploy.predictive_service.load(
-    's3://sample-testing/first')
+deployment = graphlab.deploy.predictive_service.load(
+    's3://my-bucket/my-service-path')
 ```
 
 This method will load an existing predictive service from the specified path, which corresponds to the path given at creation time (The predictive service keeps a state file in that path).
@@ -28,12 +28,12 @@ graphlab.deploy.predictive_services
 
 ```python
 PredictiveService(s):
-+-------+-----------------+-----------------------------+-------------------+
-| Index |       Name      |         State_path          |        Type       |
-+-------+-----------------+-----------------------------+-------------------+
-|   0   |      first      |  s3://sample-testing/first  | PredictiveService |
-|   1   | demolab-one-six | s3://gl-demo-usw/demolab/ps | PredictiveService |
-+-------+-----------------+-----------------------------+-------------------+
++-------+-----------------+--------------------------------+-------------------+
+| Index |       Name      |          State_path            |        Type       |
++-------+-----------------+--------------------------------+-------------------+
+|   0   |      first      | s3://my-bucket/my-service-path | PredictiveService |
+|   1   | demolab-one-six |   s3://gl-demo-usw/demolab/ps  | PredictiveService |
++-------+-----------------+--------------------------------+-------------------+
 +------------------+----------------------------+
 | Unsaved changes? |       Creation date        |
 +------------------+----------------------------+
@@ -45,7 +45,7 @@ PredictiveService(s):
 You can load a reference to a predictive service from this list like this:
 
 ```python
-ps = graphlab.deploy.predictive_services[0]
+deployment = graphlab.deploy.predictive_services[0]
 ```
 
 To terminate a Predictive Service, call the [`terminate_service`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.terminate_service.html) method. There are options to delete the logs and predictive objects as well. **Note:** There is no warning or confirmation on this method; it will terminate the EC2 instances and tear down the Elastic Load Balancer.
@@ -94,8 +94,12 @@ It is common to use system environment variables for specific application config
 A variable is set using the [`set`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.set.html) API:
 
 ```python
-ps.environment_variables.set('DB_USERNAME', 'bob')
-ps.apply_changes()
+import graphlab
+
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
+
+deployment.environment_variables.set('DB_USERNAME', 'bob')
+deployment.apply_changes()
 ```
 
 Note that this type of configuration is queued up and needs to be submitted by executing `apply_changes`.
@@ -124,7 +128,7 @@ Similarly, [`unset`](https://dato.com/products/create/docs/generated/graphlab.de
 All currently set variables (that have been applied to the service) can be shown using [`list`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.list.html), which returns a dictionary of key-value pairs:
 
 ```python
-ps.environment_variables.list()
+deployment.environment_variables.list()
 ```
 
 ```python
@@ -196,5 +200,7 @@ To disable CORS support for this Predictive Service:
 
 ```python
 # disable CORS support
-deployment.set_CORS()
+deployment.set_CORS('')
 ```
+
+For more information, see also [Best Practices](pred-security.md#crossorigin-resource-sharing).
