@@ -9,10 +9,16 @@ If your custom logic depends on other Python packages, you can use the `@graphla
 For example, if your query depends on the specific version '0.3.0' of a package called 'names', then you would do the following:
 
 ```python
+import graphlab
+
 @graphlab.deploy.required_packages(['names==0.3.0'])
 def generate_names(num_names):
     import names
-    # your query logic here
+    # your function logic here
+
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
+deployment.add('name-generator', generate_names, 'generates a set of names')
+deployment.apply_changes()
 ```
 
 The predictive service will ensure that the package is installed and available whenever the custom method needs to be executed.
@@ -36,10 +42,28 @@ If your custom query is defined in another Python file, or if it depends on othe
 For example, if you have a set of Python scripts in a folder called ‘product_recommender’ and your custom query depends on these scripts, you can specify this dependency as follows:
 
 ```python
+import graphlab
+
 @graphlab.deploy.required_files('product_recommender', '*.py')
 def recommend_similar_products(product_id):
     from product_recommend import query_db
-    ...
+    # your function logic here
+
+deployment = graphlab.deploy.predictive_service.load('s3://my-bucket/my-service-path')
+deployment.add('recs', recommend_similar_products,
+               'recommend products similar to a given one')
+deployment.apply_changes()
 ```
 
 The first parameter to `required_files` describes the location(s) that will be searched. This can be a file name, a folder name or a list containing both file or folder names, either as absolute paths, or relative to the current working directory. GraphLab Create automatically extracts the required files and ships them to the Predictive Service cluster. The second parameter is a file name "glob" pattern that is used to select only the files that are needed. It is implemented using the [fnmatch](https://docs.python.org/2/library/fnmatch.html) Python package.
+
+In order to refer to a generic file (other than a Python module) uploaded through this mechanism, you can use an environment variable to get its path:
+
+```python
+@graphlab.deploy.required_files('lookup_table.csv')
+def recommend_similar_products(product_id):
+    file_path = os.path.join(os.environ['DATO_PS_DEPENDENT_FILE_PATH'],
+                             'lookup_table.csv')
+    lookup_table = graphlab.SFrame(file_path)
+    ...
+```
