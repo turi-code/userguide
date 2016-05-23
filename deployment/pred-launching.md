@@ -60,6 +60,7 @@ There are additional, optional parameters to [`create`](https://dato.com/product
 5. an SSL credential pair for HTTPS
 6. a string value to use as HTTP header Access-Control-Allow-Origin
 7. the administration port the server will listen to (see below)
+8. the type of load balancer (can be "internal" to support deployments in private subnets)
 
 Print the deployment object to inspect some of these important parameters, such as the information necessary to connect to the deployment from an application and the list of deployed Predictive Objects. This also indicates whether there are any pending changes.
 
