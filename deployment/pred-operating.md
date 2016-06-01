@@ -9,6 +9,10 @@ The chapter about [Monitoring and Metrics](pred-monitoring.md) shows how to gain
 
 [Administration](pred-administration.md) explains how a running predictive service can be reconfigured and managed:
 * Starting and terminating,
-* Changing the number of nodes and replacing nodes,
+* Replacing nodes,
 * Changing the cache configuration and behavior, and
 * Modifying cross-origin request behavior.
+
+[Scale](pred-scale.md) elaborates on APIs that let you:
+* Scale out by adding nodes to the service,
+* Scale up by parallelizing execution.
