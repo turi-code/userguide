@@ -47,7 +47,7 @@ $(document).ready( function(event){
         var data = {
           viewed: 1
         };
-        client.feedback(resp.data.uuid, { data : data }, function(err, resp) {
+        client.feedback(resp.data.uuid, data, function(err, resp) {
           if(err) {
             console.log(err);
           }
@@ -66,7 +66,7 @@ $(document).ready( function(event){
           itemId: itemId,
           click: 1
         };
-        client.feedback(uuid, { data : data }, function(err, resp) {
+        client.feedback(uuid, data, function(err, resp) {
           if(err) {
             console.log(err);
           }
