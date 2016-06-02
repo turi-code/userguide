@@ -10,3 +10,8 @@ body .book .book-header h1 {
 .book .book-body .page-wrapper .page-inner section#recview{
   display: inline-block;
 }
+
+.book .book-body .page-wrapper .page-inner section#recview h3 {
+  margin-top: .45em;
+  margin-bottom: .25em;
+}

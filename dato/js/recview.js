@@ -89,7 +89,8 @@ $(document).ready( function(event){
       if(resp.data.response.length){
         const section = document.createElement('section');
         section.id = 'recview';
-        const h2 = document.createElement('h2');
+        section.className = 'normal';
+        const h2 = document.createElement('h3');
         h2.innerText = 'Recommended Resources';
         const root = document.createElement('div');
         root.id = 'recroot';
@@ -121,7 +122,11 @@ $(document).ready( function(event){
     var snowplowId = getSnowplowDuid();
 
     // Construct full URL using the window's pathname.
-    var url = 'https://dato.com/learn/userguide' + window.location.pathname;
+    var url = window.location.pathname;
+    if (url.indexOf('_book') != -1) {
+      url = url.split('_book').pop();
+    }
+    url = 'https://dato.com/learn/userguide' + url;
 
     const data = {
       query: url,
