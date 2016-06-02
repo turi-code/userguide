@@ -54,10 +54,13 @@ $(document).ready( function(event){
         });
       }
 
-      // onClick event for links in recommender list
-      // parameters: uuid, and itemId
-      // calls feedback funciton in PS client
+      // onClick event for links in recommender list.
+      // Parameters:
+      // * uuid: an identifier for the request with these recommendations
+      // * itemId: clicked item, which is a URL that they want to visit.
+      // Calls feedback function in PS client to log this event.
       function onClick(uuid, itemId) {
+
         // Calls client feedback function and sends uuid and feedbackData
         var data = {
           itemId: itemId,
@@ -67,7 +70,7 @@ $(document).ready( function(event){
           if(err) {
             console.log(err);
           }
-          window.location.replace(itemId);
+          window.location.assign(itemId);
         });
       }
 
@@ -115,7 +118,7 @@ $(document).ready( function(event){
 
     // gets snowplowId from cookie and constructs url to send in query
     // Once we have schema for data sent in query to endpoint we need to add snowplowId
-    let snowplowId = getSnowplowDuid();
+    var snowplowId = getSnowplowDuid();
 
     // Construct full URL using the window's pathname.
     var url = 'https://dato.com/learn/userguide' + window.location.pathname;
