@@ -189,7 +189,7 @@ Description=myodbc
 Driver=myodbc
 ; Name of the database you want to connect to within mySQL
 Database=test
-Servername=localhost
+Server=localhost
 Port=3306
 ```
 
@@ -317,14 +317,14 @@ UsageCount = 1
 
 Now we need to create the DSN definition in the USER DATA SOURCES location returned by ```odbcinst -j```, from this output we need to edit ```/Users/rajat/.odbc.ini```. Notice that the Driver field below refers to the name of the section added in the previous step (myodbc).
 
-Remember to update the Database, Servername, and Port fields appropriately for your machine.
+Remember to update the Database, Server, and Port fields appropriately for your machine.
 
 ```ini
 [mysqltest]
 Description=myodbc
 Driver=myodbc
 Database=test
-Servername=localhost
+Server=localhost
 Port=3306
 ```
 
