@@ -55,7 +55,7 @@ $(document).ready( function(event){
         h2.innerText = 'Recommended Resources';
         const root = document.createElement('div');
         root.id = 'root';
-        const list = document.createElement('ol');
+        const list = document.createElement('ul');
         list.id = 'list';
 
         root.appendChild(list);
@@ -73,7 +73,7 @@ $(document).ready( function(event){
           let listEl = document.createElement('li');
           let link = document.createElement('a');
           link.className = 'recommendation';
-          link.href = resp.data.response[i].itemId;
+          link.href = resp.data.response[i].page_url;
           link.innerText = resp.data.response[i].title;
           link.addEventListener('click', feedback);
           listEl.appendChild(link);
@@ -89,15 +89,17 @@ $(document).ready( function(event){
 
           // once we know the schema for what to send back on mouseOver the recommendations
           // uncomment code and set data
-          // var data = {};
-          // client.feedback(resp.data.uuid, { data }, function(err, resp) {
-          //   if(err) {
-          //     console.log(err);
-          //   }
-          //   console.log(resp);
-          // });
+          var data = {
+            'viewed': 1
+          };
+          client.feedback(resp.data.uuid, { data }, function(err, resp) {
+            if(err) {
+              console.log(err);
+            }
+            console.log(resp);
+          });
         }
-        $( 'ol#list' ).one( "mouseover", mouseOverCB );
+        $( 'ul#list' ).one( "mouseover", mouseOverCB );
       }
 
       // onClick event for links in recommender list
@@ -108,7 +110,7 @@ $(document).ready( function(event){
         console.log(uuid);
         console.log(itemId);
         // Calls client feedback function and sends uuid and feedbackData
-        var data = {'itemId': itemId};
+        var data = {'itemId': itemId, 'click': 1};
         client.feedback(uuid, { data }, function(err, resp) {
           if(err) {
             console.log(err);
@@ -121,13 +123,30 @@ $(document).ready( function(event){
 
     // gets snowplowId from cookie and constructs url to send in query
     // Once we have schema for data sent in query to endpoint we need to add snowplowId
-    const snowplowId = getSnowplowDuid();
+    let snowplowId = getSnowplowDuid();
 
-    const url = 'https://dato.com/learn/userguide/' + window.location.pathname;
+    // TODO: If no snowplotId is found, send -1 as a user id. It would be better
+    // if getSnowplowDuid reliably returned a valid user id.
+    if (!snowplowId) {
+      snowplowId = -1;
+    }
+
+
+    // Construct full URL using the window's pathname.
+    let url = window.location.pathname;
+    url = url.replace('/learn/userguide/', 'https://dato.com/learn/userguide/');
+    if (url.includes('_book')) {
+      url = url.split('_book/').pop();
+      url = 'https://dato.com/learn/userguide/' + url;
+    }
 
     // Hardcoding url; need to replace with url constant
     // Right now endpoint is not returning recommendations for other pages
-    const data = {'query': 'https://dato.com/products/create/docs/generated/graphlab.SFrame.html'};
+    const data = {
+      'query': url,
+      'user': snowplowId,
+      'k': 5
+    };
 
     // Initialize PS Client
     var client = new PredictiveServiceClient('http://chris-userguide-62760213.us-west-2.elb.amazonaws.com',
