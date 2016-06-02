@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Local Outlier Factor
 The local outlier factor (LOF) method scores points in a multivariate dataset whose rows are assumed to be generated independently from the same probability 
 distribution.

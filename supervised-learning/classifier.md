@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Classification
 **Classification** is the problem of predicting a **categorical target**
 using training data. The key difference between **regression** and

@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Introduction
 There are two ways to read data from a SQL database in to GraphLab Create:
 

@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Product sentiment
 
 This toolkit aims to help you explore and summarize sentiment about products within text data. The toolkit enables to search for aspects of interest and obtain summaries of the reviews or sentences with the most positive (or negative) predicted sentiment.

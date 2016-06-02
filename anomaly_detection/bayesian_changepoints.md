@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Bayesian Changepoints
 The [`Bayesian Changepoints`](https://dato.com/products/create/docs/generated/graphlab.toolkits.anomaly_detection.bayesian_changepoints.create.html) model scores changepoint probability in a univariate sequential dataset, often a time series. Changepoints are abrupt changes in the mean or variance of a time series. For instance, during an economic recession, stock values might suddenly drop to a very low value. The time at which the stock value dropped is called a changepoint. 
 

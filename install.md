@@ -1,3 +1,5 @@
+<script src="../dato/js/recview.js"></script>
+
 #Getting Started
 In order to install GraphLab Create, please visit the [installation page on dato.com](https://dato.com/download/install.html) in order to
 

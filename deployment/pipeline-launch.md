@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Asynchronous Job Executions
 
 This section describes how to execute a job asynchronously, but on the same machine. Consequently this does not count as a remote or distributed execution, and hence does not depend on Dato Distributed. For the sake of completeness it is still included in this chapter.

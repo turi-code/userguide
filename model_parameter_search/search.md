@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Defining the search
 
 Dato Distributed supports several specific methods for doing model parameter search. 

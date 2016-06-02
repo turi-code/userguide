@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Basic Loading and Saving
 
 SFrames can import data in a [variety of formats](../data_formats_and_sources/intro.md),

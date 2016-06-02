@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Random Projection
 
 Random projection is a tool for representing high-dimensional data in a low-dimensional feature space, typically for data visualization or methods that rely on fast computation of pairwise distances, like nearest neighbors searching and nonparametric clustering.
