@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Random Forest Regression 
 The Random Forest is one of the most effective machine learning
 models for predictive analytics, making it an industrial workhorse for

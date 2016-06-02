@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Sentiment Analysis
 
 This toolkit allows you to take text and predict whether it contains positive or negative sentiment. For instance, the model will predict "positive sentiment" for a snippet of text -- whether it is a movie review or a tweet -- when it contains words like "awesome" and "fantastic". Likewise, having many words with a negative connotation will yield a prediction of "negative sentiment".

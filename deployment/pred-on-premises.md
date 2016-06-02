@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Predictive Services On-Premises
 
 While providing a convenient and flexible environment for running a predictive service, not all scenarios are suited for a cloud-based deployment. For reasons of privacy, security, or cost you might prefer to host your predictive service locally, on a machine you own and control. We call this a Predictive Services on-premises deployment.

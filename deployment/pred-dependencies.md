@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Handling Dependencies
 
 In this section we explain how you can specify the dependency of your methods on Python packages or files.

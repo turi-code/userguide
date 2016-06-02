@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Nearest Neighbor Classifier
 The [nearest neighbor classifier](https://dato.com/products/create/docs/generated/graphlab.nearest_neighbor_classifier.NearestNeighborClassifier.html)
 is one of the simplest classification models, but it often performs nearly as

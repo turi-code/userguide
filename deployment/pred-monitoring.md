@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Monitoring and Metrics
 
 Dato Predictive Services provides a set of interfaces to gain insight into a running Predictive Services deployment, both visually as well as APIs.

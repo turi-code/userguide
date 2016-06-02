@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Linear Regression 
 GraphLab's
 [linear regression](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.html)

@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Count Thresholder 
 
 Count Thresholder allows you to map infrequent categorical variables to a new/separate category. Input columns

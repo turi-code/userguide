@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Launching a Predictive Service
 
 #### Configuration

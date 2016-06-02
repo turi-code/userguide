@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Record linker
 The record linker tool matches structured query records to a fixed set of
 reference records with the same schema. A common example of this is matching

@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Best Security Practices for Predictive Services
 
 The premise of Dato Predictive Services is to make it easy to deploy your models into production, by turning them into endpoints than can be managed and queried. This has a number of implications with a security aspect:

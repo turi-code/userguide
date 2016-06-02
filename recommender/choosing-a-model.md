@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Choosing a Model
 In this section, we give some intuition for which modeling choices you may make depending on your data and your task.
 

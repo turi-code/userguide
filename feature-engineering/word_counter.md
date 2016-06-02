@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Word Counter
 
 Bag-of-words is a common text representation. An input text string is first 

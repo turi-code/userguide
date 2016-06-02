@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Administration
 
 The following sub-sections explain how various properties of a deployed predictive service can be modified, like scaling up/down, changing the cache behavior, or constraining requests across domains.

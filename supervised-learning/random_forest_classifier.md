@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Random Forest Classifier
  
 A Random Forest classifier is one of the most effective machine learning models

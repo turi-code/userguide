@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Moving Z-Score
 The [`Moving Z-score model`](https://dato.com/products/create/docs/generated/graphlab.toolkits.anomaly_detection.moving_zscore.create.html) scores anomalies in a univariate sequential dataset, often a time series.
 

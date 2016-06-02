@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Using a trained churn predictor model 
 
 In this chapter, we will explore how to use a trained churn predictor model.

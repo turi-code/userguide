@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Examples
 To illustrate some of these methods, we'll use a previously created SGraph where
 vertices represent Wikipedia articles about US businesses and edges represent

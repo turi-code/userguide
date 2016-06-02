@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Distributing model parameter search
 
 For all model parameter search methods and `cross_val_score`, you have the choice of running the jobs locally or remotely.

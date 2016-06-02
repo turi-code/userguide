@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #K-means
 
 **K-means** finds cluster centers for a predetermined number of clusters ("K")
