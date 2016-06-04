@@ -142,5 +142,5 @@ $(document).ready( function(event){
     client.query('userguide-recommender', data, renderView);
   }
 
-  loadScript('http://static.dato.com/files/scripts/predictive-service-client/ps-client.js');
+  loadScript('https://static.dato.com/files/scripts/predictive-service-client/ps-client.js');
 });
