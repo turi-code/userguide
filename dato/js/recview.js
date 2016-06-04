@@ -135,8 +135,8 @@ $(document).ready( function(event){
     };
 
     // Initialize PS Client
-    var client = new PredictiveServiceClient('http://chris-userguide-62760213.us-west-2.elb.amazonaws.com',
-    'aea65cf8-8386-4369-98ec-f268fd5adcaf');
+    var client = new PredictiveServiceClient('https://userguide-recommender.dato.com',
+    '078b4189-96cd-4329-87a2-20967a751bf3');
 
     //Query PS Client
     client.query('userguide-recommender', data, renderView);
