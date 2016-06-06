@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Advanced Features
 
 In order for functions to be portable, any additional Python packages need to

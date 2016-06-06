@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Working with Tabular Data
 
 It's quite common that when you first get your hands on a dataset, it will be

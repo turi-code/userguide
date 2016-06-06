@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # How does this model work? 
 
 There two stages during the model training phase:

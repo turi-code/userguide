@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Feature Binning
 
 Feature binning is a method of turning continuous variables into categorical

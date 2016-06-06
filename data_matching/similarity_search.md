@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Similarity Search
 **Similarity search** is the task of matching complex data objects like images
 and documents. Like [nearest neighbors search](https://dato.com/products/create/

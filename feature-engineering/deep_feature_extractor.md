@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Deep Feature Extractor
 
 Takes an input dataset, propagates each example through the network, and

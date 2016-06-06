@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Gradient Boosted Regression Trees
 The Gradient Boosted Regression Trees (GBRT) model (also called Gradient
 Boosted Machine or GBM), is one of the most effective

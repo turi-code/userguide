@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Analysis
 
 Suppose our text data is currently arranged into a single file, where each line
@@ -88,7 +89,7 @@ Another useful representation for text data is called TF-IDF (term frequency -
 inverse document frequency). This is a modification of the bag-of-words format
 where the counts are transformed into scores: words that are common across the
 document corpus are given low scores, and rare words occurring often in a
-document are given high scores. 
+document are given high scores.
 
 $$ \mbox{TF-IDF}(word, document) = N(word, document) * log(1/\sum_d N(word, d))) $$
 
@@ -106,7 +107,7 @@ sf['tfidf'] = graphlab.text_analytics.tf_idf(sf['bow'])
 The BM25 score is yet another useful representation for text data. It scores
 each document in a corpus according to the document's relevance to a particular
 query. For a query with terms $$q_1, \ldots, q_n$$, the BM25 score for document $$d$$ is:
- 
+
 $$
     \mbox{BM25}(d) = \sum_{i=1}^n IDF(q_i) \frac{f(q_i) * (k_1+1)}{f(q_i) + k_1 * (1-b+b*|D|/d_{avg}))}
 $$
@@ -132,7 +133,7 @@ http://en.wikipedia.org/wiki/Okapi_BM25.
 query = ['beatles', 'john', 'paul']
 bm25_scores = graphlab.text_analytics.bm25(dataset, query)
 ```
-##### Text cleaning 
+##### Text cleaning
 
 We can easily remove all words do not occur at least twice in each document
 using [SArray.dict_trim_by_values](https://dato.com/products/create/docs/generated/graphlab.SArray.dict_trim_by_values.html).
@@ -142,7 +143,7 @@ docs = sf['bow'].dict_trim_by_values(2)
 ```
 
 Alternatively, we can remove all words which do not occur at least ```threshold```
-number of times using the [RareWordTrimmer](../feature-engineering/word_trimmer.md).
+number of times using the [RareWordTrimmer](../feature-engineering/rare_word_trimmer.md).
 
 GraphLab Create also contains a helper function called
 [stopwords](https://dato.com/products/create/docs/generated/graphlab.text_analytics.stopwords.html?highlight=stopwords#graphlab.text_analytics.stopwords)
@@ -180,7 +181,7 @@ docs[0]
 
 #####Tokenization
 
-For an SArray of strings, where each row is assumed to be a natural English language document, the tokenizer transforms each row into an ordered list of strings that represents the a simpler version of the Penn-Tree-Bank-style (PTB-style) tokenization of that row's document. For many text analytics tasks that require word-level granularity, simple space delimitation does not address some of the subtleties of natural language text, especially with respect to contractions, sentence-final punctuation, URL's, email addresses, phone numbers, and other quirks. The representation of a document provided by PTB-style of tokenization is essential for sequence-tagging, parsing, bag-of-words treatment, and any text analytics task that requires word-level granularity. For a description of this style of tokenization, see https://www.cis.upenn.edu/~treebank/tokenization.html. 
+For an SArray of strings, where each row is assumed to be a natural English language document, the tokenizer transforms each row into an ordered list of strings that represents the a simpler version of the Penn-Tree-Bank-style (PTB-style) tokenization of that row's document. For many text analytics tasks that require word-level granularity, simple space delimitation does not address some of the subtleties of natural language text, especially with respect to contractions, sentence-final punctuation, URL's, email addresses, phone numbers, and other quirks. The representation of a document provided by PTB-style of tokenization is essential for sequence-tagging, parsing, bag-of-words treatment, and any text analytics task that requires word-level granularity. For a description of this style of tokenization, see https://www.cis.upenn.edu/~treebank/tokenization.html.
 
 ```python
 tokenized_docs = graphlab.SFrame()
@@ -281,4 +282,4 @@ Data:
 [72269 rows x 1 columns]
 ```
 
-Note that this API requires spaCy to be [installed](https://spacy.io/docs#getting-started). 
+Note that this API requires spaCy to be [installed](https://spacy.io/docs#getting-started).

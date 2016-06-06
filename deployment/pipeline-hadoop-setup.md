@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Setting up Dato Distributed on Hadoop
 
 Dato Distributed runs either in the Cloud (using AWS) or on-premises (Hadoop/YARN). If you use it in the Cloud the setup of Dato Distributed happens behind the scenes, all you need is to provide your credentials for AWS. If you decide to use Dato Distributed in your own Hadoop cluster, you will first need to download and install it there.

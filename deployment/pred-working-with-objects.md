@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Working with Objects
 Dato Predictive Services host your models in a scalable REST-ful webservice. In addition to all GraphLab Create models, we support _custom predictive objects_ for composing multiple Models and GraphLab Create data structures. With custom predictive objects, you can deploy arbitrary business logic on top of your models simply by defining a Python function. In this chapter we will demonstrate both the usage of a GraphLab Create model as well as a Custom Predictive Object in a predictive service.
 

@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Querying Predictive Services
 
 In this section we cover the various ways to query a Predictive Service.

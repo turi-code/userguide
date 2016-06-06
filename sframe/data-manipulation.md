@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Data Manipulation
 
 It isn't often that your dataset is "clean" enough to run one of our toolkits on

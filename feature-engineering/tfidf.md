@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #TF-IDF
 
 The prototypical application of TF-IDF transformations involves

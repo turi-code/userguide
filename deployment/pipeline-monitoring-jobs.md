@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Monitoring Jobs
 
 Jobs are designed to be asynchronous objects. Once they are created (using the

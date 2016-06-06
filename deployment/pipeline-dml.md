@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Distributed Machine Learning
 
 In the previous chapter we showed how to run jobs in a Dato Distributed cluster. While this gives you the benefit of executing arbitrary python code, you have to specify how the execution should be distributed yourself.

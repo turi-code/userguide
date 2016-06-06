@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Getting Started with Predictive Services
 
 In this section we will walk through an end-to-end example of deploying and using a Predictive Service. For more information about each aspect see the subsequent chapters of the User Guide.

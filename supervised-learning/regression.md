@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Regression
 **Regression** is the problem of learning a functional relationship between
 **input features** and an **output target** using training data where the
