@@ -2,7 +2,7 @@
 
 A predictive service can scale with its performance requirements in two ways:
 
-* Scale out by adding mode physical nodes,
+* Scale out by adding more physical nodes,
 * Scale up by parallelizing code execution.
 
 In this chapter, we will outline both methods.
@@ -18,8 +18,8 @@ There exists a corresponding function [`remove_nodes`](https://dato.com/products
 
 #### Scale up
 
-In order to optimally utilize the system resources within each node, you can adjust the degree of parallelism of the model evaluator component and hence increase the service's througput. By default, only a single model evaluator process is running within each node. Increasing this number through the [`set_scale_factor`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.set_scale_factor.html#graphlab.deploy.PredictiveService.set_scale_factor) API will spin up additional model evaluator processes, consuming not only CPU cycles, but also additional memory.
+In order to optimally utilize the system resources within each node, you can adjust the degree of parallelism of the model evaluator component and hence increase the service's throughput. By default, only a single model evaluator process is running within each node. Increasing this number through the [`set_scale_factor`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.set_scale_factor.html#graphlab.deploy.PredictiveService.set_scale_factor) API will spin up additional model evaluator processes, consuming not only CPU cycles, but also additional memory.
 
-We recommend that you increase this number slowly, while closely monitoring the memory consumption of the service as it is put under load. Specifically for models with a large memory footprint increasing the scale factor will have a significant effect. You can get a momentary snapshot of memory usage through [`get_status`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_status.html#graphlab.deploy.PredictiveService.get_status) and track the behavior over time on CloudWatch.
+Each scale unit requires additional memory for deployed models. We recommend that you increase this number slowly, while closely monitoring the memory consumption of the service as it is put under load. Exceeding the total memory will have negative results. You can get a momentary snapshot of memory usage through [`get_status`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_status.html#graphlab.deploy.PredictiveService.get_status) and track the behavior over time on CloudWatch.
 
-Note that the number of cores is the upper limit for the scale factor. Any number higher than that will not have a beneficial effect on throughput anymore.
+Note that the number of cores is the upper limit for the scale factor. Any number higher than that should not have a beneficial effect on throughput anymore.
