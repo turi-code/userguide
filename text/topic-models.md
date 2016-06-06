@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Topic Models 
 "Topic models" are a class of statistical models for text data. These models typically assume documents can be described by a small set of topics, and there is a probability of any word occurring for a given "topic".
 

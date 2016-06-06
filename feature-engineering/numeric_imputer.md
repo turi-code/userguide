@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Numeric Imputer 
 
 NumericImputer allows you to impute missing values with feature means. Input columns to the NumericImputer

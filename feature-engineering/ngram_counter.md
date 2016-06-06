@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # NGram Counter
 
 An ngram is a sequence of n consecutive tokens. NGrams are often used to

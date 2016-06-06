@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Churn prediction
 
 Churn prediction is the task of identifying whether users are likely to stop

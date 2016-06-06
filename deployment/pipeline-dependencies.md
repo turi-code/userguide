@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Managing Dependencies
 
 Any additional Python packages required for your job execution need to be known to the framework in order to ensure those packages are installed prior to running the function within a job. Such packages need to be specified when defining the cluster environment through

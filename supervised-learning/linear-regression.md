@@ -1,7 +1,8 @@
-#Linear Regression 
-GraphLab's
-[linear regression](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.html)
-module is used to predict a continuous **target** as a
+<script src="../dato/js/recview.js"></script>
+
+#Linear Regression
+
+GraphLab's [linear regression](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.html) module is used to predict a continuous **target** as a
 linear function of **features**. This is a two-stage process, analogous to many
 other GraphLab toolkits. First a model is created (or trained), using **training
 data**. Once the model is created, it can then be used to make predictions on
@@ -647,4 +648,3 @@ model = gl.linear_regression.create(train_data, target='stars',
                                     l1_penalty = 1.0,
                                     l2_penalty = 1.0)
 ```
-

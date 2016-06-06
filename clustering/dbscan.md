@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #DBSCAN
 **DSBCAN**, short for Density-Based Spatial Clustering of Applications with
 Noise, is the most popular density-based clustering method. Density-based

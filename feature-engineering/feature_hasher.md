@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Feature Hashing 
 
 Hashes an input feature space to an n-bit feature space. Feature hashing is an

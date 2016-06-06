@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Deduplication
 The GraphLab Create **deduplication** tool ingests data in one or more SFrames
 and assigns an entity label to each row. Records with the same label likely

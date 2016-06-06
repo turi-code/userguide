@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Experimentation
 A core feature of serving a model as a service in a production environment is the ability to experiment with multiple models and measure their respective success.
 

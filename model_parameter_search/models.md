@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Models
 
 The [`model_parameter_search.create`](https://dato.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.create.html) method has executed a search of parameters over a pre-defined space of possibilities. 

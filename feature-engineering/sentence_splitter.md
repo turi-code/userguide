@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Sentence Splitter
 
 The SentenceSplitter takes SFrame columns of type string or list,
@@ -15,8 +16,6 @@ If the SFrame to be transformed already contains a column with the
 designated output column name, then that column will be replaced with the
 new output. In particular, this means that `output_column_prefix=None` will
 overwrite the original feature columns.
-
-Currently, the SentenceSplitter is not deployable in a predictive service. 
 
 #### Introductory examples
 ```python

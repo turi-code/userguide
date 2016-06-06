@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 #Neuralnet Classifier
 The deep learning module is useful to create and manipulate different neural
 network architectures. The core of this module is the

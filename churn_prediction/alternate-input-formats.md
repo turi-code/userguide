@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Alternate data formats
 
 The churn predictor model supports data with 3 formats

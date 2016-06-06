@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Part of Speech Extractor
 
 PartOfSpeechExtractor takes SFrame columns of type string and list,
@@ -16,7 +17,6 @@ designated output column name, then that column will be replaced with the
 new output. In particular, this means that `output_column_prefix=None` will
 overwrite the original feature columns.
 
-Currently, the PartOfSpeechExtractor is not deployable in a predictive service. 
 
 #### Introductory examples
 ```python

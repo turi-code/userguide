@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # End-to-End Example: Remotely Generate Batch Recommendations
 
 In this example, we demonstrate how to implement a recommender and run it as a remote job. The recommender is implemented as three functions:

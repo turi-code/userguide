@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Logging and Feedback
 
 A predictive service that you can query is the core of deploying machine learning to production. This feature, however, would not be truly powerful without the ability to gain insight into the service's behavior and to qualify the service's responses. Dato Predictive Services' logging and feedback APIs fulfill this requirement.

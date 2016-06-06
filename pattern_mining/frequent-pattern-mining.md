@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Frequent Pattern Mining
 
 A frequent pattern is a substructure that appears frequently in a dataset.

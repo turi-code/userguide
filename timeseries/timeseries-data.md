@@ -1,3 +1,4 @@
+<script src="../dato/js/recview.js"></script>
 # Time series
 
 For data sources such as usage logs, sensor measurements, and financial instruments,
