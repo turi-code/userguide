@@ -76,6 +76,7 @@ This is the User Guide for GraphLab Create
         * [Deduplication](data_matching/deduplication.md)
         * [Autotagger](data_matching/autotagger.md)
         * [Similarity Search](data_matching/similarity_search.md)
+    * [Lead Scoring](lead_scoring/lead_scoring.md)
     * [Churn prediction](churn_prediction/quick-start.md)
         * [Using a trained model](churn_prediction/using-a-trained-model.md)
         * [Alternate input formats](churn_prediction/alternate-input-formats.md)
