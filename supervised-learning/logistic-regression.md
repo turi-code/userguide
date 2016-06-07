@@ -1,5 +1,7 @@
 <script src="../dato/js/recview.js"></script>
+
 #Logistic Regression
+
 Logistic regression is a regression model that is popularly used for
 classification tasks. In logistic regression, the probability that a  **binary
 target is True** is modeled as a [logistic
