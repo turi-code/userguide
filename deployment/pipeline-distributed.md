@@ -130,7 +130,7 @@ def add_combiner(**kwargs):
 dd-deployment = 'hdfs://our.cluster.com:8040/user/name/turi-dist-folder'
 
 hadoop = gl.deploy.hadoop_cluster.create(name='add_hadoop',
-                                         turi_dist_path=dd-deployment,
+                                         turi_dist_path=td-deployment,
                                          hadoop_conf_dir=,'~/yarn-conf',
                                          num_containers=3)
 
