@@ -14,7 +14,7 @@ In order to keep the appearance of the User Guide consistent, we are recommendin
  * Wrap the string in backticks: `graphlab.deploy.map_job.create`
  * Use the entire namespace chain upon first mention, then just the member: `create`
  * Don't use parentheses, unless you include the entire signature.
- * Link an inline API to the public API docs on dato.com, at least upon first mention.
+ * Link an inline API to the public API docs on turi.com, at least upon first mention.
 
 #### Code Snippets
 * Annotate Python code with `python`

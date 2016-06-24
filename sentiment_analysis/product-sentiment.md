@@ -1,15 +1,15 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Product sentiment
 
 This toolkit aims to help you explore and summarize sentiment about products within text data. The toolkit enables to search for aspects of interest and obtain summaries of the reviews or sentences with the most positive (or negative) predicted sentiment.
 
 ## Summarizing sentiment
 
-As a quick example, suppose we want to summarize people's Comcast complaints. We can use [`graphlab.product_sentiment.create`](https://dato.com/products/create/docs/generated/graphlab.product_sentiment.create.html#graphlab.product_sentiment.create) to build a model that can be queried for summaries of product sentiment:
+As a quick example, suppose we want to summarize people's Comcast complaints. We can use [`graphlab.product_sentiment.create`](https://turi.com/products/create/docs/generated/graphlab.product_sentiment.create.html#graphlab.product_sentiment.create) to build a model that can be queried for summaries of product sentiment:
 
 ```python
 >>> import graphlab as gl
->>> sf = gl.SFrame('s3://dato-datasets-oregon/comcast_fcc_complaints_apr_june_2015/comcast.csv')
+>>> sf = gl.SFrame('s3://static.turi.com/datasets/datasets-oregon-oregon/comcast_fcc_complaints_apr_june_2015/comcast.csv')
 >>> m = gl.product_sentiment.create(sf, features=['Description'], splitby='sentence')
 >>> m.sentiment_summary(['billing', 'cable', 'cost', 'late', 'charges', 'slow'])
 +---------+----------------+-----------------+--------------+
@@ -28,7 +28,7 @@ Here we see that there are 369 sentences that mention "slow", and the mean predi
 
 ## Under the hood
 
-In the example above, we created a [`ProductSentimentModel`](https://dato.com/products/create/docs/generated/graphlab.product_sentiment.ProductSentimentModel.html#graphlab.product_sentiment.ProductSentimentModel) using the text in the "Description" column. While creating the model, several operations are completed under the hood:
+In the example above, we created a [`ProductSentimentModel`](https://turi.com/products/create/docs/generated/graphlab.product_sentiment.ProductSentimentModel.html#graphlab.product_sentiment.ProductSentimentModel) using the text in the "Description" column. While creating the model, several operations are completed under the hood:
 
 - a data structure is created that helps facilitate searching for text snippets, including doing a TF-IDF transform of the text and creating an inverted index.
 - each piece of text is tokenized into sentences using NLTK's punkt sentence parser.
@@ -95,7 +95,7 @@ value found in this column. For instance, this could be the column
 containing product names.
 
 ```python
->>> data = gl.SFrame('http://s3.amazonaws.com/dato-datasets/coursera/amazon_baby_products/amazon_baby.gl')
+>>> data = gl.SFrame('http://static.turi.com/datasets/coursera/amazon_baby_products/amazon_baby.gl')
 >>> data = data.head(10000)[['name', 'review']]
 >>> m = gl.product_sentiment.create(data, features=['review'])
 >>> m.get_most_negative(['cheap'], groupby='name', k=3)

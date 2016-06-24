@@ -1,6 +1,6 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Nearest Neighbor Classifier
-The [nearest neighbor classifier](https://dato.com/products/create/docs/generated/graphlab.nearest_neighbor_classifier.NearestNeighborClassifier.html)
+The [nearest neighbor classifier](https://turi.com/products/create/docs/generated/graphlab.nearest_neighbor_classifier.NearestNeighborClassifier.html)
 is one of the simplest classification models, but it often performs nearly as
 well as more sophisticated methods.
 
@@ -27,7 +27,7 @@ requires careful thought and domain knowledge. A function must be specified to
 measure the distance between any two data points, and then the size of
 "neighborhoods" relative to this distance function must be set.
 
-For the first step, there are many standard distance functions (e.g. Euclidean, Jaccard, Levenshtein) that work well for data whose features are all of the same type, but for heterogeneous data the task is a bit trickier. GraphLab Create overcomes this problem with **composite distances**, which are weighted sums of standard distance functions applied to appropriate subsets of features. For more about distance functions in GraphLab Create, including composite distances, please see the [API documentation for the distances module](https://dato.com/products/create/docs/graphlab.toolkits.distances.html). The end of this chapter describes how to use a composite distance with the nearest neighbor classifier in particular.
+For the first step, there are many standard distance functions (e.g. Euclidean, Jaccard, Levenshtein) that work well for data whose features are all of the same type, but for heterogeneous data the task is a bit trickier. GraphLab Create overcomes this problem with **composite distances**, which are weighted sums of standard distance functions applied to appropriate subsets of features. For more about distance functions in GraphLab Create, including composite distances, please see the [API documentation for the distances module](https://turi.com/products/create/docs/graphlab.toolkits.distances.html). The end of this chapter describes how to use a composite distance with the nearest neighbor classifier in particular.
 
 Once the distance function is defined, the user must indicate the criteria for
 deciding when training data are in the "neighborhood" of a prediction point.
@@ -61,7 +61,7 @@ filename = 'yelp-data.csv'
 if os.path.exists(filename):
     data = gl.SFrame.read_csv(filename)
 else:
-    data =  gl.SFrame('http://s3.amazonaws.com/dato-datasets/regression/{}'.format(filename))
+    data =  gl.SFrame('http://static.turi.com/datasets/regression/{}'.format(filename))
     data.save(filename, format='csv')
 
 train_data, test_data = data.random_split(0.9)
@@ -190,7 +190,7 @@ maps each word to the number of times that word appears:
 'birthday': 1, 'blend': 1, 'bloody': 1, 'bread': 1, 'breakfast': 1, ... }
 ```
 
-The `weighted_jaccard` distance measures the difference between two sets, weighted by the counts of each element (please see the [API documentation](https://dato.com/products/create/docs/generated/graphlab.toolkits.distances.weighted_jaccard.html#graphlab.toolkits.distances.weighted_jaccard) for details). To combine this output with the numeric distance we used above, we specify a **composite distance**. Each element in this list includes a list (or tuple) of feature names, a standard distance function name, and a numeric weight. The weight on each component can be adjusted to produce the same effect as normalizing features.
+The `weighted_jaccard` distance measures the difference between two sets, weighted by the counts of each element (please see the [API documentation](https://turi.com/products/create/docs/generated/graphlab.toolkits.distances.weighted_jaccard.html#graphlab.toolkits.distances.weighted_jaccard) for details). To combine this output with the numeric distance we used above, we specify a **composite distance**. Each element in this list includes a list (or tuple) of feature names, a standard distance function name, and a numeric weight. The weight on each component can be adjusted to produce the same effect as normalizing features.
 
 ```python
 my_dist = [
@@ -209,9 +209,9 @@ print accuracy
 
 Adding the text feature appears to slightly improve the accuracy of our
 classifier. For more information, please see the following resources:
-- [User Guide chapter on nearest neighbors search](https://dato.com/learn/userguide/nearest_neighbors/nearest_neighbors.html)
-- [API documentation on the nearest neighbor classifier](https://dato.com/products/create/docs/generated/graphlab.nearest_neighbor_classifier.NearestNeighborClassifier.html)
-- [API documentation on the distances module](https://dato.com/products/create/docs/graphlab.toolkits.distances.html)
+- [User Guide chapter on nearest neighbors search](https://turi.com/learn/userguide/nearest_neighbors/nearest_neighbors.html)
+- [API documentation on the nearest neighbor classifier](https://turi.com/products/create/docs/generated/graphlab.nearest_neighbor_classifier.NearestNeighborClassifier.html)
+- [API documentation on the distances module](https://turi.com/products/create/docs/graphlab.toolkits.distances.html)
 - [Wikipedia on the k-nearest neighbors algorithm](http://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm)
 
 

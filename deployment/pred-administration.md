@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Administration
 
 The following sub-sections explain how various properties of a deployed predictive service can be modified, like scaling up/down, changing the cache behavior, or constraining requests across domains.
@@ -12,7 +12,7 @@ deployment = graphlab.deploy.predictive_service.create(
     'first', ec2, 's3://my-bucket/my-service-path')
 ```
 
-A reference to an existing predictive service can be retrieved through the [`load`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.load.html) API:
+A reference to an existing predictive service can be retrieved through the [`load`](https://turi.com/products/create/docs/generated/graphlab.deploy.predictive_service.load.html) API:
 
 ```python
 deployment = graphlab.deploy.predictive_service.load(
@@ -49,7 +49,7 @@ You can load a reference to a predictive service from this list like this:
 deployment = graphlab.deploy.predictive_services[0]
 ```
 
-To terminate a Predictive Service, call the [`terminate_service`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.terminate_service.html) method. There are options to delete the logs and predictive objects as well. **Note:** There is no warning or confirmation on this method; it will terminate the EC2 instances and tear down the Elastic Load Balancer.
+To terminate a Predictive Service, call the [`terminate_service`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.terminate_service.html) method. There are options to delete the logs and predictive objects as well. **Note:** There is no warning or confirmation on this method; it will terminate the EC2 instances and tear down the Elastic Load Balancer.
 
 ```python
 deployment.terminate_service()
@@ -57,7 +57,7 @@ deployment.terminate_service()
 
 #### Recovering from node failure
 
-Occasionally, Predictive Service nodes fail. How would you discover this problem in the first place? Most likely, you’ve found that occasionally queries are timing out. Or better yet, you have configured [CloudWatch](http://aws.amazon.com/cloudwatch/) metrics monitoring for your service and you received an alert indicating that something is wrong. You can manually inspect the status of the deployment with the `get_status` method. If you find that a node is unreachable ("Unable to connect"), you may decide to replace the node using [`replace_nodes`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.replace_nodes.html).
+Occasionally, Predictive Service nodes fail. How would you discover this problem in the first place? Most likely, you’ve found that occasionally queries are timing out. Or better yet, you have configured [CloudWatch](http://aws.amazon.com/cloudwatch/) metrics monitoring for your service and you received an alert indicating that something is wrong. You can manually inspect the status of the deployment with the `get_status` method. If you find that a node is unreachable ("Unable to connect"), you may decide to replace the node using [`replace_nodes`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.replace_nodes.html).
 
 ```python
 deployment.replace_nodes(['i-8af8867c'])
@@ -86,13 +86,13 @@ This method terminates each of the specified nodes and brings up new ones in the
 
 Note: currently we cannot preserve the state of the distributed cache when repairing the cluster. In other words, all data in the cache at the time repair is called will be lost.
 
-Similarly, you can add and remove nodes with the [`add_nodes`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.add_nodes.html) and [`remove_nodes`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.remove_nodes.html) APIs.
+Similarly, you can add and remove nodes with the [`add_nodes`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.add_nodes.html) and [`remove_nodes`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.remove_nodes.html) APIs.
 
 #### Environment Variables
 
-It is common to use system environment variables for specific application configurations. Specifically, it is a general best practice to use such variables for secrets, like credentials, as opposed to storing them on disk. Dato Predictive Services provides an API to set environment variables for the scope of a predictive service:
+It is common to use system environment variables for specific application configurations. Specifically, it is a general best practice to use such variables for secrets, like credentials, as opposed to storing them on disk. Turi Predictive Services provides an API to set environment variables for the scope of a predictive service:
 
-A variable is set using the [`set`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.set.html) API:
+A variable is set using the [`set`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.set.html) API:
 
 ```python
 import graphlab
@@ -118,15 +118,15 @@ db_config = {
 }
 ```
 
-On the client, the value of a variable can be retrieved through the deployment object using [`get`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.get.html):
+On the client, the value of a variable can be retrieved through the deployment object using [`get`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.get.html):
 
 ```python
 username = ps.environment_variables.get('DB_USERNAME')
 ```
 
-Similarly, [`unset`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.unset.html) removes the variable from the deployment.
+Similarly, [`unset`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.unset.html) removes the variable from the deployment.
 
-All currently set variables (that have been applied to the service) can be shown using [`list`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.list.html), which returns a dictionary of key-value pairs:
+All currently set variables (that have been applied to the service) can be shown using [`list`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.environment_variables.list.html), which returns a dictionary of key-value pairs:
 
 ```python
 deployment.environment_variables.list()
@@ -167,7 +167,7 @@ deployment.cache_enable('my-no-cache-model')
 
 ##### Reconfigure Cache Parameters
 
-You can modify some underlying configuration parameters of the Predictive Service deployment using the [`reconfigure`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.reconfigure.html) method. The available configuration options are:
+You can modify some underlying configuration parameters of the Predictive Service deployment using the [`reconfigure`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.reconfigure.html) method. The available configuration options are:
 
 - `cache_max_memory_mb`: The amount of memory allocated to the distributed cache. Default is 2GB per node for EC2; for the on-premises limit see the configuration file.
 - `cache_query_ttl_secs`: The TTL (time to live) of cached query requests. This determines when cached query results expire. Default is 1 year.
@@ -183,11 +183,11 @@ deployment.reconfigure({"cache_max_memory_mb": 4000})
 
 #### CORS support
 
-To enable CORS support for cross-origin requests coming from a website (ex. https://dato.com), use set_CORS:
+To enable CORS support for cross-origin requests coming from a website (ex. https://turi.com), use set_CORS:
 
 ```python
-# To allow requests coming from https://dato.com
-deployment.set_CORS('https://dato.com')
+# To allow requests coming from https://turi.com
+deployment.set_CORS('https://turi.com')
 ```
 
 To enable CORS support for all cross-origin requests:

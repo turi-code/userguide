@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Decision Tree Classifier
  
 A decision tree classifier is a simple machine learning model suitable for

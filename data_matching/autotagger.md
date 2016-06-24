@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Autotagger
 The GraphLab Create **autotagger** tool matches unstructured text queries to a
 reference set of strings, a.k.a *tags*, which are known beforehand. Adding tags
@@ -16,12 +16,12 @@ with tags by the authors but responses are not, making it more difficult to
 quickly scan responses for the most useful information. The raw data is
 available from the [Stack Exchange data
 dump](https://archive.org/details/stackexchange). For convenience we provide a
-preprocessed subsample (7.8MB) in the public Dato datasets bucket on Amazon S3,
+preprocessed subsample (7.8MB) in the public Turi datasets bucket on Amazon S3,
 which is downloaded and saved locally with the first code snippet below.
 
 For reference tags we use a lightly-curated [list of statistics topics from
 Wikipedia](http://en.wikipedia.org/wiki/List_of_statistics_articles). The
-preprocessed list is also available in the Dato-datasets S3 bucket.
+preprocessed list is also available in the static.turi.com/datasets S3 bucket.
 
 ```python
 import os
@@ -31,7 +31,7 @@ import graphlab as gl
 if os.path.exists('stats_overflow_clean'):
     posts = gl.SFrame('stats_overflow_clean')
 else:
-    posts = gl.SFrame('http://s3.amazonaws.com/dato-datasets/stats_overflow_clean')
+    posts = gl.SFrame('http://static.turi.com/datasets/stats_overflow_clean')
     posts.save('stats_overflow_clean')
 
 ## Load reference set of statistics topics
@@ -39,7 +39,7 @@ if os.path.exists('statistics_topics.csv'):
     topics = gl.SFrame.read_csv('statistics_topics.csv', header=False, delimiter='\n')
 else:
     topics = gl.SFrame.read_csv(
-        'http://s3.amazonaws.com/dato-datasets/tag_lists/statistics_topics.csv',
+        'http://static.turi.com/datasets/tag_lists/statistics_topics.csv',
         header=False, delimiter='\n')
     topics.save('statistics_topics', format='csv')
 
@@ -122,7 +122,7 @@ The query documents must be a single column of the query SFrame, so we first con
 
 ```python
 posts['all_text'] = posts['Title'] + ' ' + posts['Body']
-tags = m.tag(posts, query_name='all_text', k=5, similarity_threshold=0.1, 
+tags = m.tag(posts, query_name='all_text', k=5, similarity_threshold=0.1,
              verbose=True)
 tags.print_rows(10, max_row_width=100, max_column_width=50)
 ```

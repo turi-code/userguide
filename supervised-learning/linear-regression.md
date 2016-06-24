@@ -1,8 +1,8 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 
 #Linear Regression
 
-GraphLab's [linear regression](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.html) module is used to predict a continuous **target** as a
+GraphLab's [linear regression](https://turi.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.html) module is used to predict a continuous **target** as a
 linear function of **features**. This is a two-stage process, analogous to many
 other GraphLab toolkits. First a model is created (or trained), using **training
 data**. Once the model is created, it can then be used to make predictions on
@@ -60,7 +60,7 @@ regression model that can predict the **star rating** for each review using:
 import graphlab as gl
 
 # Load the data
-data =  gl.SFrame('http://s3.amazonaws.com/dato-datasets/regression/yelp-data.csv')
+data =  gl.SFrame('http://static.turi.com/datasets/regression/yelp-data.csv')
 
 # Make a train-test split
 train_data, test_data = data.random_split(0.8)
@@ -91,7 +91,7 @@ machines (SVM)** conform to **almost** all of the API discussed below.
 The attributes of all GraphLab Create models, which include training statistics, model
 hyper-parameters, and model results can be accessed in the same way as python
 dictionaries. To get a list of all fields that can be accessed, you can use the
-[list_fields()](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.list_fields.html)
+[list_fields()](https://turi.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.list_fields.html)
 function:
 
 
@@ -139,7 +139,7 @@ print model['training_rmse']
 
 
 The
-[API docs](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.get.html)
+[API docs](https://turi.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.get.html)
 provide a detailed description of each of the model's
 atrributes.
 

@@ -1,10 +1,10 @@
-# Clustering 
+# Clustering
 **Clustering** is the task of grouping data so that points in the same cluster
 are highly similar to each other, while points in different clusters are
 dissimilar. Clustering is a form of unsupervised learning because there is no
 target variable indicating which groups the training data belong to.
 
-The [GraphLab clustering toolkit](https://dato.com/products/create/docs/graphlab
+The [GraphLab clustering toolkit](https://turi.com/products/create/docs/graphlab
 .toolkits.clustering.html) includes two models: K-Means and DBSCAN. **K-Means**
 finds cluster centers for a predetermined number of clusters ("K") by minimizing
 the sum of squared distances from each point to its assigned cluster. Points are

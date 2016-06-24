@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Cross Validation 
 
 Data is the first argument for all of the model parameter search functions. This argument allows for several different input types to allow you to better evaluate model performance on a given set of parameters.
@@ -19,7 +19,7 @@ folds = [(train0, valid0), (train1, valid1)]
 gl.model_parameter_search.create(folds, my_model, my_params)
 ```
 
-We also provide a convenience object [`KFold`](https://dato.com/products/create/docs/generated/graphlab.toolkits.cross_validation.KFold.html) for performing model search using K folds.
+We also provide a convenience object [`KFold`](https://turi.com/products/create/docs/generated/graphlab.toolkits.cross_validation.KFold.html) for performing model search using K folds.
 
 ```
 folds = gl.cross_validation.KFold(sf, 5)

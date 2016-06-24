@@ -1,12 +1,12 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Neuralnet Classifier
 The deep learning module is useful to create and manipulate different neural
 network architectures. The core of this module is the
-[NeuralNet](https://dato.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.html)
+[NeuralNet](https://turi.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.html)
 class, which stores the definition of each layer of a neural network and
 a dictionary of learning parameters.
 
-A **NeuralNet** object can be obtained from [`graphlab.deeplearning.create`](https://dato.com/products/create/docs/generated/graphlab.deeplearning.create.html).
+A **NeuralNet** object can be obtained from [`graphlab.deeplearning.create`](https://turi.com/products/create/docs/generated/graphlab.deeplearning.create.html).
 The function, selects a *default* network architecture depending on the input
 dataset using simple rules: it creates a 2-layer Perceptron Network for dense
 numeric input, and a 1-layer Convolution Network for image data input.
@@ -28,8 +28,8 @@ code to get started is as follows:
 import graphlab as gl
 
 # Load the MNIST data (from an S3 bucket)
-data = gl.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/train')
-test_data = gl.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/test')
+data = gl.SFrame('http://static.turi.com/datasets/mnist/sframe/train')
+test_data = gl.SFrame('http://static.turi.com/datasets/mnist/sframe/test')
 
 # Random split the training-data
 training_data, validation_data = data.random_split(0.8)
@@ -135,7 +135,7 @@ print predictions
 
 #### Making Detailed Predictions
 
-We can use the [`predict_topk`](https://dato.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.predict_topk.html) interface if we want prediction scores for
+We can use the [`predict_topk`](https://turi.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.predict_topk.html) interface if we want prediction scores for
 each class in the **top-k** classes (sorted in decreasing order of score).
 
 Predict the top 2 most likely digits
@@ -199,15 +199,15 @@ You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns
 
 #### Using a Neural Network for Feature Extraction
 
-A previously trained model can be used to extract dense features for a given input. The[`extract_features`](https://dato.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.extract_features.html) function takes an input dataset, propagates each example through the network, and returns an SArray of dense feature vectors, each of which is the concatenation of all the hidden unit values at `layer[layer_id]`. These feature vectors can be used as input to train another classifier such as a [`LogisticClassifier`](https://dato.com/products/create/docs/generated/graphlab.logistic_classifier.LogisticClassifier.html), an [`SVMClassifier`](https://dato.com/products/create/docs/generated/graphlab.svm_classifier.SVMClassifier.html), another [`NeuralNetClassifier`](https://dato.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.html), or [`BoostedTreesClassifier`](https://dato.com/products/create/docs/generated/graphlab.boosted_trees_classifier.BoostedTreesClassifier.html). Input dataset size must be the same as for the training of the model, except for images which are automatically resized.
+A previously trained model can be used to extract dense features for a given input. The[`extract_features`](https://turi.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.extract_features.html) function takes an input dataset, propagates each example through the network, and returns an SArray of dense feature vectors, each of which is the concatenation of all the hidden unit values at `layer[layer_id]`. These feature vectors can be used as input to train another classifier such as a [`LogisticClassifier`](https://turi.com/products/create/docs/generated/graphlab.logistic_classifier.LogisticClassifier.html), an [`SVMClassifier`](https://turi.com/products/create/docs/generated/graphlab.svm_classifier.SVMClassifier.html), another [`NeuralNetClassifier`](https://turi.com/products/create/docs/generated/graphlab.neuralnet_classifier.NeuralNetClassifier.html), or [`BoostedTreesClassifier`](https://turi.com/products/create/docs/generated/graphlab.boosted_trees_classifier.BoostedTreesClassifier.html). Input dataset size must be the same as for the training of the model, except for images which are automatically resized.
 
-If the original network is trained on a large dataset, these deep features can be very powerful. This is especially true in the context of image analysis, where a model trained on the very large ImageNet dataset can learn [general purpose features](http://blog.dato.com/deep-learning-blog-post).
+If the original network is trained on a large dataset, these deep features can be very powerful. This is especially true in the context of image analysis, where a model trained on the very large ImageNet dataset can learn [general purpose features](http://blog.turi.com/deep-learning-blog-post).
 
 In this example, we will build a neural network for classification of digits, then build a generic classifier on top of those extracted features.
 
 ```python
 # The data is the MNIST digit recognition dataset
-data = graphlab.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/train6k')
+data = graphlab.SFrame('http://static.turi.com/datasets/mnist/sframe/train6k')
 net = graphlab.deeplearning.get_builtin_neuralnet('mnist')
 m = graphlab.neuralnet_classifier.create(data,
                                          target='label',
@@ -224,7 +224,7 @@ m = graphlab.classifier.create(data,
 We also provide a [model trained on Imagenet](http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf).This pre-trained model gives pre-trained features of excellent quality for images, and the way you would use such a model is demonstrated below:
 
 ```python
-imagenet_path = 'http://s3.amazonaws.com/dato-datasets/deeplearning/imagenet_model_iter45'
+imagenet_path = 'http://static.turi.com/datasets/deeplearning/imagenet_model_iter45'
 imagenet_model = graphlab.load_model(imagenet_path)
 data['image'] = graphlab.image_analysis.resize(data['image'], 256, 256, 3)
 data['imagenet_features'] = imagenet_model.extract_features(data)

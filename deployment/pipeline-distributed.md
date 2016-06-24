@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Launching Distributed Jobs
 
 A core benefit of executing jobs on compute fabrics like EC2 or Hadoop is the ability to scale out and distribute the work across nodes. In this section, we will demonstrate how to launch a distributed execution through the [``map_job``] API, which executes the same function, in parallel, with multiple arguments.
@@ -13,7 +13,7 @@ A ``map_job`` is nothing more than a [map](https://docs.python.org/2/library/fun
 results = [my_func(**kwargs) for kwargs in parameter_set]
 ```
 
-In this section, we will show a simple example of executing the ``map_job`` 
+In this section, we will show a simple example of executing the ``map_job``
 in a distributed environment.
 
 ##### EC2
@@ -36,8 +36,8 @@ ec2 = gl.deploy.ec2_cluster.create(name='add_ec2',
                                    num_hosts=3)
 
 # Execute a map_job.
-job = gl.deploy.map_job.create(add, [{'x': 20, 'y': 20}, 
-                                     {'x': 10, 'y': 10}, 
+job = gl.deploy.map_job.create(add, [{'x': 20, 'y': 20},
+                                     {'x': 10, 'y': 10},
                                      {'x': 5,  'y': 5}],
                                environment=ec2)
 
@@ -54,8 +54,8 @@ If any of the executions failed, we can capture it in the job metrics.
 
 ```python
 # Capture exceptions if the execution failed.
-job = gl.deploy.map_job.create(add, [{'x': 20, 'y': 20}, 
-                                     {'x': None, 'y': 10}, 
+job = gl.deploy.map_job.create(add, [{'x': 20, 'y': 20},
+                                     {'x': None, 'y': 10},
                                      {'x': 5,  'y': 5}],
                                environment=ec2)
 
@@ -97,9 +97,9 @@ def add_combiner(**kwargs):
     return sum(kwargs.values())
 
 # Call map, and then combine all the results using the add_combiner.
-job = gl.deploy.map_job.create(add, [{'x': 20, 'y': 20}, 
-                                     {'x': 10, 'y': 10}, 
-                                     {'x': 5,  'y': 5}], 
+job = gl.deploy.map_job.create(add, [{'x': 20, 'y': 20},
+                                     {'x': 10, 'y': 10},
+                                     {'x': 5,  'y': 5}],
                                environment=ec2,
                                combiner_function=add_combiner)
 
@@ -127,16 +127,16 @@ def add_combiner(**kwargs):
     return sum(kwargs.values())
 
 # Define your Hadoop cluster to use 3 containers
-dd-deployment = 'hdfs://our.cluster.com:8040/user/name/dato-dist-folder'
+dd-deployment = 'hdfs://our.cluster.com:8040/user/name/turi-dist-folder'
 
 hadoop = gl.deploy.hadoop_cluster.create(name='add_hadoop',
-                                         dato_dist_path=dd-deployment,
+                                         turi_dist_path=dd-deployment,
                                          hadoop_conf_dir=,'~/yarn-conf',
                                          num_containers=3)
-  
+
 # Execute a map_job.
-job = gl.deploy.map_job.create(add, [{'x': 20, 'y': 20}, 
-                                     {'x': 10, 'y': 10}, 
+job = gl.deploy.map_job.create(add, [{'x': 20, 'y': 20},
+                                     {'x': 10, 'y': 10},
                                      {'x': 5,  'y': 5}],
                                environment=hadoop,
                                combiner_function=add_combiner)

@@ -1,6 +1,5 @@
 # Introduction to Predictive Services
-
-Dato Predictive Services enable straightforward deployment of machine learning models as reliable and scalable web services for easy integration into predictive applications using a low-latency REST API. With one command, launch a cluster, deploy a model, update a model (with no downtime), or capture interaction data to improve the next version of the model. Here are some of the highlights of Dato Predictive Services:
+ Turi Predictive Services enable straightforward deployment of machine learning models as reliable and scalable web services for easy integration into predictive applications using a low-latency REST API. With one command, launch a cluster, deploy a model, update a model (with no downtime), or capture interaction data to improve the next version of the model. Here are some of the highlights of Turi Predictive Services:
 
 - Deploy trained GraphLab Create models into an elastic web service with a single line of code.
 - Incorporate business logic with the ability to deploy arbitrary python code.

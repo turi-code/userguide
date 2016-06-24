@@ -12,7 +12,7 @@ import os
 if os.path.exists('wikipedia_w0'):
     documents = graphlab.SFrame('wikipedia_w0')
 else:
-    documents = graphlab.SFrame.read_csv('http://s3.amazonaws.com/dato-datasets/wikipedia/raw/w0', header=False)
+    documents = graphlab.SFrame.read_csv('http://static.turi.com/datasets/wikipedia/raw/w0', header=False)
     documents.save('wikipedia_w0')
 ```
 
@@ -62,7 +62,7 @@ we removed from the dataset?
 
 ##### Topic Modeling
 
-<span style="color:red">**Question 6:**</span> Create a topic model using your processed version of the dataset, `docs`. Have the model learn 30 topics and let the algorithm run for 30 iterations. *Hint*: use the [topic modeling toolkit](https://dato.com/products/create/docs/generated/graphlab.topic_model.TopicModel.html).
+<span style="color:red">**Question 6:**</span> Create a topic model using your processed version of the dataset, `docs`. Have the model learn 30 topics and let the algorithm run for 30 iterations. *Hint*: use the [topic modeling toolkit](https://turi.com/products/create/docs/generated/graphlab.topic_model.TopicModel.html).
 
 
 ```python
@@ -151,7 +151,7 @@ doc_data['word_score'] = tf_idf_docs
 doc_data['text'] = docs
 ```
 
-<span style="color:red">**Question 14:**</span> Create a model that allows you to query the nearest neighbors to a given document. Use the `id` column above as your label for each document, and use the `word_score` column of TF-IDF scores as your features. *Hint*: use the new [nearest_neighbors toolkit](https://dato.com/products/create/docs/graphlab.toolkits.nearest_neighbors.html).
+<span style="color:red">**Question 14:**</span> Create a model that allows you to query the nearest neighbors to a given document. Use the `id` column above as your label for each document, and use the `word_score` column of TF-IDF scores as your features. *Hint*: use the new [nearest_neighbors toolkit](https://turi.com/products/create/docs/graphlab.toolkits.nearest_neighbors.html).
 
 
 ```python
@@ -164,7 +164,7 @@ nn = graphlab.nearest_neighbors.create(doc_data, label='id', feature='word_score
 nearest = nn.query(doc_data.head(2), label='id')
 ```
 
-<span style="color:red">**Question 16:**</span> Make an SFrame that contains the original text for the query points and the original text for each query's nearest neighbors. *Hint*: Use [SFrame.join](https://dato.com/products/create/docs/generated/graphlab.SFrame.join.html#graphlab.SFrame.join).
+<span style="color:red">**Question 16:**</span> Make an SFrame that contains the original text for the query points and the original text for each query's nearest neighbors. *Hint*: Use [SFrame.join](https://turi.com/products/create/docs/generated/graphlab.SFrame.join.html#graphlab.SFrame.join).
 
 
 ```python
@@ -178,6 +178,6 @@ nearest_docs.join(doc_data, on={'query_label':'id'})\
 ```
 
 
-  [1]: https://dato.com/products/create/docs/generated/graphlab.text_analytics.count_words.html
-  [2]: https://dato.com/products/create/docs/generated/graphlab.text_analytics.stopwords.html
-  [3]: https://dato.com/products/create/docs/generated/graphlab.SArray.__getitem__.html
+  [1]: https://turi.com/products/create/docs/generated/graphlab.text_analytics.count_words.html
+  [2]: https://turi.com/products/create/docs/generated/graphlab.text_analytics.stopwords.html
+  [3]: https://turi.com/products/create/docs/generated/graphlab.SArray.__getitem__.html

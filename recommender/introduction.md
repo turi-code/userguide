@@ -76,4 +76,4 @@ The following sections provide more information about the recommender model:
 - [Choosing a model](choosing-a-model.md)
   * data you might encounter (implicit or explicit)
   * types of models worth considering (item-based similarity, factorization-based models, and so on).
-- [API Docs](https://dato.com/products/create/docs/graphlab.toolkits.recommender.html)
+- [API Docs](https://turi.com/products/create/docs/graphlab.toolkits.recommender.html)

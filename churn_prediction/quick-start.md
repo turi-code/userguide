@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Churn prediction
 
 Churn prediction is the task of identifying whether users are likely to stop
@@ -12,7 +12,7 @@ GitHub repo to get the code and data used in this chapter.
 #### Introduction
 
 A [`churn predictor
-model`](https://dato.com/products/create/docs/generated/graphlab.toolkits.churn_predictor.create.html)
+model`](https://turi.com/products/create/docs/generated/graphlab.toolkits.churn_predictor.create.html)
 learns historical user behavior patterns to make an accurate forecast for the
 probability of no activity in the future (defined as churn).
 
@@ -91,7 +91,7 @@ import datetime
 
 # Load a data set.
 sf = gl.SFrame(
-   'http://s3.amazonaws.com/dato-datasets/churn-prediction/online_retail.csv')
+   'http://static.turi.com/datasets/churn-prediction/online_retail.csv')
 
 # Convert InvoiceDate from string to a Python datetime.
 import dateutil

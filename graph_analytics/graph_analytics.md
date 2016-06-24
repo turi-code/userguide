@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 
 #Examples
 To illustrate some of these methods, we'll use a previously created SGraph where
@@ -6,7 +6,7 @@ vertices represent Wikipedia articles about US businesses and edges represent
 hyperlinks between articles. This data is available under the Creative Commons
 Attribution-ShareAlike 3.0 Unported License (more details here:
 [http://en.wikipedia.org/wiki/Wikipedia:Copyrights](http://en.wikipedia.org/wiki/Wikipedia:Copyrights)).
-It can be downloaded from Dato's public datasets bucket on Amazon S3. The
+It can be downloaded from Turi's public datasets bucket on Amazon S3. The
 remaining methods are left for the reader to explore in the exercises at the end
 of the chapter.
 
@@ -17,7 +17,7 @@ data_file = 'US_business_links'
 if os.path.exists(data_file):
     sg = graphlab.load_sgraph(data_file)
 else:
-    url = 'http://s3.amazonaws.com/dato-datasets/' + data_file
+    url = 'http://static.turi.com/datasets/' + data_file
     sg = graphlab.load_sgraph(url)
     sg.save(data_file)
 

@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 <b>Q:</b> Why can't GraphLab Create read from my HDFS installation?
 
 <b>A:</b> This usually happens because GraphLab Create failed to find a suitable java installation.  Your server log (the location of this log is printed when GraphLab Create starts) will let you know if this is the issue.  

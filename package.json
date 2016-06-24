@@ -13,7 +13,7 @@
     "gitbook": "./node_modules/.bin/gitbook build",
     "serve": "./node_modules/.bin/gitbook serve"
   },
-  "author": "Dato, Inc.",
+  "author": "Turi",
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",

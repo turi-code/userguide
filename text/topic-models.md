@@ -1,5 +1,5 @@
-<script src="../dato/js/recview.js"></script>
-#Topic Models 
+<script src="../turi/js/recview.js"></script>
+#Topic Models
 "Topic models" are a class of statistical models for text data. These models typically assume documents can be described by a small set of topics, and there is a probability of any word occurring for a given "topic".
 
 For example, suppose we are given the documents shown below, where the first document begins with the text "The burrito was terrible. I..." and continues with a long description of the eater's woes. A topic model attempts to do two things:
@@ -24,7 +24,7 @@ import os
 if os.path.exists('wikipedia_w0'):
     docs = gl.SFrame('wikipedia_w0')
 else:
-    docs = gl.SFrame.read_csv('http://s3.amazonaws.com/dato-datasets/wikipedia/raw/w0.csv', header=False)
+    docs = gl.SFrame.read_csv('http://static.turi.com/datasets/wikipedia/raw/w0.csv', header=False)
     docs.save('wikipedia_w0')
 
 # Remove stopwords and convert to bag of words
@@ -35,12 +35,12 @@ docs = docs.dict_trim_by_keys(gl.text_analytics.stopwords(), exclude=True)
 model = gl.topic_model.create(docs)
 ```
 
-There are a variety of additional arguments available which are covered in the [API Reference](https://dato.com/products/create/docs/generated/graphlab.topic_model.create.html). The two most commonly used arguments are:
+There are a variety of additional arguments available which are covered in the [API Reference](https://turi.com/products/create/docs/generated/graphlab.topic_model.create.html). The two most commonly used arguments are:
 
  - `num_topics`: Changes the number of topics to learn.
  - `num_iterations`: Changes how many iterations to perform.
 
-The returned object is a TopicModel object, which exposes several useful methods. For example, [graphlab.topic_model.TopicModel.get_topics()](https://dato.com/products/create/docs/generated/graphlab.topic_model.TopicModel.get_topics.html) returns an SFrame containing the most probable words for each topic and a score related to how high that word ranks for that topic.
+The returned object is a TopicModel object, which exposes several useful methods. For example, [graphlab.topic_model.TopicModel.get_topics()](https://turi.com/products/create/docs/generated/graphlab.topic_model.TopicModel.get_topics.html) returns an SFrame containing the most probable words for each topic and a score related to how high that word ranks for that topic.
 
 You may get details on a subset of topics by supplying a list of topic names or topic indices, as well as restrict the number of words returned per topic.
 
@@ -238,7 +238,7 @@ associations = graphlab.SFrame({'word':['season', 'club', '2008', '2009'],
                                 'topic': [1, 1, 2, 2]})
 ```
 
-If we fit a topic model using this option, we indeed find that "season" and "club" are present in topic 1, and we find other related words in the same topic. 
+If we fit a topic model using this option, we indeed find that "season" and "club" are present in topic 1, and we find other related words in the same topic.
 
 ```python
 
@@ -278,7 +278,7 @@ m2 = graphlab.topic_model.create(docs,
 
 ##### Evaluating topic models
 
-A common quantitative way to evaluate topic models is to split each document into a training set and a test set, learn a topic model on the training portion of each document, and compute the probability of the heldout word counts under the model. A slight variation of this probability is called "perplexity". Lower values are better. Estimates of this quantity are provided during training. See [graphlab.text_analytics.util.random_split](https://dato.com/products/create/docs/generated/graphlab.text_analytics.random_split.html), [graphlab.text_analytics.util.perplexity](), [TopicModel.evaluate](https://dato.com/products/create/docs/generated/graphlab.topic_model.TopicModel.evaluate.html) for helper functions to do this sort of evaluation on trained models.
+A common quantitative way to evaluate topic models is to split each document into a training set and a test set, learn a topic model on the training portion of each document, and compute the probability of the heldout word counts under the model. A slight variation of this probability is called "perplexity". Lower values are better. Estimates of this quantity are provided during training. See [graphlab.text_analytics.util.random_split](https://turi.com/products/create/docs/generated/graphlab.text_analytics.random_split.html), [graphlab.text_analytics.util.perplexity](), [TopicModel.evaluate](https://turi.com/products/create/docs/generated/graphlab.topic_model.TopicModel.evaluate.html) for helper functions to do this sort of evaluation on trained models.
 
 A common way to qualitatively evaluate topic models is to examine the most probable words in each topic and count the number of words that do not fit with the rest. If there are topics with words that do not co-occur in your corpus, you may want to try:
 
@@ -286,4 +286,4 @@ A common way to qualitatively evaluate topic models is to examine the most proba
 * changing the number of topics
 * increasing the number of iterations
 
-To learn more check out the [API Reference](https://dato.com/products/create/docs/generated/graphlab.topic_model.create.html).
+To learn more check out the [API Reference](https://turi.com/products/create/docs/generated/graphlab.topic_model.create.html).

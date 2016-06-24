@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Choosing a Model
 In this section, we give some intuition for which modeling choices you may make depending on your data and your task.
 
@@ -14,7 +14,7 @@ m = graphlab.recommender.create(data,
 recs = m.recommend()
 ```
 
-When no `target` is available, as above, then by default this returns an [ItemSimilarityRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.item_similarity_recommender.ItemSimilarityRecommender.html) which computes the similarity between each pair of items and recommends items to each user that are closest to items she has already used or liked. It measures item similarity with either Jaccard or cosine distance, which can be set
+When no `target` is available, as above, then by default this returns an [ItemSimilarityRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.item_similarity_recommender.ItemSimilarityRecommender.html) which computes the similarity between each pair of items and recommends items to each user that are closest to items she has already used or liked. It measures item similarity with either Jaccard or cosine distance, which can be set
 manually using a keyword argument called ``similarity_type`` when creating that
 recommender directly:
 
@@ -28,11 +28,11 @@ m = graphlab.item_similarity_recommender.create(data,
 When a `target` is provided, the default GraphLab Create recommender is a
 matrix factorization model. The matrix factorization model can also be
 called directly with
-[factorization_recommender.create](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.create.html).
+[factorization_recommender.create](https://turi.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.create.html).
 When using the model-specific create function, other arguments can be
 provided to better tune the model, such as `num_factors` or
 `regularization`.  See the documentation on
-[FactorizationRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html) for more information.
+[FactorizationRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html) for more information.
 
 ```python
 m = graphlab.factorization_recommender.create(data,
@@ -87,7 +87,7 @@ rating prediction. The default recommender for this type of data and
 the default ranking task is a matrix factorization model, implemented
 on top of the disk-backed SFrame data structure.  The default solver
 is stochastic gradient descent, and the recommender model used is the
-[RankingFactorizationModel](https://dato.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_model.RankingFactorizationModel.html), which balances rating prediction with
+[RankingFactorizationModel](https://turi.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_model.RankingFactorizationModel.html), which balances rating prediction with
 a ranking objective. The default `create()` function does not allow
 changes to the default parameters of a specific model, but it is just
 as easy to build a recommender with your own parameters using
@@ -111,7 +111,7 @@ model, the data is saved with the model and also used to make
 recommendations.
 
 In particular, the
-[FactorizationRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html) and the [RankingFactorizationRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_recommender.RankingFactorizationRecommender.html) both incorporate the side data into the prediction through additional interaction terms between the user, the item, and the side feature. For the actual formula, see the API docs for the [FactorizationRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html). Both of these models also allow you to obtain the parameters that have been learned for each of the side features via the `m['coefficients']` argument.
+[FactorizationRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html) and the [RankingFactorizationRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_recommender.RankingFactorizationRecommender.html) both incorporate the side data into the prediction through additional interaction terms between the user, the item, and the side feature. For the actual formula, see the API docs for the [FactorizationRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html). Both of these models also allow you to obtain the parameters that have been learned for each of the side features via the `m['coefficients']` argument.
 
 Side data may also be provided for each observation. For example, it might be useful to have recommendations change based on the time at which the query is being made. To do so, you could create a model using an SFrame that contains a time column, in addition to a user and item column. For example, a "time" column could include a string indicating the hour; this will be treated as a categorical variable and the model will learn a latent factor for each unique hour.
 
@@ -128,7 +128,7 @@ m.recommend(users=user_query)
 ```
 
 In this case, recommendations for user 1 and 2 would use the parameters learned from observations that occurred at 10pm, whereas the recommendations for user 3 would incorporate parameters corresponding to 11pm. For more details, check out
-  [recommend](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.recommend.html#graphlab.recommender.factorization_recommender.FactorizationRecommender.recommend) in the API docs.
+  [recommend](https://turi.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.recommend.html#graphlab.recommender.factorization_recommender.FactorizationRecommender.recommend) in the API docs.
 
 You may check the number of columns used as side information by querying `m['observation_column_names']`, `m['user_side_data_column_names']`, and `m['item_side_data_column_names']`. By printing the model, you can also see this information. In the following model, we had four columns in the observation data (two of which were `user_id` and `item_id`) and four columns in the SFrame passed to `item_side_data` (one of which was `item_id`):
 
@@ -155,7 +155,7 @@ Lastly, here are a couple of common data issues that can affect the performance 
 
 Another issue often occurs when usage data is treated as ratings.  Unlike explicit ratings that lie on a nice linear interval, say 0 to 5, usage data can be badly skewed.  For instance, in the Million Song dataset, one user played a song more than 16,000 times.  All the models would have a difficult time fitting to such a badly skewed target.  The fix is to bucketize the usage data.  For instance, any play count greater than 50 can be mapped to the maximum rating of 5.  You can also clip the play counts to be binary, e.g., any number greater than 2 is mapped to 1, otherwise it's 0.
 
-For more on this check out our recent blog post, [Choosing a Recommender Model](http://blog.dato.com/choosing-a-recommender-model).
+For more on this check out our recent blog post, [Choosing a Recommender Model](http://blog.turi.com/choosing-a-recommender-model).
 
 ### Evaluating Model Performance
 
@@ -181,7 +181,7 @@ precision-recall is often more useful in evaluating how well a
 recommender system will perform in practice.
 
 The GraphLab Create recommender toolkit includes a function,
-[gl.recommender.random_split_by_user](https://dato.com/products/create/docs/generated/graphlab.recommender.random_split_by_user.html#graphlab.recommender.random_split_by_user),
+[gl.recommender.random_split_by_user](https://turi.com/products/create/docs/generated/graphlab.recommender.random_split_by_user.html#graphlab.recommender.random_split_by_user),
 to easily generate training and test sets from observation data.
 Unlike `gl.SFrame.random_split`, it only puts data for a subset of the
 users into the test set.  This is typically sufficient for evaluating
@@ -195,7 +195,7 @@ all users may be represented by the test set, as some users may not
 have any of their items randomly selected for the test set.
 
 Once training and test set are generated, the
-[gl.recommender.util.compare_models](https://dato.com/products/create/docs/generated/graphlab.recommender.util.compare_models.html#graphlab.recommender.util.compare_models)
+[gl.recommender.util.compare_models](https://turi.com/products/create/docs/generated/graphlab.recommender.util.compare_models.html#graphlab.recommender.util.compare_models)
 function allows easy evaluation of several models using either RMSE or
 precision-recall.  These models may the same models with different
 parameters or completely different types of model.
@@ -218,4 +218,4 @@ train_data = train_data_1.append(low_rated_data)
 
 Other examples of comparing models can be found in the API
 documentation for
-[gl.recommender.util.compare_models](https://dato.com/products/create/docs/generated/graphlab.recommender.util.compare_models.html#graphlab.recommender.util.compare_models).
+[gl.recommender.util.compare_models](https://turi.com/products/create/docs/generated/graphlab.recommender.util.compare_models.html#graphlab.recommender.util.compare_models).

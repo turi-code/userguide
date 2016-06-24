@@ -1,44 +1,44 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Defining the search
 
-Dato Distributed supports several specific methods for doing model parameter search. 
+Turi Distributed supports several specific methods for doing model parameter search. 
 
 ### Using dictionaries to specify parameters
-The way you specify the set of parameters over which to search is through a dictionary. The dictionary keys are the names of the parameters and the values are the parameter values. Any values that are str, int, or floats are treated as a list containing a single value. 
+The way you specify the set of parameters over which to search is through a dictionary. The dictionary keys are the names of the parameters and the values are the parameter values. Any values that are str, int, or floats are treated as a list containing a single value.
 
 For example, specifying `{"target": "y"}` means that “y” will be the chosen target every time the model is fit. There are some list-typed arguments; in particular, `features` is a list of features to be used in the model.  If you want to search over a list-typed argument, you must provide an iterable over valid argument values. For example, using `{"features": [["col_a"], ["col_a", "col_b"]]}` would search over the two feature sets. If you just wanted to use the same set of features for each model, you would do `{"features": [["col_a"]]}`.
 
 ### Specifying a grid gearch
  Grid searches are especially useful when you have a relatively small set of parameters over which to search.
 
-You may define a grid of parameters by specifying the possible values for each parameter. The method [`grid_search.create`](https://dato.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.grid_search.create.html) will then train a model for each unique combination. 
+You may define a grid of parameters by specifying the possible values for each parameter. The method [`grid_search.create`](https://turi.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.grid_search.create.html) will then train a model for each unique combination.
 
 The collection of all combinations of valid parameter values defines a grid of model parameters that will be considered. For example, providing the following `params` dictionary
 
 ```
-params = {'target': 'label', 
-          'step_size': 0.3, 
-          'features': [['a'], ['a', 'b']], 
+params = {'target': 'label',
+          'step_size': 0.3,
+          'features': [['a'], ['a', 'b']],
           'max_depth': [.1, .2]}
 ```
 
 will create the following set of combinations:
 
 ```
-[{'target': 'label', 'step_size': 0.3, 'features': ['a'], 'max_depth': .1}, 
- {'target': 'label', 'step_size': 0.3, 'features': ['a'], 'max_depth': .2}, 
- {'target': 'label', 'step_size': 0.3, 'features': ['a', 'b'], 'max_depth': .1}, 
- {'target': 'label', 'step_size': 0.3, 'features': ['a', 'b'], 'max_depth': .2}] 
+[{'target': 'label', 'step_size': 0.3, 'features': ['a'], 'max_depth': .1},
+ {'target': 'label', 'step_size': 0.3, 'features': ['a'], 'max_depth': .2},
+ {'target': 'label', 'step_size': 0.3, 'features': ['a', 'b'], 'max_depth': .1},
+ {'target': 'label', 'step_size': 0.3, 'features': ['a', 'b'], 'max_depth': .2}]
 ```
 
 ### Using a random search space
 
-You may not always know which areas of a search space are most promising. 
-In such situations, it can be useful to pick parameter combinations from random distributions. 
+You may not always know which areas of a search space are most promising.
+In such situations, it can be useful to pick parameter combinations from random distributions.
 The top-level method, `model_parameter_search`, currently chooses `random_search.create` by default.
 
 For example, for a real-valued parameter such as `step_size`, you could might want to draw values from an [exponential distribution](http://en.wikipedia.org/wiki/Exponential_distribution).
-In the following example, each parameter combination will contain 
+In the following example, each parameter combination will contain
 
 - a `target` value of 'Y'
 - a `max_depth` value of either 5 or 7 (chosen randomly)
@@ -101,11 +101,11 @@ Data:
 
 ### Manually specifying parameters
 
-If you want full control over your parameter search, then you can use the [`manual_search.create`](https://dato.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.manual_search.create.html) function. All you need to do is to pass in a list of parameter dictionaries; a model will be fit for each parameter set.
+If you want full control over your parameter search, then you can use the [`manual_search.create`](https://turi.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.manual_search.create.html) function. All you need to do is to pass in a list of parameter dictionaries; a model will be fit for each parameter set.
 
 ```
 factory = gl.boosted_trees_classifier.create
-params = [{'target': 'label', 'max_depth': 3}, 
+params = [{'target': 'label', 'max_depth': 3},
           {'target': 'label', 'max_depth': 6}]
 job = gl.manual_search.create((train, valid),
                               factory, params)

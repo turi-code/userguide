@@ -1,7 +1,7 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Models
 
-The [`model_parameter_search.create`](https://dato.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.create.html) method has executed a search of parameters over a pre-defined space of possibilities. 
+The [`model_parameter_search.create`](https://turi.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.create.html) method has executed a search of parameters over a pre-defined space of possibilities. 
 This can be helpful for newcomers who may not yet know the intricacies of each model and which parameters to consider in a first search.
 
 The following GraphLab Create models have default search ranges provided:
@@ -45,7 +45,7 @@ data.rename({'X5': 'target'})
 (train, valid) = data.random_split(.8)
 ```
 
-To do a parameter search with a [`BoostedTreesClassifier`](https://dato.com/products/create/docs/generated/graphlab.boosted_trees_classifier.BoostedTreesClassifier.html) we simply specify the data, the model, and the value of the target parameter as a dictionary:
+To do a parameter search with a [`BoostedTreesClassifier`](https://turi.com/products/create/docs/generated/graphlab.boosted_trees_classifier.BoostedTreesClassifier.html) we simply specify the data, the model, and the value of the target parameter as a dictionary:
 ```
 params = {'target': 'target'}
 j = gl.model_parameter_search.create((train, valid), 
@@ -140,7 +140,7 @@ X_train, X_test, y_train, y_test = cross_validation.train_test_split(
     iris.data, iris.target, test_size=0.4, random_state=0)
 ```
 
-In this case, both the train and test datasets must be a tuple of numpy matrices (X, y) representing the feature matrix and the target vector, respectively. This time, we use [`grid_search.create`](https://dato.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.grid_search.create.html) to perform a grid search which fits a model for all possible combinations of parameters.
+In this case, both the train and test datasets must be a tuple of numpy matrices (X, y) representing the feature matrix and the target vector, respectively. This time, we use [`grid_search.create`](https://turi.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.grid_search.create.html) to perform a grid search which fits a model for all possible combinations of parameters.
 ```
 data = ((X_train, y_train), (X_test, y_test))
 params = {'kernel': 'linear', 'C': [0.5, .75, 1.0]}

@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #One-Hot-Encoder
 
 Encode a collection of categorical features using a 1-of-K encoding scheme.

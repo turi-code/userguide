@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Decision Tree Regression 
 The decision tree is a simple machine learning model for getting started 
 with regression tasks. 

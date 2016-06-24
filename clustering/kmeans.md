@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #K-means
 
 **K-means** finds cluster centers for a predetermined number of clusters ("K")
@@ -34,8 +34,8 @@ We illustrate usage of GraphLab Create K-means with the dataset from the [June
 scans](https://www.kaggle.com/c/mlsp-2014-mri). The original data consists of
 two sets of features: functional network connectivity (FNC) features and
 source-based morphometry (SBM) features, which we incorporate into a single
-[`SFrame`](https://dato.com/products/create/docs/generated/graphlab.SFrame.html)
-with [`SFrame.join`](https://dato.com/products/create/docs/generated/graphlab.SFra
+[`SFrame`](https://turi.com/products/create/docs/generated/graphlab.SFrame.html)
+with [`SFrame.join`](https://turi.com/products/create/docs/generated/graphlab.SFra
 me.join.html). For convenience the data can be downloaded from our public AWS S3
 bucket; the following code snippet does this if the data is not found in the
 local working directory.
@@ -48,9 +48,9 @@ if os.path.exists('schizophrenia_clean'):
     sf = gl.SFrame('schizophrenia_clean')
 else:
     sf_functional = gl.SFrame.read_csv(
-        'http://s3.amazonaws.com/dato-datasets/mlsp_2014/train_FNC.csv')
+        'http://static.turi.com/datasets/mlsp_2014/train_FNC.csv')
     sf_morphometry = gl.SFrame.read_csv(
-        'http://s3.amazonaws.com/dato-datasets/mlsp_2014/train_SBM.csv')
+        'http://static.turi.com/datasets/mlsp_2014/train_SBM.csv')
 
     sf = sf_functional.join(sf_morphometry, on="Id")
     sf = sf.remove_column('Id')   
@@ -69,7 +69,7 @@ $$
 where $$n$$ is the number of rows in your dataset. By default, the maximum
 number of iterations is 10, and all features in the input dataset are used.
 
-Analogous to all other GraphLab Create toolkits the model is created through the [`kmeans.create`](https://dato.com/products/create/docs/generated/graphlab.kmeans.create.html) API:
+Analogous to all other GraphLab Create toolkits the model is created through the [`kmeans.create`](https://turi.com/products/create/docs/generated/graphlab.kmeans.create.html) API:
 
 ```python
 from math import sqrt
@@ -170,7 +170,7 @@ kmeans_model['cluster_id'].head()
 
 #### Assigning *New* Points to Clusters
 
-New data points can be assigned to the clusters of a K-means model with the [`KmeansModel.predict`](https://dato.com/products/create/docs/generated/graphlab.kmeans.KmeansModel.predict.html) method. For K-means, the assignment is simply the nearest cluster center (in Euclidean distance), which is how the training data are assigned as well. Note that the model's cluster centers *are not updated* by the `predict` method.
+New data points can be assigned to the clusters of a K-means model with the [`KmeansModel.predict`](https://turi.com/products/create/docs/generated/graphlab.kmeans.KmeansModel.predict.html) method. For K-means, the assignment is simply the nearest cluster center (in Euclidean distance), which is how the training data are assigned as well. Note that the model's cluster centers *are not updated* by the `predict` method.
 
 For illustration purposes, we predict the cluster assignments for the first 5 rows of our existing data. The assigned clusters are identical to the assignments in the model results (above), which is a good sanity check.
 

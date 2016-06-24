@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Querying Predictive Services
 
 In this section we cover the various ways to query a Predictive Service.
@@ -7,7 +7,7 @@ The deployment serves models through a REST API. The API takes JSON input, and r
 
 #### Python Client
 
-To make it easy to validate deployment changes, and to manually warm up the distributed cache, we offer a [query](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.query.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.query) method as part of the Predictive Services API. This makes it is easy to query the deployment directly from within your GraphLab Create session.
+To make it easy to validate deployment changes, and to manually warm up the distributed cache, we offer a [query](https://turi.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.query.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.query) method as part of the Predictive Services API. This makes it is easy to query the deployment directly from within your GraphLab Create session.
 
 ##### GraphLab Create Models
 
@@ -22,7 +22,7 @@ recs = deployment.query('recs', method='recommend', data={'users': ['Jacob Smith
 
 This query results in a call to the `recommend` method on the deployed predictive object named `recs`, and returns a set of recommendations as JSON. We are using a `PopularityRecommender` model in this example (which we have deployed in the chapter about [Launching a Predictive Service](pred-launching.md)). All `recommend` methods of GraphLab Create recommender models take a `users` parameter. The array can contain one or more user names, for which an equal number of recommendations will be returned by the predictive service.
 
-If we were using a classifier or regression model to make predictions, the signature looks different. The `predict` method of these models takes a parameter named `dataset`, which needs to contain values for the features the model was trained for (for more information on model training see for instance [`LinearRegression.predict`](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.predict.html)).
+If we were using a classifier or regression model to make predictions, the signature looks different. The `predict` method of these models takes a parameter named `dataset`, which needs to contain values for the features the model was trained for (for more information on model training see for instance [`LinearRegression.predict`](https://turi.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.predict.html)).
 
 Assume, for instance, we had deployed a model named `house_prices` trained on features `zipcode`, `sqft`, and `year`. Now we want to query the model with a specific sample:
 the query call could look as follows:
@@ -98,7 +98,7 @@ gls.query(...)
 
 #### Using the REST Endpoint directly
 
-We will use the Unix tool [cURL](http://curl.haxx.se/docs/manpage.html) to demonstrate how to submit the raw JSON body as a POST request to a predictive service. We can get the DNS name of the load balancer and the deployment's API key by printing the [PredictiveService](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.html) object:
+We will use the Unix tool [cURL](http://curl.haxx.se/docs/manpage.html) to demonstrate how to submit the raw JSON body as a POST request to a predictive service. We can get the DNS name of the load balancer and the deployment's API key by printing the [PredictiveService](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.html) object:
 
 ```python
 print deployment
@@ -199,7 +199,7 @@ client.query('recs', request_data, function(err, resp) {
 });
 ```
 
-For more information on how to install and use the JS library visit [its GitHub repository](https://github.com/dato-code/Dato-Predictive-Service-Client-JS).
+For more information on how to install and use the JS library visit [its GitHub repository](https://github.com/dato-code/Turi-Predictive-Service-Client-JS).
 
 #### Writing your own client library
 

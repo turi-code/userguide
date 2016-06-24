@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Custom Transformer
 You can define Transformers in addition to the ones provided by GraphLab
 Create by inheriting from TransformerBase. You must implement the __init__,

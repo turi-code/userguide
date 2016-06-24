@@ -1,7 +1,7 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 
 #Getting Started
-In order to install GraphLab Create, please visit the [installation page on dato.com](https://dato.com/download/install.html) in order to
+In order to install GraphLab Create, please visit the [installation page on turi.com](https://turi.com/download/install.html) in order to
 
 - register for a product key, and
 - install the `graphlab-create` Python package.
@@ -30,7 +30,7 @@ Here are a few commands to get started.
   <tbody>
     <tr>
       <td>Importing and parsing data</td>
-      <td><pre><code class="hljs python">url = 'http://s3.amazonaws.com/dato-datasets/millionsong/song_data.csv'&#x0A;songs = graphlab.SFrame.read_csv(url)</code></pre></td>
+      <td><pre><code class="hljs python">url = 'http://static.turi.com/datasets/millionsong/song_data.csv'&#x0A;songs = graphlab.SFrame.read_csv(url)</code></pre></td>
     </tr>
     <tr>
       <td>Visualizations</td>
@@ -50,7 +50,7 @@ Here are a few commands to get started.
     </tr>
     <tr>
       <td>Create models</td>
-      <td><pre><code class="hljs python">url = 'http://s3.amazonaws.com/dato-datasets/regression/Housing.csv'&#x0A;x = graphlab.SFrame.read_csv(url)<br/>m = graphlab.linear_regression.create&#x0A;(x, target='price')
+      <td><pre><code class="hljs python">url = 'http://static.turi.com/datasets/regression/Housing.csv'&#x0A;x = graphlab.SFrame.read_csv(url)<br/>m = graphlab.linear_regression.create&#x0A;(x, target='price')
       </code></pre></td>
     </tr>
   </tbody>

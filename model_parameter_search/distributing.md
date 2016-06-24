@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Distributing model parameter search
 
 For all model parameter search methods and `cross_val_score`, you have the choice of running the jobs locally or remotely.
@@ -26,13 +26,13 @@ For launching jobs on a Hadoop cluster, you instead create a Hadoop environment 
 
 ```
 hd = gl.deploy.hadoop_cluster.create(name='hadoop-cluster',
-                                     dato_dist_path=<path to installation>)
+                                     turi_dist_path=<path to installation>)
 
 j = graphlab.model_parameter_search.create((train, valid),
                                            my_model, my_params,
                                            environment=hd)
 ```
 
-For more details on creating EC2- and Hadoop-based environments, checkout the [API docs](https://dato.com/products/create/docs/graphlab.deploy.html) or the [Deployment](http://dato.com/learn/userguide/deployment/pipeline-introduction.html) chapter of the userguide.
+For more details on creating EC2- and Hadoop-based environments, checkout the [API docs](https://turi.com/products/create/docs/graphlab.deploy.html) or the [Deployment](http://turi.com/learn/userguide/deployment/pipeline-introduction.html) chapter of the userguide.
 
 When getting started, it is useful to keep `perform_trial_run=True` to make sure you are creating your models properly.

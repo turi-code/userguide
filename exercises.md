@@ -1,6 +1,6 @@
 # Exercises
 
-As you learn how to use the Dato platform, try out these exercises to help you
+As you learn how to use the Turi platform, try out these exercises to help you
 test your knowledge.
 
 * [Tabular data](sframe/exercises.md)

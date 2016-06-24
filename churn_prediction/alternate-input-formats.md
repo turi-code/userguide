@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Alternate data formats
 
 The churn predictor model supports data with 3 formats
@@ -33,13 +33,13 @@ the option `is_data_aggregated = True`.
 ```
 
 The above data is already aggregated by day. This data can be used as is while
-training the model. 
+training the model.
 
 ```python
 # Train a churn prediction model.
-model = gl.churn_predictor.create(train, user_id='CustomerID', 
-                  features = ['Quantity'], 
-                  churn_period = churn_period, 
+model = gl.churn_predictor.create(train, user_id='CustomerID',
+                  features = ['Quantity'],
+                  churn_period = churn_period,
                   is_data_aggregated = True)
 ```
 
@@ -56,12 +56,12 @@ training the model.
 
 ```python
 side_data = gl.SFrame(
-  'http://s3.amazonaws.com/dato-datasets/churn-prediction/online_retail_side_data.csv')
+  'http://static.turi.com/datasets/churn-prediction/online_retail_side_data.csv')
 
 # Train a churn prediction model.
 model = gl.churn_predictor.create(train, user_id='CustomerID',
                       features = ['Quantity'],
-                      churn_period = churn_period, 
+                      churn_period = churn_period,
                       user_data = side_data)
 
 # Make predictions
@@ -74,7 +74,7 @@ metrics = model.evaluate(valid, evaluation_time, user_data = side_data)
 
 **Note**: Once a model is trained with user side information, the model does
 not store a copy of the user side data. That must be provided during every
-[predict](https://dato.com/products/create/docs/generated/graphlab.churn_predictor.ChurnPredictor.predict.html#graphlab.churn_predictor.ChurnPredictor.predict)
+[predict](https://turi.com/products/create/docs/generated/graphlab.churn_predictor.ChurnPredictor.predict.html#graphlab.churn_predictor.ChurnPredictor.predict)
 and
-[evaluate](https://dato.com/products/create/docs/generated/graphlab.churn_predictor.ChurnPredictor.explain.html#graphlab.churn_predictor.ChurnPredictor.explain)
+[evaluate](https://turi.com/products/create/docs/generated/graphlab.churn_predictor.ChurnPredictor.explain.html#graphlab.churn_predictor.ChurnPredictor.explain)
 call.

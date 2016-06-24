@@ -1,9 +1,9 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Analysis
 
 Suppose our text data is currently arranged into a single file, where each line
 of that file contains all of the text in a single document. Here we can use
-[SFrame.read_csv](https://dato.com/products/create/docs/generated/graphlab.SFrame.read_csv.html)
+[SFrame.read_csv](https://turi.com/products/create/docs/generated/graphlab.SFrame.read_csv.html)
 to parse the text data into a one-column SFrame.
 
 ```python
@@ -11,7 +11,7 @@ import os
 if os.path.exists('wikipedia_w16'):
     sf = graphlab.SFrame('wikipedia_w16')
 else:
-    sf = graphlab.SFrame.read_csv('http://s3.amazonaws.com/dato-datasets/wikipedia/raw/w16.csv', header=False)
+    sf = graphlab.SFrame.read_csv('http://static.turi.com/datasets/wikipedia/raw/w16.csv', header=False)
     sf.save('wikipedia_w16')
 ```
 
@@ -96,7 +96,7 @@ $$ \mbox{TF-IDF}(word, document) = N(word, document) * log(1/\sum_d N(word, d)))
 where N(w, d) is the number of times word w occurs in document d. This
 transformation can be done to an SArray of dict type containing documents in
 bow-of-words format using
-[tf_idf](https://dato.com/products/create/docs/generated/graphlab.text_analytics.tf_idf.html).
+[tf_idf](https://turi.com/products/create/docs/generated/graphlab.text_analytics.tf_idf.html).
 
 ```python
 sf['tfidf'] = graphlab.text_analytics.tf_idf(sf['bow'])
@@ -136,7 +136,7 @@ bm25_scores = graphlab.text_analytics.bm25(dataset, query)
 ##### Text cleaning
 
 We can easily remove all words do not occur at least twice in each document
-using [SArray.dict_trim_by_values](https://dato.com/products/create/docs/generated/graphlab.SArray.dict_trim_by_values.html).
+using [SArray.dict_trim_by_values](https://turi.com/products/create/docs/generated/graphlab.SArray.dict_trim_by_values.html).
 
 ```python
 docs = sf['bow'].dict_trim_by_values(2)
@@ -146,9 +146,9 @@ Alternatively, we can remove all words which do not occur at least ```threshold`
 number of times using the [RareWordTrimmer](../feature-engineering/rare_word_trimmer.md).
 
 GraphLab Create also contains a helper function called
-[stopwords](https://dato.com/products/create/docs/generated/graphlab.text_analytics.stopwords.html?highlight=stopwords#graphlab.text_analytics.stopwords)
+[stopwords](https://turi.com/products/create/docs/generated/graphlab.text_analytics.stopwords.html?highlight=stopwords#graphlab.text_analytics.stopwords)
 that returns a list of common words. We can use
-[SArray.docs.dict_trim_by_keys](https://dato.com/products/create/docs/generated/graphlab.SArray.dict_trim_by_keys.html)
+[SArray.docs.dict_trim_by_keys](https://turi.com/products/create/docs/generated/graphlab.SArray.dict_trim_by_keys.html)
 to remove these words from the documents as a preprocessing step. NB: Currently
 only English words are available.
 

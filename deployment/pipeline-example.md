@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # End-to-End Example: Remotely Generate Batch Recommendations
 
 In this example, we demonstrate how to implement a recommender and run it as a remote job. The recommender is implemented as three functions:
@@ -21,7 +21,7 @@ def clean_file(path):
 
     sf = gl.SFrame.read_csv(path, delimiter='\t')
     sf = sf.dropna()
-    return sf 
+    return sf
 ```
 
 Next, we train a model from the cleaned data:
@@ -55,7 +55,7 @@ Putting the pieces together:
 def my_workflow(path):
     # Clean file
     data = clean_file(path)
-    
+
     # Train model.
     model = train_model(data)
 
@@ -67,12 +67,12 @@ def my_workflow(path):
 ```
 
 Having defined the function, we can execute it as a job using the
-[``job.create()``](https://dato.com/products/create/docs/generated/graphlab.deploy.job.create.html)
-function. 
+[``job.create()``](https://turi.com/products/create/docs/generated/graphlab.deploy.job.create.html)
+function.
 
 ```python
-job_local = gl.deploy.job.create(my_workflow, 
-        path = 'https://s3.amazonaws.com/dato-datasets/movie_ratings/sample.large')
+job_local = gl.deploy.job.create(my_workflow,
+        path = 'https://s3.amazonaws.com/datasets/movie_ratings/sample.large')
 
 # get status immediately after creating this job.
 job_local.get_status()
@@ -102,13 +102,13 @@ ec2 = gl.deploy.ec2_cluster.create(name='ec2',
 
 job_ec2 = gl.deploy.job.create(my_workflow,
         environment=ec2,
-        path='https://s3.amazonaws.com/dato-datasets/movie_ratings/sample.large')
+        path='https://s3.amazonaws.com/datasets/movie_ratings/sample.large')
 
 # get the results
 job_ec2.get_results()
 ```
 
-The result of this job execution is an [``SFrame``](https://dato.com/products/create/docs/generated/graphlab.SFrame.html) containing the recommendations.
+The result of this job execution is an [``SFrame``](https://turi.com/products/create/docs/generated/graphlab.SFrame.html) containing the recommendations.
 
 ```
 Columns:
@@ -149,12 +149,12 @@ a [YARN](http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN
 ```python
 # define the environment, then reuse for subsequent jobs
 cdh5 = gl.deploy.hadoop_cluster.create('cdh5',
-      dato_dist_path='<path-to-your-dato-distributed-dir>',
+      turi_dist_path='<path-to-your-turi-distributed-dir>',
       hadoop_conf_dir=,'~/yarn-conf')
 
 job_hadoop = gl.deploy.job.create(my_workflow,
       environment=cdh5,
-      path='https://s3.amazonaws.com/dato-datasets/movie_ratings/sample.large')
+      path='https://s3.amazonaws.com/datasets/movie_ratings/sample.large')
 
 # get the results
 job_hadoop.get_results()
@@ -187,5 +187,3 @@ Data:
 Note: Only the head of the SFrame is printed.
 You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns.
 ```
-
-

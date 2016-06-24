@@ -126,7 +126,7 @@ $(document).ready( function(event){
     if (url.indexOf('_book') != -1) {
       url = url.split('_book').pop();
     }
-    url = 'https://dato.com/learn/userguide' + url;
+    url = 'https://turi.com/learn/userguide' + url;
 
     const data = {
       query: url,
@@ -142,5 +142,5 @@ $(document).ready( function(event){
     client.query('userguide-recommender', data, renderView);
   }
 
-  loadScript('https://static.dato.com/files/scripts/predictive-service-client/ps-client.js');
+  loadScript('https://static.turi.com/products/Turi-Predictive-Services/predictive-service-client/ps-client.js');
 });

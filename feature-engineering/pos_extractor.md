@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Part of Speech Extractor
 
 PartOfSpeechExtractor takes SFrame columns of type string and list,
