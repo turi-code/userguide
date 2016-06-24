@@ -1,7 +1,7 @@
 <script src="../turi/js/recview.js"></script>
 # Clusters in EC2 and Hadoop
 
-GraphLab create allows for the execution of jobs on the Turi Distributed platform, which runs on EC2 as well as Hadoop YARN clusters. While Turi distributed is set up automatically on EC2 on-demand, it needs to be deployed on Hadoop.
+GraphLab create allows for the execution of jobs on the Turi Distributed platform, which runs on EC2 as well as Hadoop YARN clusters. While Turi Distributed is set up automatically on EC2 on-demand, it needs to be deployed on Hadoop.
 
 In this section, we will walk through the concept of a **Cluster** in the GraphLab Create API and how it can be used to execute jobs remotely, either in Hadoop or in EC2.
 
