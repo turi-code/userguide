@@ -1,6 +1,6 @@
 # Applications
 
-In this section, we demonstrate how you can use the Turi platform to tackle these common scenarios:
+In this section, we demonstrate how you can use the Turi Machine Learning Platform to tackle these common scenarios:
 
 * [Recommender systems](../recommender/introduction.md)
 * [Data matching](../data_matching/introduction.md)
