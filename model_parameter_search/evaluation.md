@@ -6,7 +6,7 @@ Data is the first argument for all of the model parameter search functions. This
 You can provide a train/test pair: by default, each model will be trained on the first element and evaluated on both elements.
 
 ```
-url = 'http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv' 
+url = 'https://static.turi.com/datasets/xgboost/mushroom.csv' 
 data = gl.SFrame.read_csv(url)
 (train, valid) = data.random_split(.7)
 gl.model_parameter_search.create((train, valid), my_model, my_params)
@@ -35,7 +35,7 @@ In this case, the returned `KFold` object splits the data lazily to minimize com
 We also provide a convenience function for evaluating model performance via cross validation for a given set of parameters.
 
 ```
-url = 'http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv'
+url = 'https://static.turi.com/datasets/xgboost/mushroom.csv'
 data = gl.SFrame.read_csv(url)
 data['label'] = (data['label'] == 'p')
 folds = gl.cross_validation.KFold(data, 5)

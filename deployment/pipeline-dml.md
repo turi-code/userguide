@@ -18,7 +18,7 @@ Let's look at an example which trains a linear regression model:
 import graphlab as gl
 
 # Load data
-dataset = 'http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv'
+dataset = 'https://static.turi.com/datasets/xgboost/mushroom.csv'
 sf = gl.SFrame(dataset)
 
 # Train model
@@ -54,7 +54,7 @@ Once the cluster object is created is set, you can specify it as a distributed e
 gl.set_distributed_execution_environment(c)
 
 # Load data
-dataset = 'http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv'
+dataset = 'https://static.turi.com/datasets/xgboost/mushroom.csv'
 sf = gl.SFrame(dataset)
 
 # Train model

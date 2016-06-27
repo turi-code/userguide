@@ -72,7 +72,7 @@ function.
 
 ```python
 job_local = gl.deploy.job.create(my_workflow,
-        path = 'https://s3.amazonaws.com/datasets/movie_ratings/sample.large')
+        path = 'https://static.turi.com/datasets/movie_ratings/sample.large')
 
 # get status immediately after creating this job.
 job_local.get_status()
@@ -102,7 +102,7 @@ ec2 = gl.deploy.ec2_cluster.create(name='ec2',
 
 job_ec2 = gl.deploy.job.create(my_workflow,
         environment=ec2,
-        path='https://s3.amazonaws.com/datasets/movie_ratings/sample.large')
+        path='https://static.turi.com/datasets/movie_ratings/sample.large')
 
 # get the results
 job_ec2.get_results()
@@ -154,7 +154,7 @@ cdh5 = gl.deploy.hadoop_cluster.create('cdh5',
 
 job_hadoop = gl.deploy.job.create(my_workflow,
       environment=cdh5,
-      path='https://s3.amazonaws.com/datasets/movie_ratings/sample.large')
+      path='https://static.turi.com/datasets/movie_ratings/sample.large')
 
 # get the results
 job_hadoop.get_results()

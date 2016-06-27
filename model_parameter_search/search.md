@@ -46,7 +46,7 @@ In the following example, each parameter combination will contain
 
 ```
 import scipy.stats
-url = 'http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv'
+url = 'https://static.turi.com/datasets/xgboost/mushroom.csv'
 data = gl.SFrame.read_csv(url)
 data['label'] = (data['label'] == 'p')
 

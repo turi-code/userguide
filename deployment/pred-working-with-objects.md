@@ -7,7 +7,7 @@ Let's train a GraphLab Create model. For the rest of this chapter we will utiliz
 ```python
 import graphlab
 
-data_url = 'https://s3.amazonaws.com/datasets/movie_ratings/sample.small'
+data_url = 'https://static.turi.com/datasets/movie_ratings/sample.small'
 data = graphlab.SFrame.read_csv(data_url,delimiter='\t',column_type_hints={'rating':int})
 model = graphlab.popularity_recommender.create(data, 'user', 'movie', 'rating')
 ```

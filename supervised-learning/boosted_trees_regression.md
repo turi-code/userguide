@@ -56,7 +56,7 @@ The algorithm simply fit a new decision tree to the residual at each iteration.
 import graphlab as gl
 
 # Load the data
-data =  gl.SFrame.read_csv('http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv')
+data =  gl.SFrame.read_csv('https://static.turi.com/datasets/xgboost/mushroom.csv')
 
 # Label 'p' is edible
 data['label'] = data['label'] == 'p'

@@ -15,7 +15,7 @@ import graphlab as gl
 
 # Load the data
 # The data can be downloaded using
-data =  gl.SFrame.read_csv('http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv')
+data =  gl.SFrame.read_csv('https://static.turi.com/datasets/xgboost/mushroom.csv')
 
 # Label 'c' is edible
 data['label'] = data['label'] == 'c'

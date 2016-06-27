@@ -43,7 +43,7 @@ Additional parameters include the number of EC2 nodes to use for the service, SS
 Any model that you create and use locally can back a Predictive Service. We will use a simple recommender model in this walk-through:
 
 ```python
-data_url = 'https://s3.amazonaws.com/datasets/movie_ratings/sample.small'
+data_url = 'https://static.turi.com/datasets/movie_ratings/sample.small'
 data = graphlab.SFrame.read_csv(data_url,delimiter='\t',column_type_hints={'rating':int})
 model = graphlab.popularity_recommender.create(data, 'user', 'movie', 'rating')
 ```

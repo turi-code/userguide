@@ -27,7 +27,7 @@ random forests, all the base models are constructed independently using a
 import graphlab as gl
 
 # Load the data
-data =  gl.SFrame.read_csv('http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv')
+data =  gl.SFrame.read_csv('https://static.turi.com/datasets/xgboost/mushroom.csv')
 
 # Label 'p' is edible
 data['label'] = data['label'] == 'p'
