@@ -55,8 +55,8 @@ Here is a simple end-to-end example:
 import graphlab as gl
 
 # Load the dataset
-train = gl.SFrame("https://static.turi.com/datasets/bakery_train.sf")
-test = gl.SFrame("https://static.turi.com/datasets/bakery_test.sf")
+train = gl.SFrame("https://static.turi.com/datasets/extended-bakery/bakery_train.sf")
+test = gl.SFrame("https://static.turi.com/datasets/extended-bakery/bakery_test.sf")
 
 # Make a train-test split.
 train, test = bakery_sf.random_split(0.8)

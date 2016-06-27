@@ -224,7 +224,7 @@ m = graphlab.classifier.create(data,
 We also provide a [model trained on Imagenet](http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf).This pre-trained model gives pre-trained features of excellent quality for images, and the way you would use such a model is demonstrated below:
 
 ```python
-imagenet_path = 'https://static.turi.com/datasets/deeplearning/imagenet_model_iter45'
+imagenet_path = 'https://static.turi.com/models/imagenet_model_iter45'
 imagenet_model = graphlab.load_model(imagenet_path)
 data['image'] = graphlab.image_analysis.resize(data['image'], 256, 256, 3)
 data['imagenet_features'] = imagenet_model.extract_features(data)

@@ -9,7 +9,7 @@ As a quick example, suppose we want to summarize people's Comcast complaints. We
 
 ```python
 >>> import graphlab as gl
->>> sf = gl.SFrame('s3://static.turi.com/datasets/datasets-oregon-oregon/comcast_fcc_complaints_apr_june_2015/comcast.csv')
+>>> sf = gl.SFrame('s3://static.turi.com/datasets/comcast_fcc_complaints_apr_june_2015/comcast.csv')
 >>> m = gl.product_sentiment.create(sf, features=['Description'], splitby='sentence')
 >>> m.sentiment_summary(['billing', 'cable', 'cost', 'late', 'charges', 'slow'])
 +---------+----------------+-----------------+--------------+
@@ -95,7 +95,7 @@ value found in this column. For instance, this could be the column
 containing product names.
 
 ```python
->>> data = gl.SFrame('https://static.turi.com/datasets/coursera/amazon_baby_products/amazon_baby.gl')
+>>> data = gl.SFrame('https://static.turi.com/datasets/amazon_baby_products/amazon_baby.gl')
 >>> data = data.head(10000)[['name', 'review']]
 >>> m = gl.product_sentiment.create(data, features=['review'])
 >>> m.get_most_negative(['cheap'], groupby='name', k=3)
