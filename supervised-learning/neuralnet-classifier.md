@@ -28,8 +28,8 @@ code to get started is as follows:
 import graphlab as gl
 
 # Load the MNIST data (from an S3 bucket)
-data = gl.SFrame('http://static.turi.com/datasets/mnist/sframe/train')
-test_data = gl.SFrame('http://static.turi.com/datasets/mnist/sframe/test')
+data = gl.SFrame('https://static.turi.com/datasets/mnist/sframe/train')
+test_data = gl.SFrame('https://static.turi.com/datasets/mnist/sframe/test')
 
 # Random split the training-data
 training_data, validation_data = data.random_split(0.8)
@@ -207,7 +207,7 @@ In this example, we will build a neural network for classification of digits, th
 
 ```python
 # The data is the MNIST digit recognition dataset
-data = graphlab.SFrame('http://static.turi.com/datasets/mnist/sframe/train6k')
+data = graphlab.SFrame('https://static.turi.com/datasets/mnist/sframe/train6k')
 net = graphlab.deeplearning.get_builtin_neuralnet('mnist')
 m = graphlab.neuralnet_classifier.create(data,
                                          target='label',
@@ -224,7 +224,7 @@ m = graphlab.classifier.create(data,
 We also provide a [model trained on Imagenet](http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf).This pre-trained model gives pre-trained features of excellent quality for images, and the way you would use such a model is demonstrated below:
 
 ```python
-imagenet_path = 'http://static.turi.com/datasets/deeplearning/imagenet_model_iter45'
+imagenet_path = 'https://static.turi.com/datasets/deeplearning/imagenet_model_iter45'
 imagenet_model = graphlab.load_model(imagenet_path)
 data['image'] = graphlab.image_analysis.resize(data['image'], 256, 256, 3)
 data['imagenet_features'] = imagenet_model.extract_features(data)

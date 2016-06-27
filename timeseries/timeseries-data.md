@@ -44,7 +44,7 @@ import graphlab as gl
 import datetime as dt
 
 household_data = gl.SFrame(
-      "http://static.turi.com/datasets/household_electric_sample.sf")
+      "https://static.turi.com/datasets/household_electric_sample.sf")
 ```
 
 ```no-highlight
@@ -251,7 +251,7 @@ the first resampled TimeSeries object with the second TimeSeries object.
 
 ```python
 sf_other = gl.SFrame(
-      'http://static.turi.com/datasets/household_electric_sample_2.sf')
+      'https://static.turi.com/datasets/household_electric_sample_2.sf')
 ts_other = gl.TimeSeries(sf_other, index = 'DateTime')
 household_ts.index_join(ts_other, how='inner')
 ```

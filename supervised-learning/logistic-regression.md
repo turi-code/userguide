@@ -53,7 +53,7 @@ following features.
 import graphlab as gl
 
 # Load the data
-data =  gl.SFrame('http://static.turi.com/datasets/regression/yelp-data.csv')
+data =  gl.SFrame('https://static.turi.com/datasets/regression/yelp-data.csv')
 
 # Restaurants with rating >=3 are good
 data['is_good'] = data['stars'] >= 3
@@ -219,7 +219,7 @@ import graphlab as gl
 
 # Load the data
 # The data can be downloaded using
-data = gl.SFrame('http://static.turi.com/datasets/mnist/sframe/train6k-array')
+data = gl.SFrame('https://static.turi.com/datasets/mnist/sframe/train6k-array')
 
 # Make a train-test split
 train_data, test_data = data.random_split(0.8)

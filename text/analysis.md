@@ -11,7 +11,7 @@ import os
 if os.path.exists('wikipedia_w16'):
     sf = graphlab.SFrame('wikipedia_w16')
 else:
-    sf = graphlab.SFrame.read_csv('http://static.turi.com/datasets/wikipedia/raw/w16.csv', header=False)
+    sf = graphlab.SFrame.read_csv('https://static.turi.com/datasets/wikipedia/raw/w16.csv', header=False)
     sf.save('wikipedia_w16')
 ```
 

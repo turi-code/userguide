@@ -135,7 +135,7 @@ $(document).ready( function(event){
     };
 
     // Initialize PS Client
-    var client = new PredictiveServiceClient('https://userguide-recommender.dato.com',
+    var client = new PredictiveServiceClient('https://userguide-recommender.turi.com',
     '078b4189-96cd-4329-87a2-20967a751bf3');
 
     //Query PS Client

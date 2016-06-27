@@ -61,7 +61,7 @@ filename = 'yelp-data.csv'
 if os.path.exists(filename):
     data = gl.SFrame.read_csv(filename)
 else:
-    data =  gl.SFrame('http://static.turi.com/datasets/regression/{}'.format(filename))
+    data =  gl.SFrame('https://static.turi.com/datasets/regression/{}'.format(filename))
     data.save(filename, format='csv')
 
 train_data, test_data = data.random_split(0.9)

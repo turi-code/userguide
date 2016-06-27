@@ -33,6 +33,6 @@ j = graphlab.model_parameter_search.create((train, valid),
                                            environment=hd)
 ```
 
-For more details on creating EC2- and Hadoop-based environments, checkout the [API docs](https://turi.com/products/create/docs/graphlab.deploy.html) or the [Deployment](http://turi.com/learn/userguide/deployment/pipeline-introduction.html) chapter of the userguide.
+For more details on creating EC2- and Hadoop-based environments, checkout the [API docs](https://turi.com/products/create/docs/graphlab.deploy.html) or the [Deployment](https://turi.com/learn/userguide/deployment/pipeline-introduction.html) chapter of the userguide.
 
 When getting started, it is useful to keep `perform_trial_run=True` to make sure you are creating your models properly.

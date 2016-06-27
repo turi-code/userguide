@@ -1,6 +1,6 @@
 {
   "name": "userguide",
-  "version": "1.8.2",
+  "version": "2.0",
   "description": "userguide",
   "main": "index.js",
   "devDependencies": {
@@ -17,7 +17,7 @@
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dato-code/userguide.git"
+    "url": "https://github.com/turi-code/userguide.git"
   },
   "private": true
 }

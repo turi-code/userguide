@@ -22,7 +22,7 @@ if os.path.exists('febrl_F_org_5000.csv'):
     refs = gl.SFrame.read_csv('febrl_F_org_5000.csv',
                               column_type_hints=col_types)
 else:
-    url = 'http://static.turi.com/datasets/febrl_synthetic/febrl_F_org_5000.csv'
+    url = 'https://static.turi.com/datasets/febrl_synthetic/febrl_F_org_5000.csv'
     refs = gl.SFrame.read_csv(url, column_type_hints=col_types)
     refs.save('febrl_F_org_5000.csv')
 
@@ -30,7 +30,7 @@ if os.path.exists('febrl_F_dup_5000.csv'):
     query = gl.SFrame.read_csv('febrl_F_dup_5000.csv',
                                column_type_hints=col_types)
 else:
-    url = 'http://static.turi.com/datasets/febrl_synthetic/febrl_F_dup_5000.csv'
+    url = 'https://static.turi.com/datasets/febrl_synthetic/febrl_F_dup_5000.csv'
     query = gl.SFrame.read_csv(url, column_type_hints=col_types)
     query.save('febrl_F_dup_5000.csv')
 ```

@@ -18,7 +18,7 @@ a free pre-trained model for use as demonstrated below.
 import graphlab as gl
 
 # Import data from MNIST
-data = gl.SFrame('http://static.turi.com/datasets/mnist/sframe/train6k')
+data = gl.SFrame('https://static.turi.com/datasets/mnist/sframe/train6k')
 
 # Create a DeepFeatureExtractorObject
 #If `model='auto'` is used, an appropriate model is chosen from a collection

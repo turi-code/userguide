@@ -23,8 +23,8 @@
   },
   "links": {
     "sidebar": {
-      "Turi.com": "https://turi.com",
-      "Edit this on Github": "https://github.com/dato-code/userguide"
+      "turi.com": "https://turi.com",
+      "Edit this on Github": "https://github.com/turi-code/userguide"
     }
   }
 }

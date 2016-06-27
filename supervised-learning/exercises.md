@@ -41,7 +41,7 @@ visualizations are computed for you. In the mean time, let us take a quick look
 at the target column **OpenStatus**.
 
 <span style="color:red">**Question 1:**</span> Now, use the
-[SArray.unique()](http://turi.com/products/create/docs/generated/graphlab.SArray.unique.html#graphlab.SArray.unique)
+[SArray.unique()](https://turi.com/products/create/docs/generated/graphlab.SArray.unique.html#graphlab.SArray.unique)
 function to get out the unique values of the column
 **OpenStatus**.
 
@@ -110,7 +110,7 @@ sf_subsampled = sf_open_only.append(sf_closed_only)
 
 
 <span style="color:red">**Question 6:**</span> Use the
-[SArray.astype()](http://turi.com/products/create/docs/generated/graphlab.SArray.astype.html)
+[SArray.astype()](https://turi.com/products/create/docs/generated/graphlab.SArray.astype.html)
 function to make sure the following columns (in
 **sf_subsampled**) are of the right types. Here are the right types.
 

@@ -83,10 +83,10 @@ claiming to be DBAPI2-compliant. We will be adding more modules to this list as
 driven by what our users are interested in, so if you are interested in other
 modules, please try them out and let us know! If there is an issue with using
 one, please file an issue on [our GitHub
-page](https://github.com/dato-code/SFrame/issues) and include the error output
+page](https://github.com/turi-code/SFrame/issues) and include the error output
 you received and/or some small code sample that exhibits the error.  You can
 even [submit a pull
-request](https://github.com/dato-code/SFrame) if you are able to fix the issue.
+request](https://github.com/turi-code/SFrame) if you are able to fix the issue.
 
 If your database does not support a DBAPI2 python module, but does support an
 ODBC driver, keep reading.

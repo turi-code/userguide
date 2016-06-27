@@ -199,7 +199,7 @@ client.query('recs', request_data, function(err, resp) {
 });
 ```
 
-For more information on how to install and use the JS library visit [its GitHub repository](https://github.com/dato-code/Turi-Predictive-Service-Client-JS).
+For more information on how to install and use the JS library visit [its GitHub repository](https://github.com/turi-code/Turi-Predictive-Service-Client-JS).
 
 #### Writing your own client library
 

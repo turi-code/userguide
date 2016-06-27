@@ -48,9 +48,9 @@ if os.path.exists('schizophrenia_clean'):
     sf = gl.SFrame('schizophrenia_clean')
 else:
     sf_functional = gl.SFrame.read_csv(
-        'http://static.turi.com/datasets/mlsp_2014/train_FNC.csv')
+        'https://static.turi.com/datasets/mlsp_2014/train_FNC.csv')
     sf_morphometry = gl.SFrame.read_csv(
-        'http://static.turi.com/datasets/mlsp_2014/train_SBM.csv')
+        'https://static.turi.com/datasets/mlsp_2014/train_SBM.csv')
 
     sf = sf_functional.join(sf_morphometry, on="Id")
     sf = sf.remove_column('Id')   

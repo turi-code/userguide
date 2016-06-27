@@ -21,7 +21,7 @@ import os
 if os.path.exists('houses.csv'):
     sf = gl.SFrame.read_csv('houses.csv')
 else:
-    data_url = 'http://static.turi.com/datasets/regression/houses.csv'
+    data_url = 'https://static.turi.com/datasets/regression/houses.csv'
     sf = gl.SFrame.read_csv(data_url)
     sf.save('houses.csv')
 

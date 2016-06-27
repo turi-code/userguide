@@ -12,7 +12,7 @@ import os
 if os.path.exists('wikipedia_w0'):
     documents = graphlab.SFrame('wikipedia_w0')
 else:
-    documents = graphlab.SFrame.read_csv('http://static.turi.com/datasets/wikipedia/raw/w0', header=False)
+    documents = graphlab.SFrame.read_csv('https://static.turi.com/datasets/wikipedia/raw/w0', header=False)
     documents.save('wikipedia_w0')
 ```
 

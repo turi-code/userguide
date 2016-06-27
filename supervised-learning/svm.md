@@ -57,7 +57,7 @@ import graphlab as gl
 
 # Load the data
 # The data can be downloaded using
-data =  gl.SFrame('http://static.turi.com/datasets/regression/yelp-data.csv')
+data =  gl.SFrame('https://static.turi.com/datasets/regression/yelp-data.csv')
 
 # Restaurants with rating >=3 are good
 data['is_good'] = data['stars'] >= 3

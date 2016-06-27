@@ -17,7 +17,7 @@ data_file = 'US_business_links'
 if os.path.exists(data_file):
     sg = graphlab.load_sgraph(data_file)
 else:
-    url = 'http://static.turi.com/datasets/' + data_file
+    url = 'https://static.turi.com/datasets/' + data_file
     sg = graphlab.load_sgraph(url)
     sg.save(data_file)
 

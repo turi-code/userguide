@@ -24,7 +24,7 @@ import os
 if os.path.exists('wikipedia_w0'):
     docs = gl.SFrame('wikipedia_w0')
 else:
-    docs = gl.SFrame.read_csv('http://static.turi.com/datasets/wikipedia/raw/w0.csv', header=False)
+    docs = gl.SFrame.read_csv('https://static.turi.com/datasets/wikipedia/raw/w0.csv', header=False)
     docs.save('wikipedia_w0')
 
 # Remove stopwords and convert to bag of words

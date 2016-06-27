@@ -44,7 +44,7 @@ on statistics collected from the data set.
 import graphlab as gl
 
 # Load the data
-data =  gl.SFrame('http://static.turi.com/datasets/regression/yelp-data.csv')
+data =  gl.SFrame('https://static.turi.com/datasets/regression/yelp-data.csv')
 
 # Make a train-test split
 train_data, test_data = data.random_split(0.8)

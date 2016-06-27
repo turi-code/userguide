@@ -35,7 +35,7 @@ import graphlab as gl
 if os.path.exists('mnist_train6k'):
     mnist = gl.SFrame('mnist_train6k')
 else:
-    mnist = gl.SFrame('http://static.turi.com/datasets/mnist/sframe/train6k')
+    mnist = gl.SFrame('https://static.turi.com/datasets/mnist/sframe/train6k')
     mnist.save('mnist_train6k')
 ```
 

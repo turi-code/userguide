@@ -10,7 +10,7 @@ examples.  This first table contains metadata about each song in the database.
 Here's how to load it into an SFrame:
 
 ```python
-songs = gl.SFrame.read_csv("http://static.turi.com/datasets/millionsong/song_data.csv")
+songs = gl.SFrame.read_csv("https://static.turi.com/datasets/millionsong/song_data.csv")
 ```
 
 Simple.  No options are needed for the simplest case, as the SFrame parser
@@ -19,7 +19,7 @@ when importing a csv file.  Some of the more common options come in to play when
 we load the usage data of users listening to these songs online:
 
 ```python
-usage_data = gl.SFrame.read_csv("http://static.turi.com/datasets/millionsong/10000.txt",
+usage_data = gl.SFrame.read_csv("https://static.turi.com/datasets/millionsong/10000.txt",
                                 header=False,
                                 delimiter='\t',
                                 column_type_hints={'X3':int})

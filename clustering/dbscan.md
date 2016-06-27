@@ -214,7 +214,7 @@ import os
 if os.path.exists('wikipedia_w16'):
     sf = gl.SFrame('wikipedia_w16')
 else:
-    sf = gl.SFrame.read_csv('http://static.turi.com/datasets/wikipedia/raw/w16.csv',
+    sf = gl.SFrame.read_csv('https://static.turi.com/datasets/wikipedia/raw/w16.csv',
                             header=False)
     sf.save('wikipedia_w16')
 ```

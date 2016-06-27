@@ -50,7 +50,7 @@ an SFrame, then build the graph.
 ```python
 from graphlab import SFrame
 edge_data = SFrame.read_csv(
-    'http://static.turi.com/datasets/bond/bond_edges.csv')
+    'https://static.turi.com/datasets/bond/bond_edges.csv')
 
 g = SGraph()
 g = g.add_edges(edge_data, src_field='src', dst_field='dst')
@@ -64,7 +64,7 @@ The SGraph constructor also accepts vertex and edge SFrames directly. We can
 construct the same James Bond graph with the following two lines:
 
 ```python
-vertex_data = SFrame.read_csv('http://static.turi.com/datasets/bond/bond_vertices.csv')
+vertex_data = SFrame.read_csv('https://static.turi.com/datasets/bond/bond_vertices.csv')
 
 g = SGraph(vertices=vertex_data, edges=edge_data, vid_field='name',
            src_field='src', dst_field='dst')

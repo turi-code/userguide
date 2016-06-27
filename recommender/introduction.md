@@ -2,7 +2,7 @@
 
 A recommender system allows you to provide personalized recommendations to users. With this toolkit, you can train a model based on past interaction data and use that model to make recommendations.
 
-**Note:** Follow the steps in the [sample-movie-recommender](https://github.com/dato-code/sample-movie-recommender) GitHub repository to get the code and data for this example.
+**Note:** Follow the steps in the [sample-movie-recommender](https://github.com/turi-code/sample-movie-recommender) GitHub repository to get the code and data for this example.
 
 #### Input data
 

@@ -31,7 +31,7 @@ import graphlab as gl
 if os.path.exists('stats_overflow_clean'):
     posts = gl.SFrame('stats_overflow_clean')
 else:
-    posts = gl.SFrame('http://static.turi.com/datasets/stats_overflow_clean')
+    posts = gl.SFrame('https://static.turi.com/datasets/stats_overflow_clean')
     posts.save('stats_overflow_clean')
 
 ## Load reference set of statistics topics
@@ -39,7 +39,7 @@ if os.path.exists('statistics_topics.csv'):
     topics = gl.SFrame.read_csv('statistics_topics.csv', header=False, delimiter='\n')
 else:
     topics = gl.SFrame.read_csv(
-        'http://static.turi.com/datasets/tag_lists/statistics_topics.csv',
+        'https://static.turi.com/datasets/tag_lists/statistics_topics.csv',
         header=False, delimiter='\n')
     topics.save('statistics_topics', format='csv')
 

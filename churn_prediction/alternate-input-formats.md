@@ -56,7 +56,7 @@ training the model.
 
 ```python
 side_data = gl.SFrame(
-  'http://static.turi.com/datasets/churn-prediction/online_retail_side_data.csv')
+  'https://static.turi.com/datasets/churn-prediction/online_retail_side_data.csv')
 
 # Train a churn prediction model.
 model = gl.churn_predictor.create(train, user_id='CustomerID',

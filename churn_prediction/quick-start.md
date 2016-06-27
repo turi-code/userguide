@@ -6,7 +6,7 @@ using a service, product, or website. With this toolkit, you can start with raw
 (or processed) usage metrics and accurately forecast the probability that a
 given customer will churn.
 
-**Note**: Follow the steps in the [sample-churn-predictor](https://github.com/dato-code/sample-churn-predictor)
+**Note**: Follow the steps in the [sample-churn-predictor](https://github.com/turi-code/sample-churn-predictor)
 GitHub repo to get the code and data used in this chapter.
 
 #### Introduction
@@ -91,7 +91,7 @@ import datetime
 
 # Load a data set.
 sf = gl.SFrame(
-   'http://static.turi.com/datasets/churn-prediction/online_retail.csv')
+   'https://static.turi.com/datasets/churn-prediction/online_retail.csv')
 
 # Convert InvoiceDate from string to a Python datetime.
 import dateutil

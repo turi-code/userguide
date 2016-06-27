@@ -95,7 +95,7 @@ value found in this column. For instance, this could be the column
 containing product names.
 
 ```python
->>> data = gl.SFrame('http://static.turi.com/datasets/coursera/amazon_baby_products/amazon_baby.gl')
+>>> data = gl.SFrame('https://static.turi.com/datasets/coursera/amazon_baby_products/amazon_baby.gl')
 >>> data = data.head(10000)[['name', 'review']]
 >>> m = gl.product_sentiment.create(data, features=['review'])
 >>> m.get_most_negative(['cheap'], groupby='name', k=3)

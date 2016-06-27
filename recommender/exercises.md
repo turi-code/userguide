@@ -13,7 +13,7 @@ import os
 if os.path.exists('stack_overflow'):
     sf = graphlab.SFrame('stack_overflow')
 else:
-    sf= graphlab.SFrame('http://static.turi.com/datasets/stack_overflow')
+    sf= graphlab.SFrame('https://static.turi.com/datasets/stack_overflow')
     sf.save('stack_overflow')
 ```
 

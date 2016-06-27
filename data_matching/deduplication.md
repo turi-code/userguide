@@ -27,7 +27,7 @@ for g in genres:
     else:
         print "Downloading genre '{}' from S3 bucket....".format(g)
         data[g] = gl.load_sframe(
-            'http://static.turi.com/datasets/dedupe_albums/{}_albums'.format(g))
+            'https://static.turi.com/datasets/dedupe_albums/{}_albums'.format(g))
         data[g].save('{}_albums'.format(g))
 ```
 
