@@ -108,4 +108,4 @@ By understanding the qualitative aspects of the model you can build confidence i
 
 #### Have questions?
 
-Feel free to ask any questions on our [user forum](forum.turi.com).
+Feel free to ask any questions on our [user forum](http://forum.turi.com).
