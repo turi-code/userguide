@@ -9,7 +9,7 @@ As a quick example, suppose we want to summarize people's Comcast complaints. We
 
 ```python
 >>> import graphlab as gl
->>> sf = gl.SFrame('s3://static.turi.com/datasets/comcast_fcc_complaints_apr_june_2015/comcast.csv')
+>>> sf = gl.SFrame('https://static.turi.com/datasets/comcast_fcc_complaints_apr_june_2015/comcast.csv')
 >>> m = gl.product_sentiment.create(sf, features=['Description'], splitby='sentence')
 >>> m.sentiment_summary(['billing', 'cable', 'cost', 'late', 'charges', 'slow'])
 +---------+----------------+-----------------+--------------+
