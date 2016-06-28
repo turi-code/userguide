@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Rare Word Trimmer
 
 Removing words that occur below a certain number of times in a given column is a 

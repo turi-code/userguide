@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Data Manipulation
 
 It isn't often that your dataset is "clean" enough to run one of our toolkits on
@@ -46,7 +46,7 @@ songs.head(5)
 
 Notice we had to reassign the resulting column back to our SFrame.  This is
 because the content of the SFrame's columns (a separate data structure called
-an [SArray](https://dato.com/products/create/docs/generated/graphlab.SArray.html),
+an [SArray](https://turi.com/products/create/docs/generated/graphlab.SArray.html),
 is immutable.  SFrames can add and subtract columns liberally though, as it
 essentially is just a carrier of references to SArrays.
 
@@ -185,7 +185,7 @@ certainly be returned as exact values, but for the summary we use approximate
 values to make sure exploring large datasets is scalable.  The methods we use
 only do a single pass of the data in the column, and each operation has well-
 defined bounds on how wrong the answer will be, which are listed in our
-[API Reference](https://dato.com/products/create/docs/generated/graphlab.Sketch.html).
+[API Reference](https://turi.com/products/create/docs/generated/graphlab.Sketch.html).
 
 Using the most frequent items and quantiles described here, you can probably
 almost picture the distribution of years, where the tallest part is squarely
@@ -301,7 +301,7 @@ len(reasonable_usage)
 
 
 You can also write a lambda function to filter using the `filter` function,
-which you can read about in the [API Reference](https://dato.com/products/create/docs/generated/graphlab.SArray.filter.html#graphlab.SArray.filter).
+which you can read about in the [API Reference](https://turi.com/products/create/docs/generated/graphlab.SArray.filter.html#graphlab.SArray.filter).
 
 #### Joins and Aggregation
 
@@ -513,7 +513,7 @@ You can use print_rows(num_rows=m, num_columns=n) to print more rows and columns
 
 
 
-The [CONCAT](https://dato.com/products/create/docs/graphlab.data_structures.html#module-graphlab.aggregate)
+The [CONCAT](https://turi.com/products/create/docs/graphlab.data_structures.html#module-graphlab.aggregate)
 aggregator simply creates a list of all values in the given column for each
 group.  I included the year for debugging purposes, since I didn't know if the
 invariant of "every song on the same release has the same year" was true in
@@ -840,4 +840,4 @@ bit contrived, but these functions are very useful when working with
 unstructured data like text, as you will be able to see in the [Text Analysis](../text/analysis.md)
 chapter of this guide.
 
-To find out more, check out the [API Reference for SFrames](https://dato.com/products/create/docs/generated/graphlab.SFrame.html) and the [hands-on exercises](exercises.md) at the end of the chapter.
+To find out more, check out the [API Reference for SFrames](https://turi.com/products/create/docs/generated/graphlab.SFrame.html) and the [hands-on exercises](exercises.md) at the end of the chapter.

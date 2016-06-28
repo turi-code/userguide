@@ -132,4 +132,4 @@ by the deployed tokenizer model.
 
 ## Feedback
 Feedback about the feature engineering toolkit is very welcome. Please post 
-questions and comments on our forum or send a note to <a href="mailto:support@dato.com">support@dato.com</a>.
+questions and comments on our forum or send a note to <a href="mailto:support@turi.com">support@turi.com</a>.

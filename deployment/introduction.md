@@ -1,10 +1,10 @@
 # Deployment
 
-In this chapter we demonstrate how GraphLab Create makes it easy to take predictive applications to production, by enabling batch processing with asynchronous and distributed job execution through Dato Distributed, and real-time querying and consumption of predictive objects (models or custom functions) with Dato Predictive Services. Note that jobs can be arbitrary python code.
+In this chapter we demonstrate how GraphLab Create makes it easy to take predictive applications to production, by enabling batch processing with asynchronous and distributed job execution through Turi Distributed, and real-time querying and consumption of predictive objects (models or custom functions) with Turi Predictive Services. Note that jobs can be arbitrary python code.
 
 Here is a short summary of what you can do with each of these features:
 
-#### Batch processing with Dato Distributed
+#### Batch processing with Turi Distributed
 
 - Run distributed jobs in your Hadoop cluster.
 - Run distributed jobs in Amazon's EC2 cloud computing environment.

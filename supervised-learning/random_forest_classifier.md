@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Random Forest Classifier
  
 A Random Forest classifier is one of the most effective machine learning models
@@ -14,7 +14,7 @@ import graphlab as gl
 
 # Load the data
 # The data can be downloaded using
-data =  gl.SFrame.read_csv('http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv')
+data =  gl.SFrame.read_csv('https://static.turi.com/datasets/xgboost/mushroom.csv')
 
 # Label 'c' is edible
 data['label'] = data['label'] == 'c'

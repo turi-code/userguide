@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Support Vector Machines
 Support Vector Machines (SVM) is another popular model used for classification
 tasks. In logistic regression, the probability that a  **binary target is True**
@@ -57,7 +57,7 @@ import graphlab as gl
 
 # Load the data
 # The data can be downloaded using
-data =  gl.SFrame('http://s3.amazonaws.com/dato-datasets/regression/yelp-data.csv')
+data =  gl.SFrame('https://static.turi.com/datasets/regression/yelp-data.csv')
 
 # Restaurants with rating >=3 are good
 data['is_good'] = data['stars'] >= 3

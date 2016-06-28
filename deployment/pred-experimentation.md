@@ -1,8 +1,8 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Experimentation
 A core feature of serving a model as a service in a production environment is the ability to experiment with multiple models and measure their respective success.
 
-The previous chapter [Predictive Objects](https://dato.com/learn/userguide/deployment/pred-working-with-objects.html) describes how to deploy and serve a single Predictive Object through a RESTful endpoint. Beyond that Dato Predictive Services offers interfaces to support model management and experimentation:
+The previous chapter [Predictive Objects](https://turi.com/learn/userguide/deployment/pred-working-with-objects.html) describes how to deploy and serve a single Predictive Object through a RESTful endpoint. Beyond that Turi Predictive Services offers interfaces to support model management and experimentation:
 
 * Aliasing: An alias is an endpoint that redirects to an existing Predictive Object.
 * Policies: A Policy selects one model out of a set and serves it at a specified endpoint.
@@ -17,7 +17,7 @@ Each deployed Predictive Object can be queried through its associated endpoint, 
 * the path `/query/`, and
 * the name of the Predictive Object, for example `sim_model`
 
-Besides Predictive Objects endpoints can also be backed by an _alias_ or a _policy_, as explained below. At any point you can retrieve the list of all active endpoints in your Predictive Service through the [`PredictiveService.get_endpoints`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_endpoints.html) API:
+Besides Predictive Objects endpoints can also be backed by an _alias_ or a _policy_, as explained below. At any point you can retrieve the list of all active endpoints in your Predictive Service through the [`PredictiveService.get_endpoints`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_endpoints.html) API:
 
 ```python
 import graphlab
@@ -41,7 +41,7 @@ The _info_ column displays the type of the endpoint, while the _description_ is 
 
 #### Aliasing
 
-When developing an application that consumes the predictive service, it is desirable to maintain a single endpoint physical endpoint that can be redirected to different models. Hence the application code does not need to be changed when testing and comparing multiple models. Dato Predictive Service provides the concept of an _alias_:
+When developing an application that consumes the predictive service, it is desirable to maintain a single endpoint physical endpoint that can be redirected to different models. Hence the application code does not need to be changed when testing and comparing multiple models. Turi Predictive Service provides the concept of an _alias_:
 
 ```python
 deployment.alias('recommender', 'sim_model')
@@ -92,7 +92,7 @@ This does not affect the predictive object that has been served under this alias
 
 #### Experimentation
 
-Experimenting with multiple models usually implies to serve them through one endpoint, with some policy determining which model should be served. Dato Predictive Services provides the ability to add such a policy to a deployment, just like a regular single model, with a name that translates to a single endpoint:
+Experimenting with multiple models usually implies to serve them through one endpoint, with some policy determining which model should be served. Turi Predictive Services provides the ability to add such a policy to a deployment, just like a regular single model, with a name that translates to a single endpoint:
 
 ```python
 from graphlab.deploy.predictive_service import ProbabilityPolicy
@@ -148,7 +148,7 @@ print deployment.get_endpoints()
 
 ##### Available Policies
 
-As of version 1.6 Dato Predictive Services provides two experimentation policies:
+As of version 1.6 Turi Predictive Services provides two experimentation policies:
 
 * **ProbabilityPolicy**: enables simple A/B testing.
 * **EpsilonGreedyPolicy**: lets you implement a multi-armed bandit.
@@ -159,7 +159,7 @@ Both are described in the following sections.
 
 Regular A/B testing involves a set of experiments and associated probabilities. Each request to an endpoint is routed to one of the experiments with its associated probability. This is considered a pure _exploration_ approach, as the evaluation of a model's success and the according adjustment of the probabilities happens manually.
 
-In the context of Dato Predictive Services, this methodology is implemented through a ``ProbabilityPolicy`` endpoint. It is instantiated as follows:
+In the context of Turi Predictive Services, this methodology is implemented through a ``ProbabilityPolicy`` endpoint. It is instantiated as follows:
 
 ```python
 from graphlab.deploy.predictive_service import ProbabilityPolicy
@@ -204,6 +204,6 @@ else:
   deployment.feedback(r['uuid'], reward = 0)
 ```
 
-The epsilon-greedy policy uses the feedback mechanism built into Dato Predictive Services to update the success measure of each predictive object. Specifically it looks for the keyword `reward` and expects a float value for it. Upon receiving such feedback, the policy then updates the average reward of the predictive object that served this request. As you can see, this makes the policy stateful, as it maintains the average rewards of all of its predictive objects.
+The epsilon-greedy policy uses the feedback mechanism built into Turi Predictive Services to update the success measure of each predictive object. Specifically it looks for the keyword `reward` and expects a float value for it. Upon receiving such feedback, the policy then updates the average reward of the predictive object that served this request. As you can see, this makes the policy stateful, as it maintains the average rewards of all of its predictive objects.
 
 Over time, the predictive object with the highest rewards will be favored by the exploitation branch of the policy, while it keeps exploring all of its predictive objects equally. This ensures that a different object can emerge as the best one if the success metric (and hence the reward feedback) changes.

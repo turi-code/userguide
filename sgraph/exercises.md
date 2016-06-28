@@ -42,7 +42,7 @@ results = [
 
 <span style="color:red">**Question 1:**</span>
 
-Construct [SFrames](https://dato.com/products/create/docs/generated/graphlab.SFrame.html#graphlab.SFrame) for the vertex and edge data.
+Construct [SFrames](https://turi.com/products/create/docs/generated/graphlab.SFrame.html#graphlab.SFrame) for the vertex and edge data.
 
 ```python
 verts = graphlab.SFrame({'name': countries.keys(),
@@ -91,7 +91,7 @@ print edges
 ```
 
 <span style="color:red">**Question 2:**</span>
-Make an empty [SGraph](https://dato.com/products/create/docs/generated/graphlab.SGraph.html#graphlab.SGraph).
+Make an empty [SGraph](https://turi.com/products/create/docs/generated/graphlab.SGraph.html#graphlab.SGraph).
 
 
 ```python
@@ -113,7 +113,7 @@ sg = sg.add_edges(edges, src_field='loser', dst_field='winner')
 <span style="color:red">**Question 4:**</span>
 Summarize the graph. How many vertices and eges are there?
 
-The [summary](https://dato.com/products/create/docs/generated/graphlab.SGraph.summary.html#graphlab.SGraph.summary) method gives the number of vertices and
+The [summary](https://turi.com/products/create/docs/generated/graphlab.SGraph.summary.html#graphlab.SGraph.summary) method gives the number of vertices and
 edges in the graph, which is often the best place to start.
 
 ```python
@@ -191,7 +191,7 @@ print sf_edge
 <span style="color:red">**Question 7:**</span>
 Extract only the vertices in group H and plot the subgraph.
 
-There are a couple ways to do this. The [get_vertices](https://dato.com/products/create/docs/generated/graphlab.SGraph.get_vertices.html#graphlab.SGraph.get_
+There are a couple ways to do this. The [get_vertices](https://turi.com/products/create/docs/generated/graphlab.SGraph.get_vertices.html#graphlab.SGraph.get_
 vertices) command is the most straightforward, but filtering on the underlying
 SFrame is more flexible.
 

@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Basic Loading and Saving
 
 SFrames can import data in a [variety of formats](../data_formats_and_sources/intro.md),
@@ -10,7 +10,7 @@ examples.  This first table contains metadata about each song in the database.
 Here's how to load it into an SFrame:
 
 ```python
-songs = gl.SFrame.read_csv("http://s3.amazonaws.com/dato-datasets/millionsong/song_data.csv")
+songs = gl.SFrame.read_csv("https://static.turi.com/datasets/millionsong/song_data.csv")
 ```
 
 Simple.  No options are needed for the simplest case, as the SFrame parser
@@ -19,7 +19,7 @@ when importing a csv file.  Some of the more common options come in to play when
 we load the usage data of users listening to these songs online:
 
 ```python
-usage_data = gl.SFrame.read_csv("http://s3.amazonaws.com/dato-datasets/millionsong/10000.txt",
+usage_data = gl.SFrame.read_csv("https://static.turi.com/datasets/millionsong/10000.txt",
                                 header=False,
                                 delimiter='\t',
                                 column_type_hints={'X3':int})
@@ -30,7 +30,7 @@ file does not provide column names in its first line, and the values are
 separated by tabs, not commas.  The `column_type_hints` keeps the SFrame csv
 parser from attempting to infer the datatype of each column, which it does by
 default.  For a full list of options when parsing csv files, check our [API
-Reference](https://dato.com/products/create/docs/generated/graphlab.SFrame.read_csv.html#graphlab.SFrame.read_csv).
+Reference](https://turi.com/products/create/docs/generated/graphlab.SFrame.read_csv.html#graphlab.SFrame.read_csv).
 
 Once done we can inspect the first few rows of the tables we've imported.
 
@@ -139,15 +139,15 @@ same_usage_data = gl.load_sframe('./music_usage_data')
 ```
 
 In addition to these functions, JSON imports and exports, SQL/ODBC imports, and various Spark RDD conversion capabilities are also supported. For further information see the respective pages in the GraphLab Create API Documentation:
-* [read_json](https://dato.com/products/create/docs/generated/graphlab.SFrame.read_json.html)
-* [export_json](https://dato.com/products/create/docs/generated/graphlab.SFrame.export_json.html)
-* [read_csv](https://dato.com/products/create/docs/generated/graphlab.SFrame.read_csv.html)
-* [export_csv](https://dato.com/products/create/docs/generated/graphlab.SFrame.export_csv.html)
-* [from_odbc](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_sql.html)
-* [from_odbc](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_odbc.html)
-* [from_rdd](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_rdd.html)
-* [to_rdd](https://dato.com/products/create/docs/generated/graphlab.SFrame.to_rdd.html)
-* [to_spark_dataframe](https://dato.com/products/create/docs/generated/graphlab.SFrame.to_spark_dataframe.html)
+* [read_json](https://turi.com/products/create/docs/generated/graphlab.SFrame.read_json.html)
+* [export_json](https://turi.com/products/create/docs/generated/graphlab.SFrame.export_json.html)
+* [read_csv](https://turi.com/products/create/docs/generated/graphlab.SFrame.read_csv.html)
+* [export_csv](https://turi.com/products/create/docs/generated/graphlab.SFrame.export_csv.html)
+* [from_odbc](https://turi.com/products/create/docs/generated/graphlab.SFrame.from_sql.html)
+* [from_odbc](https://turi.com/products/create/docs/generated/graphlab.SFrame.from_odbc.html)
+* [from_rdd](https://turi.com/products/create/docs/generated/graphlab.SFrame.from_rdd.html)
+* [to_rdd](https://turi.com/products/create/docs/generated/graphlab.SFrame.to_rdd.html)
+* [to_spark_dataframe](https://turi.com/products/create/docs/generated/graphlab.SFrame.to_spark_dataframe.html)
 
 For interfacing with Spark RDDs and relational databases see also the specific subsections in this user guide:
 * [Spark RDDs](../data_formats_and_sources/spark_integration.md)

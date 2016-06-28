@@ -1,9 +1,9 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Launching a Predictive Service
 
 #### Configuration
 
-In order to launch a Predictive Service you first need to configure it by instantiating a [`graphlab.deploy.Ec2Config`](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html) object:
+In order to launch a Predictive Service you first need to configure it by instantiating a [`graphlab.deploy.Ec2Config`](https://turi.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html) object:
 
 ```python
 import graphlab
@@ -23,7 +23,7 @@ export AWS_ACCESS_KEY_ID='YOUR_ACCESS_KEY'
 export AWS_SECRET_ACCESS_KEY='YOUR_SECRET_KEY'
 ```
 
-When you create a predictive service with this configuration (see below), a new security group **Dato_Predictive_Service** will be created in the default subnet. You can also specify a custom security group when creating the `Ec2Config` object:
+When you create a predictive service with this configuration (see below), a new security group **Turi_Predictive_Service** will be created in the default subnet. You can also specify a custom security group when creating the `Ec2Config` object:
 
 ```python
 import graphlab
@@ -37,11 +37,11 @@ ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
 
 If this security group does not exist, a new one will be created.
 
-For other configuration parameters, including more details on supported EC2 instance types, please refer to [`Ec2Config`](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html).
+For other configuration parameters, including more details on supported EC2 instance types, please refer to [`Ec2Config`](https://turi.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html).
 
 #### Deployment
 
-With a valid configuration object of type `Ec2Config`, a Predictive Service is launched using the [`graphlab.deploy.predictive_service.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html) command:
+With a valid configuration object of type `Ec2Config`, a Predictive Service is launched using the [`graphlab.deploy.predictive_service.create`](https://turi.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html) command:
 
 ```python
 deployment = graphlab.deploy.predictive_service.create(
@@ -52,7 +52,7 @@ The 3rd parameter&mdash;the state path&mdash;is a S3 path that is used to manage
 
 When the `create` command is executed, the EC2 instances will be launched immediately, followed by a load balancer which adds the instances into the cluster as they pass health checks.
 
-There are additional, optional parameters to [`create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) including:
+There are additional, optional parameters to [`create`](https://turi.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) including:
 
 1. number of hosts for EC2
 2. description of this service
@@ -92,7 +92,7 @@ Note: Distributed caching is supported if the number of hosts (`num_hosts`) is g
 
 #### Working with an Existing Predictive Service Deployment
 
-In some cases, multiple teams or team members may wish to collaborate on a shared Predictive Service deployment. Configuring and managing a shared deployment is easy. All that is needed to load an existing Predictive Service deployment locally into your current GraphLab Create session is to call the [`graphlab.deploy.predictive_service.load`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.load.html#graphlab.deploy.predictive_service.load) method. This method takes the S3 path specified when the deployment was created.
+In some cases, multiple teams or team members may wish to collaborate on a shared Predictive Service deployment. Configuring and managing a shared deployment is easy. All that is needed to load an existing Predictive Service deployment locally into your current GraphLab Create session is to call the [`graphlab.deploy.predictive_service.load`](https://turi.com/products/create/docs/generated/graphlab.deploy.predictive_service.load.html#graphlab.deploy.predictive_service.load) method. This method takes the S3 path specified when the deployment was created.
 
 This way, it is easy to have one person on the team create a cluster, and have everyone else on the team share that cluster for deploying objects. The person that creates the cluster simply notifies the rest of the team of the S3 path for the cluster, and everyone else can load the deployment locally to start using it.
 
@@ -119,7 +119,7 @@ To launch a predictive service into a non-default VPC's subnet, you can specify 
 ec2 = graphlab.deploy.Ec2Config(subnet_id='YOUR_SUBNET_ID')
 ```
 
-This creates a new security group with a group Name **Dato_Predictive_Service** in the subnet with the given `subnet_id`. You can also provide the id of an existing security group:
+This creates a new security group with a group Name **Turi_Predictive_Service** in the subnet with the given `subnet_id`. You can also provide the id of an existing security group:
 
 ```python
 ec2 = graphlab.deploy.Ec2Config(security_group_id='YOUR_SECURITY_GROUP_ID',

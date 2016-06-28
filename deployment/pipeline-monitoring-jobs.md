@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Monitoring Jobs
 
 Jobs are designed to be asynchronous objects. Once they are created (using the
@@ -16,7 +16,7 @@ job.get_status()
 'Running'
 ```
 
-[job.get_status()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_status.html)
+[job.get_status()](https://turi.com/products/create/docs/generated/graphlab.deploy.Job.get_status.html)
 will return one of the following messages: 'Pending', 'Running', 'Completed',
 'Failed', 'Unknown', 'Canceled'.
 
@@ -40,8 +40,8 @@ job.get_end_time()
 datetime.datetime(2015, 5, 8, 14, 47, 55)
 ```
 
-Both [job.get_start_time()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_start_time.html)
-and [job.get_end_time()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_end_time.html)
+Both [job.get_start_time()](https://turi.com/products/create/docs/generated/graphlab.deploy.Job.get_start_time.html)
+and [job.get_end_time()](https://turi.com/products/create/docs/generated/graphlab.deploy.Job.get_end_time.html)
 return a Python [DateTime](https://docs.python.org/2/library/datetime.html) object.
 
 ##### Metrics
@@ -65,7 +65,7 @@ print job.get_metrics()
 +-------------------+---------------------+
 [1 rows x 7 columns]
 ```
-The metrics [SFrame](https://dato.com/products/create/docs/generated/graphlab.SFrame.html)
+The metrics [SFrame](https://turi.com/products/create/docs/generated/graphlab.SFrame.html)
 contains the status, start time, and run time of each execution. We can also
 find out the exception type, message, and traceback if the execution fails.
 
@@ -81,19 +81,19 @@ job.get_error()
 ##### Logs
 
 To get the log file path for this execution, simply call
-[job.get_log_file_path()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_log_file_path.html). This works for both EC2 (S3 path) and Hadoop (HDFS path).
+[job.get_log_file_path()](https://turi.com/products/create/docs/generated/graphlab.deploy.Job.get_log_file_path.html). This works for both EC2 (S3 path) and Hadoop (HDFS path).
 
 ```python
 job.get_log_file_path()
 ```
 ```
-'s3://dato-kaggle/my_workflow-May-08-2015-14-33-16-f6dff07e-2f4a-4cdf-97c9-3d8729bfca6f/logs'
+'s3://my-bucket/my_workflow-May-08-2015-14-33-16-f6dff07e-2f4a-4cdf-97c9-3d8729bfca6f/logs'
 ```
 
 ##### Cancel
 
 You can cancel a job by calling
-[job.cancel()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.cancel.html).
+[job.cancel()](https://turi.com/products/create/docs/generated/graphlab.deploy.Job.cancel.html).
 
 ```python
 job.cancel()
@@ -101,14 +101,14 @@ job.cancel()
 
 ##### Results
 
-To get results of a job execution, we can use [``job.get_results()``](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_results.html).
+To get results of a job execution, we can use [``job.get_results()``](https://turi.com/products/create/docs/generated/graphlab.deploy.Job.get_results.html).
 
-For distributed jobs, we can use [``job.get_map_results()``](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_map_results.html) to get the result of each execution. If the distributed job has a combiner function, we can obtain the
-combiner function result from [job.get_results()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.get_results.html).
+For distributed jobs, we can use [``job.get_map_results()``](https://turi.com/products/create/docs/generated/graphlab.deploy.Job.get_map_results.html) to get the result of each execution. If the distributed job has a combiner function, we can obtain the
+combiner function result from [job.get_results()](https://turi.com/products/create/docs/generated/graphlab.deploy.Job.get_results.html).
 
 ##### Visualize Job
 
-To visualize a Job, call [show()](https://dato.com/products/create/docs/generated/graphlab.deploy.Job.show.html) method:
+To visualize a Job, call [show()](https://turi.com/products/create/docs/generated/graphlab.deploy.Job.show.html) method:
 
 ```
 job.show()
@@ -120,7 +120,7 @@ job.show()
 
 To get more information about a Job, simply print it. This provides general information about the job, including what parameters are being used, the name of the job, and execution-related information will be printed.
 
-For example, 
+For example,
 
 ```python
 print job
@@ -129,7 +129,7 @@ print job
 Info
 ------
 Job                : my_workflow-May-08-2015-14-33-16
-Environment        : EC2: ["name": ec2, "access_key": ..., "instance_type": m3.xlarge, "region": us-west-2, "num_hosts": 1, "s3 folder": s3://dato-kaggle, "params": {}]
+Environment        : EC2: ["name": ec2, "access_key": ..., "instance_type": m3.xlarge, "region": us-west-2, "num_hosts": 1, "s3 folder": s3://my-bucket, "params": {}]
 Function(s)        : ['my_workflow']
 Status             : Completed
 
@@ -159,5 +159,5 @@ End time           : 2015-05-08 14:47:55
 Execution Information:
 
   EC2 Environment name: ec2
-  S3 Folder: s3://dato-kaggle
+  S3 Folder: s3://my-bucket
 ```

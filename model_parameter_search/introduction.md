@@ -31,7 +31,7 @@ We first split the data to create a training set that we will use for training t
 training, validation = regression_data.random_split(0.8)
 ```
 
-Next, we use the [`model_parameter_search.create`](https://dato.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.create.html) method and pass in the data, a function that creates models, and a dictionary of parameter settings.
+Next, we use the [`model_parameter_search.create`](https://turi.com/products/create/docs/generated/graphlab.toolkits.model_parameter_search.create.html) method and pass in the data, a function that creates models, and a dictionary of parameter settings.
 ```
 # Search over a grid of multiple hyper-parameters, with validation set
 params = {'target': 'y'}

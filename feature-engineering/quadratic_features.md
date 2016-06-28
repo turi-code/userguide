@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Quadratic Features
 
 Adding interaction terms is a good way of injecting complex relationships 

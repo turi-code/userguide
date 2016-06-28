@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #DBSCAN
 **DSBCAN**, short for Density-Based Spatial Clustering of Applications with
 Noise, is the most popular density-based clustering method. Density-based
@@ -146,13 +146,13 @@ boundary_mask = sf['type'] == 'boundary'
 noise_mask = sf['type'] == 'noise'
 
 fig, ax = plt.subplots()
-ax.scatter(sf['X1.0'][core_mask], sf['X1.1'][core_mask], s=80, alpha=0.9, 
+ax.scatter(sf['X1.0'][core_mask], sf['X1.1'][core_mask], s=80, alpha=0.9,
            c=sf['dbscan_id'][core_mask], cmap=plt.cm.Set1)
 
 ax.scatter(sf['X1.0'][boundary_mask], sf['X1.1'][boundary_mask], s=40,
            alpha=0.7, c=sf['dbscan_id'][boundary_mask], cmap=plt.cm.Set1)
 
-ax.scatter(sf['X1.0'][noise_mask], sf['X1.1'][noise_mask], s=40, alpha=0.7, 
+ax.scatter(sf['X1.0'][noise_mask], sf['X1.1'][noise_mask], s=40, alpha=0.7,
            c='black')
 fig.show()
 ```
@@ -191,7 +191,7 @@ parameters. To improve the quality of DBSCAN results, try the following:
 - Conversely, if DBSCAN labels all points as noise, with no clusters returned at
   all, try increasing the `radius` or decreasing the `min_core_neighbors`.
 
-- Use the [GraphLab Create nearest neighbors toolkit](https://dato.com/products/
+- Use the [GraphLab Create nearest neighbors toolkit](https://turi.com/products/
   create/docs/graphlab.toolkits.nearest_neighbors.html) to construct a
   similarity graph on the data and plot the distribution of distances with
   Canvas. This will give you a sense for reasonable values of the `radius`
@@ -214,7 +214,7 @@ import os
 if os.path.exists('wikipedia_w16'):
     sf = gl.SFrame('wikipedia_w16')
 else:
-    sf = gl.SFrame.read_csv('http://s3.amazonaws.com/dato-datasets/wikipedia/raw/w16.csv',
+    sf = gl.SFrame.read_csv('https://static.turi.com/datasets/wikipedia/raw/w16.csv',
                             header=False)
     sf.save('wikipedia_w16')
 ```
@@ -222,9 +222,9 @@ else:
 This particular subset of wikipedia has over 72,000 documents; in the interest
 of speed for the demo we sample 20% of this. We also preprocess the data by
 constructing a bag-of-words representation for each article and trimming out
-stopwords. See GraphLab Create's [text analytics](https://dato.com
+stopwords. See GraphLab Create's [text analytics](https://turi.com
 /products/create/docs/graphlab.toolkits.text_analytics.html) and
-[SArray](https://dato.com/products/create/docs/generated/graphlab.SArray.html)
+[SArray](https://turi.com/products/create/docs/generated/graphlab.SArray.html)
 documentation for more details.
 
 ```python
@@ -297,7 +297,7 @@ Most frequent items:
 | count | 33 | 29 | 18 | 15 | 14 | 13 | 9  | 7  | 7  | 5  |
 +-------+----+----+----+----+----+----+----+----+----+----+
 
-Quantiles: 
+Quantiles:
 +-----+-----+-----+------+------+------+------+------+------+
 |  0% |  1% |  5% | 25%  | 50%  | 75%  | 95%  | 99%  | 100% |
 +-----+-----+-----+------+------+------+------+------+------+

@@ -1,8 +1,8 @@
-# Dato Machine Learning Platform User Guide
+# Turi Machine Learning Platform User Guide
 
-Our mission at Dato is to build the most powerful and usable data science tools that enable you to go quickly from inspiration to production.
+Our mission at Turi is to build the most powerful and usable data science tools that enable you to go quickly from inspiration to production.
 
-[GraphLab Create](https://dato.com/products/create/) is a Python package that allows programmers to perform end-to-end large-scale data analysis and data product development.
+[GraphLab Create](https://turi.com/products/create/) is a Python package that allows programmers to perform end-to-end large-scale data analysis and data product development.
 
 - **Data ingestion and cleaning with SFrames**. SFrame is an efficient disk-based tabular data structure that is not limited by RAM. This lets you scale your analysis and data processing to handle terabytes of data, even on your laptop.
 
@@ -20,11 +20,11 @@ In this guide, you will learn how to use GraphLab Create to:
 - use advanced machine learning methods to build predictive models and recommender systems
 - put your code into production and use it for real-world applications
 
-Please do not hesitate to ask any questions you may have at our [Forum](http://forum.dato.com/categories/graphlab-create).
+Please do not hesitate to ask any questions you may have at our [Forum](http://forum.turi.com/categories/graphlab-create).
 
 #### Open source
 
-The source for this userguide is [available on Github](https://github.com/dato-code/userguide) under the 3-clause [BSD license](LICENSE). If you have suggestions or bug reports, we welcome Github issues and pull requests! See the chapter about [contributing](contributing.md) on guidelines for adding content.
+The source for this userguide is [available on Github](https://github.com/turi-code/userguide) under the 3-clause [BSD license](LICENSE). If you have suggestions or bug reports, we welcome Github issues and pull requests! See the chapter about [contributing](contributing.md) on guidelines for adding content.
 
 To build the userguide, install npm and run the following:
 

@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Transformer Chain 
 
 Sequentially apply a list of transforms. Each of the individual steps in the

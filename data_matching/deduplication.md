@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Deduplication
 The GraphLab Create **deduplication** tool ingests data in one or more SFrames
 and assigns an entity label to each row. Records with the same label likely
@@ -9,7 +9,7 @@ downloaded originally from
 <http://hpi.de/de/naumann/projects/data-quality-and-cleansing/annealing-standard.html#c123255>.
 For this example, we have extracted a random sample of about 20% of the original
 data, and split it into four SFrames based on genre. The preprocessed data can
-be downloaded (and saved to your machine) from the Dato public datasets bucket
+be downloaded (and saved to your machine) from the Turi public datasets bucket
 with the following code. This download is about 7MB.
 
 ```python
@@ -27,7 +27,7 @@ for g in genres:
     else:
         print "Downloading genre '{}' from S3 bucket....".format(g)
         data[g] = gl.load_sframe(
-            'http://s3.amazonaws.com/dato-datasets/dedupe_albums/{}_albums'.format(g))
+            'https://static.turi.com/datasets/dedupe_albums/{}_albums'.format(g))
         data[g].save('{}_albums'.format(g))
 ```
 

@@ -1,7 +1,7 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Logging and Feedback
 
-A predictive service that you can query is the core of deploying machine learning to production. This feature, however, would not be truly powerful without the ability to gain insight into the service's behavior and to qualify the service's responses. Dato Predictive Services' logging and feedback APIs fulfill this requirement.
+A predictive service that you can query is the core of deploying machine learning to production. This feature, however, would not be truly powerful without the ability to gain insight into the service's behavior and to qualify the service's responses. Turi Predictive Services' logging and feedback APIs fulfill this requirement.
 
 #### Logging
 
@@ -21,11 +21,11 @@ Here is an example log filename associated with a sample of query log entries:
 
 These log files can easily be loaded into an SFrame using the following PredictiveService methods:
 
-- [get_query_logs](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_query_logs.html)
-- [get_result_logs](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_result_logs.html)
-- [get_feedback_logs](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_feedback_logs.html)
-- [get_custom_logs](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_custom_logs.html)
-- [get_server_logs](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_server_logs.html)
+- [get_query_logs](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_query_logs.html)
+- [get_result_logs](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_result_logs.html)
+- [get_feedback_logs](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_feedback_logs.html)
+- [get_custom_logs](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_custom_logs.html)
+- [get_server_logs](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_server_logs.html)
 
 Each of these methods takes both a start and end time parameter to determine the time window from which we want to load logs. For example:
 
@@ -88,8 +88,8 @@ result = deployment.query(...)
 # process the query result...
 
 deployment.feedback(result['uuid'],
-                    search_term='dato pre',
-                    suggested='dato predictive services',
+                    search_term='turi pre',
+                    suggested='turi predictive services',
                     suggestion_accepted=True)
 ```
 
@@ -101,13 +101,13 @@ The example below demonstrates how to call the HTTP version of the feedback API 
 curl -u api_key:b0a1c056-30b9-4468-9b8d-c07289017228 -d '{
   "id": "e8f13b17-173a-402d-835d-cc816eba626f",
   "data": {
-    "search_term: "dato pre",
-    "suggested": "dato predictive services",
+    "search_term: "turi pre",
+    "suggested": "turi predictive services",
     "suggestion_accepted": "True"
   }
 }' http://first-8410747484.us-west-2.elb.amazonaws.com/feedback
 ```
 
-You can retrieve feedback logs like the regular query and result logs using the [get_feedback_logs](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_feedback_logs.html) API. A feedback log entry has a timestamp, the uuid, and the custom information that encapsulates the feedback. It is now up to your application how to express feedback when submitting it for a query result, and how to process it when retrieving it from the logs.
+You can retrieve feedback logs like the regular query and result logs using the [get_feedback_logs](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_feedback_logs.html) API. A feedback log entry has a timestamp, the uuid, and the custom information that encapsulates the feedback. It is now up to your application how to express feedback when submitting it for a query result, and how to process it when retrieving it from the logs.
 
 So far we described custom feedback that you need to process manually. With the introduction of adaptive predictive policies we also let you supply feedback that is automatically taken into account to improve the quality of a predictive service dynamically. For more information about adaptive policies see the section about Multi-armed bandits in the [Experimentation](pred-experimentation.md) chapter.

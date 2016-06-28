@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Predictive Services On-Premises
 
 While providing a convenient and flexible environment for running a predictive service, not all scenarios are suited for a cloud-based deployment. For reasons of privacy, security, or cost you might prefer to host your predictive service locally, on a machine you own and control. We call this a Predictive Services on-premises deployment.
@@ -8,9 +8,9 @@ While providing a convenient and flexible environment for running a predictive s
 To configure a Predictive Services on-premises deployment, you will need the
 Predictive Services package as well as a Predictive Services product key. Both
 can be obtained on the [installation page on
-dato.com](https://dato.com/download/install-dato-predictive-services.html).
+turi.com](https://turi.com/download/install-turi-predictive-services.html).
 
-We assume that you already downloaded and installed GraphLab Create on a machine that you will later use to interact with your local Predictive Services deployment. For more information on obtaining and installing GraphLab Create see [Getting Started](https://dato.com/learn/userguide/install.html). However, GraphLab Create is not necessary to configure the service.
+We assume that you already downloaded and installed GraphLab Create on a machine that you will later use to interact with your local Predictive Services deployment. For more information on obtaining and installing GraphLab Create see [Getting Started](https://turi.com/learn/userguide/install.html). However, GraphLab Create is not necessary to configure the service.
 
 ##### Linux Systems
 
@@ -98,21 +98,21 @@ The installation script is aware of the `$DOCKER_MACHINE_NAME` environment varia
 You might run into an incompatibility issue with the included VirtualBox version, causing an error during the docker-machine create call. The current (8/31/2015) workaround is to install a more recent VirtualBox test build from https://www.virtualbox.org/wiki/Testbuilds. See also https://www.virtualbox.org/ticket/14412.
 
 #### Installation
-Deployment of a predictive service is achieved by installing and running a set of Docker containers. The containers as well as a setup script are included in the package you downloaded from dato.com.
+Deployment of a predictive service is achieved by installing and running a set of Docker containers. The containers as well as a setup script are included in the package you downloaded from turi.com.
 
-Follow these steps to install Dato Predictive Services:
+Follow these steps to install Turi Predictive Services:
 
-1. Download the installation package (for example, dato-predictive-services-1.8.3.tar.gz or a later version) and your license file.
-2. Move the package and license file to the computer you want to install Dato Predictive Services on. For Windows hosts, be sure to do all of the work from your C drive where Docker is installed. Trying to setup from another drive may lead to problems.
+1. Download the installation package (for example, turi-predictive-services-1.8.3.tar.gz or a later version) and your license file.
+2. Move the package and license file to the computer you want to install Turi Predictive Services on. For Windows hosts, be sure to do all of the work from your C drive where Docker is installed. Trying to setup from another drive may lead to problems.
 3. Unzip the file to a temporary folder:
 ```
-tar zxvf dato_ps_setup_1.8.3.tar.gz
+tar zxvf turi_ps_setup_1.8.3.tar.gz
 ```
-4. Create a Predictive Services working directory in the host machine where Predictive Services files (include docker images) will be copied to. On Windows, this must be on the same drive as your Docker installation, which is the C drive. On Linux, we typically recommend a folder like `/opt/dato-ps/binaries`.
+4. Create a Predictive Services working directory in the host machine where Predictive Services files (include docker images) will be copied to. On Windows, this must be on the same drive as your Docker installation, which is the C drive. On Linux, we typically recommend a folder like `/opt/turi-ps/binaries`.
 ```
 mkdir -p <deployment_path>
 ```
-5. Decide where the Predictive Services runtime data (state files, logs, etc.) will be stored; this path should be network-accessible, to enable data scientists to manage the predictive service later through the GraphLab Create Python API (currently, a client needs to acquire a handle to the service by accessing a state file under that path). Typically this is an S3 file path, an HDFS path, or a path accessible through NFS. A common path is usually a HDFS path, like `hdfs://<hdfs-name-node>:8020/user/<ps-service-user>/dato_predictive_service`. Within the local filesystem of the server, we typically recommend a folder like `/opt/dato-ps/runtime`.
+5. Decide where the Predictive Services runtime data (state files, logs, etc.) will be stored; this path should be network-accessible, to enable data scientists to manage the predictive service later through the GraphLab Create Python API (currently, a client needs to acquire a handle to the service by accessing a state file under that path). Typically this is an S3 file path, an HDFS path, or a path accessible through NFS. A common path is usually a HDFS path, like `hdfs://<hdfs-name-node>:8020/user/<ps-service-user>/turi_predictive_service`. Within the local filesystem of the server, we typically recommend a folder like `/opt/turi-ps/runtime`.
 We will call this path the “ps path”. Note that the application that will query models in the service does _not_ need access to this location. Models and custom methods are queried at an HTTP URL through a regular REST call.
 6. Modify predictive_service.cfg file included in the package. You will need to make the following changes for a local setup:
     * `internal_ip`: The internal IP address of your host, usually a private IP address such as 10.X.X.X or 192.168.X.X.
@@ -131,7 +131,7 @@ We will call this path the “ps path”. Note that the application that will qu
     * `max_cache_memory`: The maximum size of the cache, in MB. The default of 2048 should be fine for most applications.
 7. Run the setup script, providing the path to your Predictive Services product key file. Note that if you are using a Linux system, you should run this command as root.
 ```
-./setup_dato_ps.sh <path-to-predictive-service-license-file>
+./setup_turi_ps.sh <path-to-predictive-service-license-file>
 ```
 
 If the predictive service is setup correctly, you should see this message after the script has finished:
@@ -199,7 +199,7 @@ On Windows, when you make these changes, you will be prompted to open up your fi
 
 #### Use
 
-GraphLab Create is required to connect to Dato Predictive Services and deploy/monitor/manage the service. For more information on obtaining and installing GraphLab Create see [Getting Started](https://dato.com/learn/userguide/install.html).
+GraphLab Create is required to connect to Turi Predictive Services and deploy/monitor/manage the service. For more information on obtaining and installing GraphLab Create see [Getting Started](https://turi.com/learn/userguide/install.html).
 
 After you have installed GraphLab Create, you can connect to the predictive service; In the code sample below remember to replace `ps-path` with your actual ps path specified in installation step 5 above. If this is an HDFS path, you need to have set up your environment to have access to HDFS (either by setting HADOOP_CLASSPATH or HADOOP_CONF_DIR).
 
@@ -209,11 +209,11 @@ deployment = graphlab.deploy.predictive_service.load("<ps-path>")
 deployment.get_status()
 ```
 
-For more information about the API see https://dato.com/learn/userguide/deployment/pred-intro.html and https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_services.html
+For more information about the API see https://turi.com/learn/userguide/deployment/pred-intro.html and https://turi.com/products/create/docs/generated/graphlab.deploy.predictive_services.html
 
 #### Shutdown
 
-If you need to shut down your predictive service (which is also necessary if you want to change any of the configuration parameters), you use the `shutdown_dato_ps.sh` script. This script removes the Docker containers used by the predictive service.
+If you need to shut down your predictive service (which is also necessary if you want to change any of the configuration parameters), you use the `shutdown_turi_ps.sh` script. This script removes the Docker containers used by the predictive service.
 
 #### Restart
 
@@ -223,7 +223,7 @@ To restart the service, run the setup script again.
 
 Common issues that may arise are included below.
 
-##### setup_dato_ps.sh fails to run
+##### setup_turi_ps.sh fails to run
 
 Please verify that you've followed all the steps above. Note any errors. Here are some of the more common ones you might encounter:
 
@@ -254,7 +254,7 @@ mv predictive_service_new.cfg predictive_service.cfg
 First, check that you can access the service from within the Docker host. If it is not accessible from within the host, then:
 
 * Ensure that Docker is running.
-* Ensure that the predictive services docker processes are running by executing setup_dato_ps.sh again.
+* Ensure that the predictive services docker processes are running by executing setup_turi_ps.sh again.
 
 You may want to run through your network configuration to ensure that the
 service is accessible. Note that on OS X and Windows you need to add port
@@ -272,4 +272,4 @@ Other issues that may arise:
 * On Windows, when I use a local directory for `ps_path`, the client can't find it. This is likely due to the fact that the file path in the Docker Quickstart Terminal follows Unix convention (IE, /c/...) rather than Windows convention (C:\\...) All you need to do is translate the path appropriately.
 
 
-Please contact us if you need further help at <support@dato.com>.
+Please contact us if you need further help at <support@turi.com>.

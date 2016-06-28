@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Count Featurizer
 
 The Count Featurizer (Also, called Learning With Counts, or Dracula

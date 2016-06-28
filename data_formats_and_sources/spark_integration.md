@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Spark Integration
 <a name="Spark_Integration"></a>
 GraphLab Create has the ability to convert [Apache
@@ -8,7 +8,7 @@ Datasets](http://spark.apache.org/docs/latest/programming-guide.html#resilient-d
 
 ## Setup the Environment
 To use GraphLab Create within PySpark, you need to set the ``$SPARK_HOME`` and ``$PYTHONPATH`` environment variables on the driver. A common usage:
-```shell 
+```shell
 export PYTHONPATH=$SPARK_HOME/python/:$SPARK_HOME/python/lib/py4j-0.8.2.1-src.zip:$PYTHONPATH
 export SPARK_HOME =<your-spark-home-dir>
 ```
@@ -107,7 +107,7 @@ df.show()
 # Requirements and Caveats
 * The currently release requires Python 2.7, Spark 1.3 or later, and the `hadoop` binary must be within the `PATH` of the driver when running on a cluster or interacting with `Hadoop` (e.g., you should be able to run `hadoop classpath`).
 
-* We also currently only support Mac and Linux platforms but will have Windows support soon. 
+* We also currently only support Mac and Linux platforms but will have Windows support soon.
 * The GraphLab integration with Spark supports Spark execution modes `local`,`yarn-client`, and standalone `spark://<hostname:port>`.
 ("yarn-cluster" is not available through PySpark)
 
@@ -115,7 +115,7 @@ df.show()
 We recommend downloading ``Pre-built for Hadoop 2.4 and later`` version of <a href="http://spark.apache.org/">Apache Spark</a>.
 
 # Notes
-1. RDD conversion works with GraphLab Create **right out of the box**. No additional Spark setup is required. 
+1. RDD conversion works with GraphLab Create **right out of the box**. No additional Spark setup is required.
 When you install GraphLab Create, it comes with a JAR that enables this feature.  To find the location of the JAR file, execute this command:
 ```
 graphlab.get_spark_integration_jar_path()
@@ -129,8 +129,7 @@ on a YARN cluster).
 
 3. SFrames fit most naturally with DataFrame.  Both have strict column types
 and a they have a similar approach to storing data.  This is why we also have a
-[graphlab.SFrame.to_spark_dataframe](https://dato.com/products/create/docs/generated/graphlab.SFrame.to_spark_dataframe.html#graphlab.SFrame.to_spark_dataframe)
-method.  The [graphlab.SFrame.from_rdd](https://dato.com/products/create/docs/generated/graphlab.SFrame.from_rdd.html#graphlab.SFrame.from_rdd)
+[graphlab.SFrame.to_spark_dataframe](https://turi.com/products/create/docs/generated/graphlab.SFrame.to_spark_dataframe.html#graphlab.SFrame.to_spark_dataframe)
+method.  The [graphlab.SFrame.from_rdd](https://turi.com/products/create/docs/generated/graphlab.SFrame.from_rdd.html#graphlab.SFrame.from_rdd)
 method works with both DataFrame and any other rdd, so there is no
 `from_dataframe` method.
-

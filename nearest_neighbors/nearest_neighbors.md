@@ -1,18 +1,18 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Nearest Neighbors
 The GraphLab Create
-[nearest neighbors toolkit](https://dato.com/products/create/docs/graphlab.toolkits.nearest_neighbors.html)
+[nearest neighbors toolkit](https://turi.com/products/create/docs/graphlab.toolkits.nearest_neighbors.html)
 is used to find the rows in a data
 table that are most similar to a query row. This is a two-stage process,
 analogous to many other GraphLab Create toolkits. First we create a
-[NearestNeighborsModel](https://dato.com/products/create/docs/generated/graphlab.nearest_neighbors.NearestNeighborsModel.html), using a
+[NearestNeighborsModel](https://turi.com/products/create/docs/generated/graphlab.nearest_neighbors.NearestNeighborsModel.html), using a
 **reference dataset** contained in an
-[SFrame](https://dato.com/products/create/docs/generated/graphlab.SFrame.html).
+[SFrame](https://turi.com/products/create/docs/generated/graphlab.SFrame.html).
 Next we query the model, using either the `query` or the `similarity_graph`
 method. Each of these methods is explained further below.
 
 For this chapter we use an example dataset of house attributes and prices,
-downloaded from Dato's public datasets bucket.
+downloaded from Turi's public datasets bucket.
 
 ```python
 import graphlab as gl
@@ -21,7 +21,7 @@ import os
 if os.path.exists('houses.csv'):
     sf = gl.SFrame.read_csv('houses.csv')
 else:
-    data_url = 'http://s3.amazonaws.com/dato-datasets/regression/houses.csv'
+    data_url = 'https://static.turi.com/datasets/regression/houses.csv'
     sf = gl.SFrame.read_csv(data_url)
     sf.save('houses.csv')
 
@@ -119,7 +119,7 @@ constructing the **similarity_graph** on the reference data, the model's
 `similarity_graph` can be used. For brute force models it can be almost twice as
 fast, depending on the data sparsity and chosen distance function. By default,
 the `similarity_graph` method returns an
-[SGraph](https://dato.com/products/create/docs/generated/graphlab.SGraph.html)
+[SGraph](https://turi.com/products/create/docs/generated/graphlab.SGraph.html)
 whose vertices are the rows of the reference dataset and whose edges indicate a
 nearest neighbor match. Specifically, the destination vertex of an edge is a
 nearest neighbor of the source vertex. `similarity_graph` can also return
@@ -236,7 +236,7 @@ Total training time (seconds) : 0.0017
 
 If we specify the distance parameter as ``auto``, a composite distance is
 created where each type of feature is paired with the most appropriate distance
-function. Please see the documentation for the [GraphLab Create distances module](https://dato.com/products/create/docs/graphlab.toolkits.distances.html) for more on composite distances.
+function. Please see the documentation for the [GraphLab Create distances module](https://turi.com/products/create/docs/graphlab.toolkits.distances.html) for more on composite distances.
 
 #### Search methods
 
@@ -286,9 +286,9 @@ to 5 above.
 #### Missing data
 
 The reference dataset that is used to create the nearest neighbors model cannot
-have missing data. Please use the [SFrame.fillna](https://dato.com/products/cre
-ate/docs/generated/graphlab.SFrame.fillna.html#graphlab.SFrame.fillna) and 
-[SFrame.dropna](https://dato.com/products/create/docs/generated/graphlab.SFrame
+have missing data. Please use the [SFrame.fillna](https://turi.com/products/cre
+ate/docs/generated/graphlab.SFrame.fillna.html#graphlab.SFrame.fillna) and
+[SFrame.dropna](https://turi.com/products/create/docs/generated/graphlab.SFrame
 .dro pna.html#graphlab.SFrame.dropna) utilities to preprocess missing values
 before creating a nearest neighbors model.
 

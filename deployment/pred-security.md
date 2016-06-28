@@ -1,7 +1,7 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Best Security Practices for Predictive Services
 
-The premise of Dato Predictive Services is to make it easy to deploy your models into production, by turning them into endpoints than can be managed and queried. This has a number of implications with a security aspect:
+The premise of Turi Predictive Services is to make it easy to deploy your models into production, by turning them into endpoints than can be managed and queried. This has a number of implications with a security aspect:
 * A predictive service exposes a management endpoint for a GraphLab Create client to talk to.
 * A predictive service exposes a query endpoint for an HTTP client to talk to.
 * A predictive service can be deployed in the public cloud (EC2), potentially on more than one node.
@@ -10,7 +10,7 @@ In the following we provide a set of best practices and guidelines for setting u
 
 #### HTTPS
 
-It is recommended to use HTTPS for the endpoints that your predictive service is exposing, to encrypt all data transmitted between clients and service. For a predictive service deployed in EC2 that requires to provide an SSL credential tuple to the [`create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html) call:
+It is recommended to use HTTPS for the endpoints that your predictive service is exposing, to encrypt all data transmitted between clients and service. For a predictive service deployed in EC2 that requires to provide an SSL credential tuple to the [`create`](https://turi.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html) call:
 
 ```python
 ec2 = graphlab.deploy.Ec2Config(region='us-west-2',
@@ -63,7 +63,7 @@ Make sure to secure any copies of your private key file, including the PEM file 
 
 #### Changing the API key
 
-A client that is submitting queries to a Predictive Services endpoint needs to specify an API key in the request's HTTP body. Such a key is generated upon the creation of a predictive service but can be changed later, using the [`set_api_key`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html) command:
+A client that is submitting queries to a Predictive Services endpoint needs to specify an API key in the request's HTTP body. Such a key is generated upon the creation of a predictive service but can be changed later, using the [`set_api_key`](https://turi.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html) command:
 
 ```python
 import graphlab
@@ -93,7 +93,7 @@ By default a predictive service does not allow cross-origin resource requests. T
 deployment.set_CORS('http://www.example.com')
 ```
 
-You can also specify a CORS directive when creating a predictive service in AWS, in the form of a string parameter to [`create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html):
+You can also specify a CORS directive when creating a predictive service in AWS, in the form of a string parameter to [`create`](https://turi.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html):
 
 ```python
 import graphlab
@@ -120,11 +120,11 @@ A predictive service running in EC2 uses either 80 or 443 for control and data f
 
 ##### On-premises
 
-For an on-premises deployment, you can override the default (80 or 443) using the `lb_port` parameter in the setup config. We recommend to close any unused ports of the host machine. See [the on-premise documentation](https://dato.com/learn/userguide/deployment/pred-on-premises.html#configuring-the-network) for details on the various ports and their purpose.
+For an on-premises deployment, you can override the default (80 or 443) using the `lb_port` parameter in the setup config. We recommend to close any unused ports of the host machine. See [the on-premise documentation](https://turi.com/learn/userguide/deployment/pred-on-premises.html#configuring-the-network) for details on the various ports and their purpose.
 
 #### EC2 Security Groups
 
-When you create a predictive service, by default a new security group **Dato_Predictive_Service** will be created in the default subnet. If you want to manage the security group yourself, you can specify it when configuring the predictive service for EC2:
+When you create a predictive service, by default a new security group **Turi_Predictive_Service** will be created in the default subnet. If you want to manage the security group yourself, you can specify it when configuring the predictive service for EC2:
 
 ```python
 import graphlab
@@ -136,6 +136,6 @@ If this security group does not exist, it will be created.
 
 #### CIDR Rules in EC2
 
-In order to further restrict access to your predictive service we recommend to explicitly specify CIDR rules when configuring your EC2 deployment. CIDR rules are specified as part of the `Ec2Config` object and require an explicit security group. See also [`graphlab.deploy.Ec2Config`](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html)
+In order to further restrict access to your predictive service we recommend to explicitly specify CIDR rules when configuring your EC2 deployment. CIDR rules are specified as part of the `Ec2Config` object and require an explicit security group. See also [`graphlab.deploy.Ec2Config`](https://turi.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html)
 
 For more information on CIDR rules, see http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html#security-group-rules.

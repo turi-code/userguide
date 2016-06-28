@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Handling Dependencies
 
 In this section we explain how you can specify the dependency of your methods on Python packages or files.
@@ -63,7 +63,7 @@ In order to refer to a generic file (other than a Python module) uploaded throug
 ```python
 @graphlab.deploy.required_files('lookup_table.csv')
 def recommend_similar_products(product_id):
-    file_path = os.path.join(os.environ['DATO_PS_DEPENDENT_FILE_PATH'],
+    file_path = os.path.join(os.environ['TURI_PS_DEPENDENT_FILE_PATH'],
                              'lookup_table.csv')
     lookup_table = graphlab.SFrame(file_path)
     ...

@@ -1,11 +1,11 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Monitoring and Metrics
 
-Dato Predictive Services provides a set of interfaces to gain insight into a running Predictive Services deployment, both visually as well as APIs.
+Turi Predictive Services provides a set of interfaces to gain insight into a running Predictive Services deployment, both visually as well as APIs.
 
 #### Predictive Service Dashboard in GraphLab Canvas
 
-To visualize a deployment using GraphLab Canvas, simply run [`show`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.show.html), as follows:
+To visualize a deployment using GraphLab Canvas, simply run [`show`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.show.html), as follows:
 
 ```python
 import graphlab
@@ -39,7 +39,7 @@ For more information see the [Amazon CloudWatch Alarms](http://docs.aws.amazon.c
 
 #### Monitoring APIs
 
-To retrieve the overall status of a deployment, call [`get_status`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_status.html).
+To retrieve the overall status of a deployment, call [`get_status`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_status.html).
 
 ```python
 print deployment.get_status()
@@ -84,7 +84,7 @@ This API returns an SFrame regarding each Predictive Object's status on each nod
 
 #### Service Metrics
 
-Through the [`get_metrics`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_metrics.html) API a variety of operational metrics about the predictive service can be retrieved. By default, the method returns the number of requests and the average latency over the last 12 hours, in 5 minute increments:
+Through the [`get_metrics`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_metrics.html) API a variety of operational metrics about the predictive service can be retrieved. By default, the method returns the number of requests and the average latency over the last 12 hours, in 5 minute increments:
 
 ```python
 deployment.get_metrics()
@@ -113,4 +113,4 @@ deployment.get_metrics()
 ......
 ```
 
-Aside from requests and latency, the number of exceptions as well as cache-specific counters can be retrieved. Moreover, the scope can be reduced to a specific endpoint. For more information see the API documentation of [`get_metrics`](https://dato.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_metrics.html).
+Aside from requests and latency, the number of exceptions as well as cache-specific counters can be retrieved. Moreover, the scope can be reduced to a specific endpoint. For more information see the API documentation of [`get_metrics`](https://turi.com/products/create/docs/generated/graphlab.deploy.PredictiveService.get_metrics.html).

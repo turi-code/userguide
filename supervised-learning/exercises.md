@@ -41,7 +41,7 @@ visualizations are computed for you. In the mean time, let us take a quick look
 at the target column **OpenStatus**.
 
 <span style="color:red">**Question 1:**</span> Now, use the
-[SArray.unique()](http://dato.com/products/create/docs/generated/graphlab.SArray.unique.html#graphlab.SArray.unique)
+[SArray.unique()](https://turi.com/products/create/docs/generated/graphlab.SArray.unique.html#graphlab.SArray.unique)
 function to get out the unique values of the column
 **OpenStatus**.
 
@@ -57,9 +57,9 @@ world datasets. We need to do some munging here.
 <span style="color:red">**Question 2:**</span> Add a column to the Sframe
 called **is_closed** which is 1 when **OpenStatus** is "closed" and 0 otherwise.
 *Hint*: You can use SArray's
-[boolean operation](https://dato.com/products/create/docs/generated/graphlab.SArray.html#graphlab.SArray)
+[boolean operation](https://turi.com/products/create/docs/generated/graphlab.SArray.html#graphlab.SArray)
 or the
-[SArray.apply()](https://dato.com/products/create/docs/generated/graphlab.SArray.apply.html)
+[SArray.apply()](https://turi.com/products/create/docs/generated/graphlab.SArray.apply.html)
 function.
 
 
@@ -78,7 +78,7 @@ a balance.  We will accomplish this over the next few questions.
 <span style="color:red">**Question 3:**</span> Create an SFrame (lets call it
 *sf_closed_only*) that only contains the data in the original SFram (*sf*) where
 **is_closed == 1**. Use the
-[SFrame's logical filter](https://dato.com/products/create/docs/generated/graphlab.SFrame.html)
+[SFrame's logical filter](https://turi.com/products/create/docs/generated/graphlab.SFrame.html)
 to do so.
 
 
@@ -87,7 +87,7 @@ sf_closed_only = sf[sf['is_closed'] == 1]
 ```
 
 <span style="color:red">**Question 4:**</span> Let us use the
-[SFrame's sample](https://dato.com/products/create/docs/generated/graphlab.SFrame.sample.html)
+[SFrame's sample](https://turi.com/products/create/docs/generated/graphlab.SFrame.sample.html)
 function to sample about 2.5% of the SFrame (*sf*) where
 **is_closed = 0**. Call the resulting SFrame **sf_open_only**.
 
@@ -97,7 +97,7 @@ sf_open_only = sf[sf['is_closed'] == 0].sample(0.025)
 ```
 
 <span style="color:red">**Question 5:**</span> Now, let us use
-[SFrame's append()](https://dato.com/products/create/docs/generated/graphlab.SFrame.append.html)
+[SFrame's append()](https://turi.com/products/create/docs/generated/graphlab.SFrame.append.html)
 functionality to append the SFrame **sf_open_only**
 with **sf_closed_only**. Call the resulting SFrame **sf_subsampled**.
 
@@ -110,7 +110,7 @@ sf_subsampled = sf_open_only.append(sf_closed_only)
 
 
 <span style="color:red">**Question 6:**</span> Use the
-[SArray.astype()](http://dato.com/products/create/docs/generated/graphlab.SArray.astype.html)
+[SArray.astype()](https://turi.com/products/create/docs/generated/graphlab.SArray.astype.html)
 function to make sure the following columns (in
 **sf_subsampled**) are of the right types. Here are the right types.
 
@@ -132,7 +132,7 @@ In this section, we will create a classifier that can predict the target
 <span style="color:red">**Question 7:**</span> Create a **train-test** split
 with 80% of the data being in the training set and 20% of the data in the test
 set. *Hint*: Using the
-[SFrame.random split()](https://dato.com/products/create/docs/generated/graphlab.SFrame.random_split.html)
+[SFrame.random split()](https://turi.com/products/create/docs/generated/graphlab.SFrame.random_split.html)
 function.
 
 
@@ -147,7 +147,7 @@ your model is not too specialized for the training data.
 
 
 <span style="color:red">**Question 8:**</span> Use the training data and build a
-[logistic regression classifier](https://dato.com/products/create/docs/generated/graphlab.logistic_classifier.create.html)
+[logistic regression classifier](https://turi.com/products/create/docs/generated/graphlab.logistic_classifier.create.html)
 with the following features:
 
 * *ReputationAtPostCreation*
@@ -164,7 +164,7 @@ model = gl.logistic_regression.create(train_sf, target='is_closed',
 ```
 
 <span style="color:red">**Question 9:**</span> Use the
-[LogisticClassifier.evaluate()](https://dato.com/products/create/docs/generated/graphlab.logistic_classifier.LogisticClassifier.evaluate.html)
+[LogisticClassifier.evaluate()](https://turi.com/products/create/docs/generated/graphlab.logistic_classifier.LogisticClassifier.evaluate.html)
 function to get useful statistics about the
 prediction on the test data (**test_sf**).
 
@@ -203,7 +203,7 @@ test_sf = test_sf.pack_columns(column_prefix='Tag', dtype=list, new_column_name=
 <span style="color:red">**Question 11:**</span> Dictionaries are easier to work
 with, so let us convert the column **tags_category** to type dictionary using
 the
-[SFrame's apply()](https://dato.com/products/create/docs/generated/graphlab.SFrame.apply.html?highlight=sframe.apply)
+[SFrame's apply()](https://turi.com/products/create/docs/generated/graphlab.SFrame.apply.html?highlight=sframe.apply)
 function. The
 keys in the dictionary are the same as the elements in the list. The values of
 the dictionary are all set to 1.
@@ -222,7 +222,7 @@ Let us try the
 [basic benchmark](https://github.com/benhamner/Stack-Overflow-Competition/blob/master/basic_benchmark.py)
 from the Kaggle competition.  Use
 the
-[SArray's apply](https://dato.com/products/create/docs/generated/graphlab.SArray.apply.html?highlight=apply)
+[SArray's apply](https://turi.com/products/create/docs/generated/graphlab.SArray.apply.html?highlight=apply)
 function to do the
 following things:
 
@@ -398,7 +398,7 @@ print model.evaluate(test_sf)
 
 *Title* and *Body-Markdown* are two useful columns with raw text data. Let use
 the
-[count words](https://dato.com/products/create/docs/generated/graphlab.text_analytics.count_words.html)
+[count words](https://turi.com/products/create/docs/generated/graphlab.text_analytics.count_words.html)
 function to get some raw word counts.
 
 <span style="color:red">**Bonus question 1:**</span>

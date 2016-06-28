@@ -1,11 +1,11 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Getting Started with Predictive Services
 
 In this section we will walk through an end-to-end example of deploying and using a Predictive Service. For more information about each aspect see the subsequent chapters of the User Guide.
 
 #### Configuration
 
-In order to launch a Predictive Service in EC2 we first need to configure the [`graphlab.deploy.Ec2Config`](https://dato.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html)  object, which contains required configuration parameters.
+In order to launch a Predictive Service in EC2 we first need to configure the [`graphlab.deploy.Ec2Config`](https://turi.com/products/create/docs/generated/graphlab.deploy.Ec2Config.html)  object, which contains required configuration parameters.
 
 ```python
 import graphlab
@@ -22,7 +22,7 @@ The configuration object is client-side only; its purpose is merely to encapsula
 
 Having configured the Predictive Service environment, we are ready to launch a Predictive
 Service Deployment using
-[`graphlab.deploy.predictive_service.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create).
+[`graphlab.deploy.predictive_service.create`](https://turi.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create).
 Required parameters include
 
 1. a name for the deployment
@@ -36,19 +36,19 @@ deployment = graphlab.deploy.predictive_service.create(
     'first', ec2, 's3://my-bucket/my-service-path')
 ```
 
-Additional parameters include the number of EC2 nodes to use for the service, SSL credentials to secure the data flow, and more. See  [`graphlab.deploy.predictive_service.create`](https://dato.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) for a complete list.
+Additional parameters include the number of EC2 nodes to use for the service, SSL credentials to secure the data flow, and more. See  [`graphlab.deploy.predictive_service.create`](https://turi.com/products/create/docs/generated/graphlab.deploy.predictive_service.create.html#graphlab.deploy.predictive_service.create) for a complete list.
 
 #### Upload a Model
 
 Any model that you create and use locally can back a Predictive Service. We will use a simple recommender model in this walk-through:
 
 ```python
-data_url = 'https://s3.amazonaws.com/dato-datasets/movie_ratings/sample.small'
+data_url = 'https://static.turi.com/datasets/movie_ratings/sample.small'
 data = graphlab.SFrame.read_csv(data_url,delimiter='\t',column_type_hints={'rating':int})
 model = graphlab.popularity_recommender.create(data, 'user', 'movie', 'rating')
 ```
 
-The [`PredictiveService.add`](https://dato.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.add.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.add)
+The [`PredictiveService.add`](https://turi.com/products/create/docs/generated/graphlab.deploy._predictive_service._predictive_service.PredictiveService.add.html#graphlab.deploy._predictive_service._predictive_service.PredictiveService.add)
 method stages a model for deployment to the cluster. It also requires us to provide a name which we will later use to query the model.
 
 ```python

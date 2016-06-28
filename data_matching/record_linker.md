@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Record linker
 The record linker tool matches structured query records to a fixed set of
 reference records with the same schema. A common example of this is matching
@@ -22,7 +22,7 @@ if os.path.exists('febrl_F_org_5000.csv'):
     refs = gl.SFrame.read_csv('febrl_F_org_5000.csv',
                               column_type_hints=col_types)
 else:
-    url = 'http://s3.amazonaws.com/dato-datasets/febrl_synthetic/febrl_F_org_5000.csv'
+    url = 'https://static.turi.com/datasets/febrl_synthetic/febrl_F_org_5000.csv'
     refs = gl.SFrame.read_csv(url, column_type_hints=col_types)
     refs.save('febrl_F_org_5000.csv')
 
@@ -30,7 +30,7 @@ if os.path.exists('febrl_F_dup_5000.csv'):
     query = gl.SFrame.read_csv('febrl_F_dup_5000.csv',
                                column_type_hints=col_types)
 else:
-    url = 'http://s3.amazonaws.com/dato-datasets/febrl_synthetic/febrl_F_dup_5000.csv'
+    url = 'https://static.turi.com/datasets/febrl_synthetic/febrl_F_dup_5000.csv'
     query = gl.SFrame.read_csv(url, column_type_hints=col_types)
     query.save('febrl_F_dup_5000.csv')
 ```
@@ -177,7 +177,7 @@ functions, specified as a list. Each element of the list contains three things:
   3. a multiplier for the standard distance.
 
 Please see the documentation for the [GraphLab Create distances
-module](https://dato.com/products/create/docs/graphlab.toolkits.distances.html)
+module](https://turi.com/products/create/docs/graphlab.toolkits.distances.html)
 for more on composite distances.
 
 In this case we'll use Levenshtein distance to measure the dissimilarity in

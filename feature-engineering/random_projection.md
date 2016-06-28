@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Random Projection
 
 Random projection is a tool for representing high-dimensional data in a low-dimensional feature space, typically for data visualization or methods that rely on fast computation of pairwise distances, like nearest neighbors searching and nonparametric clustering.
@@ -13,7 +13,7 @@ Dimension reduction is a very useful preprocessing step for several tasks:
 
 3. **Storing and moving large datasets**. Dimension reduction allows us to reduce the size of datasets without discarding any data points, as we would have to do with other techniques like vector quantization or locality-sensitive hashing.
 
-GraphLab Create's [RandomProjection](https://dato.com/products/create/docs/generated/graphlab.toolkits.feature_engineering.RandomProjection.html) tool uses **Gaussian random projection**. Let's say we have a numeric dataset with $$n$$ examples, each of which is represented by $$d$$ features (where $$d$$ is presumably relatively large, maybe on the order of hundreds or thousands). In other words, our data is a matrix $$X$$, with $$n$$ rows and $$d$$ columns. Suppose we want to reduce the dimensionality of our data so that each example is represented by only $$k$$ features, where $$k$$ is small, like 2 or 10.
+GraphLab Create's [RandomProjection](https://turi.com/products/create/docs/generated/graphlab.toolkits.feature_engineering.RandomProjection.html) tool uses **Gaussian random projection**. Let's say we have a numeric dataset with $$n$$ examples, each of which is represented by $$d$$ features (where $$d$$ is presumably relatively large, maybe on the order of hundreds or thousands). In other words, our data is a matrix $$X$$, with $$n$$ rows and $$d$$ columns. Suppose we want to reduce the dimensionality of our data so that each example is represented by only $$k$$ features, where $$k$$ is small, like 2 or 10.
 
 For Gaussian random projection we construct a projection matrix $$R$$ with $$d$$ rows and $$k$$ columns. Each entry is independently sampled from a standard Gaussian distribution
 
@@ -31,7 +31,7 @@ so that our output dataset $$Y$$ has $$n$$ rows with only $$k$$ columns. The sca
 
 #### Usage
 
-To illustrate usage of the similarity search toolkit, we use a small subset of the [MNIST handwritten digits image dataset](https://en.wikipedia.org/wiki/MNIST_database), which can be downloaded from the public Dato datasets bucket on Amazon S3. The download is about 1.5 MB.
+To illustrate usage of the similarity search toolkit, we use a small subset of the [MNIST handwritten digits image dataset](https://en.wikipedia.org/wiki/MNIST_database), which can be downloaded from the public Turi datasets bucket on Amazon S3. The download is about 1.5 MB.
 
 ```python
 import graphlab as gl
@@ -40,7 +40,7 @@ import os
 if os.path.exists('mnist_train6k'):
     mnist = gl.SFrame('mnist_train6k')
 else:
-    mnist = gl.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/train6k')
+    mnist = gl.SFrame('https://static.turi.com/datasets/mnist/sframe/train6k')
     mnist.save('mnist_train6k')
 ```
 

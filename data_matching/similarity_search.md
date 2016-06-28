@@ -1,11 +1,11 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Similarity Search
 **Similarity search** is the task of matching complex data objects like images
-and documents. Like [nearest neighbors search](https://dato.com/products/create/
+and documents. Like [nearest neighbors search](https://turi.com/products/create/
 docs/graphlab.toolkits.nearest_neighbors.html), similarity search matches query
 items to a fixed reference set, but similarity search allows the input data to
 be in a raw form, such as images, documents, or combinations of the two.
-Similarity search is also similar to [autotagging](https://dato.com/products/create/docs/generated/graphlab.data_matching.autotagger.create.html), but for autotagging the
+Similarity search is also similar to [autotagging](https://turi.com/products/create/docs/generated/graphlab.data_matching.autotagger.create.html), but for autotagging the
 reference tags are always entered in the form of a table; similarity search is
 more general.
 
@@ -24,7 +24,7 @@ most welcome: help us make this tool as useful as possible!*
 ##### MNIST Digits Example 
 To illustrate usage of the similarity search toolkit, we use a small subset of
 the [MNIST handwritten digits image dataset](https://en.wikipedia.org/wiki/MNIST_database), 
-which is downloaded from the public Dato datasets bucket on Amazon S3. The
+which is downloaded from the public Turi datasets bucket on Amazon S3. The
 download is about 1.5 MB.
 
 ```python
@@ -35,7 +35,7 @@ import graphlab as gl
 if os.path.exists('mnist_train6k'):
     mnist = gl.SFrame('mnist_train6k')
 else:
-    mnist = gl.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/train6k')
+    mnist = gl.SFrame('https://static.turi.com/datasets/mnist/sframe/train6k')
     mnist.save('mnist_train6k')
 ```
 
@@ -69,8 +69,8 @@ search_model = gl.similarity_search.create(mnist, features='image')
 
 While this model is very simple to code, it can be quite slow to create. The
 model downloads a 500MB pre-trained 
-[ImageNet neural net classifier model](https://dato.com/products/create/docs/graphlab.toolkits.deeplearninghtml#builtin-neuralnets) from
-the public Dato datasets Amazon S3 bucket, and then modifies the images to work
+[ImageNet neural net classifier model](https://turi.com/products/create/docs/graphlab.toolkits.deeplearninghtml#builtin-neuralnets) from
+the public Turi datasets Amazon S3 bucket, and then modifies the images to work
 with the model.
 
 A more sophisticated way to create a similarity search model is to construct a

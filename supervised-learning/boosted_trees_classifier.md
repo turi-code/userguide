@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Gradient Boosted Regression Trees
 The Gradient Boosted Regression Trees (GBRT) model (also called Gradient
 Boosted Machine or GBM), is one of the most effective
@@ -15,7 +15,7 @@ import graphlab as gl
 
 # Load the data
 # The data can be downloaded using
-data =  gl.SFrame.read_csv('http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv')
+data =  gl.SFrame.read_csv('https://static.turi.com/datasets/xgboost/mushroom.csv')
 
 # Label 'c' is edible
 data['label'] = data['label'] == 'c'
