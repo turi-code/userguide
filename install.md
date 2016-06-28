@@ -50,7 +50,7 @@ Here are a few commands to get started.
     </tr>
     <tr>
       <td>Create models</td>
-      <td><pre><code class="hljs python">url = 'http://s3.amazonaws.com/dato-datasets/regression/Housing.csv'&#x0A;x = graphlab.SFrame.read_csv(url)<br/>m = graphlab.linear_regression.create&#x0A;(x, target='price')
+      <td><pre><code class="hljs python">url = 'http://s3.amazonaws.com/dato-datasets/regression/Housing.csv'&#x0A;x = graphlab.SFrame.read_csv(url)&#x0A;m = graphlab.linear_regression.create(x, target='price')
       </code></pre></td>
     </tr>
   </tbody>
