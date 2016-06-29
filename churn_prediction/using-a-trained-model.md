@@ -226,7 +226,19 @@ three built-in visualizations to help explore, explain, and evaluate the model:
 - **Overview**: This view combines the explore and evaluate views into a tabbed
   view.
 
+#### Explore view
+
+Once a churn prediction model has been trained, an interactive visualization
+component can help **explore** the predictions made by the model. The explore
+view contains a collection of useful interactive visuals that can help explore:
+- The distribution of predicted churn probability for users.
+- A useful segmentation of users that have similar characteristics and churn
+  probability.
+- Event time lines, user features, predictions and corresponding explanations
+  for a representative random sample of users.
+  
 The explore view can be obtained as follows:
+
 ```python
 time_boundary = datetime.datetime(2011, 10, 1)
 view = model.views.explore(train, time_boundary)
@@ -234,15 +246,36 @@ view.show()
 ```
 ![churn-illustration](images/churn-explore.png)
 
+#### Evaluate View 
+
 The evaluate view creates a visualization that compares the model to a
-baseline.  The default baseline is an activity based model that uses **only**
-the time duration of in-activity to predict churn.
+baseline.  The default baseline (called the activity model) is a model trained
+using logistic regression using **only** the time duration of in-activity to
+predict churn.
+
+The evaluate view contains the following collection of useful interactive
+visuals:
+ 
+- A precision-recall curve to illustrate the trade-off between the ability to
+  correctly predict churned users (precision) & the ability to find all users
+  who might churn (recall). The curve also compares the trained model with the
+  activity baseline.
+- A calibration curve that compares the true probability of an event with its
+  predicted probability. This chart shows if the trained model has well
+  "calibrated" probability predictions. The closer the calibration curve is to
+  the "ideal" curve, the more confident one can be in interpreting the
+  probability predictions as a confidence score for predicting churn. 
+
+The evaluate view can be obtained as follows:
+
 ```python
 time_boundary = datetime.datetime(2011, 10, 1)
 view = model.views.evaluate(train, time_boundary)
 view.show()
 ```
 ![churn-illustration](images/churn-evaluate.png)
+
+### Overview 
 
 The **overview** is a tabbed view that combines the explore and evaluate.
 
