@@ -2,7 +2,7 @@
 <a name="visualization"></a>
 Data visualization can help you explore, understand, and gain insight from your data. Visualization can complement other methods of data analysis by taking advantage of the human ability to recognize patterns in visual information.
 
-**GraphLab Canvas** provides an interactive browser-based visualization platform to explore your data. The data structures that support visualization in Canvas include `SFrame`, `SArray`, and `SGraph`. Each of these data structures can be shown in Canvas by calling the `show` method on an instance of one of those types. Canvas supports two render targets: `'browser'` (the interactive browser-based experience) and `'ipynb'` (visualizations are embedded in an IPython Notebook output cell).
+**GraphLab Canvas** provides an interactive browser-based visualization platform to explore your data. The data structures that support visualization in Canvas include `SFrame`, `SArray`, and `SGraph`. Each of these data structures can be shown in Canvas by calling the `show` method on an instance of one of those types. Canvas supports two render targets: `'browser'` (the interactive browser-based experience) and `'ipynb'` (visualizations are embedded in an IPython Notebook or Jupyter Notebook output cell).
 
 #### SFrame Visualization
 
