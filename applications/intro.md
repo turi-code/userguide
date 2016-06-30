@@ -4,6 +4,7 @@ In this section, we demonstrate how you can use the Turi Machine Learning Platfo
 
 * [Recommender systems](../recommender/introduction.md)
 * [Data matching](../data_matching/introduction.md)
+* [Lead scoring](../lead_scoring/lead_scoring.md)
 * [Churn prediction](../churn_prediction/quick-start.md)
 * [Frequent Pattern Mining](../pattern_mining/frequent-pattern-mining.md)
 * [Sentiment analysis](../sentiment_analysis/introduction.md)
