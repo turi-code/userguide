@@ -50,6 +50,7 @@ This is the User Guide for GraphLab Create
         * [Decision Tree Regression](supervised-learning/decision_tree_regression.md)
         * [Boosted Trees Regression](supervised-learning/boosted_trees_regression.md)
         * [Random Forest Regression](supervised-learning/random_forest_regression.md)
+    * [Advanced Deep Learning with MXNet](supervised-learning/advanced_deeplearning_mxnet.md)
     * [Graph analytics](graph_analytics/intro.md)
         * [Examples](graph_analytics/graph_analytics.md)
     * [Clustering](clustering/intro.md)
