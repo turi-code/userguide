@@ -509,3 +509,79 @@ them are:
   unweighted mean. This does not take label imbalance into account.
 * **None**: Return a metric corresponding to each class.
 
+
+## Calibration curve  <a name="calibration_curve"></a>
+
+A calibration curve that compares the true probability of an event with its
+predicted probability. This chart shows if the trained model has well
+"calibrated" probability predictions. The closer the calibration curve is to
+the "ideal" curve, the more confident one can be in interpreting the
+probability predictions as a confidence score for predicting churn. 
+
+The graph is constructed by segmenting the probability space, from 0.0 to 1.0,
+into a fixed number of discrete steps. For instance, for a step size of 0.1,
+the probability space would be divided into 10 buckets: [0.0, 0.1), [0.1, 0.2)
+... [0.9, 1.0]. Given a set of events for which a predicted probability has
+been computed, each predicted probability is rounded to the appropriate bucket.
+An aggregation is then performed to compute the total number of data points
+within each probability range along with fraction of those data points that
+were truly positive events. The calibration curve plots the fraction of events
+that were truly positive for each probability bucket. A perfectly calibrated
+model, the curve would be a line from (0.0, 0.0) to (1.0, 1.0). 
+
+Consider a simple example of a binary classification problem where a model
+was trained to predict a click or no-click event. If an event was “clicked”,
+and had a predicted probability of 0.345, using a binning of 0.1, the “number
+of events” for bin [0.3, 0.4) would be increased by one, and the “number of
+true” events would be increased by one. If an event with probability 0.231 was
+“not clicked”, the “number of events” for bin [0.2, 0.3) would be increased by
+one, while the “number of true” events would not be increased. For each bin,
+the “number of true” over the “total number of events” becomes the observed
+probability (y-axis value). The average predicted probability for the bin
+becomes the x-axis value.
+ 
+ 
+## Precision-Recall Curve <a name="precision_recall_curve"></a>
+
+The precision-recall curve plots the inherent trade-off between precision and
+recall. It is easier to understand and interpret this curve by understanding
+each of the components of this curve at different "thresholds".  
+ 
+Consider a simple example of a binary classification problem where a model was
+trained to predict a click or no-click event. If an event was “clicked”,
+Looking at the confusion matrix, the model predictions can be broken down into
+four categories:
+ 
+- Events that were predicted to be "click" and were actually "click" events
+  (True Positive, TP).
+- Events that were predicted to be "not-click" but were not "click" events
+  (False Positive, FP).
+- Events that were predicted to be "not-click" and were actually "not-click"
+  events (True Negative, TN).
+- Events that were predicted to be "click" but were actually "not-click" events
+  (False Negative, FN).
+
+As defined earlier, precision is fraction of predicted click events that were
+actually click events while recall is the fraction of click events that were
+correctly predicted by the model. The definitions of precision and recall are
+not necessarily discrete events and can depend on the prediction probabilities.
+One can define a "threshold" of probability above which the model prediction
+can be considered a "click" prediction. 
+
+For example, a "threshold" of 0.5 implies that all probability predictions
+above 0.5 are considered "click" events and all predictions below are
+considered "not-click" events. By varying the threshold between 0.0 and 1.0, we
+can compute different precision and recall numbers. At a threshold of 0.0 all
+the model predictions are "click". At this point, the model exhibits perfect
+recall but has the worst possible precision. At a threshold of 1.0, the model
+predicts every event as "not-click"; this is prefect precision (the model was
+never wrong at predicting clicks!) but the worst possible recall. 
+
+This by plotting precision and recall at various thresholds, the
+precision-recall curve illustrates the trade-off of precision and recall for
+the model, at varying thresholds. Two models can be compared easily by plotting
+their precision-recall curve. A curve that is more to the top-right hand side
+of the plot represents a better model. 
+
+
+
