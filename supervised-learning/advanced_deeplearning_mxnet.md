@@ -295,13 +295,13 @@ The following shows the built-in state-of-the-art network architechtures for
 image classification.
 
 
-* [builtin_symbols.symbol_alexnet.get_symbol()](https://dato.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_alexnet.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_alexnet.get_symbol) : Return the "AlexNet" architechture for image classification.
-* [builtin_symbols.symbol_googlenet.get_symbol()](https://dato.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_googlenet.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_googlenet.get_symbol) : Return the "GoogLeNet" architechture for image classification
-* [builtin_symbols.symbol_vgg.get_symbol()](https://dato.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_vgg.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_vgg.get_symbol) : Return the "VGG" architechture for image classification
-* [builtin_symbols.symbol_inception_v3.get_symbol()](https://dato.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_inception_v3.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_inception_v3.get_symbol) : Return the "Inception-v3" architechture for image classification
-* [builtin_symbols.symbol_inception_bn.get_symbol()](https://dato.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_inception_bn.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_inception_bn.get_symbol) : Return the "BN-Inception" architechture for image classification
-* [builtin_symbols.symbol_inception_bn_28_small.get_symbol()](https://dato.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_inception_bn_28_small.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_inception_bn_28_small.get_symbol) : Return a simplified version of "BN-Inception" architechture for image classification
-* [builtin_symbols.symbol_inception_bn_full.get_symbol()](https://dato.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_inception_bn_full.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_inception_bn_full.get_symbol) : Return a variant of "BN-Inception" architechture for image classification
+* [builtin_symbols.symbol_alexnet.get_symbol()](https://turi.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_alexnet.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_alexnet.get_symbol) : Return the "AlexNet" architechture for image classification.
+* [builtin_symbols.symbol_googlenet.get_symbol()](https://turi.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_googlenet.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_googlenet.get_symbol) : Return the "GoogLeNet" architechture for image classification
+* [builtin_symbols.symbol_vgg.get_symbol()](https://turi.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_vgg.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_vgg.get_symbol) : Return the "VGG" architechture for image classification
+* [builtin_symbols.symbol_inception_v3.get_symbol()](https://turi.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_inception_v3.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_inception_v3.get_symbol) : Return the "Inception-v3" architechture for image classification
+* [builtin_symbols.symbol_inception_bn.get_symbol()](https://turi.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_inception_bn.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_inception_bn.get_symbol) : Return the "BN-Inception" architechture for image classification
+* [builtin_symbols.symbol_inception_bn_28_small.get_symbol()](https://turi.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_inception_bn_28_small.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_inception_bn_28_small.get_symbol) : Return a simplified version of "BN-Inception" architechture for image classification
+* [builtin_symbols.symbol_inception_bn_full.get_symbol()](https://turi.com/products/create/docs/generated/graphlab.mxnet.builtin_symbols.symbol_inception_bn_full.get_symbol.html#graphlab.mxnet.builtin_symbols.symbol_inception_bn_full.get_symbol) : Return a variant of "BN-Inception" architechture for image classification
 
 
 Task Oriented Pretrained Models for Image Classification
@@ -359,7 +359,8 @@ quite effective.
   image_detector = mx.pretrained_model.load_model('coco_vgg_16', ctx=mx.gpu(0))
 
   # Load image data into SFrame
-  sf = gl.SFrame('http://s3.amazonaws.com/dato-datasets/image_classification/imagenet_sample')
+  sf = gl.SFrame('https://static.turi.com/datasets/cats_dogs_sf')
+
 
   # Predict using the pretrained image classifier
   prediction = image_detector.detect(sf['image'][0], k=1)
@@ -465,7 +466,7 @@ Debugging and Monitoring
 Create a `monitor.Monitor` object and pass to the `model.FeedForward.create` function to enable
 monitoring.
 
-    [monitor.Monitor](https://dato.com/products/create/docs/generated/graphlab.mxnet.monitor.Monitor.html#graphlab.mxnet.monitor.Monitor)
+    [monitor.Monitor](https://turi.com/products/create/docs/generated/graphlab.mxnet.monitor.Monitor.html#graphlab.mxnet.monitor.Monitor)
 
 Extract Features from a Model
 ============================
