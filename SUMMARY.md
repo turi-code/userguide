@@ -100,7 +100,7 @@ This is the User Guide for GraphLab Create
     * [Monitoring Jobs](deployment/pipeline-monitoring-jobs.md)
     * [Session Management](deployment/pipeline-keeping-track-of-jobs-tasks-and-environments.md)
     * [Dependencies](deployment/pipeline-dependencies.md)
-* [Predictive Services](deployment/pred-intro.md)
+* [Turi Predictive Services](deployment/pred-intro.md)
 * [Conclusion](conclusion.md)
 * [Exercises](exercises.md)
     * [Tabular data](sframe/exercises.md)
