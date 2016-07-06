@@ -2,9 +2,9 @@
 
 # Choosing a Model 
 
-In this section, we give some intuition for which modeling choices you may make depending on your data and your task. Each recommender model in Graphlab Create has certain strengths that fit well with certain types of data and different objectives.
+In this section, we give some intuition for which modeling choices you may make depending on your data and your task. Each recommender model in GraphLab Create has certain strengths that fit well with certain types of data and different objectives.
 
-The easiest way to choose a model is to let Graphlab Create choose your model for you.  This is done by simply using the default recommender.create function, which chooses the model based on the data provided to it.  As an example, the following code creates a basic item similarity model and then generates recommendations for each user in the dataset:
+The easiest way to choose a model is to let GraphLab Create choose your model for you.  This is done by simply using the default recommender.create function, which chooses the model based on the data provided to it.  As an example, the following code creates a basic item similarity model and then generates recommendations for each user in the dataset:
 
 ```python 
 m = graphlab.recommender.create(data, user_id='user', item_id='movie') 
@@ -22,7 +22,7 @@ With *Explicit data*, there is an associated target column that gives a score fo
 
 *Implicit data* does not include any rating information.  In this case, a dataset may have just two columns -- user ID and item ID.  For this type of data, the recommendations are based on which items are similar to the items a user has interacted with.
 
-The third type of data that Graphlab Create can use to build a recommender system is *item content data*.  In this case, information associated with each individual item, instead of the user interaction patterns, is used to recommend items similar to a collection of items in a query set.  For example, item content could be a text description of an item, a set of key words, an address, categories, or even a list of similar items taken from another model.
+The third type of data that GraphLab Create can use to build a recommender system is *item content data*.  In this case, information associated with each individual item, instead of the user interaction patterns, is used to recommend items similar to a collection of items in a query set.  For example, item content could be a text description of an item, a set of key words, an address, categories, or even a list of similar items taken from another model.
 
 ### Working with Explicit Data
 
