@@ -6,7 +6,7 @@ A recommender system allows you to provide personalized recommendations to users
 
 #### Input data
 
-Creating a recommender model requires a data set to use for training the model, with columns that contain the user IDs, the item IDs, and (optionally) the ratings.
+Creating a recommender model typically requires a data set to use for training the model, with columns that contain the user IDs, the item IDs, and (optionally) the ratings.
 
 ```no-highlight
 >>> actions = gl.SFrame.read_csv('./dataset/ml-20m/ratings.csv')
@@ -41,6 +41,11 @@ You may have additional data about users or items. For example we might have a d
 |    5    | Father of the Br... |       [Comedy]      | 1995 |
 +---------+---------------------+---------------------+------+
 ```
+
+If you have data like this associated with each item, you can build a
+model from just this data using the item content recommender.  In this
+case, providing the user and item interaction data at training time is
+optional.
 
 #### Building a model
 
