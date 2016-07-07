@@ -2,11 +2,11 @@
 
 A recommender system allows you to provide personalized recommendations to users. With this toolkit, you can train a model based on past interaction data and use that model to make recommendations.
 
-**Note:** Follow the steps in the [sample-movie-recommender](https://github.com/dato-code/sample-movie-recommender) GitHub repository to get the code and data for this example.
+**Note:** Follow the steps in the [sample-movie-recommender](https://github.com/turi-code/sample-movie-recommender) GitHub repository to get the code and data for this example.
 
 #### Input data
 
-Creating a recommender model requires a data set to use for training the model, with columns that contain the user IDs, the item IDs, and (optionally) the ratings.
+Creating a recommender model typically requires a data set to use for training the model, with columns that contain the user IDs, the item IDs, and (optionally) the ratings.
 
 ```no-highlight
 >>> actions = gl.SFrame.read_csv('./dataset/ml-20m/ratings.csv')
@@ -42,6 +42,11 @@ You may have additional data about users or items. For example we might have a d
 +---------+---------------------+---------------------+------+
 ```
 
+If you have data like this associated with each item, you can build a
+model from just this data using the item content recommender.  In this
+case, providing the user and item interaction data at training time is
+optional.
+
 #### Building a model
 
 There are a variety of machine learning techniques that can be used to build a recommender model.
@@ -76,4 +81,4 @@ The following sections provide more information about the recommender model:
 - [Choosing a model](choosing-a-model.md)
   * data you might encounter (implicit or explicit)
   * types of models worth considering (item-based similarity, factorization-based models, and so on).
-- [API Docs](https://dato.com/products/create/docs/graphlab.toolkits.recommender.html)
+- [API Docs](https://turi.com/products/create/docs/graphlab.toolkits.recommender.html)

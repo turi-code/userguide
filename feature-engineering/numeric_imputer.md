@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Numeric Imputer 
 
 NumericImputer allows you to impute missing values with feature means. Input columns to the NumericImputer
@@ -22,7 +22,7 @@ The behavior for different input data column types is as follows:
 
 - **list**: Each index of the list is treated as a feature column, and
   missing values are replaced with per-feature means. This is
-  the same as unpacking, computing the mean, and re-packing. See [pack_columns](https://dato.com/products/create/docs/generated/graphlab.SFrame.pack_columns.html) 
+  the same as unpacking, computing the mean, and re-packing. See [pack_columns](https://turi.com/products/create/docs/generated/graphlab.SFrame.pack_columns.html) 
   for more information. All elements must be of type *float*, *int*, or *None*.
 
 - **array**: Same behavior as *list*

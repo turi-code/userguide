@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Deep Feature Extractor
 
 Takes an input dataset, propagates each example through the network, and
@@ -7,10 +7,10 @@ as input to train another classifier such as a LogisticClassifier,
 SVMClassifier, BoostedTreesClassifier, or NeuralNetClassifier.
 
 Deep features can be used to extract features from your own models or using a
-pre-trained model for ImageNet (NIPS 2012, Alex Krizhevsky et al.).  Dato provides 
-a free pre-trained model for use as demonstrated below. 
+pre-trained model for ImageNet (NIPS 2012, Alex Krizhevsky et al.).  Turi provides
+a free pre-trained model for use as demonstrated below.
 
-#### Introductory Example 
+#### Introductory Example
 
 ```python
 
@@ -18,11 +18,11 @@ a free pre-trained model for use as demonstrated below.
 import graphlab as gl
 
 # Import data from MNIST
-data = gl.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/train6k')
+data = gl.SFrame('https://static.turi.com/datasets/mnist/sframe/train6k')
 
 # Create a DeepFeatureExtractorObject
-#If `model='auto'` is used, an appropriate model is chosen from a collection 
-#of pre-trained models hosted by Dato.
+#If `model='auto'` is used, an appropriate model is chosen from a collection
+#of pre-trained models hosted by Turi.
 extractor = gl.feature_engineering.DeepFeatureExtractor(features = 'image',
                                                         model='auto')
 
@@ -34,8 +34,8 @@ extracted_model = extractor['model']
 ```
 
 Once a DeepFeatureExtractor object is constructed, it must first be fitted and
-then the transform function can be called to extract features. The extracted 
-features can then be used as a part of a LogisticClassifier. 
+then the transform function can be called to extract features. The extracted
+features can then be used as a part of a LogisticClassifier.
 
 ```
 # Extract features.
@@ -58,9 +58,6 @@ features_sf = extractor.transform(data)
 [6000 rows x 3 columns]
 
 # Train a classifier using the deep features!.
-model = gl.logistic_classifier.create(features_sf, target='label', 
+model = gl.logistic_classifier.create(features_sf, target='label',
                               features =  ['deep_features_image'])
 ```
-
-
-

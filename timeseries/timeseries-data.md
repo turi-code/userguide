@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Time series
 
 For data sources such as usage logs, sensor measurements, and financial instruments,
@@ -44,7 +44,7 @@ import graphlab as gl
 import datetime as dt
 
 household_data = gl.SFrame(
-      "http://s3.amazonaws.com/dato-datasets/household_electric_sample.sf")
+      "https://static.turi.com/datasets/household_electric_sample/household_electric_sample.sf")
 ```
 
 ```no-highlight
@@ -251,7 +251,7 @@ the first resampled TimeSeries object with the second TimeSeries object.
 
 ```python
 sf_other = gl.SFrame(
-      'http://s3.amazonaws.com/dato-datasets/household_electric_sample_2.sf')
+      'https://static.turi.com/datasets/household_electric_sample/household_electric_sample_2.sf')
 ts_other = gl.TimeSeries(sf_other, index = 'DateTime')
 household_ts.index_join(ts_other, how='inner')
 ```
@@ -543,12 +543,12 @@ style="max-width: 70%; margin-left: 15%;"
 />](images/rolling-mean.png)
 
 In addition to mean, you can perform the following operations
-- [Rolling sum](https://dato.com/products/create/docs/generated/graphlab.SArray.rolling_sum.html)
-- [Rolling variance](https://dato.com/products/create/docs/generated/graphlab.SArray.rolling_var.html)
-- [Rolling standard deviation](https://dato.com/products/create/docs/generated/graphlab.SArray.rolling_stdv.html)
-- [Rolling counts](https://dato.com/products/create/docs/generated/graphlab.SArray.rolling_count.html)
-- [Rolling min](https://dato.com/products/create/docs/generated/graphlab.SArray.rolling_min.html)
-- [Rolling max](https://dato.com/products/create/docs/generated/graphlab.SArray.rolling_max.html)
+- [Rolling sum](https://turi.com/products/create/docs/generated/graphlab.SArray.rolling_sum.html)
+- [Rolling variance](https://turi.com/products/create/docs/generated/graphlab.SArray.rolling_var.html)
+- [Rolling standard deviation](https://turi.com/products/create/docs/generated/graphlab.SArray.rolling_stdv.html)
+- [Rolling counts](https://turi.com/products/create/docs/generated/graphlab.SArray.rolling_count.html)
+- [Rolling min](https://turi.com/products/create/docs/generated/graphlab.SArray.rolling_min.html)
+- [Rolling max](https://turi.com/products/create/docs/generated/graphlab.SArray.rolling_max.html)
 
 
 ### Cumulative Statistics 
@@ -586,12 +586,12 @@ style="max-width: 60%; margin-left: 15%;"
 />](images/cumulative-mean.png)
 
 In addition to mean, you can perform the following operations
-- [Cumulative sum](https://dato.com/products/create/docs/generated/graphlab.SArray.cumulative_sum.html)
-- [Cumulative variance](https://dato.com/products/create/docs/generated/graphlab.SArray.cumulative_var.html)
-- [Cumulative standard deviation](https://dato.com/products/create/docs/generated/graphlab.SArray.cumulative_stdv.html)
-- [Cumulative counts](https://dato.com/products/create/docs/generated/graphlab.SArray.cumulative_count.html)
-- [Cumulative min](https://dato.com/products/create/docs/generated/graphlab.SArray.cumulative_min.html)
-- [Cumulative max](https://dato.com/products/create/docs/generated/graphlab.SArray.cumulative_max.html)
+- [Cumulative sum](https://turi.com/products/create/docs/generated/graphlab.SArray.cumulative_sum.html)
+- [Cumulative variance](https://turi.com/products/create/docs/generated/graphlab.SArray.cumulative_var.html)
+- [Cumulative standard deviation](https://turi.com/products/create/docs/generated/graphlab.SArray.cumulative_stdv.html)
+- [Cumulative counts](https://turi.com/products/create/docs/generated/graphlab.SArray.cumulative_count.html)
+- [Cumulative min](https://turi.com/products/create/docs/generated/graphlab.SArray.cumulative_min.html)
+- [Cumulative max](https://turi.com/products/create/docs/generated/graphlab.SArray.cumulative_max.html)
 
 ### Operations common with SFrame/SArray
 

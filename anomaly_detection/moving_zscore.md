@@ -1,6 +1,6 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Moving Z-Score
-The [`Moving Z-score model`](https://dato.com/products/create/docs/generated/graphlab.toolkits.anomaly_detection.moving_zscore.create.html) scores anomalies in a univariate sequential dataset, often a time series.
+The [`Moving Z-score model`](https://turi.com/products/create/docs/generated/graphlab.toolkits.anomaly_detection.moving_zscore.create.html) scores anomalies in a univariate sequential dataset, often a time series.
 
 #### Background
 The moving Z-score is a very simple model for measuring the anomalousness of each point in a sequential dataset like a time series. Given a window size $$w$$, the moving Z-score is the number of standard deviations each observation is away from the mean, where the mean and standard deviation are computed *only* over the previous $$w$$ observations.
@@ -19,9 +19,9 @@ $$
 For the first $$w$$ observations of the series, the moving Z-score is undefined because there aren't sufficient observations to estimate the mean and standard deviation. For the GraphLab Create tool, we take the absolute value of the moving Z-score, so that the anomaly score varies from 0 to infinity, with higher scores indicating a greater degree of anomalousness.
 
 #### Data and context
-The Fremont bridge in Seattle is a popular place for cyclists to cross between the southern and northern halves of the city (and happens to be right next to the Dato office!). A traffic counter records the number of bicycles that cross the bridge every hour, and [the data is posted on the Seattle data portal](https://data.seattle.gov/Transportation/Fremont-Bridge-Hourly-Bicycle-Counts-by-Month-Octo/65db-xm6k). We will use the GraphLab Create Moving Z-score model to look for anomalies in this time series data.
+The Fremont bridge in Seattle is a popular place for cyclists to cross between the southern and northern halves of the city (and happens to be right next to the Turi office!). A traffic counter records the number of bicycles that cross the bridge every hour, and [the data is posted on the Seattle data portal](https://data.seattle.gov/Transportation/Fremont-Bridge-Hourly-Bicycle-Counts-by-Month-Octo/65db-xm6k). We will use the GraphLab Create Moving Z-score model to look for anomalies in this time series data.
 
-The data can be read directly into an SFrame from the Seattle data portal's URL (the file is about 800KB) Cycle traffic is actually counted separately on each side of the bridge, but we combine these counts into a single hourly total. As a last formatting step, we convert the dataset into a [`TimeSeries`](https://dato.com/products/create/docs/generated/graphlab.TimeSeries.html) by encoding the timestamp column as `datetime.datetime` type and setting that column as the index.
+The data can be read directly into an SFrame from the Seattle data portal's URL (the file is about 800KB) Cycle traffic is actually counted separately on each side of the bridge, but we combine these counts into a single hourly total. As a last formatting step, we convert the dataset into a [`TimeSeries`](https://turi.com/products/create/docs/generated/graphlab.TimeSeries.html) by encoding the timestamp column as `datetime.datetime` type and setting that column as the index.
 
 ```python
 # Set up
@@ -43,7 +43,7 @@ hourly_counts = gl.TimeSeries(hourly_counts[['timestamp', 'count']],
                               index='timestamp')
 ```
 
-By using a moving window, the The Moving Z-score model adapts well to distributional drift, but it does not handle high-frequency seasonality well. In our bicycle traffic dataset we have seasonality by hour, by day of the week, and by season of the year. In particular, the counts are low during night hours, low on the weekends, and low in the winter. We use two strategies to deal with this: first, we sum the counts with the [`resample`](https://dato.com/products/create/docs/generated/graphlab.TimeSeries.resample.html#graphlab.TimeSeries.resample) method to get a daily traffic count; and second, we drop the weekend days entirely and focus only on weekday traffic.
+By using a moving window, the The Moving Z-score model adapts well to distributional drift, but it does not handle high-frequency seasonality well. In our bicycle traffic dataset we have seasonality by hour, by day of the week, and by season of the year. In particular, the counts are low during night hours, low on the weekends, and low in the winter. We use two strategies to deal with this: first, we sum the counts with the [`resample`](https://turi.com/products/create/docs/generated/graphlab.TimeSeries.resample.html#graphlab.TimeSeries.resample) method to get a daily traffic count; and second, we drop the weekend days entirely and focus only on weekday traffic.
 
 ```python
 ## Group by day

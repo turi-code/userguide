@@ -1,11 +1,11 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Working with Graphs
 Graphs allow us to understand complex networks by focusing on relationships
 between pairs of items. Each item is represented by a *vertex* in the graph, and
 relationships between items are represented by *edges*.
 
 To facilitate graph-oriented data analysis, GraphLab Create offers a
-[SGraph](https://dato.com/products/create/docs/generated/graphlab.SGraph.html)
+[SGraph](https://turi.com/products/create/docs/generated/graphlab.SGraph.html)
 object, a scalable graph data structure backed by SFrames.
 In this chapter, we show that SGraphs allow arbitrary dictionary attributes on
 vertices and edges, flexible vertex and edge query functions, and
@@ -50,7 +50,7 @@ an SFrame, then build the graph.
 ```python
 from graphlab import SFrame
 edge_data = SFrame.read_csv(
-    'http://s3.amazonaws.com/dato-datasets/bond/bond_edges.csv')
+    'https://static.turi.com/datasets/bond/bond_edges.csv')
 
 g = SGraph()
 g = g.add_edges(edge_data, src_field='src', dst_field='dst')
@@ -64,7 +64,7 @@ The SGraph constructor also accepts vertex and edge SFrames directly. We can
 construct the same James Bond graph with the following two lines:
 
 ```python
-vertex_data = SFrame.read_csv('http://s3.amazonaws.com/dato-datasets/bond/bond_vertices.csv')
+vertex_data = SFrame.read_csv('https://static.turi.com/datasets/bond/bond_vertices.csv')
 
 g = SGraph(vertices=vertex_data, edges=edge_data, vid_field='name',
            src_field='src', dst_field='dst')
@@ -72,7 +72,7 @@ g = SGraph(vertices=vertex_data, edges=edge_data, vid_field='name',
 
 Finally, an SGraph can be created directly from a file, either local or remote,
 using the
-[graphlab.load_sgraph()](https://dato.com/products/create/docs/generated/graphlab.load_sgraph.html)
+[graphlab.load_sgraph()](https://turi.com/products/create/docs/generated/graphlab.load_sgraph.html)
 method. Loading a graph with this method
 works with both the native binary save format and a variety of text formats. In
 the following example we save the SGraph in binary format to a new folder called
@@ -141,7 +141,7 @@ print sub_edges
 ```
 
 The
-[get_neighborhood](https://dato.com/products/create/docs/generated/graphlab.SGraph.get_neighborhood.html#graphlab.SGraph.get_neighborhood)
+[get_neighborhood](https://turi.com/products/create/docs/generated/graphlab.SGraph.get_neighborhood.html#graphlab.SGraph.get_neighborhood)
 method provides a convenient way to retrieve the subset
 of a graph near a set of target vertices, also known as the *egocentric
 neighborhood* of the target vertices. The `radius` of the neighborhood is the
@@ -255,7 +255,7 @@ del g.edges['weight']
 ```
 
 The
-[triple_apply](https://dato.com/products/create/docs/generated/graphlab.SGraph.triple_apply.html#graphlab.SGraph.triple_apply)
+[triple_apply](https://turi.com/products/create/docs/generated/graphlab.SGraph.triple_apply.html#graphlab.SGraph.triple_apply)
 method provides a particularly powerful way to modify SGraph
 vertex and edge attributes. `triple_apply` applies a user-defined function to
 all edges asynchronously, allowing you to do a computation that modifies edge
@@ -316,5 +316,5 @@ print g.vertices.sort('degree', ascending=False)
 James Bond is quite the popular guy!
 
 To learn more, check out the [graph analytics toolkits](../graph_analytics/intro.md), the
-[API Reference](https://dato.com/products/create/docs/generated/graphlab.SGraph.html)
+[API Reference](https://turi.com/products/create/docs/generated/graphlab.SGraph.html)
 for SGraphs, the [hands-on exercises](exercises.md) at the end of the chapter.

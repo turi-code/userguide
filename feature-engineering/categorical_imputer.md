@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Categorical Imputer
 
 Impute missing categorical values using reference features. The imputer takes as an input a column which contains categorical values, and may contain some None values. Its secondary input is a set of reference feature columns. During the Fit phase, the imputer learns the relationships between the values of the column to be imputed and the reference feature columns. During the Transform phase, the learned relationship is applied to the missing values, and they are filled with categorical values.  The imputer also outputs a probability for each filled value. The probability is based on the number of possible candidates for each missing value.

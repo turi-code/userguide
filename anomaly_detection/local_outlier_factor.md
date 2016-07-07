@@ -1,6 +1,6 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Local Outlier Factor
-The local outlier factor (LOF) method scores points in a multivariate dataset whose rows are assumed to be generated independently from the same probability 
+The local outlier factor (LOF) method scores points in a multivariate dataset whose rows are assumed to be generated independently from the same probability
 distribution.
 
 ####Background
@@ -30,7 +30,7 @@ File:LOF-idea.svg. https://commons.wikimedia.org/wiki/File:LOF-idea.svg*
 
 To show how the LOF tool is used, we'll use the customer data from the [AirBnB New User Bookings competition](https://www.kaggle.com/c/airbnb-recruiting-new-user-bookings) on Kaggle. The following code assumes a copy of the file `train_users_2.csv` is saved in the working directory. Each row in this dataset describes one of 213,451 AirBnB users; there is a mix of basic features, such as gender, age, and preferred language, and the user's "technology profile", including the browser type, device type, and sign-up method.
 
-First, we read the data into an [`SFrame`](https://dato.com/products/create/docs/generated/graphlab.SFrame.html), and select a subset of features of interest. For this illustration we'll use only the basic features: gender, age, and language.
+First, we read the data into an [`SFrame`](https://turi.com/products/create/docs/generated/graphlab.SFrame.html), and select a subset of features of interest. For this illustration we'll use only the basic features: gender, age, and language.
 
 ```python
 import graphlab as gl
@@ -64,7 +64,7 @@ print len(users)
 124681
 ```
 
-By default the LOF tool measures the difference between string-typed features with Levenshtein distance, but this is fairly slow to compute. Instead, let's use the [`one-hot encoder`](https://dato.com/products/create/docs/generated/graphlab.toolkits.feature_engineering.OneHotEncoder.html) to turn the string features into categorical features. We'll also need to standardize the `age` feature so it's on roughly the same scale as the encoded categorical features.
+By default the LOF tool measures the difference between string-typed features with Levenshtein distance, but this is fairly slow to compute. Instead, let's use the [`one-hot encoder`](https://turi.com/products/create/docs/generated/graphlab.toolkits.feature_engineering.OneHotEncoder.html) to turn the string features into categorical features. We'll also need to standardize the `age` feature so it's on roughly the same scale as the encoded categorical features.
 
 ```python
 encoder = gl.feature_engineering.OneHotEncoder(features=['language', 'gender'])
@@ -128,7 +128,7 @@ anomalies = model['scores'][mask]
 print "threshold:", threshold, "\nnumber of anomalies:", len(anomalies)
 ```
 ```no-highlight
-threshold: 8.6 
+threshold: 8.6
 number of anomalies: 173
 ```
 

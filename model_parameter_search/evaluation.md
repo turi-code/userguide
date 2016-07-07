@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Cross Validation 
 
 Data is the first argument for all of the model parameter search functions. This argument allows for several different input types to allow you to better evaluate model performance on a given set of parameters.
@@ -6,7 +6,7 @@ Data is the first argument for all of the model parameter search functions. This
 You can provide a train/test pair: by default, each model will be trained on the first element and evaluated on both elements.
 
 ```
-url = 'http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv' 
+url = 'https://static.turi.com/datasets/xgboost/mushroom.csv' 
 data = gl.SFrame.read_csv(url)
 (train, valid) = data.random_split(.7)
 gl.model_parameter_search.create((train, valid), my_model, my_params)
@@ -19,7 +19,7 @@ folds = [(train0, valid0), (train1, valid1)]
 gl.model_parameter_search.create(folds, my_model, my_params)
 ```
 
-We also provide a convenience object [`KFold`](https://dato.com/products/create/docs/generated/graphlab.toolkits.cross_validation.KFold.html) for performing model search using K folds.
+We also provide a convenience object [`KFold`](https://turi.com/products/create/docs/generated/graphlab.toolkits.cross_validation.KFold.html) for performing model search using K folds.
 
 ```
 folds = gl.cross_validation.KFold(sf, 5)
@@ -35,7 +35,7 @@ In this case, the returned `KFold` object splits the data lazily to minimize com
 We also provide a convenience function for evaluating model performance via cross validation for a given set of parameters.
 
 ```
-url = 'http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv'
+url = 'https://static.turi.com/datasets/xgboost/mushroom.csv'
 data = gl.SFrame.read_csv(url)
 data['label'] = (data['label'] == 'p')
 folds = gl.cross_validation.KFold(data, 5)

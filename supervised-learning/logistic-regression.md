@@ -1,5 +1,4 @@
-<script src="../dato/js/recview.js"></script>
-
+<script src="../turi/js/recview.js"></script>
 #Logistic Regression
 
 Logistic regression is a regression model that is popularly used for
@@ -55,7 +54,7 @@ following features.
 import graphlab as gl
 
 # Load the data
-data =  gl.SFrame('http://s3.amazonaws.com/dato-datasets/regression/yelp-data.csv')
+data =  gl.SFrame('https://static.turi.com/datasets/regression/yelp-data.csv')
 
 # Restaurants with rating >=3 are good
 data['is_good'] = data['stars'] >= 3
@@ -144,7 +143,7 @@ The larger the distance, the more confidence we have that it belongs to one
 class or the other.
 
 GraphLab Create's logistic regression model can return
-[predictions](https://dato.com/products/create/docs/generated/graphlab.logistic_classifier.LogisticClassifier.predict.html)
+[predictions](https://turi.com/products/create/docs/generated/graphlab.logistic_classifier.LogisticClassifier.predict.html)
 for any of these types:
 
 
@@ -194,7 +193,7 @@ assigning asymmetric costs of misclassifying elements of different classes.
 
 ```python
 # The data can be downloaded using
-data =  gl.SFrame.read_csv('http://s3.amazonaws.com/gl-testdata/xgboost/mushroom.csv')
+data =  gl.SFrame.read_csv('https://static.turi.com/datasets/xgboost/mushroom.csv')
 
 # Label 'c' is edible
 data['label'] = data['label'] == 'c'
@@ -221,7 +220,7 @@ import graphlab as gl
 
 # Load the data
 # The data can be downloaded using
-data = gl.SFrame('http://s3.amazonaws.com/dato-datasets/mnist/sframe/train6k-array')
+data = gl.SFrame('https://static.turi.com/datasets/mnist/sframe/train6k-array')
 
 # Make a train-test split
 train_data, test_data = data.random_split(0.8)

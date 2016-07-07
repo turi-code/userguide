@@ -1,13 +1,13 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Bayesian Changepoints
-The [`Bayesian Changepoints`](https://dato.com/products/create/docs/generated/graphlab.toolkits.anomaly_detection.bayesian_changepoints.create.html) model scores changepoint probability in a univariate sequential dataset, often a time series. Changepoints are abrupt changes in the mean or variance of a time series. For instance, during an economic recession, stock values might suddenly drop to a very low value. The time at which the stock value dropped is called a changepoint. 
+The [`Bayesian Changepoints`](https://turi.com/products/create/docs/generated/graphlab.toolkits.anomaly_detection.bayesian_changepoints.create.html) model scores changepoint probability in a univariate sequential dataset, often a time series. Changepoints are abrupt changes in the mean or variance of a time series. For instance, during an economic recession, stock values might suddenly drop to a very low value. The time at which the stock value dropped is called a changepoint.
 
 #### Background
 The Bayesian Changepoints model is an implementation of the [Bayesian Online Changepoint Detection](https://hips.seas.harvard.edu/files/adams-changepoint-tr-2007.pdf) algorithm developed by Ryan Adams and David MacKay. This algorithm computes a probability distribution over the possible run lengths at each point in the data, where run length refers to the number of observations since the last changepoint. When the probability of a 0-length run spikes, there is most likely a change point at the current data point.  
 
 **Step 1:** Observe new datum $$x_t$$ and evaluate the likelihood of seeing this value for each possible run length. This is a probability vector, with an element for all possible run lengths. This algorithm assumes a Gaussian distribution between each pair of changepoints.
 $$
-   L(r) = P(x|x_r) 
+   L(r) = P(x|x_r)
 $$
 
 **Step 2:** For each possible run length $$r>0$$ at current time $$t$$, calculate the probability of growth. `expected_runlength` is a parameter describing the a-priori best guess of run length. The larger `expected_runlength` is, the stronger the evidence must be in the data to support a high changepoint probability.   
@@ -15,39 +15,39 @@ $$
   P_t(runlength = r) = P_{t-1}(runlength = r-1) * L(r) * (1 - 1/expected\_runlength)
 $$
 
-**Step 3:** Calculate probability of change, or $$r=0$$. 
+**Step 3:** Calculate probability of change, or $$r=0$$.
 $$
   P_t(runlength = 0) = \sum_{r\_prev} (P_{t-1}(runlength = r\_prev) * L(0) * (1/expected\_runlength)
 $$
 
-**Step 4:** Normalize the probability. For all run length probabilities at time $$t$$, divide by the sum of all run length probabilities. 
+**Step 4:** Normalize the probability. For all run length probabilities at time $$t$$, divide by the sum of all run length probabilities.
 $$
   P_t(runlength = r\_i) = \frac{P_t(runlength = r\_i)}{\sum_{r} P_t(runlength = r)}
 $$
 
-For each incoming point, repeat this process. This per-point update is why the method is considered an **online** learning algorithm. 
+For each incoming point, repeat this process. This per-point update is why the method is considered an **online** learning algorithm.
 
 The output of this model as is a probability distribution of run lengths for each point in the training data. A good example of what this might look like comes from the origninal [paper] (https://hips.seas.harvard.edu/files/adams-changepoint-tr-2007.pdf). This comes from Figure 2.   
 
 ![paper](images/adams_paper_fig2.png)
 
-However, such a distribution is not the desired output of a single changepoint probability for each point. However, the desired output can be obtained by looking at the probability of run length 0 at each point. 
+However, such a distribution is not the desired output of a single changepoint probability for each point. However, the desired output can be obtained by looking at the probability of run length 0 at each point.
 
-As described, the algorithm scores each point $$x_t$$ immediately, but if the user can afford to wait several observations, it is often more accurate to assign *lagged* changepoint scores. The number of observations to wait before scoring a point is set with the `lag` parameter. 
+As described, the algorithm scores each point $$x_t$$ immediately, but if the user can afford to wait several observations, it is often more accurate to assign *lagged* changepoint scores. The number of observations to wait before scoring a point is set with the `lag` parameter.
 
 #### Data and context
 The [Dow Jones Industrial Average](https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average) is an aggregate index of the stock prices of 30 large US companies. Since the stock market goes through ups and downs, and the United States has gone through significant growth and recession, it'd be interesting to see if we can identify when the market has made sudden changes.
 
-We're interested in the daily percent growth to identify periods of change in the US market. This data, from 2/3/2006 to 2/4/2010, can be downloaded from the website from the [Federal Reserve Bank of St. Louis](https://research.stlouisfed.org/fred2/series/DJIA/downloaddata). In order to make things easy, though, we've uploaded the csv file to a public s3 bucket. 
+We're interested in the daily percent growth to identify periods of change in the US market. This data, from 2/3/2006 to 2/4/2010, can be downloaded from the website from the [Federal Reserve Bank of St. Louis](https://research.stlouisfed.org/fred2/series/DJIA/downloaddata). In order to make things easy, though, we've uploaded the csv file to a public s3 bucket.
 
-We load the file into an SFrame, and convert the values to floats. As a last formatting step, we convert the dataset into a [`TimeSeries`](https://dato.com/products/create/docs/generated/graphlab.TimeSeries.html) by converting the `DATE` column as `datetime.datetime` type and setting that column as the index.
+We load the file into an SFrame, and convert the values to floats. As a last formatting step, we convert the dataset into a [`TimeSeries`](https://turi.com/products/create/docs/generated/graphlab.TimeSeries.html) by converting the `DATE` column as `datetime.datetime` type and setting that column as the index.
 
 ```python
 # Set up
 import graphlab  as gl
 
 # Download data.
-dow_jones = gl.SFrame.read_csv('https://s3.amazonaws.com/dato-datasets/changepoint_djia/DJIA.csv')
+dow_jones = gl.SFrame.read_csv('https://static.turi.com/datasets/changepoint_djia/DJIA.csv')
 dow_jones['VALUE'] = dow_jones['VALUE'].apply(lambda x: None if x == '.' else float(x))
 dow_jones['DATE'] = dow_jones['DATE'].str_to_datetime()
 
@@ -85,10 +85,10 @@ dow_jones_part2 = dow_jones[90:]
 
 #### Basic Bayesian Changepoints Usage
 
-The Bayesian Changepoints model takes an [`SFrame`](https://dato.com/products/create/docs/generated/graphlab.SFrame.html) or [`TimeSeries`](https://dato.com/products/create/docs/generated/graphlab.TimeSeries.html) as input (`dow_jones` in this case), the name of the column that contains the series to model, the number of time points to wait before evaluating the changepoint probability, and the expected number of observations between changepoints. For this analysis our feature is the the "VALUE" column and we use a 20 day lag, since it takes a while to validate a trend in the stock market. We do not really know how often changepoints occur, so we'll leave that value at its default. 
+The Bayesian Changepoints model takes an [`SFrame`](https://turi.com/products/create/docs/generated/graphlab.SFrame.html) or [`TimeSeries`](https://turi.com/products/create/docs/generated/graphlab.TimeSeries.html) as input (`dow_jones` in this case), the name of the column that contains the series to model, the number of time points to wait before evaluating the changepoint probability, and the expected number of observations between changepoints. For this analysis our feature is the the "VALUE" column and we use a 20 day lag, since it takes a while to validate a trend in the stock market. We do not really know how often changepoints occur, so we'll leave that value at its default.
 
 ```python
-model = gl.anomaly_detection.bayesian_changepoints.create(dow_jones_part1, 
+model = gl.anomaly_detection.bayesian_changepoints.create(dow_jones_part1,
                                                   feature='VALUE', lag=20)
 ```
 
@@ -128,7 +128,7 @@ scores.print_rows(20, max_row_width=100, max_column_width=20)
 
 Note that values of None result in a changepoint_score of None. Also note that if the input dataset is an `SFrame` instead of a `TimeSeries`, the `scores` field is also an `SFrame`.
 
-One interesting thing is that if you look at the tail of `scores`, you will see a handful of missing values. These data points have insufficient data *after* them to compute lagged changepoint scores. To reudce the number of missing values in the tail of the dataset, reduce the `lag` paramter (at the cost of reducing the accuracy of the results), or update the model with ndew data (see below). 
+One interesting thing is that if you look at the tail of `scores`, you will see a handful of missing values. These data points have insufficient data *after* them to compute lagged changepoint scores. To reudce the number of missing values in the tail of the dataset, reduce the `lag` paramter (at the cost of reducing the accuracy of the results), or update the model with ndew data (see below).
 
 ```python
 scores.tail(10).print_rows(10, max_row_width=100, max_column_width=20)
@@ -171,11 +171,11 @@ changepoints.print_rows(4, max_row_width=100, max_column_width=20)
 [4 rows x 4 columns]
 ```
 
-Looking at the value of the Dow Jones industrial average in that time(see below), it's clear that high changepoint scores correlate strongly with strong downturns in the market in Februray 2007, end of July 2007, and the huge tumble in the middle of September 2008. In fact, it's interesting that we've identified the exact day that Freddie Mac ceases its purchases of the riskiest subprime mortgages and mortgage-backed securities (2/26/2007) and the day Lehman Brothers file for bankruptcy (09/15/2008). 
+Looking at the value of the Dow Jones industrial average in that time(see below), it's clear that high changepoint scores correlate strongly with strong downturns in the market in Februray 2007, end of July 2007, and the huge tumble in the middle of September 2008. In fact, it's interesting that we've identified the exact day that Freddie Mac ceases its purchases of the riskiest subprime mortgages and mortgage-backed securities (2/26/2007) and the day Lehman Brothers file for bankruptcy (09/15/2008).
 
 
 ![original_anomalies](images/raw_index.png)
-*Percentage growth (our input to the Bayesian Changepoints model), the changepoint probability, and the actual index value for reference.* 
+*Percentage growth (our input to the Bayesian Changepoints model), the changepoint probability, and the actual index value for reference.*
 
 #### Updating the model with new data
 
@@ -185,7 +185,7 @@ The Bayesian Changepoints and  Moving Z-score models, are unique among GraphLab 
 new_model = model.update(dow_jones_part2)
 ```
 
-Creating a new model with the `update` method *does not change* the original model. There are two things to note about the new model. First the points where we had not waited long enough for changepoint_probabilities now have associated probabilities, and those are prepended to the model scores. 
+Creating a new model with the `update` method *does not change* the original model. There are two things to note about the new model. First the points where we had not waited long enough for changepoint_probabilities now have associated probabilities, and those are prepended to the model scores.
 
 ```python
 new_scores = new_model['scores']
@@ -235,9 +235,9 @@ The second difference is that the `model_update_time` is no longer identical for
 print new_scores['model_update_time'].unique()
 ```
 ```no-highlight
-[datetime.datetime(2016, 2, 4, 21, 5, 17, 547419), 
+[datetime.datetime(2016, 2, 4, 21, 5, 17, 547419),
   datetime.datetime(2016, 2, 4, 21, 11, 17, 881974)]
 ```
 
 #### References
-  This method is an implementation of [Bayesian Online Changepoint Detection](https://hips.seas.harvard.edu/files/adams-changepoint-tr-2007.pdf) by Ryan Adams and David MacKay so for more in-depth reading please see this paper. 
+  This method is an implementation of [Bayesian Online Changepoint Detection](https://hips.seas.harvard.edu/files/adams-changepoint-tr-2007.pdf) by Ryan Adams and David MacKay so for more in-depth reading please see this paper.

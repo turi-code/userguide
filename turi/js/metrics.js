@@ -1,10 +1,10 @@
 (function() {
-  /* Dato metrics config */
+  /* Turi metrics config */
   var config = (function() {
-    if (location.hostname === 'dato.com') {
+    if (location.hostname === 'turi.com') {
       return {
         metrics_endpoint: 'd2jgqt121dlkm0.cloudfront.net',
-        cookie_domain: '.dato.com'
+        cookie_domain: '.turi.com'
       };
     } else if (location.hostname === '10.10.2.2') {
       return {
@@ -41,7 +41,7 @@
   })(document,"script","hs-analytics",300000);
 
   sp_client("newTracker", "cf", config.metrics_endpoint, {
-      appId: "dato.com",
+      appId: "turi.com",
       platform: "web",
       cookieDomain: config.cookie_domain,
       contexts: {
@@ -55,30 +55,30 @@
   /* modified ga tracking code to enable cross linking */
   ga('create', 'UA-43241412-2', 'auto', {'allowLinker': true});
   ga('require', 'linker');
-  ga('linker:autoLink', ['dato.com'] );
+  ga('linker:autoLink', ['turi.com'] );
 
   /* record page view in snowplow and ga */
   sp_client('trackPageView');
   ga('send', 'pageview');
 
   /**
-   * This is the section to add event listeners to all link clicks within the 
-   * page. All link clicks events are recorded under the category "link". 
-   * 
+   * This is the section to add event listeners to all link clicks within the
+   * page. All link clicks events are recorded under the category "link".
+   *
    * Page Header:
    *     - Action (String): 'click_header'
    *     - Label (String): string of internal/external link
-   *     - Value (Integer): the N-th appeareance of this link in header. ex: 0, 1, ... 
-   *  
+   *     - Value (Integer): the N-th appeareance of this link in header. ex: 0, 1, ...
+   *
    * Page Body:
    *     - Action (String): 'click_body'
    *     - Label (String): string of internal/external link
-   *     - Value (Integer): the N-th appeareance of this link in body. ex: 0, 1, ... 
+   *     - Value (Integer): the N-th appeareance of this link in body. ex: 0, 1, ...
    *
    * Page Footer:
    *     - Action (String): 'click_footer'
    *     - Label (String): string of internal/external link
-   *     - Value (Integer): the N-th appeareance of this link in footer. ex: 0, 1, ... 
+   *     - Value (Integer): the N-th appeareance of this link in footer. ex: 0, 1, ...
    *
   **/
   function trackEvent(category, action, label, value) {
@@ -88,19 +88,19 @@
   function trackLink(action, href, value, evt) {
     ga('send', 'event', 'link', action, href, value);
   }
-  document.addEventListener("DOMContentLoaded", function(evt) { 
+  document.addEventListener("DOMContentLoaded", function(evt) {
     // default case -- just track everything as "body"
     var links = {
       body: document.body.getElementsByTagName('a')
     };
-    
+
     var headerElements = document.getElementsByClassName('cml-navbar');
     var body = document.getElementById('content-body');
     var footerElements = document.getElementsByTagName('footer');
     if (headerElements.length === 1 &&
         footerElements.length === 1 &&
         body !== null) {
-      // matches Dato.com site template
+      // matches turi.com site template
       links = {
         body: body.getElementsByTagName('a'),
         header: headerElements[0].getElementsByTagName('a'),

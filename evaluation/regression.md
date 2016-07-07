@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Regression Metrics 
 
 In a regression task, the model learns to predict numeric scores. An example is

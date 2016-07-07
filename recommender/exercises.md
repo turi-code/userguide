@@ -13,7 +13,7 @@ import os
 if os.path.exists('stack_overflow'):
     sf = graphlab.SFrame('stack_overflow')
 else:
-    sf= graphlab.SFrame('http://s3.amazonaws.com/dato-datasets/stack_overflow')
+    sf= graphlab.SFrame('https://static.turi.com/datasets/stack_overflow')
     sf.save('stack_overflow')
 ```
 
@@ -31,7 +31,7 @@ users.
 <span style="color:red">**Question 2:**</span>
 Create a new column called `Tags` where each element is a list of all the tags
 used for that question. (Hint: Check out
-[sf.pack_columns](https://dato.com/products/create/docs/generated/graphlab.SFrame.html)
+[sf.pack_columns](https://turi.com/products/create/docs/generated/graphlab.SFrame.html)
 .)
 
 
@@ -66,7 +66,7 @@ sf['Tags'] = sf['Tags'].apply(remove_empty)
 <span style="color:red">**Question 5:**</span>
 Create a new SFrame called `user_tag` that has a row for every (user, tag) pair.
 (Hint: See
-[sf.stack](https://dato.com/products/create/docs/generated/graphlab.SFrame.stack.html#graphlab.SFrame.stack)
+[sf.stack](https://turi.com/products/create/docs/generated/graphlab.SFrame.stack.html#graphlab.SFrame.stack)
 .)
 
 
@@ -83,7 +83,7 @@ Create a new SFrame called `user_tag_count` that has three columns:
 
 where `Count` contains the number of times the given `Tag` was used by that
 particular `OwnerUserId`. Hint: See
-[groupby](https://dato.com/products/create/docs/graphlab.data_structures.html#graphlab.aggregate.COUNT)
+[groupby](https://turi.com/products/create/docs/graphlab.data_structures.html#graphlab.aggregate.COUNT)
 .
 
 
@@ -194,7 +194,7 @@ m.save('my_model')
 <span style="color:red">**Question 17:**</span>
 Create a train/test split of the `user_tag_count` data from the section above.
 Hint: Use
-[random_split_by_user](https://dato.com/products/create/docs/generated/graphlab.recommender.util.random_split_by_user.html)
+[random_split_by_user](https://turi.com/products/create/docs/generated/graphlab.recommender.util.random_split_by_user.html)
 .
 
 

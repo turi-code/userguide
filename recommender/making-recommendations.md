@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Making Recommendations 
 There are a number of ways to make recommendations: for known users or new users, with new observation data or side information, and with different ways to explicitly control item inclusion or exclusion.  Let's walk through these options together.
 
@@ -59,7 +59,7 @@ m_side_info = graphlab.factorization_recommender.create(data, target='rating',
            		      		                            user_data=user_info)
 ```
 
-Now, we can add side information for the new user at recommendation time. The new side information must contain a column with the same name as the column in the training data that's designated as the 'user_id'.  (For more details, please see the API documentation for [graphlab.recommender.create](https://dato.com/products/create/docs/generated/graphlab.recommender.create.html#graphlab.recommender.create).)
+Now, we can add side information for the new user at recommendation time. The new side information must contain a column with the same name as the column in the training data that's designated as the 'user_id'.  (For more details, please see the API documentation for [graphlab.recommender.create](https://turi.com/products/create/docs/generated/graphlab.recommender.create.html#graphlab.recommender.create).)
 
 ```python
 new_user_info = graphlab.SFrame({'user_id' : ['Charlie'],
@@ -68,11 +68,11 @@ recommendations = m_side_info.recommend(['Charlie'],
 										new_user_data = new_user_info)
 ```
 
-Given Charlie's age category, the model can incorporate what it knows about the importance of age categories for item recommendations.  Currently, the following models can take side information into account when making recommendations: [LinearRegressionModel](https://dato.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.html), [MatrixFactorizationModel](https://dato.com/products/create/docs/generated/graphlab.recommender.MatrixFactorizationModel.html#graphlab.recommender.MatrixFactorizationModel), [FactorizationModel](https://dato.com/products/create/docs/generated/graphlab.recommender.FactorizationModel.html#graphlab.recommender.FactorizationModel).  LinearRegressionModel is the simplest model, and FactorizationModel the most powerful.  For more details on how each model makes use of side information, please refer to the model definition sections in the individual models' API documentation.
+Given Charlie's age category, the model can incorporate what it knows about the importance of age categories for item recommendations.  Currently, the following models can take side information into account when making recommendations: [LinearRegressionModel](https://turi.com/products/create/docs/generated/graphlab.linear_regression.LinearRegression.html), [MatrixFactorizationModel](https://turi.com/products/create/docs/generated/graphlab.recommender.MatrixFactorizationModel.html#graphlab.recommender.MatrixFactorizationModel), [FactorizationModel](https://turi.com/products/create/docs/generated/graphlab.recommender.FactorizationModel.html#graphlab.recommender.FactorizationModel).  LinearRegressionModel is the simplest model, and FactorizationModel the most powerful.  For more details on how each model makes use of side information, please refer to the model definition sections in the individual models' API documentation.
 
 #### Incorporating new observation data
 
-`recommend()` accepts new observation data. Currently, the [ItemSimilarityModel](https://dato.com/products/create/docs/generated/graphlab.recommender.item_similarity_recommender.ItemSimilarityRecommender.html) makes the best use of this information.
+`recommend()` accepts new observation data. Currently, the [ItemSimilarityModel](https://turi.com/products/create/docs/generated/graphlab.recommender.item_similarity_recommender.ItemSimilarityRecommender.html) makes the best use of this information.
 
 ```python
 m_item_sim = graphlab.item_similarity_recommender.create(data)

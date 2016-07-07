@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 #Classification
 **Classification** is the problem of predicting a **categorical target**
 using training data. The key difference between **regression** and
@@ -39,7 +39,7 @@ you based on statistics collected from the data set.
 import graphlab as gl
 
 # Load the data
-data =  gl.SFrame('http://s3.amazonaws.com/dato-datasets/regression/yelp-data.csv')
+data =  gl.SFrame('https://static.turi.com/datasets/regression/yelp-data.csv')
 
 # Restaurants with rating >=3 are good
 data['is_good'] = data['stars'] >= 3

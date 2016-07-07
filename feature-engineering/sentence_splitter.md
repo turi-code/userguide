@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Sentence Splitter
 
 The SentenceSplitter takes SFrame columns of type string or list,

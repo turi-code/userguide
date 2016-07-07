@@ -1,97 +1,98 @@
-<script src="../dato/js/recview.js"></script>
-# Choosing a Model
-In this section, we give some intuition for which modeling choices you may make depending on your data and your task.
+<script src="../turi/js/recview.js"></script> 
 
-### Implicit and explicit data
-The above example included ratings given to items by users. In situations where users do not provide ratings, a dataset would instead have just two columns -- user ID and item ID. We can still use collaborative filtering techniques to make recommendations. In this case we are leveraging "implicit" data about items that users watched, liked, etc., in contrast to the "explicit" ratings data in the previous example.
+# Choosing a Model 
 
-Training a model and making recommendations with such data is straightforward.
+In this section, we give some intuition for which modeling choices you may make depending on your data and your task. Each recommender model in GraphLab Create has certain strengths that fit well with certain types of data and different objectives.
 
-```python
-m = graphlab.recommender.create(data,
-                                user_id='user',
-                                item_id='movie')
-recs = m.recommend()
+The easiest way to choose a model is to let GraphLab Create choose your model for you.  This is done by simply using the default recommender.create function, which chooses the model based on the data provided to it.  As an example, the following code creates a basic item similarity model and then generates recommendations for each user in the dataset:
+
+```python 
+m = graphlab.recommender.create(data, user_id='user', item_id='movie') 
+recs = m.recommend() 
 ```
 
-When no `target` is available, as above, then by default this returns an [ItemSimilarityRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.item_similarity_recommender.ItemSimilarityRecommender.html) which computes the similarity between each pair of items and recommends items to each user that are closest to items she has already used or liked. It measures item similarity with either Jaccard or cosine distance, which can be set
-manually using a keyword argument called ``similarity_type`` when creating that
-recommender directly:
+Using the default create method provides an excellent way to quickly get a recommender model up and running, but in many cases it's desirable to have more control over the process.
+
+Effectively choosing and tuning a recommender model is best done in two stages.  The first stage is to match the type of data up with the correct model or models, and the second stage is to correctly evaluate and tune the model(s) and assess their accuracy.  Sometimes one model works better and sometimes another, depending on the data set. In a later section, we'll look at evaluating a model so you can be confident you chose the best one.
+
+
+### Data Type: Explicit, Implicit, or Item Content Data?
+
+With *Explicit data*, there is an associated target column that gives a score for each interaction between a users and an items.  An example of this type would be a data set of user's ratings for movies or books. With this type of data, the objective is typically to either predict which new items a user would rate highly or to predict a user's rating on a given item. 
+
+*Implicit data* does not include any rating information.  In this case, a dataset may have just two columns -- user ID and item ID.  For this type of data, the recommendations are based on which items are similar to the items a user has interacted with.
+
+The third type of data that GraphLab Create can use to build a recommender system is *item content data*.  In this case, information associated with each individual item, instead of the user interaction patterns, is used to recommend items similar to a collection of items in a query set.  For example, item content could be a text description of an item, a set of key words, an address, categories, or even a list of similar items taken from another model.
+
+### Working with Explicit Data
+
+If your data is *explicit*, i.e., the observations include an actual rating given by the user, then the model you wish to use depends on whether you want to predict the rating a user would give a particular item, or if you want the model to recommend items that it believes the user would rate highly.  
+
+If you have ratings data and care about accurately predicting the rating a user would give a specific item , then we typically recommend you use the `factorization_recommender`.  In this model the observed ratings are modeled as a weighted combination of terms, where the weights (along with some of the terms, also known as factors) are learned from data.  All of these models can easily incorporate user or item side features.
+
+A linear model assumes that the rating is a linear combination of user features, item features, user bias, and item popularity bias.  The `factorization_recommender` goes one step further and allows each rating to also depend on a term representing the inner product of two vectors, one representing the user's affinity to a set of latent preference modes, and one representing the item's affinity to these modes.  These are commonly called latent factors and are automatically learned from observation data.  When side data is available, the model allows for interaction terms between these learned latent factors and all the side features.  As a rule of  thumb, the presence of side data can make the model more finicky to learn (due to its power and flexibility).  
+
+If you care about *ranking performance*, instead of simply predicting the rating accurately, then choose [ItemSimilarityRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.item_similarity_recommender.ItemSimilarityRecommender.html) or [RankingFactorizationRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_recommender.RankingFactorizationRecommender.html).  With rating data, the `item_similarity_recommender` model scores items based on how likely they predict the user will rate them highly, but the absolute values of the predicted scores may not match up with the actual ratings a user would give the item.
+
+The [RankingFactorizationRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_recommender.RankingFactorizationRecommender.html) tries to recommend items that are both similar to the items in a user's dataset and, if rating information is provided, those that would be rated highly by the user.  It tends to predict ratings with less accuracy than the non-ranking `factorization_recommender`, but it tends to do much better at choosing items that a user would rate highly.  This is because it also penalizes the predicted rating of items that are significantly different from the items a user has interacted with.  In other words, it only predicts a high rating for user-item pairs in which it predicts a high rating and is confident in that prediction.  
+
+Furthermore, this model works particularly well when the target ratings are binary, i.e., if they come from thumbs up/thumbs down flags. In this case, use the input parameter `binary_targets = True`.
+
+When a `target` column is provided, the model returned by the default `recommender.create` function is a matrix factorization model. The matrix factorization model can also be called directly with [ranking_factorization_recommender.create](https://turi.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_recommender.create.html).  When using the model-specific create function, other arguments can be provided to better tune the model, such as `num_factors` or `regularization`.  See the documentation on [RankingFactorizationRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_recommender.RankingFactorizationRecommender.html) for more information.
+
+```python
+m = graphlab.ranking_factorization_recommender.create(data,
+			                              user_id='user',
+                                                      item_id='movie',
+                                                      target='rating')
+```
+
+### Working with Implicit Data
+
+The goal a recommender system built with implicit data is to recommend items that are similar to those similar to the collection of items a user has interacted with.  "Similar" in this case is determined by other user interactions -- if most users with similar behavior to a given user also interacted with a item the given user had not, that item would likely in the given user's recommendations. 
+
+In this case, the default `recommender.create` function in the example code above code returns an [ItemSimilarityRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.item_similarity_recommender.ItemSimilarityRecommender.html) which computes the similarity between each pair of items and recommends items to each user that are closest to items they have already used or liked:
 
 ```python
 m = graphlab.item_similarity_recommender.create(data,
                                                 user_id='user',
-                                                item_id='movie',
-                                                similarity_type='jaccard')
+                                                item_id='movie')
 ```
 
-When a `target` is provided, the default GraphLab Create recommender is a
-matrix factorization model. The matrix factorization model can also be
-called directly with
-[factorization_recommender.create](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.create.html).
-When using the model-specific create function, other arguments can be
-provided to better tune the model, such as `num_factors` or
-`regularization`.  See the documentation on
-[FactorizationRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html) for more information.
+The `ranking_factorization_recommender` is also great for implicit data, and can be called the same way: 
+
 
 ```python
-m = graphlab.factorization_recommender.create(data,
-                                              user_id='user',
-                                              item_id='movie',
-                                              target='rating',
-                                              regularization=0.05,
-                                              num_factors=16)
+m = graphlab.ranking_factorization_recommender.create(data,
+			                              user_id='user',
+                                                      item_id='movie')
 ```
 
+With implicit data, the ranking factorization model has two solvers, one which uses a randomized sgd-based method to tune the results, and the other which uses an implicit form of alternating least squares (iALS).  The default sgd-based method samples unobserved items along with the observed ones, then treats them as negative examples.  This is the default solver.  Implicit ALS is a version of the popular Alternating Least Squares (ALS) algorithm that attempts to find factors that distinguish between the given user-item pairs and all other negative examples.  This algorithm can be faster than the sgd method, particularly if there are many items, but it does not currently support side features.  This solver can be activated by passing in ``solver = "ials"`` to ``ranking_factorization_recommender.create``. On some datasets, one of these solvers can yield better precision-recall scores than the `item_similarity_recommender`.
 
-If your data is *implicit*, i.e., you only observe interactions between users and items, without a rating, then use `item_similarity_recommender` with Jaccard similarity (default) or the `ranking_factorization_recommender`.
+### Item Content Data
 
-If your data is *explicit*, i.e., the observations include an actual rating given by the user, then you have a wide array of options.  `item_similarity_recommender` with cosine or Pearson similarity can incorporate ratings when computing similarity between items.  In addition, `factorization_recommender` and `popularity_recommender` both support rating prediction.  If you care about *ranking performance*, instead of simply predicting the rating accurately, then choose `item_similarity_recommender` or `ranking_factorization_recommender`.  Both can work well with either implicit or explicit data. Sometimes one works better, sometimes the other, depending on the data set.
+The
+[ItemContentRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.item_content_recommender.ItemContentRecommender.html)
+builds a model similar to the item similarity model, but uses
+similarities between item content to actually build the model.  In
+this model, the similarity score between two items is calculated by
+first computing the similarity between the item data for each column,
+then taking a weighted average of the per-column similarities to get
+the final similarity.  The recommendations are generated according to
+the average similarity of a candidate item to all the items in a
+user's set of rated items.  This model can be created without
+observation data about user-item interactions, in which case such
+information must be passed in at recommend time in order to make
+recommendations.
 
-If you have ratings data and care about ratings prediction, then we typically recommend you use `factorization_recommender`.  In this model the observed ratings are modeled as a weighted combination of terms, where the weights (along with some of the terms, also known as factors) are learned from data.  All of these models can easily incorporate user or item side features.  
-
-A linear model assumes that the rating is a linear combination of user features, item features, user bias, and item popularity bias.  The `factorization_recommender` goes one step further and allows each rating to also depend on a term representing the inner product of two vectors, one representing the user's affinity to a set of latent preference modes, and one representing the item's affinity to these modes.  These are commonly called latent factors and are automatically learned from observation data.  When side data is available, the model allows for interaction terms between these learned latent factors and all the side features.  As a rule of thumb, the presence of side data can make the model more finicky to learn (due to its power and flexibility).  
-
-Note that all of these models come with a handful of regularization parameters which can affect test-time prediction accuracy, such as `num_factors` and `regularization`.  We recommend tuning them using the hyper-parameter search function, `graphlab.toolkits.model_params_search()`.
-
-If you have implicit interaction data and you want to compare results
-against the default item_similarity_recommender, then try the
-`ranking_factorization_recommender`.  The ranking factorization model
-has two solvers, one which uses a randomized sgd-based method to tune
-the results, and the other which uses an implicit form of alternating
-least squares (ALS).  On some datasets, these can yield better
-precision-recall scores than `item_similarity_recommender`.
-
-The sgd-based method samples unobserved items along with the observed
-ones, then treats them as negative examples.  This is the default
-solver.  
-
-Implicit ALS is a version of the popular Alternating Least Squares
-(ALS) algorithm that attempts to find factors that distinguish between
-the given user-item pairs and all other negative examples.  This
-algorithm can be faster than the sgd method, particularly if there are
-many items, but it does not currently support side features.  This
-solver can be activated by passing in ``solver = "ials"`` to
-``ranking_factorization_recommender.create``
-
-
-When the target ratings are binary, i.e., if they come from thumbs up/thumbs down flags, try the `factorization_recommender` with input parameter `binary_targets = True`.
-
-The latent factors learned by both factorization recommenders can be used as features for other tasks.  In this case, it can help to have non-negative factors for improved interpretability.  Simply set `nmf=True` as an input parameter to create(), and the matrix factorization model will learn non-negative factors.
-
-### When you don't want to choose
-
-Under the hood, the type of recommender is chosen based on the
-provided data and whether the desired task is ranking (default) or
-rating prediction. The default recommender for this type of data and
-the default ranking task is a matrix factorization model, implemented
-on top of the disk-backed SFrame data structure.  The default solver
-is stochastic gradient descent, and the recommender model used is the
-[RankingFactorizationModel](https://dato.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_model.RankingFactorizationModel.html), which balances rating prediction with
-a ranking objective. The default `create()` function does not allow
-changes to the default parameters of a specific model, but it is just
-as easy to build a recommender with your own parameters using
-the appropriate model-specific `create()` function.
+Note that in most situations, the similarity patterns of items
+can be inferred effectively from patterns in the user interaction
+data, and the `factorization_recommender` and
+`item_similarity_recommender` do this effectively.  However,
+leveraging information about item content can be very useful,
+particularly when the user-item interaction data is sparse or not
+known until recommend time.
 
 ### Side information for users, items, and observations
 
@@ -111,7 +112,7 @@ model, the data is saved with the model and also used to make
 recommendations.
 
 In particular, the
-[FactorizationRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html) and the [RankingFactorizationRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_recommender.RankingFactorizationRecommender.html) both incorporate the side data into the prediction through additional interaction terms between the user, the item, and the side feature. For the actual formula, see the API docs for the [FactorizationRecommender](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html). Both of these models also allow you to obtain the parameters that have been learned for each of the side features via the `m['coefficients']` argument.
+[FactorizationRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html) and the [RankingFactorizationRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.ranking_factorization_recommender.RankingFactorizationRecommender.html) both incorporate the side data into the prediction through additional interaction terms between the user, the item, and the side feature. For the actual formula, see the API docs for the [FactorizationRecommender](https://turi.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.html). Both of these models also allow you to obtain the parameters that have been learned for each of the side features via the `m['coefficients']` argument.
 
 Side data may also be provided for each observation. For example, it might be useful to have recommendations change based on the time at which the query is being made. To do so, you could create a model using an SFrame that contains a time column, in addition to a user and item column. For example, a "time" column could include a string indicating the hour; this will be treated as a categorical variable and the model will learn a latent factor for each unique hour.
 
@@ -128,7 +129,7 @@ m.recommend(users=user_query)
 ```
 
 In this case, recommendations for user 1 and 2 would use the parameters learned from observations that occurred at 10pm, whereas the recommendations for user 3 would incorporate parameters corresponding to 11pm. For more details, check out
-  [recommend](https://dato.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.recommend.html#graphlab.recommender.factorization_recommender.FactorizationRecommender.recommend) in the API docs.
+  [recommend](https://turi.com/products/create/docs/generated/graphlab.recommender.factorization_recommender.FactorizationRecommender.recommend.html#graphlab.recommender.factorization_recommender.FactorizationRecommender.recommend) in the API docs.
 
 You may check the number of columns used as side information by querying `m['observation_column_names']`, `m['user_side_data_column_names']`, and `m['item_side_data_column_names']`. By printing the model, you can also see this information. In the following model, we had four columns in the observation data (two of which were `user_id` and `item_id`) and four columns in the SFrame passed to `item_side_data` (one of which was `item_id`):
 
@@ -149,13 +150,14 @@ If new side data exists when recommendations are desired, this can be passed in 
 
 Not all of the models make use of side data: the `popularity_recommender` and `item_similarity_recommender` create methods currently do not use it.  
 
+
 ### Suggested pre-processing techniques
 
 Lastly, here are a couple of common data issues that can affect the performance of a recommender.  First, if the observation data is very sparse, i.e., contains only one or two observations for a large number of users, then none of the models will perform much better than the simple baselines available via the `popularity_recommender`.  In this case, it might help to prune out the rare users and rare items and try again.  Also, re-examine the data collection and data cleaning process to see if mistakes were made.  Try to get more observation data per user and per item, if you can.
 
 Another issue often occurs when usage data is treated as ratings.  Unlike explicit ratings that lie on a nice linear interval, say 0 to 5, usage data can be badly skewed.  For instance, in the Million Song dataset, one user played a song more than 16,000 times.  All the models would have a difficult time fitting to such a badly skewed target.  The fix is to bucketize the usage data.  For instance, any play count greater than 50 can be mapped to the maximum rating of 5.  You can also clip the play counts to be binary, e.g., any number greater than 2 is mapped to 1, otherwise it's 0.
 
-For more on this check out our recent blog post, [Choosing a Recommender Model](http://blog.dato.com/choosing-a-recommender-model).
+For more on this check out our blog post, [Choosing a Recommender Model](http://blog.turi.com/choosing-a-recommender-model).
 
 ### Evaluating Model Performance
 
@@ -181,7 +183,7 @@ precision-recall is often more useful in evaluating how well a
 recommender system will perform in practice.
 
 The GraphLab Create recommender toolkit includes a function,
-[gl.recommender.random_split_by_user](https://dato.com/products/create/docs/generated/graphlab.recommender.random_split_by_user.html#graphlab.recommender.random_split_by_user),
+[gl.recommender.random_split_by_user](https://turi.com/products/create/docs/generated/graphlab.recommender.random_split_by_user.html#graphlab.recommender.random_split_by_user),
 to easily generate training and test sets from observation data.
 Unlike `gl.SFrame.random_split`, it only puts data for a subset of the
 users into the test set.  This is typically sufficient for evaluating
@@ -195,7 +197,7 @@ all users may be represented by the test set, as some users may not
 have any of their items randomly selected for the test set.
 
 Once training and test set are generated, the
-[gl.recommender.util.compare_models](https://dato.com/products/create/docs/generated/graphlab.recommender.util.compare_models.html#graphlab.recommender.util.compare_models)
+[gl.recommender.util.compare_models](https://turi.com/products/create/docs/generated/graphlab.recommender.util.compare_models.html#graphlab.recommender.util.compare_models)
 function allows easy evaluation of several models using either RMSE or
 precision-recall.  These models may the same models with different
 parameters or completely different types of model.
@@ -218,4 +220,4 @@ train_data = train_data_1.append(low_rated_data)
 
 Other examples of comparing models can be found in the API
 documentation for
-[gl.recommender.util.compare_models](https://dato.com/products/create/docs/generated/graphlab.recommender.util.compare_models.html#graphlab.recommender.util.compare_models).
+[gl.recommender.util.compare_models](https://turi.com/products/create/docs/generated/graphlab.recommender.util.compare_models.html#graphlab.recommender.util.compare_models).

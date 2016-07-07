@@ -1,4 +1,4 @@
-<script src="../dato/js/recview.js"></script>
+<script src="../turi/js/recview.js"></script>
 # Frequent Pattern Mining
 
 A frequent pattern is a substructure that appears frequently in a dataset.
@@ -45,7 +45,7 @@ In just a few lines of code we can do the following:
 * Find the most frequently occurring patters satisfying various conditions.
 * Extract features from the dataset by transforming it from the *Item* space
 into the *Reciept* space. These features can then be used for applications like
-clustering, classification, churn prediction, recommender systems etc. 
+clustering, classification, churn prediction, recommender systems etc.
 * Make predictions based on new data using rules learned from sets of items that
 occur frequently together.
 
@@ -54,15 +54,15 @@ Here is a simple end-to-end example:
 ```python
 import graphlab as gl
 
-# Load the dataset 
-train = gl.SFrame("http://s3.amazonaws.com/dato-datasets/bakery_train.sf")
-test = gl.SFrame("http://s3.amazonaws.com/dato-datasets/bakery_test.sf")
+# Load the dataset
+train = gl.SFrame("https://static.turi.com/datasets/extended-bakery/bakery_train.sf")
+test = gl.SFrame("https://static.turi.com/datasets/extended-bakery/bakery_test.sf")
 
 # Make a train-test split.
 train, test = bakery_sf.random_split(0.8)
 
 # Build a frequent pattern miner model.
-model = gl.frequent_pattern_mining.create(train, 'Item', 
+model = gl.frequent_pattern_mining.create(train, 'Item',
                 features=['Receipt'], min_length=4, max_patterns=500)
 
 
@@ -82,11 +82,11 @@ predictions = model.predict(test)
 
 Frequent pattern mining can provide valuable insight about the sets of items
 that occur frequently together. When a model is trained, the `model.summary()` output
-shows the most frequently occurring patterns together. 
+shows the most frequently occurring patterns together.
 
 ```python
 patterns = model.get_frequent_patterns()
-print patterns 
+print patterns
 ```
 ```no-highlight
 +-------------------------------------------------------------+---------+
@@ -115,18 +115,18 @@ training data.
 A **frequent pattern** is a set of items with a support greater than
 user-specified **minimum support** threshold.  However, there is significant
 redundancy in mining frequent patterns; every subset of a frequent pattern is
-also frequent (e.g. *CoffeeEclair* must be frequent if *CoffeeEclair*, 
-*HotCoffee* is frequent). The frequent pattern mining toolkit avoids this 
-redundancy by mining the **closed frequent patterns**: frequent patterns with 
-no superset of the same support. 
+also frequent (e.g. *CoffeeEclair* must be frequent if *CoffeeEclair*,
+*HotCoffee* is frequent). The frequent pattern mining toolkit avoids this
+redundancy by mining the **closed frequent patterns**: frequent patterns with
+no superset of the same support.
 
-###### Minimum support 
+###### Minimum support
 One can change the minimum support above which patterns are considered frequent using the
 **min_support** setting:
- 
+
 
 ```python
-model = gl.frequent_pattern_mining.create(train, 'Item', 
+model = gl.frequent_pattern_mining.create(train, 'Item',
                 features=['Receipt'], min_support = 5000)
 print model
 ```
@@ -153,7 +153,7 @@ Most frequent patterns
 ['BerryTart']                 : 5087
 ```
 
-###### Top-k frequent patterns. 
+###### Top-k frequent patterns.
 
 In practice, we rarely know the appropriate *min_support* threshold to use.  As
 an alternative to specifying a minimum support, we can specify a maximum number
@@ -164,7 +164,7 @@ sets, this mining process can be time-consuming.  We recommend specifying a
 large initial minimum support bound to speed up the mining.
 
 ```python
-model = gl.frequent_pattern_mining.create(train, 'Item', 
+model = gl.frequent_pattern_mining.create(train, 'Item',
                 features=['Receipt'], max_patterns = 5)
 print model
 ```
@@ -189,17 +189,17 @@ Most frequent patterns
 **Note**: The algorithm for extracting the top-k most frequent occurring
 patterns can be severely sped up with a good estimate for the lower bound on
 *min_support*.
- 
 
-###### Minimum Length 
 
-Typically, the most frequent patterns are of length *1*. However, in practice, 
-patterns of length *1* may not very useful. To mine patterns greater than 
+###### Minimum Length
+
+Typically, the most frequent patterns are of length *1*. However, in practice,
+patterns of length *1* may not very useful. To mine patterns greater than
 a minimum length, we use the **min_length** parameter:
 
 
 ```python
-model = gl.frequent_pattern_mining.create(train, 'Item', 
+model = gl.frequent_pattern_mining.create(train, 'Item',
                 features=['Receipt'], min_length = 5)
 print model
 ```
@@ -239,7 +239,7 @@ pattern is contained in $$x$$.
 
 
 ```python
-model = gl.frequent_pattern_mining.create(train, 'Item', 
+model = gl.frequent_pattern_mining.create(train, 'Item',
                 features=['Receipt'])
 features = model.extract_features(test)
 ```
@@ -275,11 +275,11 @@ systems etc.
 ###### Making Predictions
 
 An **association rule** is an ordered pair of item sets (prefix $$A$$,
-prediction $$B$$) denoted $$A \Rightarrow B$$ such that $$A, B$$ are disjoint 
+prediction $$B$$) denoted $$A \Rightarrow B$$ such that $$A, B$$ are disjoint
 and $$A \cup B$$ is frequent. Because every frequent pattern generates multiple
 association rules (a rule for each subset), we evaluate and filter rules using
 a score criteria.  The most popular criteria for scoring association rules is
-to measure the **confidence** of the rule: the ratio of the support of $$A \cup B$$ 
+to measure the **confidence** of the rule: the ratio of the support of $$A \cup B$$
 to the support of $$A$$. The **confidence** of the rule $$A \Rightarrow B$$ is
 our empirical estimate of the conditional probability for $$B$$ given $$A$$:
 
@@ -287,7 +287,7 @@ $$ Confidence( A \Rightarrow B ) = \frac{Supp(A \cup B)}{Supp(A)}$$
 
 One can make predictions using the *predict* or *predict_topk* method for
 single and multiple predictions respectively. The output of both the methods is
-an SFrame with the following columns: 
+an SFrame with the following columns:
 
 * **prefix**: The *antecedent* or *left-hand side* of an association
 rule. It must be a frequent pattern and a subset of the associated pattern.
@@ -301,7 +301,7 @@ training data.
 
 If no valid association rule exists for an pattern, then ``predict`` will
 return a row of Nones.
- 
+
 ```python
 predictions = model.predict(test)
 ```
@@ -349,19 +349,19 @@ Data:
 ```
 
 **Note**: If the number of patterns extracted is large, then prediction could
-potentially be a slow operation. 
+potentially be a slow operation.
 
-##### Accessing Model Attributes 
+##### Accessing Model Attributes
 
 We will now go over some more advanced options with the frequent pattern mining
 module. This includes advanced options for pattern mining, model
 interpretation, extracting features, and making predictions via rule mining.
- 
+
 The attributes of all GraphLab Create models, which include training
 statistics, model hyper-parameters, and model results can be accessed in the
 same way as python dictionaries. To get a list of all fields that can be
 accessed, you can use the
-[list_fields()](https://dato.com/products/create/docs/generated/graphlab.pattern_mining.FrequentPatternMiner.list_fields.html)
+[list_fields()](https://turi.com/products/create/docs/generated/graphlab.pattern_mining.FrequentPatternMiner.list_fields.html)
 function:
 
 
@@ -390,7 +390,7 @@ model['num_frequent_patterns']
 ```
 
 The [API
-docs](https://dato.com/products/create/docs/generated/graphlab.pattern_mining.FrequentPatternMiner.get.html)
+docs](https://turi.com/products/create/docs/generated/graphlab.pattern_mining.FrequentPatternMiner.get.html)
 provide a detailed description of each of the model attributes.
 
 ##References
@@ -401,5 +401,3 @@ provide a detailed description of each of the model attributes.
 - Wang, Jianyong, et al. *TFP: An efficient algorithm for mining top-k frequent
   closed patterns.* Knowledge and Data Engineering, IEEE Transactions on 17.5
   (2005): 652-663.
-
-

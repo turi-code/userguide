@@ -126,7 +126,7 @@ $(document).ready( function(event){
     if (url.indexOf('_book') != -1) {
       url = url.split('_book').pop();
     }
-    url = 'https://dato.com/learn/userguide' + url;
+    url = 'https://turi.com/learn/userguide' + url;
 
     const data = {
       query: url,
@@ -135,12 +135,12 @@ $(document).ready( function(event){
     };
 
     // Initialize PS Client
-    var client = new PredictiveServiceClient('https://userguide-recommender.dato.com',
+    var client = new PredictiveServiceClient('https://userguide-recommender.turi.com',
     '078b4189-96cd-4329-87a2-20967a751bf3');
 
     //Query PS Client
     client.query('userguide-recommender', data, renderView);
   }
 
-  loadScript('https://static.dato.com/files/scripts/predictive-service-client/ps-client.js');
+  loadScript('https://static.turi.com/products/turi-predictive-services/predictive-service-client/ps-client.js');
 });
