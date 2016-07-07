@@ -19,4 +19,4 @@ deploy:
   acl: public_read
   on:
     branch: master
-    repo: dato-code/userguide
+    repo: turi-code/userguide
