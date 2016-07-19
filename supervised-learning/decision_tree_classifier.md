@@ -23,7 +23,6 @@ train_data, test_data = data.random_split(0.8)
 
 # Create a model.
 model = gl.decision_tree_classifier.create(train_data, target='label',
-                                           max_iterations=2,
                                            max_depth = 3)
 
 # Save predictions to an SArray. 
