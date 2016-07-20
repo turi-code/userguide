@@ -14,5 +14,3 @@ In the next section, you will learn to use GraphLab Create's <a href="sentiment-
 More advanced forms of sentiment analysis exist. Aspect mining attempts to identify features (or aspects) of entities that are mentioned, and then estimate the sentiment for each aspect. For example, when studying reviews about mobile phones you may be interested in how people feel about aspects such as battery life, screen resolution, size, etc.
 
 For these situations we provide a <a href="product-sentiment.html">product_sentiment</a> toolkit where it's easy to explore and summarize sentiment about products within text data. The toolkit enables to search for aspects of interest and obtain summaries of the reviews or sentences with the most positive (or negative) predicted sentiment.
-
-Feedback about the sentiment analysis toolkit is very welcome. Please post questions and comments on our forum or send a note to <a href="mailto:support@turi.com">support@turi.com</a>.

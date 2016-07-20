@@ -105,7 +105,3 @@ By understanding the qualitative aspects of the model you can build confidence i
 * monitoring how your model behaves in particular situations,
   detecting problems with your model prior to going to production,
 * exposing ways you can improve your model in the future.
-
-#### Have questions?
-
-Feel free to ask any questions on our [user forum](http://forum.turi.com).
