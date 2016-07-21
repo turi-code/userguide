@@ -236,9 +236,7 @@ SQLRowCount returns 0
 If you aren't able to do something like the above, make sure to read the
 documentation of your specific ODBC driver to see if you missed any part of
 setup.  Since there are so many drivers, we can't possibly test them all and
-document their many intricacies.  If you're really having trouble with
-setup after exhausting all of your possiblities, feel free to post on our
-[forum](http://forum.turi.com) and we'll try to help you out.
+document their many intricacies.
 
 <a name="MySQL_on_OSX"></a>
 #### Example: Step-by-Step Instructions for MySQL on OSX
