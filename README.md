@@ -22,7 +22,7 @@ In this guide, you will learn how to use GraphLab Create to:
 
 #### Open source
 
-The source for this userguide is [available on Github](https://github.com/turi-code/userguide) under the 3-clause [BSD license](LICENSE). If you have suggestions or bug reports, we welcome Github issues and pull requests! See the chapter about [contributing](contributing.md) on guidelines for adding content.
+The source for this userguide is [available on Github](https://github.com/turi-code/userguide) under the 3-clause [BSD license](LICENSE).
 
 To build the userguide, install npm and run the following:
 
