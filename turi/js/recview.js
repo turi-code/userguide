@@ -142,5 +142,6 @@ $(document).ready( function(event){
     client.query('userguide-recommender', data, renderView);
   }
 
-  loadScript('https://static.turi.com/products/turi-predictive-services/predictive-service-client/ps-client.js');
+  //Disable recommender
+  //loadScript('https://static.turi.com/products/turi-predictive-services/predictive-service-client/ps-client.js');
 });
